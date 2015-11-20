@@ -28,3 +28,5 @@ typedef enum
   GPIO_Mode_AF_OD = 0x1C,         /* 复用开漏输出 */
   GPIO_Mode_AF_PP = 0x18          /* 复用推挽输出 */
 }GPIOMode_TypeDef;
+
+2015-11-20:  片内SRAM只能创建45个EDIT，准备将程序移植到原子战舰开发板，利用开发板的外部SRAM继续进行UI框架设计，明天开始进行”编程“界面的逻辑开发。
