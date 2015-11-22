@@ -1,6 +1,7 @@
 #include "includes.h"
-#include "GUI.h"
 #include "bsp_touch.h"
+#include "bsp_fsmc_sram.h"
+#include "GUI.h"
 #include "BUTTON.h"
 #include "MULTIPAGE.h"
 #include "HEADER.h"
@@ -361,11 +362,13 @@ void BSP_Init(void)
 	
 	/* 初始化触屏 */
 	Touch_Init();
-	
+	/*初始化外部SRAM*/
+	FSMC_SRAM_Init();
+	/*初始化UART1*/
 	USART1_Config();
-	
+	/*初始化滴答定时器*/
 	BSP_Tick_Init();
-	
+
 	/* Enable the CRC Module */
 	/*CRC和emWin没有关系，只是他们为了库的保护而做的，
 	这样STemWin的库只能用在ST的芯片上面，别的芯片是无法使用的。 */

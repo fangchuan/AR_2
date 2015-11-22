@@ -22,7 +22,7 @@
 // USER END
 
 #include "Window_1_1.h"
-
+#include "TEXT.h"
 /*********************************************************************
 *
 *       Defines
@@ -45,7 +45,6 @@ extern char program_name[10];
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
 #define ID_HEADER_0     (GUI_ID_USER + 0x01)
-#define ID_HEADER_1     (GUI_ID_USER + 0x02)
 #define ID_EDIT_0     	(GUI_ID_USER + 0x0A)
 #define ID_EDIT_1     	(GUI_ID_USER + 0x0B)
 #define ID_EDIT_2    		(GUI_ID_USER + 0x0C)
@@ -233,10 +232,10 @@ extern char program_name[10];
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
 #define ID_SCROLLBAR_0  (GUI_ID_USER + 0X05)
-//#define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
-//#define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
-#define MAX_EDIT_NUM      45
-#define MAX_TEXT_NUM      45
+#define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
+#define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
+#define MAX_EDIT_NUM      90
+#define MAX_TEXT_NUM      90
 // USER END
 
 /*********************************************************************
@@ -245,9 +244,10 @@ extern char program_name[10];
 *
 **********************************************************************
 */
-
+static int Id_Edit = 3;
+//const  char*Id_Num[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"};
 static EDIT_Handle hEdit[MAX_EDIT_NUM];
-static TEXT_Handle hText[MAX_TEXT_NUM];
+//static TEXT_Handle hText[MAX_TEXT_NUM];
 
 /*********************************************************************
 *
@@ -256,52 +256,51 @@ static TEXT_Handle hText[MAX_TEXT_NUM];
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 1600, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-//  { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
- { EDIT_CreateIndirect, "Edit0", ID_EDIT_0, 60, 30, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit1", ID_EDIT_1, 60, 60, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit2", ID_EDIT_2, 60, 90, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit3", ID_EDIT_3, 60, 120, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit4", ID_EDIT_4, 60, 150, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit5", ID_EDIT_5, 60, 180, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit6", ID_EDIT_6, 60, 210, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit7", ID_EDIT_7, 60, 240, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit8", ID_EDIT_8, 60, 270, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit9", ID_EDIT_9, 60, 300, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit10", ID_EDIT_10, 60, 330, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit11", ID_EDIT_11, 60, 360, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit12", ID_EDIT_12, 60, 390, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit13", ID_EDIT_13, 60, 420, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit14", ID_EDIT_14, 60, 450, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit15", ID_EDIT_15, 60, 480, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit16", ID_EDIT_16, 60, 510, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit17", ID_EDIT_17, 60, 540, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit18", ID_EDIT_18, 60, 570, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit19", ID_EDIT_19, 60, 600, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit20", ID_EDIT_20, 60, 630, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit21", ID_EDIT_21, 60, 660, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit22", ID_EDIT_22, 60, 690, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit23", ID_EDIT_23, 60, 720, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit24", ID_EDIT_24, 60, 750, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit25", ID_EDIT_25, 60, 780, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit26", ID_EDIT_26, 60, 810, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit27", ID_EDIT_27, 60, 840, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit28", ID_EDIT_28, 60, 870, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit29", ID_EDIT_29, 60, 900, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit30", ID_EDIT_30, 60, 930, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit31", ID_EDIT_31, 60, 960, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit32", ID_EDIT_32, 60, 990, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit33", ID_EDIT_33, 60, 1020, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit34", ID_EDIT_34, 60, 1050, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit35", ID_EDIT_35, 60, 1080, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit36", ID_EDIT_36, 60, 1110, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit37", ID_EDIT_37, 60, 1140, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit38", ID_EDIT_38, 60, 1170, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit39", ID_EDIT_39, 60, 1200, 100, 20, 0, 0x64, 0 },
-	{ EDIT_CreateIndirect, "Edit40", ID_EDIT_40, 60, 1230, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit41", ID_EDIT_41, 60, 1260, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit42", ID_EDIT_42, 60, 1290, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit43", ID_EDIT_43, 60, 1320, 100, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit44", ID_EDIT_44, 60, 1350, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_0, 60, 30, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_1, 60, 60, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_2, 60, 90, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit3", ID_EDIT_3, 60, 120, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit4", ID_EDIT_4, 60, 150, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit5", ID_EDIT_5, 60, 180, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit6", ID_EDIT_6, 60, 210, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit7", ID_EDIT_7, 60, 240, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit8", ID_EDIT_8, 60, 270, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit9", ID_EDIT_9, 60, 300, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit10", ID_EDIT_10, 60, 330, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit11", ID_EDIT_11, 60, 360, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit12", ID_EDIT_12, 60, 390, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit13", ID_EDIT_13, 60, 420, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit14", ID_EDIT_14, 60, 450, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit15", ID_EDIT_15, 60, 480, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit16", ID_EDIT_16, 60, 510, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit17", ID_EDIT_17, 60, 540, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit18", ID_EDIT_18, 60, 570, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit19", ID_EDIT_19, 60, 600, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit20", ID_EDIT_20, 60, 630, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit21", ID_EDIT_21, 60, 660, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit22", ID_EDIT_22, 60, 690, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit23", ID_EDIT_23, 60, 720, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit24", ID_EDIT_24, 60, 750, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit25", ID_EDIT_25, 60, 780, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit26", ID_EDIT_26, 60, 810, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit27", ID_EDIT_27, 60, 840, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit28", ID_EDIT_28, 60, 870, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit29", ID_EDIT_29, 60, 900, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit30", ID_EDIT_30, 60, 930, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit31", ID_EDIT_31, 60, 960, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit32", ID_EDIT_32, 60, 990, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit33", ID_EDIT_33, 60, 1020, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit34", ID_EDIT_34, 60, 1050, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit35", ID_EDIT_35, 60, 1080, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit36", ID_EDIT_36, 60, 1110, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit37", ID_EDIT_37, 60, 1140, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit38", ID_EDIT_38, 60, 1170, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit39", ID_EDIT_39, 60, 1200, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "Edit40", ID_EDIT_40, 60, 1230, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit41", ID_EDIT_41, 60, 1260, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit42", ID_EDIT_42, 60, 1290, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit43", ID_EDIT_43, 60, 1320, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit44", ID_EDIT_44, 60, 1350, 100, 20, 0, 0x64, 0 },
 //  { EDIT_CreateIndirect, "Edit45", ID_EDIT_45, 60, 1380, 100, 20, 0, 0x64, 0 },
 //  { EDIT_CreateIndirect, "Edit46", ID_EDIT_46, 60, 1410, 100, 20, 0, 0x64, 0 },
 //  { EDIT_CreateIndirect, "Edit47", ID_EDIT_47, 60, 1440, 100, 20, 0, 0x64, 0 },
@@ -347,51 +346,51 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 //	{ EDIT_CreateIndirect, "Edit87", ID_EDIT_87, 60, 2640, 100, 20, 0, 0x64, 0 },
 //	{ EDIT_CreateIndirect, "Edit88", ID_EDIT_88, 60, 2670, 100, 20, 0, 0x64, 0 },
 //	{ EDIT_CreateIndirect, "Edit89", ID_EDIT_89, 60, 2700, 100, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "1", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "2", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "3", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "4", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "5", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "6", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "7", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "8", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "9", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "10", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "11", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "12", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "13", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "14", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "15", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "16", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "17", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "18", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "19", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "20", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "21", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "22", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "23", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "24", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "25", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "26", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "27", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "28", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "29", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "30", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "31", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "32", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "33", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "34", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "35", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "36", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "37", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "38", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "39", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "40", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "41", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "42", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "43", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "44", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "45", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "1", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "2", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "3", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "4", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "5", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "6", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "7", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "8", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "9", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "10", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "11", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "12", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "13", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "14", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "15", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "16", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "17", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "18", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "19", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "20", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "21", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "22", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "23", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "24", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "25", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "26", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "27", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "28", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "29", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "30", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "31", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "32", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "33", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "34", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "35", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "36", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "37", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "38", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "39", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "40", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "41", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "42", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "43", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "44", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "45", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
 //  { TEXT_CreateIndirect, "46", ID_TEXT_45, 0, 1380, 40, 20, 0, 0x0, 0 },
 //  { TEXT_CreateIndirect, "47", ID_TEXT_46, 0, 1410, 40, 20, 0, 0x0, 0 },
 //  { TEXT_CreateIndirect, "48", ID_TEXT_47, 0, 1440, 40, 20, 0, 0x0, 0 },
@@ -439,8 +438,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 //	{ TEXT_CreateIndirect, "90", ID_TEXT_89, 0, 2700, 40, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-//	{ BUTTON_CreateIndirect, "ADD", ID_BUTTON_ADD, 180, 20, 40, 20, 0, 0x0, 0 },
-//  { BUTTON_CreateIndirect, "DEL", ID_BUTTON_DEL, 180, 280, 40, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "ADD", ID_BUTTON_ADD, 0, 30, 40, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "DEL", ID_BUTTON_DEL, 0, 280, 40, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -492,22 +491,21 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		EDIT_SetInsertMode(hItem,0);
 		
 
-		for(i =1;i<MAX_EDIT_NUM;i++)
+		for(i =1;i<Id_Edit;i++)
 		{
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
 				hEdit[i] = hItem;
-				EDIT_SetText(hItem, "");
 		}
 
     //
     // Initialization of Text 1、2、3、4、5...
     //
-		for(i =0; i< MAX_TEXT_NUM; i++)
-		{
-					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-					hText[i] = hItem;
-		}
+//		for(i =0; i< Id_Edit; i++)
+//		{
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
+//					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+//					hText[i] = hItem;
+//		}
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -516,16 +514,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;
     switch(Id) {
     case ID_HEADER_0: // Notifications sent by 'HeaderTop'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
-    case ID_HEADER_1: // Notifications sent by 'Header'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -584,6 +572,56 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case ID_EDIT_37: // Notifications sent by 'Edit37'
 		case ID_EDIT_38: // Notifications sent by 'Edit38'
 		case ID_EDIT_39: // Notifications sent by 'Edit39'
+		case ID_EDIT_40: // Notifications sent by 'Edit40'
+		case ID_EDIT_41: // Notifications sent by 'Edit41'
+		case ID_EDIT_42: // Notifications sent by 'Edit42'
+		case ID_EDIT_43: // Notifications sent by 'Edit43'
+		case ID_EDIT_44: // Notifications sent by 'Edit44'
+		case ID_EDIT_45: // Notifications sent by 'Edit45'
+		case ID_EDIT_46: // Notifications sent by 'Edit46'
+		case ID_EDIT_47: // Notifications sent by 'Edit47'
+		case ID_EDIT_48: // Notifications sent by 'Edit48'
+		case ID_EDIT_49: // Notifications sent by 'Edit49'
+		case ID_EDIT_50: // Notifications sent by 'Edit50'
+		case ID_EDIT_51: // Notifications sent by 'Edit51'
+		case ID_EDIT_52: // Notifications sent by 'Edit52'
+		case ID_EDIT_53: // Notifications sent by 'Edit53'
+		case ID_EDIT_54: // Notifications sent by 'Edit54'
+		case ID_EDIT_55: // Notifications sent by 'Edit55'
+		case ID_EDIT_56: // Notifications sent by 'Edit56'
+		case ID_EDIT_57: // Notifications sent by 'Edit57'
+		case ID_EDIT_58: // Notifications sent by 'Edit58'
+		case ID_EDIT_59: // Notifications sent by 'Edit59'
+		case ID_EDIT_60: // Notifications sent by 'Edit60'
+		case ID_EDIT_61: // Notifications sent by 'Edit61'
+		case ID_EDIT_62: // Notifications sent by 'Edit62'	
+		case ID_EDIT_63: // Notifications sent by 'Edit63'
+		case ID_EDIT_64: // Notifications sent by 'Edit64'
+		case ID_EDIT_65: // Notifications sent by 'Edit65'
+		case ID_EDIT_66: // Notifications sent by 'Edit66'
+		case ID_EDIT_67: // Notifications sent by 'Edit67'
+		case ID_EDIT_68: // Notifications sent by 'Edit68'
+		case ID_EDIT_69: // Notifications sent by 'Edit69'
+		case ID_EDIT_70: // Notifications sent by 'Edit70'
+		case ID_EDIT_71: // Notifications sent by 'Edit71'
+		case ID_EDIT_72: // Notifications sent by 'Edit72'	
+		case ID_EDIT_73: // Notifications sent by 'Edit73'
+		case ID_EDIT_74: // Notifications sent by 'Edit74'
+		case ID_EDIT_75: // Notifications sent by 'Edit75'
+		case ID_EDIT_76: // Notifications sent by 'Edit76'
+		case ID_EDIT_77: // Notifications sent by 'Edit77'
+		case ID_EDIT_78: // Notifications sent by 'Edit78'
+		case ID_EDIT_79: // Notifications sent by 'Edit79'
+		case ID_EDIT_80: // Notifications sent by 'Edit80'
+		case ID_EDIT_81: // Notifications sent by 'Edit81'
+		case ID_EDIT_82: // Notifications sent by 'Edit82'	
+		case ID_EDIT_83: // Notifications sent by 'Edit83'
+		case ID_EDIT_84: // Notifications sent by 'Edit84'
+		case ID_EDIT_85: // Notifications sent by 'Edit85'
+		case ID_EDIT_86: // Notifications sent by 'Edit86'
+		case ID_EDIT_87: // Notifications sent by 'Edit87'
+		case ID_EDIT_88: // Notifications sent by 'Edit88'
+		case ID_EDIT_89: // Notifications sent by 'Edit89'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -612,24 +650,28 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-//		case ID_BUTTON_ADD: //Notifications sent by "ADD"
-//			switch(NCode){
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-////						add_flag = 1;
-//        break;
-//			}
-//			break;
-//		case ID_BUTTON_DEL: //Notifications sent by "DEL"
-//			switch(NCode){
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-////						GUI_EndDialog(hEdit[--Id_Edit],0);
-//        break;
-//			}
-//			break;
+		case ID_BUTTON_ADD: //Notifications sent by "ADD"
+			switch(NCode){
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						hEdit[Id_Edit] = EDIT_CreateEx(60,(Id_Edit+1)*30,100,20,
+																					pMsg->hWin,WM_CF_SHOW,0,ID_EDIT_0+Id_Edit,100);
+//						hText[Id_Edit] = TEXT_CreateAsChild(0, (Id_Edit+1)*30,40,20,pMsg->hWin,WM_CF_SHOW,ID_TEXT_0+Id_Edit,Id_Num[Id_Edit],GUI_TA_HCENTER | GUI_TA_VCENTER);
+						Id_Edit++;
+        break;
+			}
+			break;
+		case ID_BUTTON_DEL: //Notifications sent by "DEL"
+			switch(NCode){
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						GUI_EndDialog(hEdit[--Id_Edit],0);
+//						GUI_EndDialog(hText[Id_Edit],0);
+        break;
+			}
+			break;
 		case ID_SCROLLBAR_0: // Notifications sent by 'Scrollbar'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -641,12 +683,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						WM_GetScrollState(pMsg->hWinSrc, &ScrollState);
 						if (_yOld != ScrollState.v) {
 							int y;
-							for( y = 0; y < MAX_EDIT_NUM; y++)
+							for( y = 0; y < Id_Edit; y++)
 							{
-								if(hEdit[y] != NULL && hText[y] != NULL)
+								if(hEdit[y] != NULL /*&& hText[y] != NULL*/)
 								{ //the step is 30 pixels
 									WM_MoveWindow(hEdit[y] , 0, (_yOld - ScrollState.v)*30);
-									WM_MoveWindow(hText[y] , 0, (_yOld - ScrollState.v)*30);
+//									WM_MoveWindow(hText[y] , 0, (_yOld - ScrollState.v)*30);
 								}
 							}	
 						}
