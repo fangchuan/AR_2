@@ -22,9 +22,20 @@
 // USER END
 #include "WIDGET_Instructor.h"
 
-
-//Public Variable
+/*********************************************************************
+*
+*       Public data
+*
+**********************************************************************
+*/
+extern WM_HWIN hWin1_1;
 WM_HWIN hWin_Instructor;
+WM_HWIN hWin_Calc;
+WM_HWIN hWin_Ctl;
+WM_HWIN hWin_Out;
+WM_HWIN hWin_Var;
+
+char _acText[10] ;
 /*********************************************************************
 *
 *       Defines
@@ -32,11 +43,35 @@ WM_HWIN hWin_Instructor;
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x01)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x02)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x04)
-#define ID_BUTTON_4     (GUI_ID_USER + 0x05)
+#define ID_BUTTON_Calc     (GUI_ID_USER + 0x0A)
+#define ID_BUTTON_Ctl     (GUI_ID_USER + 0x0B)
+#define ID_BUTTON_Out     (GUI_ID_USER + 0x0C)
+#define ID_BUTTON_Var     (GUI_ID_USER + 0x0D)
+#define ID_BUTTON_Back     (GUI_ID_USER + 0x0E)
+
+#define ID_WINDOW_Calc  (GUI_ID_USER + 0x01)
+#define ID_BUTTON_Add   (GUI_ID_USER + 0x10)
+#define ID_BUTTON_Sub   (GUI_ID_USER + 0x11)
+#define ID_BUTTON_Or    (GUI_ID_USER + 0x12)
+#define ID_BUTTON_And   (GUI_ID_USER + 0x13)
+
+#define ID_WINDOW_Ctl   (GUI_ID_USER + 0x02)
+#define ID_BUTTON_While (GUI_ID_USER + 0x20)
+#define ID_BUTTON_EndWhile (GUI_ID_USER + 0x21)
+#define ID_BUTTON_End   (GUI_ID_USER + 0x22)
+
+#define ID_WINDOW_Out   (GUI_ID_USER + 0x03)
+#define ID_BUTTON_Left  (GUI_ID_USER + 0x30)
+#define ID_BUTTON_Right (GUI_ID_USER + 0x31)
+#define ID_BUTTON_Forward (GUI_ID_USER + 0x32)
+#define ID_BUTTON_Backward (GUI_ID_USER + 0x33)
+#define ID_BUTTON_Stop  (GUI_ID_USER + 0x34)
+
+#define ID_WINDOW_Var   (GUI_ID_USER + 0x04)
+#define ID_BUTTON_Port1 (GUI_ID_USER + 0x40)
+#define ID_BUTTON_Port2 (GUI_ID_USER + 0x41)
+#define ID_BUTTON_Port3 (GUI_ID_USER + 0x42)
+#define ID_BUTTON_Port4 (GUI_ID_USER + 0x43)
 
 
 // USER START (Optionally insert additional defines)
@@ -49,34 +84,375 @@ WM_HWIN hWin_Instructor;
 **********************************************************************
 */
 
-// USER START (Optionally insert additional static data)
-// USER END
+ 
 
 /*********************************************************************
 *
-*       _aDialogCreate
+*       _aDialog_Create_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 120, 160, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "IF", ID_BUTTON_0, 0, 10, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "CONTROL", ID_BUTTON_1, 0, 40, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "OUTPUT", ID_BUTTON_2, 0, 70, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "VARIABLE", ID_BUTTON_3, 0, 100, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_4, 80, 140, 40, 20, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 20, 59, 200, 260, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "CALCULATE", ID_BUTTON_Calc, 10, 10, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "CONTROL", ID_BUTTON_Ctl, 10, 60, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "OUTPUT", ID_BUTTON_Out, 10, 110, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "VARIABLE", ID_BUTTON_Var, 10, 160, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_Back, 160, 240, 40, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
-
+/*********************************************************************
+*
+*       _aDialog_Calc_Panel
+*/
+static const GUI_WIDGET_CREATE_INFO _aDialogCalc_Panel[] = {
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Calc, 1, 1, 198, 258, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "+", ID_BUTTON_Add, 10, 10, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "-", ID_BUTTON_Sub, 10, 60, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "||", ID_BUTTON_Or, 10, 110, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "&", ID_BUTTON_And, 10, 160, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_Back, 160, 240, 40, 20, 0, 0x0, 0 },
+  // USER START (Optionally insert additional widgets)
+  // USER END
+};
+/*********************************************************************
+*
+*       _aDialog_Output_Panel
+*/
+static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Out, 1, 1, 198, 258, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Left", ID_BUTTON_Left, 0, 10, 60, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Right", ID_BUTTON_Right, 0, 60, 60, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Forward", ID_BUTTON_Forward, 0, 110, 60, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Backward", ID_BUTTON_Backward, 0, 160, 60, 40, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "Stop", ID_BUTTON_Stop, 100, 10, 60, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_Back, 160, 240, 40, 20, 0, 0x0, 0 },
+  // USER START (Optionally insert additional widgets)
+  // USER END
+};
+/*********************************************************************
+*
+*       _aDialog_Ctl_Panel
+*/
+static const GUI_WIDGET_CREATE_INFO _aDialogCtl_Panel[] = {
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Ctl, 1, 1, 198, 258, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "While", ID_BUTTON_While, 0, 10, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "EndWhile", ID_BUTTON_EndWhile, 0, 60, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "End", ID_BUTTON_End, 0, 110, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_Back, 160, 240, 40, 20, 0, 0x0, 0 },
+  // USER START (Optionally insert additional widgets)
+  // USER END
+};
+/*********************************************************************
+*
+*       _aDialog_Var_Panel
+*/
+static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Var, 1, 1, 198, 258, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Port1", ID_BUTTON_Port1, 0, 10, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Port2", ID_BUTTON_Port2, 0, 60, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Port3", ID_BUTTON_Port3, 0, 110, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Port4", ID_BUTTON_Port4, 0, 160, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_Back, 160, 240, 40, 20, 0, 0x0, 0 },
+  // USER START (Optionally insert additional widgets)
+  // USER END
+};
 /*********************************************************************
 *
 *       Static code
 *
 **********************************************************************
 */
+static void _cbDialog_Calc(WM_MESSAGE *pMsg)
+{
+		int NCode;
+		int Id;
+		WM_HWIN hItem;
+	
+	switch(pMsg->MsgId)
+	{
+		case WM_INIT_DIALOG:
+			    hItem = pMsg->hWin;
+					WINDOW_SetBkColor(hItem, 0x00FF8080);
+			break;
+		case WM_NOTIFY_PARENT:
+			    Id    = WM_GetId(pMsg->hWinSrc);
+					NCode = pMsg->Data.v;
+					switch(Id)
+					{
+						case ID_BUTTON_Add:
+							   switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Sub:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Or:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_And:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Back:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+										GUI_EndDialog(pMsg->hWin ,0);
+									break;		
+							}
+							break;
+						default:
+							WM_DefaultProc(pMsg);
+						break;
+					}
+			break;
+		default:
+			WM_DefaultProc(pMsg);
+		break;
+	}
+}
 
-// USER START (Optionally insert additional static code)
-// USER END
+static void _cbDialog_Ctl(WM_MESSAGE *pMsg)
+{
+		int NCode;
+		int Id;
+		WM_HWIN hItem;
+	
+	switch(pMsg->MsgId)
+	{
+		case WM_INIT_DIALOG:
+			    hItem = pMsg->hWin;
+					WINDOW_SetBkColor(hItem, 0x00FF8080);
+			break;
+		case WM_NOTIFY_PARENT:
+			    Id    = WM_GetId(pMsg->hWinSrc);
+					NCode = pMsg->Data.v;
+					switch(Id)
+					{
+						case ID_BUTTON_While:
+							   switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_EndWhile:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_End:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Back:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+										GUI_EndDialog(pMsg->hWin ,0);
+									break;		
+							}
+							break;
+						default:
+							WM_DefaultProc(pMsg);
+						break;
+					}
+			break;
+		default:
+			WM_DefaultProc(pMsg);
+		break;
+	}
+}
 
+static void _cbDialog_Out(WM_MESSAGE *pMsg)
+{
+		int NCode;
+		int Id;
+		WM_HWIN hItem;
+	
+		switch(pMsg->MsgId)
+		{
+		case WM_INIT_DIALOG:
+			    hItem = pMsg->hWin;
+					WINDOW_SetBkColor(hItem, 0x00FF8080);
+			break;
+		case WM_NOTIFY_PARENT:
+			    Id    = WM_GetId(pMsg->hWinSrc);
+					NCode = pMsg->Data.v;
+					switch(Id)
+					{
+						case ID_BUTTON_Left:
+							   switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Right:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Forward:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Backward:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Stop:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Back:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+										GUI_EndDialog(pMsg->hWin ,0);
+									break;		
+							}
+							break;
+						default:
+							WM_DefaultProc(pMsg);
+						break;
+					}
+			break;
+		default:
+			WM_DefaultProc(pMsg);
+		break;
+	}
+}
+
+static void _cbDialog_Var(WM_MESSAGE *pMsg)
+{
+		int NCode;
+		int Id;
+		WM_HWIN hItem;
+	
+		switch(pMsg->MsgId)
+		{
+		case WM_INIT_DIALOG:
+			    hItem = pMsg->hWin;
+					WINDOW_SetBkColor(hItem, 0x00FF8080);
+			break;
+		case WM_NOTIFY_PARENT:
+			    Id    = WM_GetId(pMsg->hWinSrc);
+					NCode = pMsg->Data.v;
+					switch(Id)
+					{
+						case ID_BUTTON_Port1:
+							   switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Port2:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Port3:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Port4:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												BUTTON_GetText(pMsg->hWinSrc, _acText,10);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Back:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+										GUI_EndDialog(pMsg->hWin ,0);
+									break;		
+							}
+							break;
+						default:
+							WM_DefaultProc(pMsg);
+						break;
+					}
+			break;
+		default:
+			WM_DefaultProc(pMsg);
+		break;
+	}
+}
 /*********************************************************************
 *
 *       _cbDialog
@@ -99,43 +475,47 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_BUTTON_0: // Notifications sent by 'IF '
+    case ID_BUTTON_Calc: // Notifications sent by 'Calc '
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-
+						hWin_Calc = GUI_CreateDialogBox(_aDialogCalc_Panel,GUI_COUNTOF(_aDialogCalc_Panel),
+																							_cbDialog_Calc, hWin_Instructor, 0, 0);
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'CONTROL'
+    case ID_BUTTON_Ctl: // Notifications sent by 'Control'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-
+						hWin_Ctl = GUI_CreateDialogBox(_aDialogCtl_Panel,GUI_COUNTOF(_aDialogCtl_Panel),
+																						_cbDialog_Ctl,hWin_Instructor,0,0);
         break;
       }
       break;
-    case ID_BUTTON_2: // Notifications sent by 'OUTPUT'
+    case ID_BUTTON_Out: // Notifications sent by 'Output'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-
+							hWin_Out = GUI_CreateDialogBox(_aDialogOutput_Panel,GUI_COUNTOF(_aDialogOutput_Panel),
+																						_cbDialog_Out,hWin_Instructor,0,0);
         break;
       }
       break;
-    case ID_BUTTON_3: // Notifications sent by 'VARIABLE'
+    case ID_BUTTON_Var: // Notifications sent by 'Variable'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-
+						hWin_Var = GUI_CreateDialogBox(_aDialogVar_Panel,GUI_COUNTOF(_aDialogVar_Panel),
+																						_cbDialog_Var,hWin_Instructor,0,0);
         break;
       }
       break;
-    case ID_BUTTON_4: // Notifications sent by 'BACK'
+    case ID_BUTTON_Back: // Notifications sent by 'BACK'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;

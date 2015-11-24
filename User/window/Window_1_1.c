@@ -23,14 +23,15 @@
 
 #include "Window_1_1.h"
 #include "TEXT.h"
+
 /*********************************************************************
 *
-*       Defines
+*       Public data
 *
 **********************************************************************
 */
-//Key value of the Window1,to switch the subwindow
-extern uint8_t Key_Win1;
+//
+extern char _acText[10];
 //
 WM_HWIN hWin1_1;
 
@@ -135,6 +136,16 @@ extern char program_name[10];
 #define ID_EDIT_87     	(GUI_ID_USER + 0x61)
 #define ID_EDIT_88     	(GUI_ID_USER + 0x62)
 #define ID_EDIT_89     	(GUI_ID_USER + 0x63)
+#define ID_EDIT_90     	(GUI_ID_USER + 0x64)
+#define ID_EDIT_91     	(GUI_ID_USER + 0x65)
+#define ID_EDIT_92     	(GUI_ID_USER + 0x66)
+#define ID_EDIT_93     	(GUI_ID_USER + 0x67)
+#define ID_EDIT_94     	(GUI_ID_USER + 0x68)
+#define ID_EDIT_95     	(GUI_ID_USER + 0x69)
+#define ID_EDIT_96     	(GUI_ID_USER + 0x6A)
+#define ID_EDIT_97     	(GUI_ID_USER + 0x6B)
+#define ID_EDIT_98     	(GUI_ID_USER + 0x6C)
+#define ID_EDIT_99     	(GUI_ID_USER + 0x6D)
 
 #define ID_TEXT_0     (GUI_ID_USER + 0xD0)
 #define ID_TEXT_1     (GUI_ID_USER + 0xD1)
@@ -461,6 +472,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
 	WM_SCROLL_STATE ScrollState;
+	WM_HWIN hDlg;
 	static int _yOld=0;
 	int i;
 	
@@ -484,11 +496,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     // Initialization of Edit 1¡¢2¡¢3...
     //
+		Id_Edit = 3;
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		hEdit[0] = hItem;
     EDIT_SetText(hItem, "Start");
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-		EDIT_SetInsertMode(hItem,0);
+		WM_DisableWindow(hItem);
 		
 
 		for(i =1;i<Id_Edit;i++)
@@ -512,6 +525,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
+		
     switch(Id) {
     case ID_HEADER_0: // Notifications sent by 'HeaderTop'
       switch(NCode) {
@@ -622,13 +636,34 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case ID_EDIT_87: // Notifications sent by 'Edit87'
 		case ID_EDIT_88: // Notifications sent by 'Edit88'
 		case ID_EDIT_89: // Notifications sent by 'Edit89'
+		case ID_EDIT_90: // Notifications sent by 'Edit90'
+		case ID_EDIT_91: // Notifications sent by 'Edit91'
+		case ID_EDIT_92: // Notifications sent by 'Edit92'	
+		case ID_EDIT_93: // Notifications sent by 'Edit93'
+		case ID_EDIT_94: // Notifications sent by 'Edit94'
+		case ID_EDIT_95: // Notifications sent by 'Edit95'
+		case ID_EDIT_96: // Notifications sent by 'Edit96'
+		case ID_EDIT_97: // Notifications sent by 'Edit97'
+		case ID_EDIT_98: // Notifications sent by 'Edit98'
+		case ID_EDIT_99: // Notifications sent by 'Edit99'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						CreateSelectDialog(pMsg->hWin,160,180);
+						hDlg = CreateWindow_Instructor();
+						WM_MakeModal(hDlg);
+						GUI_ExecCreatedDialog(hDlg);
+						WM_MakeModal(pMsg->hWin);
+						WM_SetFocus(pMsg->hWin);
+						
+						if(_acText[0] != 0)
+						{		EDIT_SetText(pMsg->hWinSrc,_acText);
+								memset(_acText,0,10);
+								EDIT_SetBkColor(pMsg->hWinSrc,EDIT_CI_ENABLED,GUI_CYAN);
+						}
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
+
         break;
       }
       break;
