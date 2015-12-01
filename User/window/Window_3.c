@@ -53,9 +53,9 @@ WM_HWIN hDialog_Page2;
 *
 **********************************************************************
 */
-
-// USER START (Optionally insert additional static data)
-// USER END
+static const char *StringHZ[] = {
+	"\xe8\xbf\x94\xe5\x9b\x9e",                              //0:·µ»Ø
+};
 
 /*********************************************************************
 *

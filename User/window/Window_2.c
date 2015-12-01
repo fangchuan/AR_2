@@ -21,7 +21,13 @@
 // USER START (Optionally insert additional includes)
 // USER END
 #include "Window_2.h"
-
+#include "SongTi12.h"
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
 extern uint8_t Key_Value;
 WM_HWIN hWin_2;
 
@@ -50,9 +56,10 @@ WM_HWIN hWin_2;
 *
 **********************************************************************
 */
-
-// USER START (Optionally insert additional static data)
-// USER END
+static const char *StringHZ[] = {
+	"\xe8\xbf\x94\xe5\x9b\x9e","\xe6\x96\xad\xe5\xbc\x80",//0:返回，1:断开
+	"\xe6\x9b\xb4\xe6\x96\xb0\xe5\x9b\xba\xe4\xbb\xb6",//2:更新固件
+};
 
 /*********************************************************************
 *
@@ -61,13 +68,11 @@ WM_HWIN hWin_2;
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
-//  { PROGBAR_CreateIndirect, "Progbar", ID_PROGBAR_0, 180, 0, 60, 20, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "Listview", ID_LISTVIEW_0, 0, 40, 200, 33, 0, 0x0, 0 },
-//  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 20, 80, 20, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 0, 120, 100, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 160, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Update Firmware", ID_BUTTON_1, 0, 120, 100, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Disconnect", ID_BUTTON_2, 160, 300, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -99,13 +104,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Button'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-    BUTTON_SetText(hItem, "BACK");
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem, StringHZ[0]);
 	    
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
-    BUTTON_SetText(hItem, "Update Firmware");
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem, StringHZ[2]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-    BUTTON_SetText(hItem, "Disconnect");
+    BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem, StringHZ[1]);
     //
     // Initialization of 'Header'
     //

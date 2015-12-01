@@ -23,7 +23,14 @@
 
 #include "Window_Top.h"
 
+/*********************************************************************
+*
+*       Public data
+*
+**********************************************************************
+*/
 extern uint8_t Key_Value;
+
 WM_HWIN hWin_Top;
 /*********************************************************************
 *
@@ -32,17 +39,20 @@ WM_HWIN hWin_Top;
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x01)
+#define ID_HEADER_0     (GUI_ID_USER + 0x04)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x03)
-#define ID_HEADER_0     (GUI_ID_USER + 0x04)
-//#define ID_HEADER_1     (GUI_ID_USER + 0x05)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x06)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x07)
-#define ID_BUTTON_4     (GUI_ID_USER + 0x08)
-#define ID_BUTTON_5     (GUI_ID_USER + 0x09)
-//#define ID_BUTTON_6     (GUI_ID_USER + 0x0C)
-//#define ID_BUTTON_7     (GUI_ID_USER + 0x0D)
+#define ID_BUTTON_2     (GUI_ID_USER + 0x05)
+#define ID_BUTTON_3     (GUI_ID_USER + 0x06)
+#define ID_BUTTON_4     (GUI_ID_USER + 0x07)
+#define ID_BUTTON_5     (GUI_ID_USER + 0x08)
 
+#define ID_TEXT_0     (GUI_ID_USER + 0x09)
+#define ID_TEXT_1     (GUI_ID_USER + 0x0A)
+#define ID_TEXT_2     (GUI_ID_USER + 0x0B)
+#define ID_TEXT_3     (GUI_ID_USER + 0x0C)
+#define ID_TEXT_4     (GUI_ID_USER + 0x0D)
+#define ID_TEXT_5     (GUI_ID_USER + 0x0E)
 
 // USER START (Optionally insert additional defines)
 // USER END
@@ -54,8 +64,11 @@ WM_HWIN hWin_Top;
 **********************************************************************
 */
 
-// USER START (Optionally insert additional static data)
-// USER END
+static const char *_acStringHZ[] = {"\xe7\xbc\x96\xe7\xa8\x8b","\xe8\x93\x9d\xe7\x89\x99",
+"\xe6\x89\x8b\xe5\x8a\xa8\xe6\x8e\xa7\xe5\x88\xb6","\xe9\x81\xa5\xe6\x8e\xa7","\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1",
+"\xe7\x94\xb5\xe8\x84\x91\xe8\xbf\x9e\xe6\x8e\xa5"};
+
+static const char *_acStringE[]={"ApolloRobot"};
 
 /*********************************************************************
 *
@@ -63,18 +76,20 @@ WM_HWIN hWin_Top;
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 20, 40, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 130, 40, 80, 50, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-//  { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 20, 120, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 130, 120, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 20, 200, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 130, 200, 80, 50, 0, 0x0, 0 },
-//  { PROGBAR_CreateIndirect, "Progbar", ID_PROGBAR_0, 200, 0, 40, 20, 0, 0x0, 0 },
-//  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 0, 58, 20, 0, 0x64, 0 },
-//  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 0, 300, 60, 20, 0, 0x0, 0 },
-//  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 180, 300, 60, 20, 0, 0x0, 0 },
+	{ HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_0, 20, 40, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_1, 130, 40, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_2, 20, 120, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_3, 130, 120, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_4, 20, 200, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_5, 130, 200, 80, 50, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "2", ID_TEXT_0, 130, 90, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "1", ID_TEXT_1, 20, 90, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "4", ID_TEXT_2, 130, 170, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "3", ID_TEXT_3, 20, 170, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "5", ID_TEXT_4, 20, 250, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "6", ID_TEXT_5, 130, 250, 80, 20, 0, 0x0, 0 },
+
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -87,11 +102,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 */
 
 // USER START (Optionally insert additional static code)
-static const char *_acStringHZ[] = {"\xe7\xbc\x96\xe7\xa8\x8b","\xe8\x93\x9d\xe7\x89\x99",
-"\xe6\x89\x8b\xe5\x8a\xa8\xe6\x8e\xa7\xe5\x88\xb6","\xe9\x81\xa5\xe6\x8e\xa7","\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1",
-"\xe7\x94\xb5\xe8\x84\x91\xe8\xbf\x9e\xe6\x8e\xa5"};
 
-static const char *_acStringE[]={"ApolloRobot"};
 // USER END
 
 /*********************************************************************
@@ -110,55 +121,95 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					
     hItem = pMsg->hWin;
     WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
+	  //
+		//Initialize Header Top
+		//
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_0);
+    HEADER_AddItem(hItem, 80, "ApolloRobot", 14);
     //
     // Initialization of 'Button'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-//    BUTTON_SetText(hItem, "Program");
 		BUTTON_SetBitmap(hItem,0,&bmProgram);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[0]);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[0]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
-//    BUTTON_SetText(hItem, "Phone");
 		BUTTON_SetBitmap(hItem,0,&bmbmp4_1);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[1]);
-
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_0);
-    HEADER_AddItem(hItem, 80, "ApolloRobot", 14);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[1]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-//    BUTTON_SetText(hItem, "Control");
 		BUTTON_SetBitmap(hItem,0,&bmControl);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[2]);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[2]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
-//    BUTTON_SetText(hItem, "RemoteControl");
 		BUTTON_SetBitmap(hItem,0,&bmRemoteControl);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[3]);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[3]);
  
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
-//    BUTTON_SetText(hItem, "SelfBanlance");
 		BUTTON_SetBitmap(hItem,0,&bmSelBanlance);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[4]);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[4]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
-//    BUTTON_SetText(hItem, "PCProgram");
 		BUTTON_SetBitmap(hItem,0,&bmPCProgram);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-		BUTTON_SetText(hItem,_acStringHZ[5]);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
+//		BUTTON_SetText(hItem,_acStringHZ[5]);
+    //
+    // Initialization of TEXT
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0); // Initialization of '2'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[1]);
 
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_6);
-//    BUTTON_SetText(hItem, "BACK");
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_1); // Initialization of '1'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[0]);
 
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_7);
-//    BUTTON_SetText(hItem, "ENTER");
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_2);// Initialization of '4'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[3]);
+
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_3); // Initialization of '3'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[2]);
+
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_4); // Initialization of '5'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[4]);
+
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_5);// Initialization of '6'
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+		TEXT_SetFont(hItem,&GUI_FontSongTi16);
+		TEXT_SetText(hItem,_acStringHZ[5]);
+//		//
+//		//Initialize IconView
+//		//
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_PRO);
+//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
+//		ICONVIEW_AddBitmapItem(hItem, &bmProgram, _acStringHZ[0]);
+//		
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_BL);
+//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
+//		ICONVIEW_AddBitmapItem(hItem, &bmbmp4_1, _acStringHZ[1]);
+//		
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_CTL);
+//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
+//		ICONVIEW_AddBitmapItem(hItem, &bmControl, _acStringHZ[2]);
+//		
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_RC);
+//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
+//		ICONVIEW_AddBitmapItem(hItem, &bmRemoteControl, _acStringHZ[3]);
+
     // USER START (Optionally insert additional code for further widget initialization)
-
     // USER END
     break;
   case WM_NOTIFY_PARENT:
@@ -195,16 +246,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-//    case ID_HEADER_1: // Notifications sent by 'Header'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-//        break;
-//      case WM_NOTIFICATION_MOVED_OUT:
-//        break;
-//      }
-//      break;
     case ID_BUTTON_2: // Notifications sent by 'Control'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -242,24 +283,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       }
       break;
 
-//    case ID_BUTTON_6: // Notifications sent by 'Button'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//			break;
-//      case WM_NOTIFICATION_RELEASED:
-//						Key_Value= 0;
-//        break;
-//			}
-//      break;
-//    case ID_BUTTON_7: // Notifications sent by 'Button'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//      break;
-//      case WM_NOTIFICATION_RELEASED:
-
-//        break;
-//      }
-//      break;
     }
     break;
 	case  WM_PAINT:

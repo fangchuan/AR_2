@@ -1,10 +1,33 @@
 #include "includes.h"
 #include "GUI_Main.h"
 
-
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
 extern OS_TCB	AppTaskStartTCB;
-static  OS_TCB   AppTaskUpdateTCB;
-static  CPU_STK  AppTaskUpdateStk[APP_CFG_TASK_UPDATE_STK_SIZE];
+extern uint8_t Key_Value ;
+extern volatile uint8_t flag_run;//运行标志
+extern enum _FLAG _flag;//指令标志
+extern _Listptr Ins_List_Head;//程序链表的头指针
+extern volatile int Edit_Index ;
+
+
+_Motor    motor;
+_Servo    servo;
+_Led        led;
+_Port      port;
+_Variable   var;
+/*********************************************************************
+*
+*       Static data
+*
+**********************************************************************
+*/
+static  OS_TCB   AppTaskGUIUpdateTCB;
+static  CPU_STK  AppTaskGUIUpdateStk[APP_CFG_TASK_GUI_UPDATE_STK_SIZE];
 
 static  OS_TCB   AppTaskCOMTCB;
 static  CPU_STK  AppTaskCOMStk[APP_CFG_TASK_COM_STK_SIZE];
@@ -12,12 +35,22 @@ static  CPU_STK  AppTaskCOMStk[APP_CFG_TASK_COM_STK_SIZE];
 static  OS_TCB   AppTaskUserIFTCB;
 static  CPU_STK  AppTaskUserIFStk[APP_CFG_TASK_USER_IF_STK_SIZE];
 
+static  OS_TCB   AppTaskMainTaskTCB;
+static  CPU_STK  AppTaskMainTaskStk[APP_CFG_TASK_MAIN_TASK_STK_SIZE];
+/*********************************************************************
+*
+*       Static code
+*
+**********************************************************************
+*/
 static  void  AppTaskCreate(void);
 static void   AppTaskGUIUpdate(void *p_arg);
 static void   AppTaskUserIF(void *p_arg);
 static void   AppTaskCOM(void *p_arg);
+static void   AppTaskMainTask(void *p_arg);
 
-void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
+//软件定时器的回调函数
+static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
 {
   
 	(void)p_arg;
@@ -100,7 +133,6 @@ static void AppTaskGUIUpdate(void *p_arg)
 	
 	(void)p_arg;
 	
-//	Touch_MainTask();
 //	GUIDEMO_Main();
 	GUI_Main_Task();
 	while(1)
@@ -124,13 +156,18 @@ static void AppTaskGUIUpdate(void *p_arg)
 static void AppTaskCOM(void *p_arg)
 {	
 	OS_ERR      err;
-
+	_Listptr p = Ins_List_Head;
 	(void)p_arg;
 	 
 	while(1)
 	{
 		LED1_TOGGLE;
-		printf("this is a uasrt task\n");
+		p = Ins_List_Head;
+		while(p -> next )
+		{
+				printf("flag:%d\n",(p -> next)->_flag );
+			  p = p -> next ;
+		}
 		OSTimeDlyHMSM(0, 0, 5, 0,
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
@@ -148,7 +185,7 @@ static void AppTaskCOM(void *p_arg)
 	优 先 级：2
 *********************************************************************************************************
 */
-extern uint8_t Key_Value ;
+
 static void AppTaskUserIF(void *p_arg)
 {
 	OS_ERR      err;
@@ -201,6 +238,158 @@ static void AppTaskUserIF(void *p_arg)
                       &err);     
 	}
 }
+/*
+*********************************************************************************************************
+*	函 数 名: AppTaskMainTask
+*	功能说明: 主要运行任务，运行图形化编程中编写的程序
+*	形    参：p_arg 是在创建该任务时传递的形参
+*	返 回 值: 无
+	优 先 级：3
+*********************************************************************************************************
+*/
+static void AppTaskMainTask(void *p_arg)
+{
+			OS_ERR  err;
+			_Listptr ptr = Ins_List_Head ->next ;
+			while(1)
+			{
+					if(flag_run)   //换成等待信号？
+					{
+						while(ptr)
+						{
+//							if( ptr ->_flag == FLAG_WHILESTART)
+//							{
+//									while(1)
+//									{
+//										
+//									}
+//							}
+							switch ( ptr->_flag )
+							{
+								case FLAG_MOTOR_C:   //电机_正转,速度_  
+												motor.id =( ptr->EditContent )[6] - 0x30;
+												motor.direction = FORWARD;
+												motor.speed = atoi(ptr->EditContent + 20);
+									break;
+								case FLAG_MOTOR_CC: //电机_反转,速度_
+												motor.id = ( ptr->EditContent )[6] - 0x30;
+												motor.direction = BACKWARD;
+												motor.speed = atoi(ptr->EditContent + 20);
+									break;
+								case FLAG_SERVO:  //舵机_转_
+											servo.id = ( ptr->EditContent )[6] - 0x30;
+											servo.degree = atoi(ptr->EditContent + 10);
+									break;
+								case FLAG_LED:  //LED_
+											led.id = ( ptr->EditContent )[3] - 0x30;
+											
+									break;
+								case FLAG_CAR_LEFT:
+											
+									break;
+								case FLAG_CAR_RIGHT:
+									
+									break;
+								case FLAG_CAR_FORWARD:
+									
+									break;
+								case FLAG_CAR_BACKWARD:
+									
+									break;
+								case FLAG_CAR_STOP:
+									
+									break;
+								case FLAG_PORT_SIGNAL://如果端口_有信号
+											port.id = (ptr->EditContent)[4] - 0x30;
+											
+									break;
+								case FLAG_PORT_NOSIGNAL://如果端口_无信号
+											port.id = (ptr->EditContent)[4] - 0x30;
+
+									break;
+								case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
+											port.id = (ptr->EditContent)[4] - 0x30;
+								
+									break;
+								case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
+											port.id = (ptr->EditContent)[4] - 0x30;
+								
+									break;
+								case FLAG_PORT_GREATER: //如果端口_>_
+											port.id = (ptr->EditContent)[4] - 0x30;
+											port.tar_val = atoi(ptr->EditContent + 6);
+									break;
+								case FLAG_PORT_LITTLER: //如果端口_<_
+											port.id = (ptr->EditContent)[4] - 0x30;
+											port.tar_val = atoi(ptr->EditContent + 6);
+									break;
+								case FLAG_VAR_SET_A: //设定A=
+											var.id = VAR_A;
+											var.set_val = atoi(ptr->EditContent + 4);
+									break;
+								case FLAG_VAR_SET_B: //设定B=
+											var.id = VAR_B;
+											var.set_val = atoi(ptr->EditContent + 4);
+									break;
+								case FLAG_VAR_A_INC:
+												var.id = VAR_A;
+												var.set_val ++;
+											
+									break;
+								case FLAG_VAR_A_DEC:
+											var.id = VAR_A;
+											var.set_val --;
+									break;
+								case FLAG_VAR_B_INC:
+											var.id = VAR_B;
+											var.set_val ++;
+										
+									break;
+								case FLAG_VAR_B_DEC:
+											var.id = VAR_B;
+											var.set_val --;
+									break;
+								case FLAG_VAR_SHOW_A:
+									
+									break;
+								case FLAG_VAR_SHOW_B:
+									
+									break;
+								case FLAG_VAR_A_GREATER: //变量A>_
+											var.id = VAR_A;
+											var.tar_val = atoi(ptr->EditContent + 4);
+									break;
+								case FLAG_VAR_A_LITTLER: //变量A<_
+											var.id = VAR_A;
+											var.tar_val = atoi(ptr->EditContent + 4);
+									
+									break;
+								case FLAG_START_WHILE:
+									
+									break;
+								case FLAG_END_WHILE:
+									
+									break;
+								case FLAG_END_PROGRAM:
+									
+									break;
+								case FLAG_OR:
+									
+									break;
+								case FLAG_DELAY_NMS:
+									
+									break;
+								case FLAG_MUSIC:
+									
+									break;
+								default:break;
+							}
+							ptr = ptr -> next ;
+						}
+				}
+//					OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
+			}
+}
 
 /*
 *********************************************************************************************************
@@ -215,14 +404,14 @@ static  void  AppTaskCreate(void)
 	OS_ERR      err;
 	
 	/***********************************/
-	OSTaskCreate((OS_TCB       *)&AppTaskUpdateTCB,             
-                 (CPU_CHAR     *)"App Task Update",
+	OSTaskCreate((OS_TCB       *)&AppTaskGUIUpdateTCB,             
+                 (CPU_CHAR     *)"App Task GUI Update",
                  (OS_TASK_PTR   )AppTaskGUIUpdate, 
                  (void         *)0,
-                 (OS_PRIO       )APP_CFG_TASK_UPDATE_PRIO,
-                 (CPU_STK      *)&AppTaskUpdateStk[0],
-                 (CPU_STK_SIZE  )APP_CFG_TASK_UPDATE_STK_SIZE / 10,
-                 (CPU_STK_SIZE  )APP_CFG_TASK_UPDATE_STK_SIZE,
+                 (OS_PRIO       )APP_CFG_TASK_GUI_UPDATE_PRIO,
+                 (CPU_STK      *)&AppTaskGUIUpdateStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_GUI_UPDATE_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_GUI_UPDATE_STK_SIZE,
                  (OS_MSG_QTY    )1,
                  (OS_TICK       )0,
                  (void         *)0,
@@ -257,6 +446,21 @@ static  void  AppTaskCreate(void)
                  (OS_TICK       )0,
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
-                 (OS_ERR       *)&err);				 
+                 (OS_ERR       *)&err);			
+
+//	OSTaskCreate((OS_TCB       *)&AppTaskMainTaskTCB,             
+//                 (CPU_CHAR     *)"App Task MainTask",
+//                 (OS_TASK_PTR   )AppTaskMainTask, 
+//                 (void         *)0,
+//                 (OS_PRIO       )APP_CFG_TASK_MAIN_TASK_PRIO,
+//                 (CPU_STK      *)&AppTaskMainTaskStk[0],
+//                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE / 10,
+//                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE,
+//                 (OS_MSG_QTY    )10,
+//                 (OS_TICK       )0,
+//                 (void         *)0,
+//                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+//                 (OS_ERR       *)&err);		
+								 
 }
 

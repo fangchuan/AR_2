@@ -28,14 +28,24 @@ Requirements: WindowManager - (x)
 
 #include "WIDGET_NumPad.h"
 
+
+/*********************************************************************
+*
+*       Public data
+*
+**********************************************************************
+*/
+extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi12;
 /*********************************************************************
 *
 *       Static data
 *
 **********************************************************************
 */
-
-static int _aKey[] = {GUI_KEY_BACKSPACE, GUI_KEY_TAB};
+static const char *StringHZ[] = {
+	"\xe7\xa1\xae\xe5\xae\x9a",//0:È·¶¨
+	"\xe8\xbf\x94\xe5\x9b\x9e",//1:·µ»Ø
+};
 //
 // Dialog resource of numpad
 //
@@ -43,7 +53,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 //
 //  Function                 Text      Id                 Px   Py   Dx   Dy
 //
-  { WINDOW_CreateIndirect,   0,        0,                100, 80,  120, 150},
+  { WINDOW_CreateIndirect,   0,        0,                100, 80,  110, 150},
   { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   5,   5,  25,  20},
   { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  40,   5,  25,  20},
   { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  75,   5,  25,  20},
@@ -56,9 +66,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
   { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   5,  95,  25,  20},
   { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  40,  95,  25,  20},
   { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  75,  95,  25,  20},
-  { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   5, 125,  25,  20},
-  { BUTTON_CreateIndirect,   "OK",     GUI_ID_USER + 13,  40, 125,  25,  20},
-  { BUTTON_CreateIndirect,   "Cancel", GUI_ID_USER + 14,  75, 125,  25,  20},
+  { BUTTON_CreateIndirect,   "OK",    GUI_ID_USER + 12,   5, 125,  40,  20},
+  { BUTTON_CreateIndirect,   "Cancel", GUI_ID_USER + 13,  60, 125, 40,  20},
 };
 
 /*********************************************************************
@@ -104,7 +113,14 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
       hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
       BUTTON_SetFocussable(hItem, 0);                       /* Set all buttons non focussable */
     }
-    WM_GetDialogItem(hDlg, GUI_ID_USER + 12);
+		
+		hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + 12);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[0]);
+		
+		hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + 13);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[1]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);      /* Id of widget */
@@ -113,7 +129,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
     case WM_NOTIFICATION_CLICKED:
       Pressed = 1;
     case WM_NOTIFICATION_RELEASED:  
-				if( Id < GUI_ID_USER + 13)
+				if( Id < GUI_ID_USER + 12)
 				{
 						int Key;
 						if (Id < GUI_ID_USER + 11)
@@ -124,7 +140,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 						}
 						else
 						{
-								Key = _aKey[Id - GUI_ID_USER - 11];
+								Key = GUI_KEY_BACKSPACE;
 						}
 						GUI_SendKeyMsg(Key, Pressed);                                /* Send a key message to the focussed window */
 				}

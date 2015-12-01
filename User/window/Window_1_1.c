@@ -23,20 +23,7 @@
 
 #include "Window_1_1.h"
 #include "TEXT.h"
-
-/*********************************************************************
-*
-*       Public data
-*
-**********************************************************************
-*/
-//
-extern char _acText[10];
-//
-WM_HWIN hWin1_1;
-
-//the name of program
-extern char program_name[10];
+#include "_apollorobot.h"
 
 /*********************************************************************
 *
@@ -237,6 +224,16 @@ extern char program_name[10];
 #define ID_TEXT_87     (GUI_ID_USER + 0x127)
 #define ID_TEXT_88     (GUI_ID_USER + 0x128)
 #define ID_TEXT_89     (GUI_ID_USER + 0x129)
+#define ID_TEXT_90     (GUI_ID_USER + 0x12A)
+#define ID_TEXT_91     (GUI_ID_USER + 0x12B)
+#define ID_TEXT_92     (GUI_ID_USER + 0x12C)
+#define ID_TEXT_93     (GUI_ID_USER + 0x12D)
+#define ID_TEXT_94     (GUI_ID_USER + 0x12E)
+#define ID_TEXT_95     (GUI_ID_USER + 0x12F)
+#define ID_TEXT_96     (GUI_ID_USER + 0x130)
+#define ID_TEXT_97     (GUI_ID_USER + 0x131)
+#define ID_TEXT_98     (GUI_ID_USER + 0x132)
+#define ID_TEXT_99     (GUI_ID_USER + 0x133)
 
 
 // USER START (Optionally insert additional defines)
@@ -245,21 +242,41 @@ extern char program_name[10];
 #define ID_SCROLLBAR_0  (GUI_ID_USER + 0X05)
 #define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
 #define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
-#define MAX_EDIT_NUM      90
-#define MAX_TEXT_NUM      90
+#define MAX_EDIT_NUM      100
+#define MAX_TEXT_NUM      100
 // USER END
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
+//
+extern char _acText[50];
+extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi12;
+//the name of program
+extern char program_name[10];
+//
+WM_HWIN hWin1_1;
+EDIT_Handle hEdit[MAX_EDIT_NUM];
+TEXT_Handle hText[MAX_TEXT_NUM];
 
+volatile uint8_t flag_run;//运行按钮 的标志位
+volatile int Edit_Index;//文本框的索引,用于链表的插入
 /*********************************************************************
 *
 *       Static data
 *
 **********************************************************************
 */
-static int Id_Edit = 3;
-//const  char*Id_Num[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"};
-static EDIT_Handle hEdit[MAX_EDIT_NUM];
-//static TEXT_Handle hText[MAX_TEXT_NUM];
+static int Id_Edit = 2;//现有EDIT控件的ID，用于EDIT的增加和删除
 
+
+static const char*StringHZ[] = {
+	"\xe5\xa2\x9e\xe5\x8a\xa0","\xe5\x88\xa0\xe9\x99\xa4",//0:增加，1:删除
+	"\xe8\xbf\x90\xe8\xa1\x8c","\xe8\xbf\x94\xe5\x9b\x9e",//2:运行，3:返回
+	"\xe5\xbc\x80\xe5\xa7\x8b",                           //4:开始
+};
 /*********************************************************************
 *
 *       _aDialogCreate
@@ -270,187 +287,207 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 	{ EDIT_CreateIndirect, "", ID_EDIT_0, 60, 30, 100, 20, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "", ID_EDIT_1, 60, 60, 100, 20, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "", ID_EDIT_2, 60, 90, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit3", ID_EDIT_3, 60, 120, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit4", ID_EDIT_4, 60, 150, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit5", ID_EDIT_5, 60, 180, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit6", ID_EDIT_6, 60, 210, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit7", ID_EDIT_7, 60, 240, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit8", ID_EDIT_8, 60, 270, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit9", ID_EDIT_9, 60, 300, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit10", ID_EDIT_10, 60, 330, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit11", ID_EDIT_11, 60, 360, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit12", ID_EDIT_12, 60, 390, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit13", ID_EDIT_13, 60, 420, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit14", ID_EDIT_14, 60, 450, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit15", ID_EDIT_15, 60, 480, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit16", ID_EDIT_16, 60, 510, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit17", ID_EDIT_17, 60, 540, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit18", ID_EDIT_18, 60, 570, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit19", ID_EDIT_19, 60, 600, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit20", ID_EDIT_20, 60, 630, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit21", ID_EDIT_21, 60, 660, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit22", ID_EDIT_22, 60, 690, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit23", ID_EDIT_23, 60, 720, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit24", ID_EDIT_24, 60, 750, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit25", ID_EDIT_25, 60, 780, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit26", ID_EDIT_26, 60, 810, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit27", ID_EDIT_27, 60, 840, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit28", ID_EDIT_28, 60, 870, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit29", ID_EDIT_29, 60, 900, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit30", ID_EDIT_30, 60, 930, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit31", ID_EDIT_31, 60, 960, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit32", ID_EDIT_32, 60, 990, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit33", ID_EDIT_33, 60, 1020, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit34", ID_EDIT_34, 60, 1050, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit35", ID_EDIT_35, 60, 1080, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit36", ID_EDIT_36, 60, 1110, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit37", ID_EDIT_37, 60, 1140, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit38", ID_EDIT_38, 60, 1170, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit39", ID_EDIT_39, 60, 1200, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit40", ID_EDIT_40, 60, 1230, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit41", ID_EDIT_41, 60, 1260, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit42", ID_EDIT_42, 60, 1290, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit43", ID_EDIT_43, 60, 1320, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit44", ID_EDIT_44, 60, 1350, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit45", ID_EDIT_45, 60, 1380, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit46", ID_EDIT_46, 60, 1410, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit47", ID_EDIT_47, 60, 1440, 100, 20, 0, 0x64, 0 },
-//  { EDIT_CreateIndirect, "Edit48", ID_EDIT_48, 60, 1470, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit49", ID_EDIT_49, 60, 1500, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit50", ID_EDIT_50, 60, 1530, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit51", ID_EDIT_51, 60, 1560, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit52", ID_EDIT_52, 60, 1590, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit53", ID_EDIT_53, 60, 1620, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit54", ID_EDIT_54, 60, 1650, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit55", ID_EDIT_55, 60, 1680, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit56", ID_EDIT_56, 60, 1710, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit57", ID_EDIT_57, 60, 1740, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit58", ID_EDIT_58, 60, 1770, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit59", ID_EDIT_59, 60, 1800, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit60", ID_EDIT_60, 60, 1830, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit61", ID_EDIT_61, 60, 1860, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit62", ID_EDIT_62, 60, 1890, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit63", ID_EDIT_63, 60, 1920, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit64", ID_EDIT_64, 60, 1950, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit65", ID_EDIT_65, 60, 1980, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit66", ID_EDIT_66, 60, 2010, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit67", ID_EDIT_67, 60, 2040, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit68", ID_EDIT_68, 60, 2070, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit69", ID_EDIT_69, 60, 2100, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit70", ID_EDIT_70, 60, 2130, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit71", ID_EDIT_71, 60, 2160, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit72", ID_EDIT_72, 60, 2190, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit73", ID_EDIT_73, 60, 2220, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit74", ID_EDIT_74, 60, 2250, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit75", ID_EDIT_75, 60, 2280, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit76", ID_EDIT_76, 60, 2310, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit77", ID_EDIT_77, 60, 2340, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit78", ID_EDIT_78, 60, 2370, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit79", ID_EDIT_79, 60, 2400, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit80", ID_EDIT_80, 60, 2430, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit81", ID_EDIT_81, 60, 2460, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit82", ID_EDIT_82, 60, 2490, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit83", ID_EDIT_83, 60, 2520, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit84", ID_EDIT_84, 60, 2550, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit85", ID_EDIT_85, 60, 2580, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit86", ID_EDIT_86, 60, 2610, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit87", ID_EDIT_87, 60, 2640, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit88", ID_EDIT_88, 60, 2670, 100, 20, 0, 0x64, 0 },
-//	{ EDIT_CreateIndirect, "Edit89", ID_EDIT_89, 60, 2700, 100, 20, 0, 0x64, 0 },
-//  { TEXT_CreateIndirect, "1", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "2", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "3", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "4", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "5", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "6", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "7", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "8", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "9", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "10", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "11", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "12", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "13", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "14", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "15", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "16", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "17", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "18", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "19", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "20", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "21", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "22", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "23", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "24", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "25", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "26", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "27", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "28", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "29", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "30", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "31", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "32", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "33", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "34", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "35", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "36", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "37", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "38", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "39", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "40", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "41", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "42", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "43", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "44", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "45", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "46", ID_TEXT_45, 0, 1380, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "47", ID_TEXT_46, 0, 1410, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "48", ID_TEXT_47, 0, 1440, 40, 20, 0, 0x0, 0 },
-//  { TEXT_CreateIndirect, "49", ID_TEXT_48, 0, 1470, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "50", ID_TEXT_49, 0, 1500, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "51", ID_TEXT_50, 0, 1530, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "52", ID_TEXT_51, 0, 1560, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "53", ID_TEXT_52, 0, 1590, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "54", ID_TEXT_53, 0, 1620, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "55", ID_TEXT_54, 0, 1650, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "56", ID_TEXT_55, 0, 1680, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "57", ID_TEXT_56, 0, 1710, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "58", ID_TEXT_57, 0, 1740, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "59", ID_TEXT_58, 0, 1770, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "60", ID_TEXT_59, 0, 1800, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "61", ID_TEXT_60, 0, 1830, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "62", ID_TEXT_61, 0, 1860, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "63", ID_TEXT_62, 0, 1890, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "64", ID_TEXT_63, 0, 1920, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "65", ID_TEXT_64, 0, 1950, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "66", ID_TEXT_65, 0, 1980, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "67", ID_TEXT_66, 0, 2010, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "68", ID_TEXT_67, 0, 2040, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "69", ID_TEXT_68, 0, 2070, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "70", ID_TEXT_69, 0, 2100, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "71", ID_TEXT_70, 0, 2130, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "72", ID_TEXT_71, 0, 2160, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "73", ID_TEXT_72, 0, 2190, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "74", ID_TEXT_73, 0, 2220, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "75", ID_TEXT_74, 0, 2250, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "76", ID_TEXT_75, 0, 2280, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "77", ID_TEXT_76, 0, 2310, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "78", ID_TEXT_77, 0, 2340, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "79", ID_TEXT_78, 0, 2370, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "80", ID_TEXT_79, 0, 2400, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "81", ID_TEXT_80, 0, 2430, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "82", ID_TEXT_81, 0, 2460, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "83", ID_TEXT_82, 0, 2490, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "84", ID_TEXT_83, 0, 2520, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "85", ID_TEXT_84, 0, 2550, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "86", ID_TEXT_85, 0, 2580, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "87", ID_TEXT_86, 0, 2610, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "88", ID_TEXT_87, 0, 2640, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "89", ID_TEXT_88, 0, 2670, 40, 20, 0, 0x0, 0 },
-//	{ TEXT_CreateIndirect, "90", ID_TEXT_89, 0, 2700, 40, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_3, 60, 120, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_4, 60, 150, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_5, 60, 180, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_6, 60, 210, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_7, 60, 240, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_8, 60, 270, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_9, 60, 300, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_10, 60, 330, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_11, 60, 360, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_12, 60, 390, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_13, 60, 420, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_14, 60, 450, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_15, 60, 480, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_16, 60, 510, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_17, 60, 540, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_18, 60, 570, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_19, 60, 600, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_20, 60, 630, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_21, 60, 660, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_22, 60, 690, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_23, 60, 720, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_24, 60, 750, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_25, 60, 780, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_26, 60, 810, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_27, 60, 840, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_28, 60, 870, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_29, 60, 900, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_30, 60, 930, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_31, 60, 960, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_32, 60, 990, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_33, 60, 1020, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_34, 60, 1050, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_35, 60, 1080, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_36, 60, 1110, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_37, 60, 1140, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_38, 60, 1170, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_39, 60, 1200, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_40, 60, 1230, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_41, 60, 1260, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_42, 60, 1290, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_43, 60, 1320, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_44, 60, 1350, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_45, 60, 1380, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_46, 60, 1410, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_47, 60, 1440, 100, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "", ID_EDIT_48, 60, 1470, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_49, 60, 1500, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_50, 60, 1530, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_51, 60, 1560, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_52, 60, 1590, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_53, 60, 1620, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_54, 60, 1650, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_55, 60, 1680, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_56, 60, 1710, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_57, 60, 1740, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_58, 60, 1770, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_59, 60, 1800, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_60, 60, 1830, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_61, 60, 1860, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_62, 60, 1890, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_63, 60, 1920, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_64, 60, 1950, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_65, 60, 1980, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_66, 60, 2010, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_67, 60, 2040, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_68, 60, 2070, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_69, 60, 2100, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_70, 60, 2130, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_71, 60, 2160, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_72, 60, 2190, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_73, 60, 2220, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_74, 60, 2250, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_75, 60, 2280, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_76, 60, 2310, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_77, 60, 2340, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_78, 60, 2370, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_79, 60, 2400, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_80, 60, 2430, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_81, 60, 2460, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_82, 60, 2490, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_83, 60, 2520, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_84, 60, 2550, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_85, 60, 2580, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_86, 60, 2610, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_87, 60, 2640, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_88, 60, 2670, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_89, 60, 2700, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_90, 60, 2730, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_91, 60, 2760, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_92, 60, 2790, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_93, 60, 2820, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_94, 60, 2850, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_95, 60, 2880, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_96, 60, 2910, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_97, 60, 2940, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_98, 60, 2970, 100, 20, 0, 0x64, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_99, 60, 3000, 100, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "1", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "2", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "3", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "4", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "5", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "6", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "7", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "8", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "9", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "10", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "11", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "12", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "13", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "14", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "15", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "16", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "17", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "18", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "19", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "20", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "21", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "22", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "23", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "24", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "25", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "26", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "27", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "28", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "29", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "30", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "31", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "32", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "33", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "34", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "35", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "36", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "37", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "38", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "39", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "40", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "41", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "42", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "43", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "44", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "45", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "46", ID_TEXT_45, 0, 1380, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "47", ID_TEXT_46, 0, 1410, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "48", ID_TEXT_47, 0, 1440, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "49", ID_TEXT_48, 0, 1470, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "50", ID_TEXT_49, 0, 1500, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "51", ID_TEXT_50, 0, 1530, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "52", ID_TEXT_51, 0, 1560, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "53", ID_TEXT_52, 0, 1590, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "54", ID_TEXT_53, 0, 1620, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "55", ID_TEXT_54, 0, 1650, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "56", ID_TEXT_55, 0, 1680, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "57", ID_TEXT_56, 0, 1710, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "58", ID_TEXT_57, 0, 1740, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "59", ID_TEXT_58, 0, 1770, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "60", ID_TEXT_59, 0, 1800, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "61", ID_TEXT_60, 0, 1830, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "62", ID_TEXT_61, 0, 1860, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "63", ID_TEXT_62, 0, 1890, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "64", ID_TEXT_63, 0, 1920, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "65", ID_TEXT_64, 0, 1950, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "66", ID_TEXT_65, 0, 1980, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "67", ID_TEXT_66, 0, 2010, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "68", ID_TEXT_67, 0, 2040, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "69", ID_TEXT_68, 0, 2070, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "70", ID_TEXT_69, 0, 2100, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "71", ID_TEXT_70, 0, 2130, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "72", ID_TEXT_71, 0, 2160, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "73", ID_TEXT_72, 0, 2190, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "74", ID_TEXT_73, 0, 2220, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "75", ID_TEXT_74, 0, 2250, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "76", ID_TEXT_75, 0, 2280, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "77", ID_TEXT_76, 0, 2310, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "78", ID_TEXT_77, 0, 2340, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "79", ID_TEXT_78, 0, 2370, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "80", ID_TEXT_79, 0, 2400, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "81", ID_TEXT_80, 0, 2430, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "82", ID_TEXT_81, 0, 2460, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "83", ID_TEXT_82, 0, 2490, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "84", ID_TEXT_83, 0, 2520, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "85", ID_TEXT_84, 0, 2550, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "86", ID_TEXT_85, 0, 2580, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "87", ID_TEXT_86, 0, 2610, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "88", ID_TEXT_87, 0, 2640, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "89", ID_TEXT_88, 0, 2670, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "90", ID_TEXT_89, 0, 2700, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "91", ID_TEXT_90, 0, 2730, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "92", ID_TEXT_91, 0, 2760, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "93", ID_TEXT_92, 0, 2790, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "94", ID_TEXT_93, 0, 2820, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "95", ID_TEXT_94, 0, 2850, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "96", ID_TEXT_95, 0, 2880, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "97", ID_TEXT_96, 0, 2910, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "98", ID_TEXT_97, 0, 2940, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "99", ID_TEXT_98, 0, 2970, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "100", ID_TEXT_99, 0, 3000, 40, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "ADD", ID_BUTTON_ADD, 0, 30, 40, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "DEL", ID_BUTTON_DEL, 0, 280, 40, 20, 0, 0x0, 0 },
+//	{ BUTTON_CreateIndirect, "ADD", ID_BUTTON_ADD, 0, 30, 40, 20, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "DEL", ID_BUTTON_DEL, 180, 30, 40, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -488,23 +525,43 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//Initialize the scrollbar
 		//
 		SCROLLBAR_CreateEx(220,20,20,280, hItem, WM_CF_SHOW, SCROLLBAR_CF_VERTICAL, ID_SCROLLBAR_0);
+		hItem = WM_GetDialogItem(pMsg->hWin,ID_SCROLLBAR_0);
+		SCROLLBAR_SetNumItems(hItem,200);
     //
 		// Initialize the 'Header'
 		//
     hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_0);
     HEADER_AddItem(hItem, 80, program_name, 14);
+		//
+		//Initialize the 'Button'
+		//
+//	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ADD);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+//    BUTTON_SetText(hItem,StringHZ[0]);
+//		
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DEL);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+//    BUTTON_SetText(hItem,StringHZ[1]);
+		
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem,StringHZ[2]);
+		
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem,StringHZ[3]);
     //
     // Initialization of Edit 1、2、3...
     //
-		Id_Edit = 3;
+		
+		Id_Edit = 2;
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-		hEdit[0] = hItem;
-    EDIT_SetText(hItem, "Start");
+		EDIT_SetFont(hItem, &GUI_FontSongTi12);
+    EDIT_SetText(hItem, StringHZ[4]);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		WM_DisableWindow(hItem);
-		
 
-		for(i =1;i<Id_Edit;i++)
+		for(i =0;i< MAX_EDIT_NUM;i++)
 		{
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
 				hEdit[i] = hItem;
@@ -513,19 +570,20 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     // Initialization of Text 1、2、3、4、5...
     //
-//		for(i =0; i< Id_Edit; i++)
-//		{
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
-//					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-//					hText[i] = hItem;
-//		}
+		for(i =0; i< MAX_TEXT_NUM; i++)
+		{
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+					hText[i] = hItem;
+		}
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
-		
+								
+
     switch(Id) {
     case ID_HEADER_0: // Notifications sent by 'HeaderTop'
       switch(NCode) {
@@ -650,20 +708,22 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
+						Edit_Index = Id - ID_EDIT_0;
+			
 						hDlg = CreateWindow_Instructor();
 						WM_MakeModal(hDlg);
 						GUI_ExecCreatedDialog(hDlg);
 						WM_MakeModal(pMsg->hWin);
 						WM_SetFocus(pMsg->hWin);
-						
 						if(_acText[0] != 0)
-						{		EDIT_SetText(pMsg->hWinSrc,_acText);
-								memset(_acText,0,10);
+						{		
+								EDIT_SetFont(pMsg->hWinSrc, &GUI_FontSongTi12);
+								EDIT_SetText(pMsg->hWinSrc,_acText);
+								memset(_acText,0,sizeof(_acText));
 								EDIT_SetBkColor(pMsg->hWinSrc,EDIT_CI_ENABLED,GUI_CYAN);
 						}
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
-
         break;
       }
       break;
@@ -682,31 +742,35 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
 						_MessageBox("Save And Running ?","Message");
+						flag_run = 1;//将运行标志置位
         break;
       }
       break;
-		case ID_BUTTON_ADD: //Notifications sent by "ADD"
-			switch(NCode){
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-						hEdit[Id_Edit] = EDIT_CreateEx(60,(Id_Edit+1)*30,100,20,
-																					pMsg->hWin,WM_CF_SHOW,0,ID_EDIT_0+Id_Edit,100);
-//						hText[Id_Edit] = TEXT_CreateAsChild(0, (Id_Edit+1)*30,40,20,pMsg->hWin,WM_CF_SHOW,ID_TEXT_0+Id_Edit,Id_Num[Id_Edit],GUI_TA_HCENTER | GUI_TA_VCENTER);
-						Id_Edit++;
-        break;
-			}
-			break;
-		case ID_BUTTON_DEL: //Notifications sent by "DEL"
-			switch(NCode){
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-						GUI_EndDialog(hEdit[--Id_Edit],0);
-//						GUI_EndDialog(hText[Id_Edit],0);
-        break;
-			}
-			break;
+//		case ID_BUTTON_ADD: //Notifications sent by "ADD"
+//			switch(NCode){
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//						hEdit[Id_Edit] = EDIT_CreateEx(60,(Id_Edit+1)*30,100,20,
+//																					pMsg->hWin,WM_CF_SHOW,0,ID_EDIT_0+Id_Edit,100);
+////						hText[Id_Edit] = TEXT_CreateAsChild(0, (Id_Edit+1)*30,40,20,pMsg->hWin,WM_CF_SHOW,ID_TEXT_0+Id_Edit,Id_Num[Id_Edit],GUI_TA_HCENTER | GUI_TA_VCENTER);
+//						Id_Edit++;
+//        break;
+//			}
+//			break;
+//		case ID_BUTTON_DEL: //Notifications sent by "DEL"
+//			switch(NCode){
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//						EDIT_GetText(hEdit[--Id_Edit],IsTextEmpty,sizeof(IsTextEmpty));
+//						if(IsTextEmpty[0] != 0)
+//							Delete_Node(Id_Edit);
+//						GUI_EndDialog(hEdit[Id_Edit],0);
+////						GUI_EndDialog(hText[Id_Edit],0);
+//        break;
+//			}
+//			break;
 		case ID_SCROLLBAR_0: // Notifications sent by 'Scrollbar'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -718,12 +782,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						WM_GetScrollState(pMsg->hWinSrc, &ScrollState);
 						if (_yOld != ScrollState.v) {
 							int y;
-							for( y = 0; y < Id_Edit; y++)
+							for( y = 0; y < MAX_EDIT_NUM; y++)
 							{
-								if(hEdit[y] != NULL /*&& hText[y] != NULL*/)
+								if(hEdit[y] != NULL && hText[y] != NULL)
 								{ //the step is 30 pixels
 									WM_MoveWindow(hEdit[y] , 0, (_yOld - ScrollState.v)*30);
-//									WM_MoveWindow(hText[y] , 0, (_yOld - ScrollState.v)*30);
+									WM_MoveWindow(hText[y] , 0, (_yOld - ScrollState.v)*30);
 								}
 							}	
 						}

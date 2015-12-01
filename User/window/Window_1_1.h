@@ -6,6 +6,7 @@
 #include "MESSAGEBOX.h"
 #include "WIDGET_Instructor.h"
 #include "string.h"
+#include "stdint.h"
 
 //extern function
 WM_HWIN CreateWindow_1_1(void);

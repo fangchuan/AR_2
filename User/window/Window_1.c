@@ -59,10 +59,9 @@ char program_name[10];
 **********************************************************************
 */
 
-// USER START (Optionally insert additional static data)
-const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",
-"\xe6\x89\x93\xe5\xbc\x80"};
-// USER END
+const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",//0:新建
+	"\xe6\x89\x93\xe5\xbc\x80","\xe8\xbf\x94\xe5\x9b\x9e",////1:打开,2:返回
+};
 
 /*********************************************************************
 *
@@ -70,14 +69,13 @@ const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { MULTIEDIT_CreateIndirect, "Edit0",  ID_MULTIEDIT_0, 100, 40, 80, 40, 0, 0x0, 0 },
+  { MULTIEDIT_CreateIndirect, "Edit0",  ID_MULTIEDIT_0, 100, 40, 110, 40, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "New", ID_BUTTON_2, 0, 40, 80, 40, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Open", ID_BUTTON_3, 0, 120, 80, 40, 0, 0x0, 0 },
-//  { MENU_CreateIndirect, "Menu", ID_MENU_2, 0, 60, 240, 240, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -157,14 +155,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'Button'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      }
-      break;
+    case ID_BUTTON_1: // Notifications sent by 'ENTER'
 		case ID_BUTTON_2: // Notifications sent by 'New'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

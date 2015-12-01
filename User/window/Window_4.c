@@ -23,8 +23,17 @@
 
 #include "Window_4.h"
 #include "stdio.h"
+#include "SongTi12.h"
+
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
 
 extern uint8_t Key_Value;
+
 WM_HWIN hWin_4;
 /*********************************************************************
 *
@@ -37,12 +46,8 @@ WM_HWIN hWin_4;
 #define ID_HEADER_1     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
-//#define ID_DROPDOWN_0     (GUI_ID_USER + 0x06)
 #define ID_RADIO_0     (GUI_ID_USER + 0x07)
 
-
-// USER START (Optionally insert additional defines)
-// USER END
 
 /*********************************************************************
 *
@@ -50,8 +55,11 @@ WM_HWIN hWin_4;
 *
 **********************************************************************
 */
-//int Radio_Index;
 static 	char String_Show[4];
+
+static const char *StringHZ[] = {
+	"\xe8\xbf\x9e\xe6\x8e\xa5","\xe6\x96\xad\xe5\xbc\x80",//0:Á¬½Ó£¬1:¶Ï¿ª
+};
 
 /*********************************************************************
 *
@@ -63,7 +71,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Disconnect", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Connect", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-//  { DROPDOWN_CreateIndirect, "Dropdown", ID_DROPDOWN_0, 100, 50, 80, 19, 0, 0x0, 0 },
   { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 160, 50, 80, 180, 0, 0x1408, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -110,8 +117,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     RADIO_SetText(hItem, "RC6", 6);
     RADIO_SetText(hItem, "RC7", 7);
     RADIO_SetText(hItem, "RC8", 0);
-    // USER START (Optionally insert additional code for further widget initialization)
-    // USER END
+		//
+		//Initialize of Button
+		//
+    hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_0);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[1]);
+		
+		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_1);
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[0]);
+
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);

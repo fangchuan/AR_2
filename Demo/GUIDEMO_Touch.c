@@ -184,7 +184,6 @@ static void _Explain(void) {
 */
 void Touch_MainTask(void) {
 	uint8_t i=0;
-	BUTTON_Handle hButton;
 //	SPI_FLASH_Init();
 //	SPI_FLASH_SectorErase(CALADD);
 	GUI_SetBkColor(GUI_WHITE);
@@ -192,31 +191,31 @@ void Touch_MainTask(void) {
 	GUI_SetColor(GUI_BLACK);
 	GUI_SetFont(&GUI_Font13B_ASCII);
 	_Explain();
-//	/* Set the logical values */
-//	aCal[0]=15;
-//	aCal[1]=15;
-//	aCal[4]=LCD_GetXSize() - 15;
-//	aCal[5]=LCD_GetYSize() - 15;
-//	
-//	/* Get the physical values of the AD converter for 2 positions */	
-//	for (i = 0; i < 2; i++) 
-//	{
-//		_GetPhysValues(aCal[i*4], aCal[i*4+1], &aCal[i*4+2], &aCal[i*4+3], _acPos[i]);
-//	}
-//	for( i=0; i<8; ++i)
-//        printf("aCal[%d]=%d ",i,aCal[i]);
-//	printf("\r\n");
-////	SPI_FLASH_BufferWrite((void *)aCal,CALADD+2, sizeof(aCal));
-//	emWin_Cal=0x55;
-////	SPI_FLASH_BufferWrite(&emWin_Cal,CALADD,1);
-//	GUI_Delay(10);
-////	SPI_FLASH_BufferRead((void *)readCal,CALADD+2, sizeof(readCal));
-//	for( i=0; i<8; ++i)
-//        printf("readCal[%d]=%d ",i,readCal[i]);
-//	printf("\r\n");
-//	/* Use the physical values to calibrate the touch screen */
-//	GUI_TOUCH_Calibrate(GUI_COORD_X,readCal[0], readCal[4], readCal[6], readCal[2]); /* Calibrate X-axis */
-//	GUI_TOUCH_Calibrate(GUI_COORD_Y,readCal[1], readCal[5], readCal[7], readCal[3]); /* Calibrate Y-axis */
+	/* Set the logical values */
+	aCal[0]=15;
+	aCal[1]=15;
+	aCal[4]=LCD_GetXSize() - 15;
+	aCal[5]=LCD_GetYSize() - 15;
+	
+	/* Get the physical values of the AD converter for 2 positions */	
+	for (i = 0; i < 2; i++) 
+	{
+		_GetPhysValues(aCal[i*4], aCal[i*4+1], &aCal[i*4+2], &aCal[i*4+3], _acPos[i]);
+	}
+	for( i=0; i<8; ++i)
+        printf("aCal[%d]=%d ",i,aCal[i]);
+	printf("\r\n");
+//	SPI_FLASH_BufferWrite((void *)aCal,CALADD+2, sizeof(aCal));
+	emWin_Cal=0x55;
+//	SPI_FLASH_BufferWrite(&emWin_Cal,CALADD,1);
+	GUI_Delay(10);
+//	SPI_FLASH_BufferRead((void *)readCal,CALADD+2, sizeof(readCal));
+	for( i=0; i<8; ++i)
+        printf("readCal[%d]=%d ",i,readCal[i]);
+	printf("\r\n");
+	/* Use the physical values to calibrate the touch screen */
+	GUI_TOUCH_Calibrate(GUI_COORD_X,readCal[0], readCal[4], readCal[6], readCal[2]); /* Calibrate X-axis */
+	GUI_TOUCH_Calibrate(GUI_COORD_Y,readCal[1], readCal[5], readCal[7], readCal[3]); /* Calibrate Y-axis */
 	
 /***********************************************************************************************/
 	/* Display the result */
@@ -227,9 +226,7 @@ void Touch_MainTask(void) {
 					  "calibrated. Please use\n"
 					  "the cursor to test\n"
 					  "the calibration...");
-	hButton = BUTTON_Create(30,30,40,20,1,WM_CF_SHOW);
-	BUTTON_SetText(hButton,"OK");
-	BUTTON_SetFocusColor(hButton,GUI_RED);
+
 	/* Let the user play */
 	while(1) 
 	{
