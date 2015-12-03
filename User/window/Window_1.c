@@ -61,6 +61,7 @@ char program_name[10];
 
 const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",//0:新建
 	"\xe6\x89\x93\xe5\xbc\x80","\xe8\xbf\x94\xe5\x9b\x9e",////1:打开,2:返回
+	"\xe8\xbf\x9b\xe5\x85\xa5", //3：进入
 };
 
 /*********************************************************************
@@ -98,8 +99,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN          hItem;
   int              NCode;
   int              Id;
-  // USER START (Optionally insert additional variables)
-  // USER END
+  WM_HWIN         hNumPad;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -109,10 +109,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		GUI_UC_SetEncodeUTF8();
 	  GUI_SetFont(&GUI_FontSongTi16);
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-    BUTTON_SetText(hItem, "BACK");
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem, _StringHZ[2]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
-    BUTTON_SetText(hItem, "ENTER");
+		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+    BUTTON_SetText(hItem, _StringHZ[3]);
 	
 	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
@@ -131,6 +133,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIEDIT_0);
     MULTIEDIT_SetText(hItem, "");
+		MULTIEDIT_SetFocussable(hItem,1);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -198,10 +201,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case ID_MULTIEDIT_0: // Notifications sent by 'Edit1'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-							Create_NumPad(pMsg->hWin);
         break;
       case WM_NOTIFICATION_RELEASED:
-        break;
+							hNumPad = Create_NumPad(pMsg->hWin);
+							WM_MakeModal(hNumPad);
+							GUI_ExecCreatedDialog(hNumPad);
+       break;
       case WM_NOTIFICATION_VALUE_CHANGED:
 							
         break;

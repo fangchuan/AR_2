@@ -5,6 +5,7 @@
 #include "DIALOG.h"
 #include "Window_1_1.h"
 #include "SongTi16.h"
+#include "SongTi12.h"
 #include "WIDGET_NumPad.h"
 #include "String.h"
 

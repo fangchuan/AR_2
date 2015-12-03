@@ -4,6 +4,6 @@
 #include "DIALOG.h"
 #include "SongTi12.h"
 
-void Create_NumPad(WM_HWIN hParent);
+WM_HWIN Create_NumPad(WM_HWIN hParent) ;
 
 #endif //

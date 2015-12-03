@@ -30,9 +30,11 @@
 */
 extern char _acText[50];
 extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi12;
+extern WM_HWIN 	 hWin_Instructor;
 
-extern enum _FLAG _flag;
-extern volatile int Edit_Index ;
+extern enum _FLAG _flag;//指令标志
+extern volatile int Edit_Index ;//当前EDIT的索引
+extern volatile uint8_t flag_operation;//操作标志
 
 /*********************************************************************
 *
@@ -164,23 +166,22 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					if (Id == ID_BUTTON_OK)       ///点确定按钮后将EDIT内容复制到_acText中
 					{
 							char dest[50];
-							static int  Old_EditIndex = 0;
 							EDIT_GetText(hEdit,dest,sizeof(dest));
 							strcpy(_acText,dest);
-							if(Old_EditIndex < Edit_Index) //如果是顺序添加下去的话，则在链表尾部添加新的结点
+							if(flag_operation == FLAG_INSERT) //如果是顺序添加下去的话，则在链表尾部添加新的结点
 							{
 									Add_Node( Edit_Index ,_flag,_acText );
-									Old_EditIndex = Edit_Index;
 							}
-							else                         //在已经编辑好的文本上更改内容,则直接在该索引的链表结点上修改数据域
+							//在已经编辑好的文本上更改内容,则直接在该索引的链表结点上修改数据域
+							if( flag_operation == FLAG_CHANGE)
 							{
 									Replace_Node(Edit_Index,_flag,_acText);
-									Old_EditIndex = Edit_Index;
 							}
 								
 						
 							GUI_EndDialog(pMsg->hWin ,0);
-								
+							GUI_EndDialog(hWin_Instructor,0);//点击确定按钮后，直接将Instructor面板及其子面板都关闭
+	
 					}
 					if (Id == ID_BUTTON_CANCEL)
 					{

@@ -163,13 +163,14 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 **********************************************************************
 */
 
-void Create_NumPad(WM_HWIN hParent) {
+WM_HWIN Create_NumPad(WM_HWIN hParent) {
   WM_HWIN hNumPad;
 
   hNumPad = GUI_CreateDialogBox(_aDialogNumPad, 
                                 GUI_COUNTOF(_aDialogNumPad), 
                                 _cbDialogNumPad, hParent, 0, 0); /* Create the numpad dialog */
   WM_SetStayOnTop(hNumPad, 1);
+	return hNumPad;
 
 }
 

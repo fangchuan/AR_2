@@ -15,11 +15,7 @@ extern _Listptr Ins_List_Head;//程序链表的头指针
 extern volatile int Edit_Index ;
 
 
-_Motor    motor;
-_Servo    servo;
-_Led        led;
-_Port      port;
-_Variable   var;
+
 /*********************************************************************
 *
 *       Static data
@@ -251,143 +247,14 @@ static void AppTaskMainTask(void *p_arg)
 {
 			OS_ERR  err;
 			_Listptr ptr = Ins_List_Head ->next ;
+			Create_Stack();
 			while(1)
 			{
 					if(flag_run)   //换成等待信号？
 					{
-						while(ptr)
-						{
-//							if( ptr ->_flag == FLAG_WHILESTART)
-//							{
-//									while(1)
-//									{
-//										
-//									}
-//							}
-							switch ( ptr->_flag )
-							{
-								case FLAG_MOTOR_C:   //电机_正转,速度_  
-												motor.id =( ptr->EditContent )[6] - 0x30;
-												motor.direction = FORWARD;
-												motor.speed = atoi(ptr->EditContent + 20);
-									break;
-								case FLAG_MOTOR_CC: //电机_反转,速度_
-												motor.id = ( ptr->EditContent )[6] - 0x30;
-												motor.direction = BACKWARD;
-												motor.speed = atoi(ptr->EditContent + 20);
-									break;
-								case FLAG_SERVO:  //舵机_转_
-											servo.id = ( ptr->EditContent )[6] - 0x30;
-											servo.degree = atoi(ptr->EditContent + 10);
-									break;
-								case FLAG_LED:  //LED_
-											led.id = ( ptr->EditContent )[3] - 0x30;
-											
-									break;
-								case FLAG_CAR_LEFT:
-											
-									break;
-								case FLAG_CAR_RIGHT:
-									
-									break;
-								case FLAG_CAR_FORWARD:
-									
-									break;
-								case FLAG_CAR_BACKWARD:
-									
-									break;
-								case FLAG_CAR_STOP:
-									
-									break;
-								case FLAG_PORT_SIGNAL://如果端口_有信号
-											port.id = (ptr->EditContent)[4] - 0x30;
-											
-									break;
-								case FLAG_PORT_NOSIGNAL://如果端口_无信号
-											port.id = (ptr->EditContent)[4] - 0x30;
 
-									break;
-								case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
-											port.id = (ptr->EditContent)[4] - 0x30;
-								
-									break;
-								case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
-											port.id = (ptr->EditContent)[4] - 0x30;
-								
-									break;
-								case FLAG_PORT_GREATER: //如果端口_>_
-											port.id = (ptr->EditContent)[4] - 0x30;
-											port.tar_val = atoi(ptr->EditContent + 6);
-									break;
-								case FLAG_PORT_LITTLER: //如果端口_<_
-											port.id = (ptr->EditContent)[4] - 0x30;
-											port.tar_val = atoi(ptr->EditContent + 6);
-									break;
-								case FLAG_VAR_SET_A: //设定A=
-											var.id = VAR_A;
-											var.set_val = atoi(ptr->EditContent + 4);
-									break;
-								case FLAG_VAR_SET_B: //设定B=
-											var.id = VAR_B;
-											var.set_val = atoi(ptr->EditContent + 4);
-									break;
-								case FLAG_VAR_A_INC:
-												var.id = VAR_A;
-												var.set_val ++;
-											
-									break;
-								case FLAG_VAR_A_DEC:
-											var.id = VAR_A;
-											var.set_val --;
-									break;
-								case FLAG_VAR_B_INC:
-											var.id = VAR_B;
-											var.set_val ++;
-										
-									break;
-								case FLAG_VAR_B_DEC:
-											var.id = VAR_B;
-											var.set_val --;
-									break;
-								case FLAG_VAR_SHOW_A:
-									
-									break;
-								case FLAG_VAR_SHOW_B:
-									
-									break;
-								case FLAG_VAR_A_GREATER: //变量A>_
-											var.id = VAR_A;
-											var.tar_val = atoi(ptr->EditContent + 4);
-									break;
-								case FLAG_VAR_A_LITTLER: //变量A<_
-											var.id = VAR_A;
-											var.tar_val = atoi(ptr->EditContent + 4);
-									
-									break;
-								case FLAG_START_WHILE:
-									
-									break;
-								case FLAG_END_WHILE:
-									
-									break;
-								case FLAG_END_PROGRAM:
-									
-									break;
-								case FLAG_OR:
-									
-									break;
-								case FLAG_DELAY_NMS:
-									
-									break;
-								case FLAG_MUSIC:
-									
-									break;
-								default:break;
-							}
-							ptr = ptr -> next ;
-						}
-				}
-//					OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
+					}
+					OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
 			}
 }
 

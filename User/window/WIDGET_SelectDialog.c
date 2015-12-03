@@ -3,7 +3,8 @@
 //*********************************************************
 
 #include "WIDGET_SelectDialog.h"
-
+#include "_apollorobot.h"
+#include "SongTi12.h"
 
 /*********************************************************************
 *
@@ -11,12 +12,21 @@
 *
 **********************************************************************
 */
-#define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x01)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x02)
-//#define ID_BUTTON_2     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x04)
+#define ID_WINDOW_0     		 (GUI_ID_USER + 0x00)
+#define ID_BUTTON_CHANGE     (GUI_ID_USER + 0x01)
+#define ID_BUTTON_INSERT     (GUI_ID_USER + 0x02)
+#define ID_BUTTON_DELETE     (GUI_ID_USER + 0x03)
+#define ID_BUTTON_BACK       (GUI_ID_USER + 0x04)
 
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
+extern volatile int Edit_Index;//文本框的索引,用于链表的插入
+extern EDIT_Handle hEdit[198];
+volatile uint8_t flag_operation;
 
 /*********************************************************************
 *
@@ -25,8 +35,13 @@
 **********************************************************************
 */
 
-// USER START (Optionally insert additional static data)
-// USER END
+static const char *StringHZ[] = {
+	"\xe6\x9b\xb4\xe6\x94\xb9\xe6\x8c\x87\xe4\xbb\xa4",//0:更改指令
+	"\xe6\x8f\x92\xe5\x85\xa5\xe6\x8c\x87\xe4\xbb\xa4",//1:插入指令
+	"\xe5\x88\xa0\xe9\x99\xa4\xe6\x8c\x87\xe4\xbb\xa4",//2:删除指令
+	"\xe8\xbf\x94\xe5\x9b\x9e",                      //3:返回
+
+};
 
 /*********************************************************************
 *
@@ -34,10 +49,10 @@
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 80, 120, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Change", ID_BUTTON_0, 10, 10, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Insert", ID_BUTTON_1, 10, 40, 60, 20, 0, 0x0, 0 },
-//  { BUTTON_CreateIndirect, "Delete", ID_BUTTON_2, 10, 70, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_3, 40, 100, 40, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "插入指令", ID_BUTTON_INSERT, 10, 10, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "更改指令", ID_BUTTON_CHANGE, 10, 40, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "删除指令", ID_BUTTON_DELETE, 10, 70, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "返回", ID_BUTTON_BACK, 40, 100, 40, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -61,6 +76,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   GUI_RECT r;
+	WM_HWIN hDlg;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -69,42 +85,73 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = pMsg->hWin;
     WINDOW_SetBkColor(hItem, 0x00FF8080);
-    // USER START (Optionally insert additional code for further widget initialization)
-    // USER END
+		//
+		//Initialize of "Button"
+		//
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_CHANGE);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[0]);
+	
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_INSERT);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[1]);
+	
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DELETE);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[2]);
+	
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[3]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_BUTTON_0: // Notifications sent by 'Change'
+    case ID_BUTTON_CHANGE: // Notifications sent by 'Change'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-
-        break;
-      }
-      break;
-    case ID_BUTTON_1: // Notifications sent by 'Insert'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-						CreateWindow_Instructor();
+						flag_operation = FLAG_CHANGE;
 						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
+						hDlg = CreateWindow_Instructor();
+						WM_MakeModal(hDlg);
+						GUI_ExecCreatedDialog(hDlg);
+						
+
         break;
       }
       break;
-//    case ID_BUTTON_2: // Notifications sent by 'Delete'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
+    case ID_BUTTON_INSERT: // Notifications sent by 'Insert'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						flag_operation = FLAG_INSERT;
+						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
+						hDlg = CreateWindow_Instructor();
+						WM_MakeModal(hDlg);
+						GUI_ExecCreatedDialog(hDlg);
+						
+        break;
+      }
+      break;
+    case ID_BUTTON_DELETE: // Notifications sent by 'Delete'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						flag_operation = FLAG_DELETE;
+						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
+						Delete_Node(Edit_Index);
+						EDIT_SetText(hEdit[Edit_Index],"");
+						EDIT_SetBkColor(hEdit[Edit_Index],EDIT_CI_ENABLED,GUI_WHITE);
 
-//        break;
-//      }
-//      break;
-    case ID_BUTTON_3: // Notifications sent by 'BACK'
+        break;
+      }
+      break;
+    case ID_BUTTON_BACK: // Notifications sent by 'BACK'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;

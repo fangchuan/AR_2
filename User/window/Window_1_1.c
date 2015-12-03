@@ -22,7 +22,6 @@
 // USER END
 
 #include "Window_1_1.h"
-#include "TEXT.h"
 #include "_apollorobot.h"
 
 /*********************************************************************
@@ -133,6 +132,104 @@
 #define ID_EDIT_97     	(GUI_ID_USER + 0x6B)
 #define ID_EDIT_98     	(GUI_ID_USER + 0x6C)
 #define ID_EDIT_99     	(GUI_ID_USER + 0x6D)
+#define ID_EDIT_100     	(GUI_ID_USER + 0x6E)
+#define ID_EDIT_101     	(GUI_ID_USER + 0x6F)
+#define ID_EDIT_102    		(GUI_ID_USER + 0x70)
+#define ID_EDIT_103     	(GUI_ID_USER + 0x71)
+#define ID_EDIT_104     	(GUI_ID_USER + 0x72)
+#define ID_EDIT_105     	(GUI_ID_USER + 0x73)
+#define ID_EDIT_106     	(GUI_ID_USER + 0x74)
+#define ID_EDIT_107     	(GUI_ID_USER + 0x75)
+#define ID_EDIT_108     	(GUI_ID_USER + 0x76)
+#define ID_EDIT_109     	(GUI_ID_USER + 0x77)
+#define ID_EDIT_110     	(GUI_ID_USER + 0x78)
+#define ID_EDIT_111     	(GUI_ID_USER + 0x79)
+#define ID_EDIT_112     	(GUI_ID_USER + 0x7A)
+#define ID_EDIT_113     	(GUI_ID_USER + 0x7B)
+#define ID_EDIT_114     	(GUI_ID_USER + 0x7C)
+#define ID_EDIT_115     	(GUI_ID_USER + 0x7D)
+#define ID_EDIT_116     	(GUI_ID_USER + 0x7E)
+#define ID_EDIT_117     	(GUI_ID_USER + 0x7F)
+#define ID_EDIT_118     	(GUI_ID_USER + 0x80)
+#define ID_EDIT_119     	(GUI_ID_USER + 0x81)
+#define ID_EDIT_120     	(GUI_ID_USER + 0x82)
+#define ID_EDIT_121     	(GUI_ID_USER + 0x83)
+#define ID_EDIT_122     	(GUI_ID_USER + 0x84)
+#define ID_EDIT_123     	(GUI_ID_USER + 0x85)
+#define ID_EDIT_124     	(GUI_ID_USER + 0x86)
+#define ID_EDIT_125     	(GUI_ID_USER + 0x87)
+#define ID_EDIT_126     	(GUI_ID_USER + 0x88)
+#define ID_EDIT_127     	(GUI_ID_USER + 0x89)
+#define ID_EDIT_128     	(GUI_ID_USER + 0x8A)
+#define ID_EDIT_129     	(GUI_ID_USER + 0x8B)
+#define ID_EDIT_130     	(GUI_ID_USER + 0x8C)
+#define ID_EDIT_131     	(GUI_ID_USER + 0x8D)
+#define ID_EDIT_132     	(GUI_ID_USER + 0x8E)
+#define ID_EDIT_133     	(GUI_ID_USER + 0x8F)
+#define ID_EDIT_134     	(GUI_ID_USER + 0x90)
+#define ID_EDIT_135     	(GUI_ID_USER + 0x91)
+#define ID_EDIT_136     	(GUI_ID_USER + 0x92)
+#define ID_EDIT_137     	(GUI_ID_USER + 0x93)
+#define ID_EDIT_138     	(GUI_ID_USER + 0x94)
+#define ID_EDIT_139     	(GUI_ID_USER + 0x95)
+#define ID_EDIT_140     	(GUI_ID_USER + 0x96)
+#define ID_EDIT_141     	(GUI_ID_USER + 0x97)
+#define ID_EDIT_142     	(GUI_ID_USER + 0x98)
+#define ID_EDIT_143     	(GUI_ID_USER + 0x99)
+#define ID_EDIT_144     	(GUI_ID_USER + 0x9A)
+#define ID_EDIT_145     	(GUI_ID_USER + 0x9B)
+#define ID_EDIT_146     	(GUI_ID_USER + 0x9C)
+#define ID_EDIT_147     	(GUI_ID_USER + 0x9D)
+#define ID_EDIT_148     	(GUI_ID_USER + 0x9E)
+#define ID_EDIT_149     	(GUI_ID_USER + 0x9F)
+#define ID_EDIT_150     	(GUI_ID_USER + 0xA0)
+#define ID_EDIT_151     	(GUI_ID_USER + 0xA1)
+#define ID_EDIT_152     	(GUI_ID_USER + 0xA2)
+#define ID_EDIT_153     	(GUI_ID_USER + 0xA3)
+#define ID_EDIT_154     	(GUI_ID_USER + 0xA4)
+#define ID_EDIT_155     	(GUI_ID_USER + 0xA5)
+#define ID_EDIT_156     	(GUI_ID_USER + 0xA6)
+#define ID_EDIT_157     	(GUI_ID_USER + 0xA7)
+#define ID_EDIT_158     	(GUI_ID_USER + 0xA8)
+#define ID_EDIT_159     	(GUI_ID_USER + 0xA9)
+#define ID_EDIT_160     	(GUI_ID_USER + 0xAA)
+#define ID_EDIT_161     	(GUI_ID_USER + 0xAB)
+#define ID_EDIT_162     	(GUI_ID_USER + 0xAC)
+#define ID_EDIT_163     	(GUI_ID_USER + 0xAD)
+#define ID_EDIT_164     	(GUI_ID_USER + 0xAE)
+#define ID_EDIT_165     	(GUI_ID_USER + 0xAF)
+#define ID_EDIT_166     	(GUI_ID_USER + 0xB0)
+#define ID_EDIT_167     	(GUI_ID_USER + 0xB1)
+#define ID_EDIT_168     	(GUI_ID_USER + 0xB2)
+#define ID_EDIT_169     	(GUI_ID_USER + 0xB3)
+#define ID_EDIT_170     	(GUI_ID_USER + 0xB4)
+#define ID_EDIT_171     	(GUI_ID_USER + 0xB5)
+#define ID_EDIT_172     	(GUI_ID_USER + 0xB6)
+#define ID_EDIT_173     	(GUI_ID_USER + 0xB7)
+#define ID_EDIT_174     	(GUI_ID_USER + 0xB8)
+#define ID_EDIT_175     	(GUI_ID_USER + 0xB9)
+#define ID_EDIT_176     	(GUI_ID_USER + 0xBA)
+#define ID_EDIT_177     	(GUI_ID_USER + 0xBB)
+#define ID_EDIT_178     	(GUI_ID_USER + 0xBC)
+#define ID_EDIT_179     	(GUI_ID_USER + 0xBD)
+#define ID_EDIT_180     	(GUI_ID_USER + 0xBE)
+#define ID_EDIT_181     	(GUI_ID_USER + 0xBF)
+#define ID_EDIT_182     	(GUI_ID_USER + 0xC0)
+#define ID_EDIT_183     	(GUI_ID_USER + 0xC1)
+#define ID_EDIT_184     	(GUI_ID_USER + 0xC2)
+#define ID_EDIT_185     	(GUI_ID_USER + 0xC3)
+#define ID_EDIT_186     	(GUI_ID_USER + 0xC4)
+#define ID_EDIT_187     	(GUI_ID_USER + 0xC5)
+#define ID_EDIT_188     	(GUI_ID_USER + 0xC6)
+#define ID_EDIT_189     	(GUI_ID_USER + 0xC7)
+#define ID_EDIT_190     	(GUI_ID_USER + 0xC8)
+#define ID_EDIT_191     	(GUI_ID_USER + 0xC9)
+#define ID_EDIT_192     	(GUI_ID_USER + 0xCA)
+#define ID_EDIT_193     	(GUI_ID_USER + 0xCB)
+#define ID_EDIT_194     	(GUI_ID_USER + 0xCC)
+#define ID_EDIT_195     	(GUI_ID_USER + 0xCD)
+#define ID_EDIT_196     	(GUI_ID_USER + 0xCE)
+#define ID_EDIT_197     	(GUI_ID_USER + 0xCF)
 
 #define ID_TEXT_0     (GUI_ID_USER + 0xD0)
 #define ID_TEXT_1     (GUI_ID_USER + 0xD1)
@@ -234,6 +331,104 @@
 #define ID_TEXT_97     (GUI_ID_USER + 0x131)
 #define ID_TEXT_98     (GUI_ID_USER + 0x132)
 #define ID_TEXT_99     (GUI_ID_USER + 0x133)
+#define ID_TEXT_100     (GUI_ID_USER + 0x134)
+#define ID_TEXT_101     (GUI_ID_USER + 0x135)
+#define ID_TEXT_102     (GUI_ID_USER + 0x136)
+#define ID_TEXT_103     (GUI_ID_USER + 0x137)
+#define ID_TEXT_104     (GUI_ID_USER + 0x138)
+#define ID_TEXT_105     (GUI_ID_USER + 0x139)
+#define ID_TEXT_106     (GUI_ID_USER + 0x13A)
+#define ID_TEXT_107     (GUI_ID_USER + 0x13B)
+#define ID_TEXT_108     (GUI_ID_USER + 0x13C)
+#define ID_TEXT_109     (GUI_ID_USER + 0x13D)
+#define ID_TEXT_110     (GUI_ID_USER + 0x13E)
+#define ID_TEXT_111     (GUI_ID_USER + 0x13F)
+#define ID_TEXT_112     (GUI_ID_USER + 0x140)
+#define ID_TEXT_113     (GUI_ID_USER + 0x141)
+#define ID_TEXT_114     (GUI_ID_USER + 0x142)
+#define ID_TEXT_115     (GUI_ID_USER + 0x143)
+#define ID_TEXT_116     (GUI_ID_USER + 0x144)
+#define ID_TEXT_117     (GUI_ID_USER + 0x145)
+#define ID_TEXT_118     (GUI_ID_USER + 0x146)
+#define ID_TEXT_119     (GUI_ID_USER + 0x147)
+#define ID_TEXT_120     (GUI_ID_USER + 0x148)
+#define ID_TEXT_121     (GUI_ID_USER + 0x149)
+#define ID_TEXT_122     (GUI_ID_USER + 0x14A)
+#define ID_TEXT_123     (GUI_ID_USER + 0x14B)
+#define ID_TEXT_124     (GUI_ID_USER + 0x14C)
+#define ID_TEXT_125     (GUI_ID_USER + 0x14D)
+#define ID_TEXT_126     (GUI_ID_USER + 0x14E)
+#define ID_TEXT_127     (GUI_ID_USER + 0x14F)
+#define ID_TEXT_128     (GUI_ID_USER + 0x150)
+#define ID_TEXT_129     (GUI_ID_USER + 0x151)
+#define ID_TEXT_130     (GUI_ID_USER + 0x152)
+#define ID_TEXT_131     (GUI_ID_USER + 0x153)
+#define ID_TEXT_132     (GUI_ID_USER + 0x154)
+#define ID_TEXT_133     (GUI_ID_USER + 0x155)
+#define ID_TEXT_134     (GUI_ID_USER + 0x156)
+#define ID_TEXT_135     (GUI_ID_USER + 0x157)
+#define ID_TEXT_136     (GUI_ID_USER + 0x158)
+#define ID_TEXT_137     (GUI_ID_USER + 0x159)
+#define ID_TEXT_138     (GUI_ID_USER + 0x15A)
+#define ID_TEXT_139     (GUI_ID_USER + 0x15B)
+#define ID_TEXT_140     (GUI_ID_USER + 0x15C)
+#define ID_TEXT_141     (GUI_ID_USER + 0x15D)
+#define ID_TEXT_142     (GUI_ID_USER + 0x15E)
+#define ID_TEXT_143     (GUI_ID_USER + 0x15F)
+#define ID_TEXT_144     (GUI_ID_USER + 0x160)
+#define ID_TEXT_145     (GUI_ID_USER + 0x161)
+#define ID_TEXT_146     (GUI_ID_USER + 0x162)
+#define ID_TEXT_147     (GUI_ID_USER + 0x163)
+#define ID_TEXT_148     (GUI_ID_USER + 0x164)
+#define ID_TEXT_149     (GUI_ID_USER + 0x165)
+#define ID_TEXT_150     (GUI_ID_USER + 0x166)
+#define ID_TEXT_151     (GUI_ID_USER + 0x167)
+#define ID_TEXT_152     (GUI_ID_USER + 0x168)
+#define ID_TEXT_153     (GUI_ID_USER + 0x169)
+#define ID_TEXT_154     (GUI_ID_USER + 0x16A)
+#define ID_TEXT_155     (GUI_ID_USER + 0x16B)
+#define ID_TEXT_156     (GUI_ID_USER + 0x16C)
+#define ID_TEXT_157     (GUI_ID_USER + 0x16D)
+#define ID_TEXT_158     (GUI_ID_USER + 0x16E)
+#define ID_TEXT_159     (GUI_ID_USER + 0x16F)
+#define ID_TEXT_160     (GUI_ID_USER + 0x170)
+#define ID_TEXT_161     (GUI_ID_USER + 0x171)
+#define ID_TEXT_162     (GUI_ID_USER + 0x172)
+#define ID_TEXT_163     (GUI_ID_USER + 0x173)
+#define ID_TEXT_164     (GUI_ID_USER + 0x174)
+#define ID_TEXT_165     (GUI_ID_USER + 0x175)
+#define ID_TEXT_166     (GUI_ID_USER + 0x176)
+#define ID_TEXT_167     (GUI_ID_USER + 0x177)
+#define ID_TEXT_168     (GUI_ID_USER + 0x178)
+#define ID_TEXT_169     (GUI_ID_USER + 0x179)
+#define ID_TEXT_170     (GUI_ID_USER + 0x17A)
+#define ID_TEXT_171     (GUI_ID_USER + 0x17B)
+#define ID_TEXT_172     (GUI_ID_USER + 0x17C)
+#define ID_TEXT_173     (GUI_ID_USER + 0x17D)
+#define ID_TEXT_174     (GUI_ID_USER + 0x17E)
+#define ID_TEXT_175     (GUI_ID_USER + 0x17F)
+#define ID_TEXT_176     (GUI_ID_USER + 0x180)
+#define ID_TEXT_177     (GUI_ID_USER + 0x181)
+#define ID_TEXT_178     (GUI_ID_USER + 0x182)
+#define ID_TEXT_179     (GUI_ID_USER + 0x183)
+#define ID_TEXT_180     (GUI_ID_USER + 0x184)
+#define ID_TEXT_181     (GUI_ID_USER + 0x185)
+#define ID_TEXT_182     (GUI_ID_USER + 0x186)
+#define ID_TEXT_183     (GUI_ID_USER + 0x187)
+#define ID_TEXT_184     (GUI_ID_USER + 0x188)
+#define ID_TEXT_185     (GUI_ID_USER + 0x189)
+#define ID_TEXT_186     (GUI_ID_USER + 0x18A)
+#define ID_TEXT_187     (GUI_ID_USER + 0x18B)
+#define ID_TEXT_188     (GUI_ID_USER + 0x18C)
+#define ID_TEXT_189     (GUI_ID_USER + 0x18D)
+#define ID_TEXT_190     (GUI_ID_USER + 0x18E)
+#define ID_TEXT_191     (GUI_ID_USER + 0x18F)
+#define ID_TEXT_192     (GUI_ID_USER + 0x190)
+#define ID_TEXT_193     (GUI_ID_USER + 0x191)
+#define ID_TEXT_194     (GUI_ID_USER + 0x192)
+#define ID_TEXT_195     (GUI_ID_USER + 0x193)
+#define ID_TEXT_196     (GUI_ID_USER + 0x194)
+#define ID_TEXT_197     (GUI_ID_USER + 0x195)
 
 
 // USER START (Optionally insert additional defines)
@@ -242,8 +437,8 @@
 #define ID_SCROLLBAR_0  (GUI_ID_USER + 0X05)
 #define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
 #define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
-#define MAX_EDIT_NUM      100
-#define MAX_TEXT_NUM      100
+#define MAX_EDIT_NUM      198
+#define MAX_TEXT_NUM      198
 // USER END
 /*********************************************************************
 *
@@ -269,13 +464,10 @@ volatile int Edit_Index;//文本框的索引,用于链表的插入
 *
 **********************************************************************
 */
-static int Id_Edit = 2;//现有EDIT控件的ID，用于EDIT的增加和删除
-
 
 static const char*StringHZ[] = {
-	"\xe5\xa2\x9e\xe5\x8a\xa0","\xe5\x88\xa0\xe9\x99\xa4",//0:增加，1:删除
-	"\xe8\xbf\x90\xe8\xa1\x8c","\xe8\xbf\x94\xe5\x9b\x9e",//2:运行，3:返回
-	"\xe5\xbc\x80\xe5\xa7\x8b",                           //4:开始
+	"\xe8\xbf\x90\xe8\xa1\x8c","\xe8\xbf\x94\xe5\x9b\x9e",//0:运行，1:返回
+	"\xe5\xbc\x80\xe5\xa7\x8b",                           //2:开始
 };
 /*********************************************************************
 *
@@ -384,106 +576,302 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 	{ EDIT_CreateIndirect, "", ID_EDIT_97, 60, 2940, 100, 20, 0, 0x64, 0 },
 	{ EDIT_CreateIndirect, "", ID_EDIT_98, 60, 2970, 100, 20, 0, 0x64, 0 },
 	{ EDIT_CreateIndirect, "", ID_EDIT_99, 60, 3000, 100, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "1", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "2", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "3", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "4", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "5", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "6", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "7", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "8", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "9", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "10", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "11", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "12", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "13", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "14", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "15", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "16", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "17", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "18", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "19", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "20", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "21", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "22", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "23", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "24", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "25", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "26", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "27", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "28", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "29", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "30", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "31", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "32", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "33", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "34", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "35", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "36", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "37", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "38", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "39", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "40", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "41", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "42", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "43", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "44", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "45", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "46", ID_TEXT_45, 0, 1380, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "47", ID_TEXT_46, 0, 1410, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "48", ID_TEXT_47, 0, 1440, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "49", ID_TEXT_48, 0, 1470, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "50", ID_TEXT_49, 0, 1500, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "51", ID_TEXT_50, 0, 1530, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "52", ID_TEXT_51, 0, 1560, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "53", ID_TEXT_52, 0, 1590, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "54", ID_TEXT_53, 0, 1620, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "55", ID_TEXT_54, 0, 1650, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "56", ID_TEXT_55, 0, 1680, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "57", ID_TEXT_56, 0, 1710, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "58", ID_TEXT_57, 0, 1740, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "59", ID_TEXT_58, 0, 1770, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "60", ID_TEXT_59, 0, 1800, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "61", ID_TEXT_60, 0, 1830, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "62", ID_TEXT_61, 0, 1860, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "63", ID_TEXT_62, 0, 1890, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "64", ID_TEXT_63, 0, 1920, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "65", ID_TEXT_64, 0, 1950, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "66", ID_TEXT_65, 0, 1980, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "67", ID_TEXT_66, 0, 2010, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "68", ID_TEXT_67, 0, 2040, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "69", ID_TEXT_68, 0, 2070, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "70", ID_TEXT_69, 0, 2100, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "71", ID_TEXT_70, 0, 2130, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "72", ID_TEXT_71, 0, 2160, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "73", ID_TEXT_72, 0, 2190, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "74", ID_TEXT_73, 0, 2220, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "75", ID_TEXT_74, 0, 2250, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "76", ID_TEXT_75, 0, 2280, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "77", ID_TEXT_76, 0, 2310, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "78", ID_TEXT_77, 0, 2340, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "79", ID_TEXT_78, 0, 2370, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "80", ID_TEXT_79, 0, 2400, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "81", ID_TEXT_80, 0, 2430, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "82", ID_TEXT_81, 0, 2460, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "83", ID_TEXT_82, 0, 2490, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "84", ID_TEXT_83, 0, 2520, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "85", ID_TEXT_84, 0, 2550, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "86", ID_TEXT_85, 0, 2580, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "87", ID_TEXT_86, 0, 2610, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "88", ID_TEXT_87, 0, 2640, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "89", ID_TEXT_88, 0, 2670, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "90", ID_TEXT_89, 0, 2700, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "91", ID_TEXT_90, 0, 2730, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "92", ID_TEXT_91, 0, 2760, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "93", ID_TEXT_92, 0, 2790, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "94", ID_TEXT_93, 0, 2820, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "95", ID_TEXT_94, 0, 2850, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "96", ID_TEXT_95, 0, 2880, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "97", ID_TEXT_96, 0, 2910, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "98", ID_TEXT_97, 0, 2940, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "99", ID_TEXT_98, 0, 2970, 40, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "100", ID_TEXT_99, 0, 3000, 40, 20, 0, 0x0, 0 },
+	{ EDIT_CreateIndirect, "", ID_EDIT_100, 60, 3030, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_101, 60, 3060, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_102, 60, 3090, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_103, 60, 3120, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_104, 60, 3150, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_105, 60, 3180, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_106, 60, 3210, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_107, 60, 3240, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_108, 60, 3270, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_109, 60, 3300, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_110, 60, 3330, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_111, 60, 3360, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_112, 60, 3390, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_113, 60, 3420, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_114, 60, 3450, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_115, 60, 3480, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_116, 60, 3510, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_117, 60, 3540, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_118, 60, 3570, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_119, 60, 3600, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_120, 60, 3630, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_121, 60, 3660, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_122, 60, 3690, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_123, 60, 3720, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_124, 60, 3750, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_125, 60, 3780, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_126, 60, 3810, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_127, 60, 3840, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_128, 60, 3870, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_129, 60, 3900, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_130, 60, 3930, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_131, 60, 3960, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_132, 60, 3990, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_133, 60, 4020, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_134, 60, 4050, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_135, 60, 4080, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_136, 60, 4110, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_137, 60, 4140, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_138, 60, 4170, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_139, 60, 4200, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_140, 60, 4230, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_141, 60, 4260, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_142, 60, 4290, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_143, 60, 4320, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_144, 60, 4350, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_145, 60, 4380, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_146, 60, 4410, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_147, 60, 4440, 100, 20, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "", ID_EDIT_148, 60, 4470, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_149, 60, 4500, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_150, 60, 4530, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_151, 60, 4560, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_152, 60, 4590, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_153, 60, 4620, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_154, 60, 4650, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_155, 60, 4680, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_156, 60, 4710, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_157, 60, 4740, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_158, 60, 4770, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_159, 60, 4800, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_160, 60, 4830, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_161, 60, 4860, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_162, 60, 4890, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_163, 60, 4920, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_164, 60, 4950, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_165, 60, 4980, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_166, 60, 5010, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_167, 60, 5040, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_168, 60, 5070, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_169, 60, 5100, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_170, 60, 5130, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_171, 60, 5160, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_172, 60, 5190, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_173, 60, 5220, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_174, 60, 5250, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_175, 60, 5280, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_176, 60, 5310, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_177, 60, 5340, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_178, 60, 5370, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_179, 60, 5400, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_180, 60, 5430, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_181, 60, 5460, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_182, 60, 5490, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_183, 60, 5520, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_184, 60, 5550, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_185, 60, 5580, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_186, 60, 5610, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_187, 60, 5640, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_188, 60, 5670, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_189, 60, 5700, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_190, 60, 5730, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_191, 60, 5760, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_192, 60, 5790, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_193, 60, 5820, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_194, 60, 5850, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_195, 60, 5880, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_196, 60, 5910, 100, 20, 0, 0x64, 0 },
+//	{ EDIT_CreateIndirect, "", ID_EDIT_197, 60, 5940, 100, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "0", ID_TEXT_0, 0, 30, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "1", ID_TEXT_1, 0, 60, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "2", ID_TEXT_2, 0, 90, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "3", ID_TEXT_3, 0, 120, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "4", ID_TEXT_4, 0, 150, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "5", ID_TEXT_5, 0, 180, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "6", ID_TEXT_6, 0, 210, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "7", ID_TEXT_7, 0, 240, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "8", ID_TEXT_8, 0, 270, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "9", ID_TEXT_9, 0, 300, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "10", ID_TEXT_10, 0, 330, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "11", ID_TEXT_11, 0, 360, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "12", ID_TEXT_12, 0, 390, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "13", ID_TEXT_13, 0, 420, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "14", ID_TEXT_14, 0, 450, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "15", ID_TEXT_15, 0, 480, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "16", ID_TEXT_16, 0, 510, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "17", ID_TEXT_17, 0, 540, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "18", ID_TEXT_18, 0, 570, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "19", ID_TEXT_19, 0, 600, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "20", ID_TEXT_20, 0, 630, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "21", ID_TEXT_21, 0, 660, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "22", ID_TEXT_22, 0, 690, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "23", ID_TEXT_23, 0, 720, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "24", ID_TEXT_24, 0, 750, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "25", ID_TEXT_25, 0, 780, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "26", ID_TEXT_26, 0, 810, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "27", ID_TEXT_27, 0, 840, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "28", ID_TEXT_28, 0, 870, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "29", ID_TEXT_29, 0, 900, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "30", ID_TEXT_30, 0, 930, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "31", ID_TEXT_31, 0, 960, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "32", ID_TEXT_32, 0, 990, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "33", ID_TEXT_33, 0, 1020, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "34", ID_TEXT_34, 0, 1050, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "35", ID_TEXT_35, 0, 1080, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "36", ID_TEXT_36, 0, 1110, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "37", ID_TEXT_37, 0, 1140, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "38", ID_TEXT_38, 0, 1170, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "39", ID_TEXT_39, 0, 1200, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "40", ID_TEXT_40, 0, 1230, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "41", ID_TEXT_41, 0, 1260, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "42", ID_TEXT_42, 0, 1290, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "43", ID_TEXT_43, 0, 1320, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "44", ID_TEXT_44, 0, 1350, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "45", ID_TEXT_45, 0, 1380, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "46", ID_TEXT_46, 0, 1410, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "47", ID_TEXT_47, 0, 1440, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "48", ID_TEXT_48, 0, 1470, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "49", ID_TEXT_49, 0, 1500, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "50", ID_TEXT_50, 0, 1530, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "51", ID_TEXT_51, 0, 1560, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "52", ID_TEXT_52, 0, 1590, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "53", ID_TEXT_53, 0, 1620, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "54", ID_TEXT_54, 0, 1650, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "55", ID_TEXT_55, 0, 1680, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "56", ID_TEXT_56, 0, 1710, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "57", ID_TEXT_57, 0, 1740, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "58", ID_TEXT_58, 0, 1770, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "59", ID_TEXT_59, 0, 1800, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "60", ID_TEXT_60, 0, 1830, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "61", ID_TEXT_61, 0, 1860, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "62", ID_TEXT_62, 0, 1890, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "63", ID_TEXT_63, 0, 1920, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "64", ID_TEXT_64, 0, 1950, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "65", ID_TEXT_65, 0, 1980, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "66", ID_TEXT_66, 0, 2010, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "67", ID_TEXT_67, 0, 2040, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "68", ID_TEXT_68, 0, 2070, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "69", ID_TEXT_69, 0, 2100, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "70", ID_TEXT_70, 0, 2130, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "71", ID_TEXT_71, 0, 2160, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "72", ID_TEXT_72, 0, 2190, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "73", ID_TEXT_73, 0, 2220, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "74", ID_TEXT_74, 0, 2250, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "75", ID_TEXT_75, 0, 2280, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "76", ID_TEXT_76, 0, 2310, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "77", ID_TEXT_77, 0, 2340, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "78", ID_TEXT_78, 0, 2370, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "79", ID_TEXT_79, 0, 2400, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "80", ID_TEXT_80, 0, 2430, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "81", ID_TEXT_81, 0, 2460, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "82", ID_TEXT_82, 0, 2490, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "83", ID_TEXT_83, 0, 2520, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "84", ID_TEXT_84, 0, 2550, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "85", ID_TEXT_85, 0, 2580, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "86", ID_TEXT_86, 0, 2610, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "87", ID_TEXT_87, 0, 2640, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "88", ID_TEXT_88, 0, 2670, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "89", ID_TEXT_89, 0, 2700, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "90", ID_TEXT_90, 0, 2730, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "91", ID_TEXT_91, 0, 2760, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "92", ID_TEXT_92, 0, 2790, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "93", ID_TEXT_93, 0, 2820, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "94", ID_TEXT_94, 0, 2850, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "95", ID_TEXT_95, 0, 2880, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "96", ID_TEXT_96, 0, 2910, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "97", ID_TEXT_97, 0, 2940, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "98", ID_TEXT_98, 0, 2970, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "99", ID_TEXT_99, 0, 3000, 40, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "100", ID_TEXT_100, 0, 3030, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "101", ID_TEXT_101, 0, 3060, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "102", ID_TEXT_102, 0, 3090, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "103", ID_TEXT_103, 0, 3120, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "104", ID_TEXT_104, 0, 3150, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "105", ID_TEXT_105, 0, 3180, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "106", ID_TEXT_106, 0, 3210, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "107", ID_TEXT_107, 0, 3240, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "108", ID_TEXT_108, 0, 3270, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "109", ID_TEXT_109, 0, 3300, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "110", ID_TEXT_110, 0, 3330, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "111", ID_TEXT_111, 0, 3360, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "112", ID_TEXT_112, 0, 3390, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "113", ID_TEXT_113, 0, 3420, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "114", ID_TEXT_114, 0, 3450, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "115", ID_TEXT_115, 0, 3480, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "116", ID_TEXT_116, 0, 3510, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "117", ID_TEXT_117, 0, 3540, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "118", ID_TEXT_118, 0, 3570, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "119", ID_TEXT_119, 0, 3600, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "120", ID_TEXT_120, 0, 3630, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "121", ID_TEXT_121, 0, 3660, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "122", ID_TEXT_122, 0, 3690, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "123", ID_TEXT_123, 0, 3720, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "124", ID_TEXT_124, 0, 3750, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "125", ID_TEXT_125, 0, 3780, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "126", ID_TEXT_126, 0, 3810, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "127", ID_TEXT_127, 0, 3840, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "128", ID_TEXT_128, 0, 3870, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "129", ID_TEXT_129, 0, 3900, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "130", ID_TEXT_130, 0, 3930, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "131", ID_TEXT_131, 0, 3960, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "132", ID_TEXT_132, 0, 3990, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "133", ID_TEXT_133, 0, 4020, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "134", ID_TEXT_134, 0, 4050, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "135", ID_TEXT_135, 0, 4080, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "136", ID_TEXT_136, 0, 4110, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "137", ID_TEXT_137, 0, 4140, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "138", ID_TEXT_138, 0, 4170, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "139", ID_TEXT_139, 0, 4200, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "140", ID_TEXT_140, 0, 4230, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "141", ID_TEXT_141, 0, 4260, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "142", ID_TEXT_142, 0, 4290, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "143", ID_TEXT_143, 0, 4320, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "144", ID_TEXT_144, 0, 4350, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "145", ID_TEXT_145, 0, 4380, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "146", ID_TEXT_146, 0, 4410, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "147", ID_TEXT_147, 0, 4440, 40, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "148", ID_TEXT_148, 0, 4470, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "149", ID_TEXT_149, 0, 4500, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "150", ID_TEXT_150, 0, 4530, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "151", ID_TEXT_151, 0, 4560, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "152", ID_TEXT_152, 0, 4590, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "153", ID_TEXT_153, 0, 4620, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "154", ID_TEXT_154, 0, 4650, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "155", ID_TEXT_155, 0, 4680, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "156", ID_TEXT_156, 0, 4710, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "157", ID_TEXT_157, 0, 4740, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "158", ID_TEXT_158, 0, 4770, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "159", ID_TEXT_159, 0, 4800, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "160", ID_TEXT_160, 0, 4830, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "161", ID_TEXT_161, 0, 4860, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "162", ID_TEXT_162, 0, 4890, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "163", ID_TEXT_163, 0, 4920, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "164", ID_TEXT_164, 0, 4950, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "165", ID_TEXT_165, 0, 4980, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "166", ID_TEXT_166, 0, 5010, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "167", ID_TEXT_167, 0, 5040, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "168", ID_TEXT_168, 0, 5070, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "169", ID_TEXT_169, 0, 5100, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "170", ID_TEXT_170, 0, 5130, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "171", ID_TEXT_171, 0, 5160, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "172", ID_TEXT_172, 0, 5190, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "173", ID_TEXT_173, 0, 5220, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "174", ID_TEXT_174, 0, 5250, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "175", ID_TEXT_175, 0, 5280, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "176", ID_TEXT_176, 0, 5310, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "177", ID_TEXT_177, 0, 5340, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "178", ID_TEXT_178, 0, 5370, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "179", ID_TEXT_179, 0, 5400, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "180", ID_TEXT_180, 0, 5430, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "181", ID_TEXT_181, 0, 5460, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "182", ID_TEXT_182, 0, 5490, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "183", ID_TEXT_183, 0, 5520, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "184", ID_TEXT_184, 0, 5550, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "185", ID_TEXT_185, 0, 5580, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "186", ID_TEXT_186, 0, 5610, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "187", ID_TEXT_187, 0, 5640, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "188", ID_TEXT_188, 0, 5670, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "189", ID_TEXT_189, 0, 5700, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "190", ID_TEXT_190, 0, 5730, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "191", ID_TEXT_191, 0, 5760, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "192", ID_TEXT_192, 0, 5790, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "193", ID_TEXT_193, 0, 5820, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "194", ID_TEXT_194, 0, 5850, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "195", ID_TEXT_195, 0, 5880, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "196", ID_TEXT_196, 0, 5910, 40, 20, 0, 0x0, 0 },
+//	{ TEXT_CreateIndirect, "197", ID_TEXT_197, 0, 5940, 40, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
 //	{ BUTTON_CreateIndirect, "ADD", ID_BUTTON_ADD, 0, 30, 40, 20, 0, 0x0, 0 },
@@ -535,29 +923,19 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		//Initialize the 'Button'
 		//
-//	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ADD);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
-//    BUTTON_SetText(hItem,StringHZ[0]);
-//		
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DEL);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
-//    BUTTON_SetText(hItem,StringHZ[1]);
-		
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);//RUN
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
-    BUTTON_SetText(hItem,StringHZ[2]);
+    BUTTON_SetText(hItem,StringHZ[0]);
 		
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);//BACK
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
-    BUTTON_SetText(hItem,StringHZ[3]);
+    BUTTON_SetText(hItem,StringHZ[1]);
     //
     // Initialization of Edit 1、2、3...
     //
-		
-		Id_Edit = 2;
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		EDIT_SetFont(hItem, &GUI_FontSongTi12);
-    EDIT_SetText(hItem, StringHZ[4]);
+    EDIT_SetText(hItem, StringHZ[2]);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		WM_DisableWindow(hItem);
 
@@ -704,17 +1082,116 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case ID_EDIT_97: // Notifications sent by 'Edit97'
 		case ID_EDIT_98: // Notifications sent by 'Edit98'
 		case ID_EDIT_99: // Notifications sent by 'Edit99'
+		case ID_EDIT_100: // Notifications sent by 'Edit100'
+    case ID_EDIT_101: // Notifications sent by 'Edit102'
+    case ID_EDIT_102: // Notifications sent by 'Edit103'
+    case ID_EDIT_103: // Notifications sent by 'Edit104'
+    case ID_EDIT_104: // Notifications sent by 'Edit105'
+    case ID_EDIT_105: // Notifications sent by 'Edit106'
+    case ID_EDIT_106: // Notifications sent by 'Edit107'
+    case ID_EDIT_107: // Notifications sent by 'Edit108'
+		case ID_EDIT_108: // Notifications sent by 'Edit109'
+		case ID_EDIT_109: // Notifications sent by 'Edit110'
+		case ID_EDIT_110: // Notifications sent by 'Edit111'
+		case ID_EDIT_111: // Notifications sent by 'Edit112'
+		case ID_EDIT_112: // Notifications sent by 'Edit113'
+		case ID_EDIT_113: // Notifications sent by 'Edit114'
+		case ID_EDIT_114: // Notifications sent by 'Edit115'
+		case ID_EDIT_115: // Notifications sent by 'Edit116'
+		case ID_EDIT_116: // Notifications sent by 'Edit117'
+		case ID_EDIT_117: // Notifications sent by 'Edit118'
+		case ID_EDIT_118: // Notifications sent by 'Edit119'
+		case ID_EDIT_119: // Notifications sent by 'Edit120'
+		case ID_EDIT_120: // Notifications sent by 'Edit121'
+		case ID_EDIT_121: // Notifications sent by 'Edit122'
+		case ID_EDIT_122: // Notifications sent by 'Edit123'
+		case ID_EDIT_123: // Notifications sent by 'Edit124'
+		case ID_EDIT_124: // Notifications sent by 'Edit125'
+		case ID_EDIT_125: // Notifications sent by 'Edit126'
+		case ID_EDIT_126: // Notifications sent by 'Edit127'
+		case ID_EDIT_127: // Notifications sent by 'Edit128'
+		case ID_EDIT_128: // Notifications sent by 'Edit129'
+		case ID_EDIT_129: // Notifications sent by 'Edit130'
+		case ID_EDIT_130: // Notifications sent by 'Edit131'
+		case ID_EDIT_131: // Notifications sent by 'Edit132'
+		case ID_EDIT_132: // Notifications sent by 'Edit133'
+		case ID_EDIT_133: // Notifications sent by 'Edit134'
+		case ID_EDIT_134: // Notifications sent by 'Edit135'
+		case ID_EDIT_135: // Notifications sent by 'Edit136'
+		case ID_EDIT_136: // Notifications sent by 'Edit137'
+		case ID_EDIT_137: // Notifications sent by 'Edit138'
+		case ID_EDIT_138: // Notifications sent by 'Edit139'
+		case ID_EDIT_139: // Notifications sent by 'Edit140'
+		case ID_EDIT_140: // Notifications sent by 'Edit141'
+		case ID_EDIT_141: // Notifications sent by 'Edit142'
+		case ID_EDIT_142: // Notifications sent by 'Edit143'
+		case ID_EDIT_143: // Notifications sent by 'Edit144'
+		case ID_EDIT_144: // Notifications sent by 'Edit145'
+		case ID_EDIT_145: // Notifications sent by 'Edit146'
+		case ID_EDIT_146: // Notifications sent by 'Edit147'
+		case ID_EDIT_147: // Notifications sent by 'Edit148'
+		case ID_EDIT_148: // Notifications sent by 'Edit149'
+		case ID_EDIT_149: // Notifications sent by 'Edit150'
+		case ID_EDIT_150: // Notifications sent by 'Edit151'
+		case ID_EDIT_151: // Notifications sent by 'Edit152'
+		case ID_EDIT_152: // Notifications sent by 'Edit153'
+		case ID_EDIT_153: // Notifications sent by 'Edit154'
+		case ID_EDIT_154: // Notifications sent by 'Edit155'
+		case ID_EDIT_155: // Notifications sent by 'Edit156'
+		case ID_EDIT_156: // Notifications sent by 'Edit157'
+		case ID_EDIT_157: // Notifications sent by 'Edit158'
+		case ID_EDIT_158: // Notifications sent by 'Edit159'
+		case ID_EDIT_159: // Notifications sent by 'Edit160'
+		case ID_EDIT_160: // Notifications sent by 'Edit161'
+		case ID_EDIT_161: // Notifications sent by 'Edit162'	
+		case ID_EDIT_162: // Notifications sent by 'Edit163'
+		case ID_EDIT_163: // Notifications sent by 'Edit164'
+		case ID_EDIT_164: // Notifications sent by 'Edit165'
+		case ID_EDIT_165: // Notifications sent by 'Edit166'
+		case ID_EDIT_166: // Notifications sent by 'Edit167'
+		case ID_EDIT_167: // Notifications sent by 'Edit168'
+		case ID_EDIT_168: // Notifications sent by 'Edit169'
+		case ID_EDIT_169: // Notifications sent by 'Edit170'
+		case ID_EDIT_170: // Notifications sent by 'Edit171'
+		case ID_EDIT_171: // Notifications sent by 'Edit172'	
+		case ID_EDIT_172: // Notifications sent by 'Edit173'
+		case ID_EDIT_173: // Notifications sent by 'Edit174'
+		case ID_EDIT_174: // Notifications sent by 'Edit175'
+		case ID_EDIT_175: // Notifications sent by 'Edit176'
+		case ID_EDIT_176: // Notifications sent by 'Edit177'
+		case ID_EDIT_177: // Notifications sent by 'Edit178'
+		case ID_EDIT_178: // Notifications sent by 'Edit179'
+		case ID_EDIT_179: // Notifications sent by 'Edit180'
+		case ID_EDIT_180: // Notifications sent by 'Edit181'
+		case ID_EDIT_181: // Notifications sent by 'Edit182'	
+		case ID_EDIT_182: // Notifications sent by 'Edit183'
+		case ID_EDIT_183: // Notifications sent by 'Edit184'
+		case ID_EDIT_184: // Notifications sent by 'Edit185'
+		case ID_EDIT_185: // Notifications sent by 'Edit186'
+		case ID_EDIT_186: // Notifications sent by 'Edit187'
+		case ID_EDIT_187: // Notifications sent by 'Edit188'
+		case ID_EDIT_188: // Notifications sent by 'Edit189'
+		case ID_EDIT_189: // Notifications sent by 'Edit190'
+		case ID_EDIT_190: // Notifications sent by 'Edit191'
+		case ID_EDIT_191: // Notifications sent by 'Edit192'	
+		case ID_EDIT_192: // Notifications sent by 'Edit193'
+		case ID_EDIT_193: // Notifications sent by 'Edit194'
+		case ID_EDIT_194: // Notifications sent by 'Edit195'
+		case ID_EDIT_195: // Notifications sent by 'Edit196'
+		case ID_EDIT_196: // Notifications sent by 'Edit197'
+		case ID_EDIT_197: // Notifications sent by 'Edit197'
+
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Edit_Index = Id - ID_EDIT_0;
+						Edit_Index = Id - ID_EDIT_0;//计算当前EDIT的索引
 			
-						hDlg = CreateWindow_Instructor();
+						hDlg = CreateSelectDialog(pMsg->hWin,120,160);
 						WM_MakeModal(hDlg);
 						GUI_ExecCreatedDialog(hDlg);
-						WM_MakeModal(pMsg->hWin);
-						WM_SetFocus(pMsg->hWin);
+//						WM_MakeModal(pMsg->hWin);
+//						WM_SetFocus(pMsg->hWin);
 						if(_acText[0] != 0)
 						{		
 								EDIT_SetFont(pMsg->hWinSrc, &GUI_FontSongTi12);
@@ -732,7 +1209,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
+						Clear_List();//清空链表所有结点
 						GUI_EndDialog(hWin1_1,0);
+						
         break;
       }
       break;
@@ -746,31 +1225,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-//		case ID_BUTTON_ADD: //Notifications sent by "ADD"
-//			switch(NCode){
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-//						hEdit[Id_Edit] = EDIT_CreateEx(60,(Id_Edit+1)*30,100,20,
-//																					pMsg->hWin,WM_CF_SHOW,0,ID_EDIT_0+Id_Edit,100);
-////						hText[Id_Edit] = TEXT_CreateAsChild(0, (Id_Edit+1)*30,40,20,pMsg->hWin,WM_CF_SHOW,ID_TEXT_0+Id_Edit,Id_Num[Id_Edit],GUI_TA_HCENTER | GUI_TA_VCENTER);
-//						Id_Edit++;
-//        break;
-//			}
-//			break;
-//		case ID_BUTTON_DEL: //Notifications sent by "DEL"
-//			switch(NCode){
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-//						EDIT_GetText(hEdit[--Id_Edit],IsTextEmpty,sizeof(IsTextEmpty));
-//						if(IsTextEmpty[0] != 0)
-//							Delete_Node(Id_Edit);
-//						GUI_EndDialog(hEdit[Id_Edit],0);
-////						GUI_EndDialog(hText[Id_Edit],0);
-//        break;
-//			}
-//			break;
+
 		case ID_SCROLLBAR_0: // Notifications sent by 'Scrollbar'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

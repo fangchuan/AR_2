@@ -37,7 +37,7 @@
 #define ID_BUTTON_PRO     (GUI_ID_USER + 0X0D)
 #define ID_BUTTON_APP     (GUI_ID_USER + 0X0E)
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x0F)
-#define ID_BUTTON_DEL     (GUI_ID_USER + 0X07)
+//#define ID_BUTTON_DEL     (GUI_ID_USER + 0X07)
 
 #define ID_WINDOW_Out  (GUI_ID_USER + 0x01)
 #define ID_BUTTON_DCMC   (GUI_ID_USER + 0x10)
@@ -50,6 +50,7 @@
 #define ID_BUTTON_EndWhile (GUI_ID_USER + 0x21)
 #define ID_BUTTON_End   (GUI_ID_USER + 0x22)
 #define ID_BUTTON_Or     (GUI_ID_USER + 0x23)
+#define ID_BUTTON_IfEnd  (GUI_ID_USER + 0x24)
 
 #define ID_WINDOW_Car   (GUI_ID_USER + 0x03)
 #define ID_BUTTON_Left  (GUI_ID_USER + 0x30)
@@ -127,8 +128,8 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe7\xad\x89\xe5\xbe\x85\xe7\xab\xaf\xe5\x8f\xa3_\xe6\x9c\x89\xe4\xbf\xa1\xe5\x8f\xb7",//18:等待端口_有信号
 	"\xe7\xad\x89\xe5\xbe\x85\xe7\xab\xaf\xe5\x8f\xa3_\xe6\x97\xa0\xe4\xbf\xa1\xe5\x8f\xb7",//19:等待端口_无信号
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\xaf\xe5\x8f\xa3_>_","\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\xaf\xe5\x8f\xa3_<_",//20:如果端口_>_，21:如果端口_<_
-	"\xe5\xbe\xaa\xe7\x8e\xaf\xe5\xbc\x80\xe5\xa7\x8b",//22:循环开始
-	"\xe5\xbe\xaa\xe7\x8e\xaf\xe7\xbb\x93\xe6\x9d\x9f",//23:循环结束
+	"\xe5\xbe\xaa\xe7\x8e\xaf\xe8\xaf\xad\xe5\x8f\xa5\xe5\xa4\xb4\xe9\x83\xa8",//22:循环语句头部
+	"\xe5\xbe\xaa\xe7\x8e\xaf\xe8\xaf\xad\xe5\x8f\xa5\xe5\xb0\xbe\xe9\x83\xa8",//23:循环语句尾部
 	"\xe7\xa8\x8b\xe5\xba\x8f\xe7\xbb\x93\xe6\x9d\x9f",//24:程序结束
 	"\xe5\x90\xa6\xe5\x88\x99",//25:否则
 	"\xe5\xbb\xb6\xe6\x97\xb6","\xe9\x9f\xb3\xe4\xb9\x90",//26:延时，27:音乐
@@ -137,6 +138,7 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe6\x98\xbe\xe7\xa4\xba","\xe8\xae\xbe\xe5\xae\x9a",//30:显示，31:设定
 	"\xe9\x9f\xb3\xe8\xb0\x83_\xe8\x8a\x82\xe6\x8b\x8d_",//32:音调_节拍_
 	"\xe5\xa6\x82\xe6\x9e\x9c","\xe5\x88\xa0\xe9\x99\xa4",//33:如果  34:删除
+	"\xe6\x9d\xa1\xe4\xbb\xb6\xe7\xbb\x93\xe6\x9d\x9f",//35:条件结束
 };
  
 
@@ -152,7 +154,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "变量操作", ID_BUTTON_VAR, 105, 70, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "流程控制", ID_BUTTON_PRO, 10, 130, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "应用指令", ID_BUTTON_APP, 105, 130, 80, 40, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "删除",     ID_BUTTON_DEL, 10, 230, 80, 20, 0, 0x0, 0 },
+//	{ BUTTON_CreateIndirect, "删除",     ID_BUTTON_DEL, 10, 230, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -196,6 +198,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPro_Panel[] = {
   { BUTTON_CreateIndirect, "循环结束", ID_BUTTON_EndWhile, 0, 60, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "程序结束", ID_BUTTON_End, 0, 110, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "否则", 		ID_BUTTON_Or, 0, 160, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "条件结束", ID_BUTTON_IfEnd, 100, 10, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -871,6 +874,10 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[25]);
 		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_IfEnd);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[35]);
+			
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -885,7 +892,7 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 									case WM_NOTIFICATION_CLICKED:
 									break;
 									case WM_NOTIFICATION_RELEASED:
-												_flag = FLAG_START_WHILE;
+												_flag = FLAG_WHILE_HEAD;
 												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
@@ -898,7 +905,7 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 									case WM_NOTIFICATION_CLICKED:
 									break;
 									case WM_NOTIFICATION_RELEASED:
-												_flag = FLAG_END_WHILE ;
+												_flag = FLAG_WHILE_TAIL ;
 												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
@@ -925,6 +932,19 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 									break;
 									case WM_NOTIFICATION_RELEASED:
 												_flag = FLAG_OR ;
+												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_IfEnd:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_IF_END ;
 												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
@@ -1042,7 +1062,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int Id;
 	WM_HWIN hItem;
   GUI_RECT r;
-	char IsTextEmpty[50];//检查EDIT是否为空，在EDIT删除时使用
 
   switch (pMsg->MsgId) {
 	case WM_INIT_DIALOG:
@@ -1075,10 +1094,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_APP);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[5]);
-		
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DEL);
-		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
-		BUTTON_SetText(hItem,StringHZ[34]);
 		
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
@@ -1149,22 +1164,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-		case ID_BUTTON_DEL: // Notifications sent by 'Delete'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-						EDIT_GetText(hEdit[Edit_Index],IsTextEmpty,sizeof(IsTextEmpty));
-						if(IsTextEmpty[0] != 0)
-						{
-							EDIT_SetText(hEdit[Edit_Index],"");
-							EDIT_SetBkColor(hEdit[Edit_Index],EDIT_CI_ENABLED,GUI_WHITE);
-							Delete_Node(Edit_Index);
-						}
-						GUI_EndDialog(hWin_Instructor,0);
-        break;
-      }
-      break;
+
     case ID_BUTTON_BACK: // Notifications sent by 'BACK'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
