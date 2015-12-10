@@ -11,6 +11,8 @@
 #define  Ultrasnio_Trigger_H   digitalHi(ULTRASNIO_PORT,ULTRASNIO_TRIG)
 #define  Ultrasnio_Trigger_L	 digitalLo(ULTRASNIO_PORT,ULTRASNIO_TRIG)
 
+
+
 extern void Ultrasnio_Init(void);
 extern void Ultrasnio_update(void);
 

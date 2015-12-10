@@ -253,7 +253,8 @@ int LCD_X_DisplayDriver(unsigned LayerIndex, unsigned Cmd, void * pData) {
     //
     // ...
 		bsp_InitLCD();						//modify by fire
-		
+			
+		Touch_Init();/* 初始化触屏 */
     return 0;
   }
   default:

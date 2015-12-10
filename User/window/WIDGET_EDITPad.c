@@ -170,12 +170,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							strcpy(_acText,dest);
 							if(flag_operation == FLAG_INSERT) //如果是顺序添加下去的话，则在链表尾部添加新的结点
 							{
-									Add_Node( Edit_Index ,_flag,_acText );
+									Add_Node( Edit_Index ,_flag,dest );
 							}
 							//在已经编辑好的文本上更改内容,则直接在该索引的链表结点上修改数据域
 							if( flag_operation == FLAG_CHANGE)
 							{
-									Replace_Node(Edit_Index,_flag,_acText);
+									Replace_Node(Edit_Index,_flag,dest);
 							}
 								
 						

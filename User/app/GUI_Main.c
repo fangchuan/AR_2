@@ -22,12 +22,6 @@ void GUI_Main_Task()
 			WM_HideWindow(hWin_2);
 			WM_HideWindow(hWin_3);
 			WM_HideWindow(hWin_4);
-	
-			while(1)
-			{
-				GUI_Delay(100);
-
-			}
 			
 }
 /*************************** End of file ****************************/

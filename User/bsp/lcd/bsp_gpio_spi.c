@@ -85,7 +85,6 @@ void GPIO_SPI_Config(void)
 	 
   /* 拉低片选，选择XPT2046 */
   GPIO_ResetBits(SPI_CS_PORT,SPI_CS_PIN);
-  //GPIO_SetBits(SPI_CS_PORT,SPI_CS_PIN);
  
 	#if 0 //modify by fire 不需要使用触摸中断 
   /* XPT2046 中断IO配置 */

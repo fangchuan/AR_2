@@ -10,6 +10,7 @@
 #define  ANOLOG_Sensor_4   13
 #define  ADC_CH_TEMP       16
 
+
 extern void adc_Init(void);
 extern u16 Get_adc(u8 ch);
 extern u16 Get_Adc_Average(u8 ch,u8 times);

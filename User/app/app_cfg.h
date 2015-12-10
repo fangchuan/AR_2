@@ -48,8 +48,8 @@
 */
 
 #define  APP_TASK_START_PRIO                        2u
-#define  APP_CFG_TASK_MAIN_TASK_PRIO                3u
-#define  APP_CFG_TASK_GUI_UPDATE_PRIO               4u
+#define  APP_CFG_TASK_MAIN_TASK_PRIO                4u
+#define  APP_CFG_TASK_GUI_UPDATE_PRIO               3u
 #define  APP_CFG_TASK_COM_PRIO                      5u
 #define  APP_CFG_TASK_USER_IF_PRIO                  6u
 
@@ -64,7 +64,7 @@
 #define  APP_CFG_TASK_GUI_UPDATE_STK_SIZE           1024u   
 #define  APP_CFG_TASK_COM_STK_SIZE                  128u     
 #define  APP_CFG_TASK_USER_IF_STK_SIZE              128u                         
-#define  APP_CFG_TASK_MAIN_TASK_STK_SIZE            128u
+#define  APP_CFG_TASK_MAIN_TASK_STK_SIZE            256u
 
 /*
 *********************************************************************************************************

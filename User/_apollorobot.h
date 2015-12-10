@@ -1,9 +1,8 @@
 #ifndef  _APOLLOROBOT_H
 #define  _APOLLOROBOT_H
 
-#include  "stdint.h"
-//#include  ""
-
+#include  "stm32f10x.h"
+#include "stdlib.h"
 /*********************************************************************
 *
 *       一些全局标志位
@@ -15,13 +14,15 @@
 #define  FLAG_CHANGE  1
 #define  FLAG_INSERT  2
 #define  FLAG_DELETE  3
+
 //
 //指令编辑界面的一些标志位
 //
 enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_MOTOR_CC,   //电机反转标志位
                   FLAG_SERVO,      //舵机标志位
-									FLAG_LED,        //LED标志位
+									FLAG_LED_ON,     //LED打开标志位
+									FLAG_LED_OFF,    //LED关闭标志位   
 									FLAG_CAR_LEFT,   //小车左转标志位
 									FLAG_CAR_RIGHT,  //小车右转标志位
 									FLAG_CAR_FORWARD,//小车前进标志位
@@ -33,6 +34,8 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_PORT_WAIT_NOSIGNAL,//等待端口无信号标志位
 									FLAG_PORT_GREATER,    //如果端口大于
 									FLAG_PORT_LITTLER,//如果端口小于
+									FLAG_OBSTRACLE_GREATER,//如果障碍物大于
+									FLAG_OBSTRACLE_LITTER,//如果障碍物小于
 									FLAG_VAR_SET_A,//设定变量A标志位
 									FLAG_VAR_SET_B,//设定变量B标志位
 									FLAG_VAR_A_INC,//A++标志位
@@ -57,7 +60,7 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 typedef struct _INSTRUCTOR {
 				uint8_t        		index; //该节点位于链表中的索引
 				uint8_t        		_flag; //该条程序的指令类别
-				char        *EditContent; //该条指令的文本内容
+				char    EditContent[50]; //该条指令的文本内容
 				struct _INSTRUCTOR* next; //指向下一条指令的指针
 }_Instructor,*_Listptr;
 
@@ -110,8 +113,13 @@ typedef struct _LED {
 //
 //端口控制数据结构
 //
-#define  SIGNAL   0
-#define  NOSINGAL 1
+#define  PORT_1    1
+#define  PORT_2    2
+#define  PORT_3    3
+#define  PORT_4    4
+
+#define  SIGNAL    1
+#define  NOSIGNAL  0
 typedef struct _PORT {
 				uint8_t 		id;     //端口编号 1\2\3\4
 				uint8_t status; //端口状态 有/无信号 0/1
@@ -140,6 +148,7 @@ extern int  Replace_Node(int index, enum _FLAG flag,char *content);//替换节点
 extern int Delete_Node(int index);//删除节点
 extern void Clear_List(void);//删除整个链表
 extern _Listptr  Find_Node(int index, enum _FLAG flag);////从index结点开始寻找标志为flag的结点,并返回该结点的指针
+extern int  GetListLength(void);//返回当前链表的长度,若只有头结点则长度为0
 extern int Create_Stack(void);//创建一个空栈
 extern int GetStackLength(_StatuStack *stk);////返回当前栈的长度
 extern int GetTop(_StatuStack *Stk,uint8_t *ele);////获取栈顶元素，存入ele，不是出栈

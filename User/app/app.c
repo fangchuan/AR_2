@@ -9,13 +9,12 @@
 */
 extern OS_TCB	AppTaskStartTCB;
 extern uint8_t Key_Value ;
-extern volatile uint8_t flag_run;//运行标志
+//extern volatile uint8_t flag_run;//运行标志
 extern enum _FLAG _flag;//指令标志
 extern _Listptr Ins_List_Head;//程序链表的头指针
-extern volatile int Edit_Index ;
 
-
-
+OS_SEM  RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
+//OS_SEM  END_SEM;    //定义一个信号量，用于运行任务结束后发送给GUIUpdate任务
 /*********************************************************************
 *
 *       Static data
@@ -31,8 +30,11 @@ static  CPU_STK  AppTaskCOMStk[APP_CFG_TASK_COM_STK_SIZE];
 static  OS_TCB   AppTaskUserIFTCB;
 static  CPU_STK  AppTaskUserIFStk[APP_CFG_TASK_USER_IF_STK_SIZE];
 
-static  OS_TCB   AppTaskMainTaskTCB;
+static  OS_TCB   AppTaskMainTaskTCB;//这里没把他定义为静态是为了让GUI面板能随时随地将运行任务挂起
 static  CPU_STK  AppTaskMainTaskStk[APP_CFG_TASK_MAIN_TASK_STK_SIZE];
+
+static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
+
 /*********************************************************************
 *
 *       Static code
@@ -132,10 +134,15 @@ static void AppTaskGUIUpdate(void *p_arg)
 //	GUIDEMO_Main();
 	GUI_Main_Task();
 	while(1)
-	{	
-		//printf("this is a emWin task\n");
+	{
+		GUI_Exec();
+		if(flag_end) 
+		{
+			flag_end = 0;
+			GUI_EndDialog(hRun,0);//运行结束则关闭“运行”界面
+		}
 		OSTimeDlyHMSM(0, 0, 0, 100,
-                      OS_OPT_TIME_HMSM_STRICT,
+                      OS_OPT_TIME_PERIODIC | OS_OPT_TIME_HMSM_STRICT,
                       &err);								  	 	       											  
 	}   
 }
@@ -157,7 +164,6 @@ static void AppTaskCOM(void *p_arg)
 	 
 	while(1)
 	{
-		LED1_TOGGLE;
 		p = Ins_List_Head;
 		while(p -> next )
 		{
@@ -246,15 +252,15 @@ static void AppTaskUserIF(void *p_arg)
 static void AppTaskMainTask(void *p_arg)
 {
 			OS_ERR  err;
-			_Listptr ptr = Ins_List_Head ->next ;
-			Create_Stack();
+			
 			while(1)
 			{
-					if(flag_run)   //换成等待信号？
-					{
-
-					}
-					OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
+					OSSemPend(&RUN_SEM,0 ,OS_OPT_PEND_BLOCKING, 0, &err);//请求"运行"信号量
+					
+					List_Parse(Ins_List_Head->next);//解析并运行任务,由于指令是从"开始"EDIT的下一个编辑的，所以传入的参数为头结点的下一个结点
+				
+					flag_end = 1;//运行结束，将标志位置1
+					OSTimeDlyHMSM(0, 0, 0, 50, OS_OPT_TIME_HMSM_STRICT, &err);
 			}
 }
 
@@ -270,6 +276,10 @@ static  void  AppTaskCreate(void)
 {
 	OS_ERR      err;
 	
+	//创建一个信号量，用于同步主运行任务
+	OSSemCreate(&RUN_SEM,"Run Semaphore",0, &err);
+//	//创建一个信号量，用于主运行任务运行结束后通知GUIUpdate任务
+//	OSSemCreate(&END_SEM, "End of Run Semaphore",0 ,&err);
 	/***********************************/
 	OSTaskCreate((OS_TCB       *)&AppTaskGUIUpdateTCB,             
                  (CPU_CHAR     *)"App Task GUI Update",
@@ -315,19 +325,19 @@ static  void  AppTaskCreate(void)
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);			
 
-//	OSTaskCreate((OS_TCB       *)&AppTaskMainTaskTCB,             
-//                 (CPU_CHAR     *)"App Task MainTask",
-//                 (OS_TASK_PTR   )AppTaskMainTask, 
-//                 (void         *)0,
-//                 (OS_PRIO       )APP_CFG_TASK_MAIN_TASK_PRIO,
-//                 (CPU_STK      *)&AppTaskMainTaskStk[0],
-//                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE / 10,
-//                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE,
-//                 (OS_MSG_QTY    )10,
-//                 (OS_TICK       )0,
-//                 (void         *)0,
-//                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
-//                 (OS_ERR       *)&err);		
+	OSTaskCreate((OS_TCB       *)&AppTaskMainTaskTCB,             
+                 (CPU_CHAR     *)"App Task MainTask",
+                 (OS_TASK_PTR   )AppTaskMainTask, 
+                 (void         *)0,
+                 (OS_PRIO       )APP_CFG_TASK_MAIN_TASK_PRIO,
+                 (CPU_STK      *)&AppTaskMainTaskStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_MAIN_TASK_STK_SIZE,
+                 (OS_MSG_QTY    )10,
+                 (OS_TICK       )0,
+                 (void         *)0,
+                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+                 (OS_ERR       *)&err);		
 								 
 }
 

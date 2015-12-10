@@ -23,7 +23,7 @@
 
 #include "Window_1_1.h"
 #include "_apollorobot.h"
-
+#include "os.h"
 /*********************************************************************
 *
 *       Defines
@@ -451,12 +451,13 @@ extern char _acText[50];
 extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi12;
 //the name of program
 extern char program_name[10];
+extern OS_SEM        RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
+
 //
 WM_HWIN hWin1_1;
 EDIT_Handle hEdit[MAX_EDIT_NUM];
 TEXT_Handle hText[MAX_TEXT_NUM];
 
-volatile uint8_t flag_run;//运行按钮 的标志位
 volatile int Edit_Index;//文本框的索引,用于链表的插入
 /*********************************************************************
 *
@@ -898,6 +899,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     Id;
 	WM_SCROLL_STATE ScrollState;
 	WM_HWIN hDlg;
+	OS_ERR  err;
 	static int _yOld=0;
 	int i;
 	
@@ -1220,8 +1222,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						_MessageBox("Save And Running ?","Message");
-						flag_run = 1;//将运行标志置位
+						_MessageBox("Save And Running ?","Message");//先让用户确认
+						Create_RunningWindow();
+						OS_SemPost(&RUN_SEM, OS_OPT_POST_1, 0, &err);//发送运行信号量
+						
         break;
       }
       break;

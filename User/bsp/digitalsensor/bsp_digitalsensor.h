@@ -11,6 +11,11 @@
 #define DigitalSensor_3      GPIO_Pin_6
 #define DigitalSensor_4      GPIO_Pin_7
 
+//侦测各端口数字传感器有无信号
+#define Detect_DS1           GPIO_ReadInputDataBit(DigitalSensorPort, DigitalSensor_1)
+#define Detect_DS2					 GPIO_ReadInputDataBit(DigitalSensorPort, DigitalSensor_2)
+#define Detect_DS3					 GPIO_ReadInputDataBit(DigitalSensorPort, DigitalSensor_3)
+#define Detect_DS4           GPIO_ReadInputDataBit(DigitalSensorPort, DigitalSensor_4)
 //
 extern void DigitalSensor_Init(void);
 

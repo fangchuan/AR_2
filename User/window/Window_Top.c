@@ -190,24 +190,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[5]);
-//		//
-//		//Initialize IconView
-//		//
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_PRO);
-//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
-//		ICONVIEW_AddBitmapItem(hItem, &bmProgram, _acStringHZ[0]);
-//		
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_BL);
-//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
-//		ICONVIEW_AddBitmapItem(hItem, &bmbmp4_1, _acStringHZ[1]);
-//		
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_CTL);
-//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
-//		ICONVIEW_AddBitmapItem(hItem, &bmControl, _acStringHZ[2]);
-//		
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_ICONVIEW_RC);
-//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
-//		ICONVIEW_AddBitmapItem(hItem, &bmRemoteControl, _acStringHZ[3]);
 
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END

@@ -3,11 +3,13 @@
 
 #include "DIALOG.h"
 #include "stm32f10x.h"
-#include "MESSAGEBOX.h"
-#include "WIDGET_Instructor.h"
 #include "string.h"
 #include "stdint.h"
+
+#include "MESSAGEBOX.h"
+#include "WIDGET_Instructor.h"
 #include "WIDGET_SelectDialog.h"
+#include "Window_Running.h"
 
 //extern function
 WM_HWIN CreateWindow_1_1(void);

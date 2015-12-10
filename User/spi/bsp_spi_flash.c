@@ -14,11 +14,16 @@
   *
   ******************************************************************************
   */
+	
   
 #include "bsp_spi_flash.h"
+#include "_apollorobot.h"
 
+
+//4Kbytes为一个扇区
+//16个扇区为1个Block
+//W25132一共有1024个扇区(sector)，64个块(block)
 /* Private typedef -----------------------------------------------------------*/
-//#define SPI_FLASH_PageSize      4096
 #define SPI_FLASH_PageSize      256
 #define SPI_FLASH_PerWritePageSize      256
 
@@ -44,75 +49,112 @@
 
 #define Dummy_Byte                0xFF
 
+/*********************************************************************
+*
+*       Static code
+*
+**********************************************************************
+*/
 /*******************************************************************************
-* Function Name  : SPI_FLASH_Init
-* Description    : Initializes the peripherals used by the SPI FLASH driver.
+* Function Name  : 写一个字节
+* Description    : Sends a byte through the SPI interface and return the byte
+*                  received from the SPI bus.
+* Input          : byte : byte to send.
+* Output         : None
+* Return         : The value of the received byte.
+*******************************************************************************/
+static u8 SPI_FLASH_SendByte(u8 byte)
+{
+  /* Loop while DR register in not emplty */
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+
+  /* Send byte through the SPI1 peripheral */
+  SPI_I2S_SendData(SPI1, byte);
+
+  /* Wait to receive a byte */
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+
+  /* Return the byte read from the SPI bus */
+  return SPI_I2S_ReceiveData(SPI1);
+}
+
+/*******************************************************************************
+* Function Name  : 写半个字
+* Description    : Sends a Half Word through the SPI interface and return the
+*                  Half Word received from the SPI bus.
+* Input          : Half Word : Half Word to send.
+* Output         : None
+* Return         : The value of the received Half Word.
+*******************************************************************************/
+static u16 SPI_FLASH_SendHalfWord(u16 HalfWord)
+{
+  /* Loop while DR register in not emplty */
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+
+  /* Send Half Word through the SPI1 peripheral */
+  SPI_I2S_SendData(SPI1, HalfWord);
+
+  /* Wait to receive a Half Word */
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+
+  /* Return the Half Word read from the SPI bus */
+  return SPI_I2S_ReceiveData(SPI1);
+}
+
+/*******************************************************************************
+* Function Name  : 写使能
+* Description    : Enables the write access to the FLASH.
 * Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void SPI_FLASH_Init(void)
+static void SPI_FLASH_WriteEnable(void)
 {
-  SPI_InitTypeDef  SPI_InitStructure;
-  GPIO_InitTypeDef GPIO_InitStructure;
-  
-  /* Enable SPI1 and GPIO clocks */
-  /*!< SPI_FLASH_SPI_CS_GPIO, SPI_FLASH_SPI_MOSI_GPIO, 
-       SPI_FLASH_SPI_MISO_GPIO, SPI_FLASH_SPI_DETECT_GPIO 
-       and SPI_FLASH_SPI_SCK_GPIO Periph clock enable */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOD, ENABLE);
+  /* Select the FLASH: Chip Select low */
+  SPI_FLASH_CS_LOW();
 
-  /*!< SPI_FLASH_SPI Periph clock enable */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
- 
-  
-  /*!< Configure SPI_FLASH_SPI pins: SCK */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-  /*!< Configure SPI_FLASH_SPI pins: MISO */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-  /*!< Configure SPI_FLASH_SPI pins: MOSI */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-  /*!< Configure SPI_FLASH_SPI_CS_PIN pin: SPI_FLASH Card CS pin */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+  /* Send "Write Enable" instruction */
+  SPI_FLASH_SendByte(W25X_WriteEnable);
 
   /* Deselect the FLASH: Chip Select high */
   SPI_FLASH_CS_HIGH();
-
-  /* SPI1 configuration */
-  // W25X16: data input on the DIO pin is sampled on the rising edge of the CLK. 
-  // Data on the DO and DIO pins are clocked out on the falling edge of CLK.
-  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
-  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
-  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
-  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
-  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
-  SPI_InitStructure.SPI_CRCPolynomial = 7;
-  SPI_Init(SPI1, &SPI_InitStructure);
-
-  /* Enable SPI1  */
-  SPI_Cmd(SPI1, ENABLE);
 }
+
 /*******************************************************************************
-* Function Name  : SPI_FLASH_SectorErase
-* Description    : Erases the specified FLASH sector.
-* Input          : SectorAddr: address of the sector to erase.
+* Function Name  : 等待写结束
+* Description    : Polls the status of the Write In Progress (WIP) flag in the
+*                  FLASH's status  register  and  loop  until write  opertaion
+*                  has completed.
+* Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void SPI_FLASH_SectorErase(u32 SectorAddr)
+static void SPI_FLASH_WaitForWriteEnd(void)
+{
+  u8 FLASH_Status = 0;
+
+  /* Select the FLASH: Chip Select low */
+  SPI_FLASH_CS_LOW();
+
+  /* Send "Read Status Register" instruction */
+  SPI_FLASH_SendByte(W25X_ReadStatusReg);
+
+  /* Loop as long as the memory is busy with a write cycle */
+  do
+  {
+    /* Send a dummy byte to generate the clock needed by the FLASH
+    and put the value of the status register in FLASH_Status variable */
+    FLASH_Status = SPI_FLASH_SendByte(Dummy_Byte);	 
+  }
+  while ((FLASH_Status & WIP_Flag) == SET); /* Write in progress */
+
+  /* Deselect the FLASH: Chip Select high */
+  SPI_FLASH_CS_HIGH();
+}
+// Function Name  : 擦除一个扇区4Kbytes
+// Description    : Erases the specified FLASH sector.
+// Input          : SectorAddr: address of the sector to erase.
+static void SPI_FLASH_SectorErase(u32 SectorAddr)
 {
   /* Send write enable instruction */
   SPI_FLASH_WriteEnable();
@@ -134,14 +176,10 @@ void SPI_FLASH_SectorErase(u32 SectorAddr)
   SPI_FLASH_WaitForWriteEnd();
 }
 
-/*******************************************************************************
-* Function Name  : SPI_FLASH_BulkErase
-* Description    : Erases the entire FLASH.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SPI_FLASH_BulkErase(void)
+// Function Name  : 擦除整片FLASH
+// Description    : Erases the entire FLASH.
+//
+static void SPI_FLASH_BulkErase(void)
 {
   /* Send write enable instruction */
   SPI_FLASH_WriteEnable();
@@ -158,20 +196,17 @@ void SPI_FLASH_BulkErase(void)
   SPI_FLASH_WaitForWriteEnd();
 }
 
-/*******************************************************************************
-* Function Name  : SPI_FLASH_PageWrite
-* Description    : Writes more than one byte to the FLASH with a single WRITE
-*                  cycle(Page WRITE sequence). The number of byte can't exceed
+
+// Function Name  : 写入一页，NumByteToWrite不能超过256
+// Description    : Writes more than one byte to the FLASH with a single WRITE
+/*                  cycle(Page WRITE sequence). The number of byte can't exceed
 *                  the FLASH page size.
 * Input          : - pBuffer : pointer to the buffer  containing the data to be
 *                    written to the FLASH.
 *                  - WriteAddr : FLASH's internal address to write to.
 *                  - NumByteToWrite : number of bytes to write to the FLASH,
-*                    must be equal or less than "SPI_FLASH_PageSize" value.
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SPI_FLASH_PageWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
+*                    must be equal or less than "SPI_FLASH_PageSize" value.*/
+static void SPI_FLASH_PageWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 {
   /* Enable the write access to the FLASH */
   SPI_FLASH_WriteEnable();
@@ -209,18 +244,15 @@ void SPI_FLASH_PageWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
   SPI_FLASH_WaitForWriteEnd();
 }
 
-/*******************************************************************************
-* Function Name  : SPI_FLASH_BufferWrite
-* Description    : Writes block of data to the FLASH. In this function, the
-*                  number of WRITE cycles are reduced, using Page WRITE sequence.
+// Function Name  : SPI_FLASH_BufferWrite
+// Description    : Writes block of data to the FLASH. In this function, the
+/*                  number of WRITE cycles are reduced, using Page WRITE sequence.
 * Input          : - pBuffer : pointer to the buffer  containing the data to be
 *                    written to the FLASH.
 *                  - WriteAddr : FLASH's internal address to write to.
 *                  - NumByteToWrite : number of bytes to write to the FLASH.
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
+*/ 
+static void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 {
   u8 NumOfPage = 0, NumOfSingle = 0, Addr = 0, count = 0, temp = 0;
 
@@ -292,7 +324,7 @@ void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 }
 
 /*******************************************************************************
-* Function Name  : SPI_FLASH_BufferRead
+* Function Name  : 从指定地址读取制定字节的数据
 * Description    : Reads a block of data from the FLASH.
 * Input          : - pBuffer : pointer to the buffer that receives the data read
 *                    from the FLASH.
@@ -301,7 +333,7 @@ void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void SPI_FLASH_BufferRead(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
+static void SPI_FLASH_BufferRead(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
 {
   /* Select the FLASH: Chip Select low */
   SPI_FLASH_CS_LOW();
@@ -328,8 +360,72 @@ void SPI_FLASH_BufferRead(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
   SPI_FLASH_CS_HIGH();
 }
 
+/*********************************************************************
+*
+*       Public code
+*
+**********************************************************************
+*/
+
+// Function Name  : SPI_FLASH_Init
+// Description    : Initializes the peripherals used by the SPI FLASH driver.
+//
+void SPI_FLASH_Init(void)
+{
+  SPI_InitTypeDef  SPI_InitStructure;
+  GPIO_InitTypeDef GPIO_InitStructure;
+  
+  /* Enable SPI2 and GPIO clocks */
+  /*!< SPI_FLASH_SPI_CS_GPIO, SPI_FLASH_SPI_MOSI_GPIO, 
+       SPI_FLASH_SPI_MISO_GPIO, SPI_FLASH_SPI_DETECT_GPIO 
+       and SPI_FLASH_SPI_SCK_GPIO Periph clock enable */
+  RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOB, ENABLE);
+
+  /*!< SPI_FLASH_SPI Periph clock enable */
+  RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
+ 
+  
+  /*!< Configure SPI_FLASH_SPI pins: SCK */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+  /*!< Configure SPI_FLASH_SPI pins: MISO */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+  /*!< Configure SPI_FLASH_SPI pins: MOSI */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+  /*!< Configure SPI_FLASH_SPI_CS_PIN pin: SPI_FLASH Card CS pin */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+  /* Deselect the FLASH: Chip Select high */
+  SPI_FLASH_CS_HIGH();
+
+  /* SPI2 configuration */
+  // W25X16: data input on the DIO pin is sampled on the rising edge of the CLK. 
+  // Data on the DO and DIO pins are clocked out on the falling edge of CLK.
+  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI2, &SPI_InitStructure);
+
+  /* Enable SPI2  */
+  SPI_Cmd(SPI2, ENABLE);
+}
 /*******************************************************************************
-* Function Name  : SPI_FLASH_ReadID
+* Function Name  : 读取芯片ID
 * Description    : Reads FLASH identification.
 * Input          : None
 * Output         : None
@@ -362,7 +458,7 @@ u32 SPI_FLASH_ReadID(void)
   return Temp;
 }
 /*******************************************************************************
-* Function Name  : SPI_FLASH_ReadID
+* Function Name  : 读取芯片的ID:W25Q32:0xEF15
 * Description    : Reads FLASH identification.
 * Input          : None
 * Output         : None
@@ -419,7 +515,7 @@ void SPI_FLASH_StartReadSequence(u32 ReadAddr)
 }
 
 /*******************************************************************************
-* Function Name  : SPI_FLASH_ReadByte
+* Function Name  : 读一个字节
 * Description    : Reads a byte from the SPI Flash.
 *                  This function must be used only if the Start_Read_Sequence
 *                  function has been previously called.
@@ -430,103 +526,6 @@ void SPI_FLASH_StartReadSequence(u32 ReadAddr)
 u8 SPI_FLASH_ReadByte(void)
 {
   return (SPI_FLASH_SendByte(Dummy_Byte));
-}
-
-/*******************************************************************************
-* Function Name  : SPI_FLASH_SendByte
-* Description    : Sends a byte through the SPI interface and return the byte
-*                  received from the SPI bus.
-* Input          : byte : byte to send.
-* Output         : None
-* Return         : The value of the received byte.
-*******************************************************************************/
-u8 SPI_FLASH_SendByte(u8 byte)
-{
-  /* Loop while DR register in not emplty */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-
-  /* Send byte through the SPI1 peripheral */
-  SPI_I2S_SendData(SPI1, byte);
-
-  /* Wait to receive a byte */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-
-  /* Return the byte read from the SPI bus */
-  return SPI_I2S_ReceiveData(SPI1);
-}
-
-/*******************************************************************************
-* Function Name  : SPI_FLASH_SendHalfWord
-* Description    : Sends a Half Word through the SPI interface and return the
-*                  Half Word received from the SPI bus.
-* Input          : Half Word : Half Word to send.
-* Output         : None
-* Return         : The value of the received Half Word.
-*******************************************************************************/
-u16 SPI_FLASH_SendHalfWord(u16 HalfWord)
-{
-  /* Loop while DR register in not emplty */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-
-  /* Send Half Word through the SPI1 peripheral */
-  SPI_I2S_SendData(SPI1, HalfWord);
-
-  /* Wait to receive a Half Word */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-
-  /* Return the Half Word read from the SPI bus */
-  return SPI_I2S_ReceiveData(SPI1);
-}
-
-/*******************************************************************************
-* Function Name  : SPI_FLASH_WriteEnable
-* Description    : Enables the write access to the FLASH.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SPI_FLASH_WriteEnable(void)
-{
-  /* Select the FLASH: Chip Select low */
-  SPI_FLASH_CS_LOW();
-
-  /* Send "Write Enable" instruction */
-  SPI_FLASH_SendByte(W25X_WriteEnable);
-
-  /* Deselect the FLASH: Chip Select high */
-  SPI_FLASH_CS_HIGH();
-}
-
-/*******************************************************************************
-* Function Name  : SPI_FLASH_WaitForWriteEnd
-* Description    : Polls the status of the Write In Progress (WIP) flag in the
-*                  FLASH's status  register  and  loop  until write  opertaion
-*                  has completed.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SPI_FLASH_WaitForWriteEnd(void)
-{
-  u8 FLASH_Status = 0;
-
-  /* Select the FLASH: Chip Select low */
-  SPI_FLASH_CS_LOW();
-
-  /* Send "Read Status Register" instruction */
-  SPI_FLASH_SendByte(W25X_ReadStatusReg);
-
-  /* Loop as long as the memory is busy with a write cycle */
-  do
-  {
-    /* Send a dummy byte to generate the clock needed by the FLASH
-    and put the value of the status register in FLASH_Status variable */
-    FLASH_Status = SPI_FLASH_SendByte(Dummy_Byte);	 
-  }
-  while ((FLASH_Status & WIP_Flag) == SET); /* Write in progress */
-
-  /* Deselect the FLASH: Chip Select high */
-  SPI_FLASH_CS_HIGH();
 }
 
 
@@ -555,5 +554,54 @@ void SPI_Flash_WAKEUP(void)
   /* Deselect the FLASH: Chip Select high */
   SPI_FLASH_CS_HIGH();                   //等待TRES1
 }   
+
+
+//
+//将整个链表的内容写入FLASH
+// WriteAddr为写入的地址
+void  Write_List(void)
+{
+			_Listptr    p = Ins_List_Head -> next;
+			u16 				NumOfList,NumBytesPerList;
+			u32 				WriteAddr = 256;//从第二页开始写
+			NumOfList = GetListLength();
+			NumBytesPerList = 56;
+		
+			while(NumOfList--)
+			{
+				SPI_FLASH_BufferWrite((u8*)p, WriteAddr, NumBytesPerList);
+				p = p -> next;
+				WriteAddr += NumBytesPerList;
+			}
+	
+}
    
+//
+//从FLASH中读出整个链表内容
+//输入参数为链表头结点
+void Read_List (void)
+{
+			_Listptr        p = (_Listptr)malloc(sizeof(_Instructor));//申请一个链表结构体空间，来存放每个链表结点的内容
+			if(!p)
+			{
+				//
+				//Debug Information.....
+				//
+			}
+			else{
+			u32      ReadAddr = 256;
+			u16      NumBytesPerList = 56;
+			
+			do
+			{
+				SPI_FLASH_BufferRead((u8*)p, ReadAddr, NumBytesPerList);
+				Add_Node(p->index ,p->_flag ,p->EditContent );
+				ReadAddr += NumBytesPerList;
+				
+			}while( p->next );   //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
+			
+			free(p);
+			
+			}
+}
 /*********************************************END OF FILE**********************/
