@@ -260,9 +260,9 @@ void LCD_CtrlLinesConfig(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     
-    /* 配置LCD背光控制管脚*/
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;		
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+//    /* 配置LCD背光控制管脚*/
+//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;		
+//    GPIO_Init(GPIOB, &GPIO_InitStructure);
     
     /* 配置LCD复位控制管脚*/
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 ; 	 
@@ -300,8 +300,8 @@ void LCD_CtrlLinesConfig(void)
     GPIO_Init(GPIOE, &GPIO_InitStructure);  
     
     /* tft control gpio init */	 
-    /* 开背光 */
-		GPIO_ResetBits(GPIOB, GPIO_Pin_1); 
+//    /* 开背光 */
+//		GPIO_ResetBits(GPIOB, GPIO_Pin_1); 
 
 
 }

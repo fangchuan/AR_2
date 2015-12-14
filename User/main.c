@@ -25,7 +25,10 @@
 **********************************************************************
 */
 OS_TCB	AppTaskStartTCB;		     //定义任务控制块
-
+FATFS 							 fs;//逻辑磁盘工作区.	 
+FIL 							 file  /*__attribute__((at(0x680830D0)))*/;//文件结构体
+FRESULT          result;//文件操作返回值
+UINT         				 bw;//读/写文件操作时实际读/写的字节数，用于检验是否读/写够了足够的字节。	
 /*********************************************************************
 *
 *       Static  data
@@ -33,7 +36,7 @@ OS_TCB	AppTaskStartTCB;		     //定义任务控制块
 **********************************************************************
 */
 static	CPU_STK	AppTaskStartStk[APP_TASK_START_STK_SIZE];	   //定义任务堆栈
-
+char buffer[10] = {0};
 /**
   * @brief  主函数
   * @param  无
@@ -42,8 +45,27 @@ static	CPU_STK	AppTaskStartStk[APP_TASK_START_STK_SIZE];	   //定义任务堆栈
 int main(void)
 {
 	OS_ERR err;	
+	SPI_FLASH_Init();
+	SPI_FLASH_BulkErase();
+	//初始化文件系统
+	result = f_mount(&fs,"0:",1);//挂载外部Flash为逻辑磁盘0
 	
-	CPU_IntDis();//BSP_IntDisAll();                           /* Disable all interrupts.  
+	if( result == FR_NO_FILESYSTEM )//如果该磁盘没有被格式化为FatFS，则格式化它
+	{
+			result = f_mkfs("0:",1,4096); //格式化方式为FDISK,建立分区表，4096为每个簇的大小
+			result = f_mount(&fs,"0:",1);
+//			result = f_open (&file, "0:/FILELIST.TXT", FA_READ|FA_WRITE|FA_CREATE_ALWAYS ); //打开创建索引文件
+
+	}
+	result = f_open(&file, "0:/FILELIST.TXT",FA_READ|FA_WRITE|FA_OPEN_ALWAYS);
+	if(result == FR_OK)
+	{
+		result = f_write(&file, "012345678",10,&bw);
+		f_close(&file);
+	}
+	result = f_open(&file,"0:/FILELIST.TXT",FA_READ|FA_OPEN_EXISTING);
+	result = f_read(&file,buffer,10,&bw);
+//	CPU_IntDis();//BSP_IntDisAll();                           /* Disable all interrupts.  
 	/* 初始化"uC/OS-III"内核 */  
 	OSInit(&err);	
 	

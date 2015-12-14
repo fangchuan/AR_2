@@ -143,7 +143,7 @@ extern _Listptr Ins_List_Head;//程序链表的表头节点
 extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 
 extern int Create_List(void);
-extern int Add_Node(int index, enum _FLAG flag, char *content);//增加节点，后插法
+extern int Add_Node(int index, uint8_t flag, char *content);//增加节点，后插法
 extern int  Replace_Node(int index, enum _FLAG flag,char *content);//替换节点
 extern int Delete_Node(int index);//删除节点
 extern void Clear_List(void);//删除整个链表

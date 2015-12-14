@@ -7,7 +7,7 @@
 #define  SPI_CLK_PORT	  GPIOG
 
 #define	 SPI_MISO_PIN	  GPIO_Pin_6
-#define	 SPI_MISO_PORT	GPIOF
+#define	 SPI_MISO_PORT	GPIOG
 
 #define	 SPI_MOSI_PIN	  GPIO_Pin_11
 #define	 SPI_MOSI_PORT	GPIOF
@@ -32,9 +32,9 @@
 						GPIO_ResetBits(SPI_CS_PORT,SPI_CS_PIN)
 #define TP_DIN(a)	\
 						if (a)	\
-						GPIO_SetBits(SPI_MISO_PORT,SPI_MOSI_PIN);	\
+						GPIO_SetBits(SPI_MOSI_PORT,SPI_MOSI_PIN);	\
 						else		\
-						GPIO_ResetBits(SPI_MISO_PORT,SPI_MOSI_PIN)
+						GPIO_ResetBits(SPI_MOSI_PORT,SPI_MOSI_PIN)
 
 #define TP_DOUT		 GPIO_ReadInputDataBit(SPI_MISO_PORT,SPI_MISO_PIN)
 

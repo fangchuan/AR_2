@@ -842,7 +842,7 @@ int Create_List(void){
 	
 }
 //增加节点,将元素加到下标为index的地方。其实是依次将结点从表头结点接下来
-int Add_Node(int index, enum _FLAG flag, char *content)
+int Add_Node(int index, uint8_t flag, char *content)
 {
 				int i = 0;
 				_Listptr    q = (_Listptr)malloc(sizeof(_Instructor));

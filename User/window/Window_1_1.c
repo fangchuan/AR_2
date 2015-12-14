@@ -22,6 +22,7 @@
 // USER END
 
 #include "Window_1_1.h"
+#include "Window_TreeView.h"
 #include "_apollorobot.h"
 #include "os.h"
 /*********************************************************************
@@ -937,6 +938,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
 		EDIT_SetFont(hItem, &GUI_FontSongTi12);
+		EDIT_SetDefaultFont(&GUI_FontSongTi12);
     EDIT_SetText(hItem, StringHZ[2]);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		WM_DisableWindow(hItem);
@@ -945,17 +947,28 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		{
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0 + i);
 				hEdit[i] = hItem;
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
+				TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+				hText[i] = hItem;
 		}
 
-    //
-    // Initialization of Text 1、2、3、4、5...
-    //
-		for(i =0; i< MAX_TEXT_NUM; i++)
+		if(Ins_List_Head -> next)
 		{
-					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0 + i);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-					hText[i] = hItem;
+			int listlength = GetListLength();
+			_Listptr p = Ins_List_Head -> next;
+			for(i = 1; i <= listlength; i++)
+			{
+					EDIT_SetText(hEdit[i], p->EditContent );
+					p = p -> next;
+			}
 		}
+//    //
+//    // Initialization of Text 1、2、3、4、5...
+//    //
+//		for(i =0; i< MAX_TEXT_NUM; i++)
+//		{
+
+//		}
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -1223,6 +1236,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
 						_MessageBox("Save And Running ?","Message");//先让用户确认
+						WriteFileProcess();
 						Create_RunningWindow();
 						OS_SemPost(&RUN_SEM, OS_OPT_POST_1, 0, &err);//发送运行信号量
 						

@@ -22,7 +22,7 @@
 
 //4Kbytes为一个扇区
 //16个扇区为1个Block
-//W25132一共有1024个扇区(sector)，64个块(block)
+//W2532一共有1024个扇区(sector)，64个块(block)
 /* Private typedef -----------------------------------------------------------*/
 #define SPI_FLASH_PageSize      256
 #define SPI_FLASH_PerWritePageSize      256
@@ -66,16 +66,16 @@
 static u8 SPI_FLASH_SendByte(u8 byte)
 {
   /* Loop while DR register in not emplty */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+  while (SPI_I2S_GetFlagStatus(FLASH_SPI, SPI_I2S_FLAG_TXE) == RESET);
 
   /* Send byte through the SPI1 peripheral */
-  SPI_I2S_SendData(SPI1, byte);
+  SPI_I2S_SendData(FLASH_SPI, byte);
 
   /* Wait to receive a byte */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+  while (SPI_I2S_GetFlagStatus(FLASH_SPI, SPI_I2S_FLAG_RXNE) == RESET);
 
   /* Return the byte read from the SPI bus */
-  return SPI_I2S_ReceiveData(SPI1);
+  return SPI_I2S_ReceiveData(FLASH_SPI);
 }
 
 /*******************************************************************************
@@ -89,16 +89,16 @@ static u8 SPI_FLASH_SendByte(u8 byte)
 static u16 SPI_FLASH_SendHalfWord(u16 HalfWord)
 {
   /* Loop while DR register in not emplty */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+  while (SPI_I2S_GetFlagStatus(FLASH_SPI, SPI_I2S_FLAG_TXE) == RESET);
 
   /* Send Half Word through the SPI1 peripheral */
-  SPI_I2S_SendData(SPI1, HalfWord);
+  SPI_I2S_SendData(FLASH_SPI, HalfWord);
 
   /* Wait to receive a Half Word */
-  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+  while (SPI_I2S_GetFlagStatus(FLASH_SPI, SPI_I2S_FLAG_RXNE) == RESET);
 
   /* Return the Half Word read from the SPI bus */
-  return SPI_I2S_ReceiveData(SPI1);
+  return SPI_I2S_ReceiveData(FLASH_SPI);
 }
 
 /*******************************************************************************
@@ -154,7 +154,7 @@ static void SPI_FLASH_WaitForWriteEnd(void)
 // Function Name  : 擦除一个扇区4Kbytes
 // Description    : Erases the specified FLASH sector.
 // Input          : SectorAddr: address of the sector to erase.
-static void SPI_FLASH_SectorErase(u32 SectorAddr)
+void SPI_FLASH_SectorErase(u32 SectorAddr)
 {
   /* Send write enable instruction */
   SPI_FLASH_WriteEnable();
@@ -179,7 +179,7 @@ static void SPI_FLASH_SectorErase(u32 SectorAddr)
 // Function Name  : 擦除整片FLASH
 // Description    : Erases the entire FLASH.
 //
-static void SPI_FLASH_BulkErase(void)
+void SPI_FLASH_BulkErase(void)
 {
   /* Send write enable instruction */
   SPI_FLASH_WriteEnable();
@@ -252,7 +252,7 @@ static void SPI_FLASH_PageWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 *                  - WriteAddr : FLASH's internal address to write to.
 *                  - NumByteToWrite : number of bytes to write to the FLASH.
 */ 
-static void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
+void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
 {
   u8 NumOfPage = 0, NumOfSingle = 0, Addr = 0, count = 0, temp = 0;
 
@@ -333,7 +333,7 @@ static void SPI_FLASH_BufferWrite(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite
 * Output         : None
 * Return         : None
 *******************************************************************************/
-static void SPI_FLASH_BufferRead(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
+void SPI_FLASH_BufferRead(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
 {
   /* Select the FLASH: Chip Select low */
   SPI_FLASH_CS_LOW();
@@ -379,30 +379,30 @@ void SPI_FLASH_Init(void)
   /*!< SPI_FLASH_SPI_CS_GPIO, SPI_FLASH_SPI_MOSI_GPIO, 
        SPI_FLASH_SPI_MISO_GPIO, SPI_FLASH_SPI_DETECT_GPIO 
        and SPI_FLASH_SPI_SCK_GPIO Periph clock enable */
-  RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOB, ENABLE);
+  RCC_APB2PeriphClockCmd( FLASH_CLK, ENABLE);
 
   /*!< SPI_FLASH_SPI Periph clock enable */
-  RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
+  RCC_APB1PeriphClockCmd(FLASH_SPI_CLK, ENABLE);
  
   
   /*!< Configure SPI_FLASH_SPI pins: SCK */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+  GPIO_InitStructure.GPIO_Pin = FLASH_SPI_SCK_PIN;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_Init(FLASH_PORT, &GPIO_InitStructure);
 
   /*!< Configure SPI_FLASH_SPI pins: MISO */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Pin = FLASH_SPI_MISO_PIN;
+  GPIO_Init(FLASH_PORT, &GPIO_InitStructure);
 
   /*!< Configure SPI_FLASH_SPI pins: MOSI */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Pin = FLASH_SPI_MOSI_PIN;
+  GPIO_Init(FLASH_PORT, &GPIO_InitStructure);
 
   /*!< Configure SPI_FLASH_SPI_CS_PIN pin: SPI_FLASH Card CS pin */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+  GPIO_InitStructure.GPIO_Pin = FLASH_CS_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_Init(FLASH_PORT, &GPIO_InitStructure);
 
   /* Deselect the FLASH: Chip Select high */
   SPI_FLASH_CS_HIGH();
@@ -416,16 +416,16 @@ void SPI_FLASH_Init(void)
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
-  SPI_Init(SPI2, &SPI_InitStructure);
+  SPI_Init(FLASH_SPI, &SPI_InitStructure);
 
   /* Enable SPI2  */
-  SPI_Cmd(SPI2, ENABLE);
+  SPI_Cmd(FLASH_SPI, ENABLE);
 }
 /*******************************************************************************
-* Function Name  : 读取芯片ID
+* Function Name  : 读取芯片ID == 0xEF4016
 * Description    : Reads FLASH identification.
 * Input          : None
 * Output         : None

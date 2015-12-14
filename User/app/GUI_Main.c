@@ -16,12 +16,14 @@ void GUI_Main_Task()
 			CreateWindow_2();
 			CreateWindow_3();
 			CreateWindow_4();
+//			CreateWindow_TreeView();
 	
 			WM_HideWindow(hWin_Top);
 			WM_HideWindow(hWin_1);
 			WM_HideWindow(hWin_2);
 			WM_HideWindow(hWin_3);
 			WM_HideWindow(hWin_4);
+//			WM_HideWindow(hTree);
 			
 }
 /*************************** End of file ****************************/

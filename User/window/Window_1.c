@@ -184,7 +184,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						
+						CreateWindow_TreeView();
+//						WM_ShowWindow(hTree);
         break;
       }
       break;
