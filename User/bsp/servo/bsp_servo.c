@@ -64,7 +64,7 @@ static void TIM2_Mode_Config(void)
   /* Time base configuration */		 
   TIM_TimeBaseStructure.TIM_Period = 1999;       //当定时器从0计数到1999，即为2000次，为一个定时周期
   TIM_TimeBaseStructure.TIM_Prescaler = 719;	    //设置预分频：72M/720 = 10^5
-  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV4 ;	//设置时钟分频系数
+  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1 ;	//设置时钟分频系数
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //向上计数模式
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
@@ -113,4 +113,27 @@ void SERVO_PWM_Init(void)
 	TIM2_Mode_Config();	
 }
 
+
+//根据编程配置舵机参数
+_Error  SERVO_Config(_Servo *servo)
+{
+	    if(servo->id <1 || servo->id > 4)
+				return ERROR_ID;
+			switch(servo->id)
+			{
+				case SERVO1:
+					   SERVO1_OUT = servo->degree ; 
+					break;
+				case SERVO2:
+					   SERVO2_OUT = servo->degree ;
+					break;
+				case SERVO3:
+					   SERVO3_OUT = servo->degree ;
+					break;
+				case SERVO4:
+					   SERVO4_OUT = servo->degree ;
+					break;
+			}
+			return NO_ERROR;
+}
 /*********************************************END OF FILE**********************/

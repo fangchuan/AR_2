@@ -3,6 +3,9 @@
 #include "bsp_adc.h"
 #include "bsp_digitalsensor.h"
 #include "bsp_ultrasnio.h"
+#include "bsp_led.h"
+#include "bsp_motor.h" 
+#include "bsp_servo.h"
 #include "os.h"
 /*********************************************************************
 *
@@ -55,25 +58,21 @@ static uint8_t Detect_Port(uint8_t port)
 										return SIGNAL;
 									else
 										return NOSIGNAL;
-							break;
 						case PORT_2:
 									if(Detect_DS2 != NOSIGNAL || Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
 										return SIGNAL;
 									else
 										return NOSIGNAL;
-							break;
 						case PORT_3:
 									if(Detect_DS3 != NOSIGNAL || Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
 										return SIGNAL;
 									else
 										return NOSIGNAL;
-							break;
 						case PORT_4:
 									if(Detect_DS4 != NOSIGNAL || Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
 										return SIGNAL;
 									else
 										return NOSIGNAL;
-							break;
 					}
 			}
 }
@@ -123,41 +122,43 @@ static int if_branch (_Listptr  p)
 								motor.id =( p->EditContent )[6] - 0x30;
 								motor.direction = FORWARD;
 								motor.speed = atoi(p->EditContent + 20);
-				
+								MOTOR_Config(&motor);
 					break;
 				case FLAG_MOTOR_CC: //电机_反转,速度_
 								motor.id = ( p->EditContent )[6] - 0x30;
 								motor.direction = BACKWARD;
 								motor.speed = atoi(p->EditContent + 20);
-				
+				        MOTOR_Config(&motor);
 					break;
 				case FLAG_SERVO:  //舵机_转_
 							servo.id = ( p->EditContent )[6] - 0x30;
 							servo.degree = atoi(p->EditContent + 10);
-				
+				      SERVO_Config(&servo);
 					break;
 				case FLAG_LED_ON:  //LED_打开
 							led.id = ( p->EditContent )[3] - 0x30;
-							
+							led.status = ON;
+							LED_Config(&led);
 					break;
 				case FLAG_LED_OFF:  //LED_关闭
 							led.id = ( p->EditContent )[3] - 0x30;
-							
+							led.status = OFF;
+							LED_Config(&led);
 					break;
 				case FLAG_CAR_LEFT:
-							
+							Car_Left();
 					break;
 				case FLAG_CAR_RIGHT:
-					
+							Car_Right();
 					break;
 				case FLAG_CAR_FORWARD:
-					
+							Car_Forward();
 					break;
 				case FLAG_CAR_BACKWARD:
-					
+					    Car_Backward();
 					break;
 				case FLAG_CAR_STOP:
-					
+					    Car_Stop();
 					break;
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (p->EditContent)[12] - 0x30;
@@ -361,41 +362,43 @@ static int or_branch (_Listptr  p)
 										motor.id =( p->EditContent )[6] - 0x30;
 										motor.direction = FORWARD;
 										motor.speed = atoi(p->EditContent + 20);
-						
+										MOTOR_Config(&motor);
 							break;
 						case FLAG_MOTOR_CC: //电机_反转,速度_
 										motor.id = ( p->EditContent )[6] - 0x30;
 										motor.direction = BACKWARD;
 										motor.speed = atoi(p->EditContent + 20);
-						
+										MOTOR_Config(&motor);
 							break;
 						case FLAG_SERVO:  //舵机_转_
 									servo.id = ( p->EditContent )[6] - 0x30;
 									servo.degree = atoi(p->EditContent + 10);
-						
+									SERVO_Config(&servo);
 							break;
 						case FLAG_LED_ON:  //LED_
 									led.id = ( p->EditContent )[3] - 0x30;
-									
+									led.status = ON;
+									LED_Config(&led);
 							break;
 						case FLAG_LED_OFF:  //LED_
 									led.id = ( p->EditContent )[3] - 0x30;
-									
+									led.status = OFF;
+									LED_Config(&led);
 							break;
 						case FLAG_CAR_LEFT:
-									
+									Car_Left();
 							break;
 						case FLAG_CAR_RIGHT:
-							
+							    Car_Right();
 							break;
 						case FLAG_CAR_FORWARD:
-							
+							    Car_Forward();
 							break;
 						case FLAG_CAR_BACKWARD:
-							
+							    Car_Backward();
 							break;
 						case FLAG_CAR_STOP:
-							
+							    Car_Stop();
 							break;
 						case FLAG_PORT_SIGNAL://如果端口_有信号
 									port.id = (p->EditContent)[12] - 0x30;
@@ -552,9 +555,8 @@ static int or_branch (_Listptr  p)
 									while_branch(p);
 							break;
 						case FLAG_WHILE_TAIL:
-									
 									//
-									//此处应该报错！！！
+									//do nothing....
 									//
 									return -1;
 						case FLAG_END_PROGRAM:
@@ -607,41 +609,43 @@ static int while_branch (_Listptr  p)
 															motor.id =( p->EditContent )[6] - 0x30;
 															motor.direction = FORWARD;
 															motor.speed = atoi(p->EditContent + 20);
-											
+															MOTOR_Config(&motor);
 												break;
 											case FLAG_MOTOR_CC: //电机_反转,速度_
 															motor.id = ( p->EditContent )[6] - 0x30;
 															motor.direction = BACKWARD;
 															motor.speed = atoi(p->EditContent + 20);
-											
+															MOTOR_Config(&motor);
 												break;
 											case FLAG_SERVO:  //舵机_转_
 														servo.id = ( p->EditContent )[6] - 0x30;
 														servo.degree = atoi(p->EditContent + 10);
-											
+											      SERVO_Config(&servo);
 												break;
 											case FLAG_LED_ON:  //LED_
 														led.id = ( p->EditContent )[3] - 0x30;
-														
+														led.status = ON;
+														LED_Config(&led);
 												break;
 											case FLAG_LED_OFF:  //LED_
 														led.id = ( p->EditContent )[3] - 0x30;
-														
+														led.status = OFF;
+														LED_Config(&led);
 												break;
 											case FLAG_CAR_LEFT:
-														
+														Car_Left();
 												break;
 											case FLAG_CAR_RIGHT:
-												
+												    Car_Right();
 												break;
 											case FLAG_CAR_FORWARD:
-												
+												    Car_Forward();
 												break;
 											case FLAG_CAR_BACKWARD:
-												
+												    Car_Backward();
 												break;
 											case FLAG_CAR_STOP:
-												
+												    Car_Stop();
 												break;
 											case FLAG_PORT_SIGNAL://如果端口_有信号
 														port.id = (p->EditContent)[12] - 0x30;
@@ -805,6 +809,13 @@ static int while_branch (_Listptr  p)
 														p ->next = (void *)0;//则下一条语句无效，断开链表
 												break;
 											case FLAG_OR:
+												    p = p->next;
+											      or_branch(p);
+												break;
+											case FLAG_IF_END:
+														//
+														//do nothing...
+														//
 												break;
 											case FLAG_DELAY_NMS:
 														delay_time = atoi(p->EditContent + 6);
@@ -1054,38 +1065,43 @@ void List_Parse(_Listptr  ptr)
 								motor.id =( ptr->EditContent )[6] - 0x30;
 								motor.direction = FORWARD;
 								motor.speed = atoi(ptr->EditContent + 20);
+								MOTOR_Config(&motor);
 					break;
 				case FLAG_MOTOR_CC: //电机_反转,速度_
 								motor.id = ( ptr->EditContent )[6] - 0x30;
 								motor.direction = BACKWARD;
 								motor.speed = atoi(ptr->EditContent + 20);
+								MOTOR_Config(&motor);
 					break;
 				case FLAG_SERVO:  //舵机_转_
 							servo.id = ( ptr->EditContent )[6] - 0x30;
 							servo.degree = atoi(ptr->EditContent + 10);
+							SERVO_Config(&servo);
 					break;
 				case FLAG_LED_ON:  //LED_
 							led.id = ( ptr->EditContent )[3] - 0x30;
-							
+							led.status = ON;
+							LED_Config(&led );
 					break;
 				case FLAG_LED_OFF:  //LED_
 							led.id = ( ptr->EditContent )[3] - 0x30;
-							
+							led.status = OFF;
+							LED_Config(&led );
 					break;
 				case FLAG_CAR_LEFT:
-							
+							Car_Left();
 					break;
 				case FLAG_CAR_RIGHT:
-					
+					    Car_Right();
 					break;
 				case FLAG_CAR_FORWARD:
-					
+					    Car_Forward();
 					break;
 				case FLAG_CAR_BACKWARD:
-					
+					    Car_Backward();
 					break;
 				case FLAG_CAR_STOP:
-					
+					    Car_Stop();
 					break;
 				//遇到流程控制语句if\or\while等，先判断是否符合判断条件，符合条件的话直接进入下一个结点
 				case FLAG_PORT_SIGNAL://如果端口_有信号

@@ -45,26 +45,18 @@ char buffer[10] = {0};
 int main(void)
 {
 	OS_ERR err;	
-	SPI_FLASH_Init();
-	SPI_FLASH_BulkErase();
+
 	//初始化文件系统
 	result = f_mount(&fs,"0:",1);//挂载外部Flash为逻辑磁盘0
 	
 	if( result == FR_NO_FILESYSTEM )//如果该磁盘没有被格式化为FatFS，则格式化它
 	{
-			result = f_mkfs("0:",1,4096); //格式化方式为FDISK,建立分区表，4096为每个簇的大小
+			result = f_mkfs("0:",0,4096); //格式化方式为FDISK,建立分区表，4096为每个簇的大小
+			result = f_mount(&fs,"0:",0);
 			result = f_mount(&fs,"0:",1);
-//			result = f_open (&file, "0:/FILELIST.TXT", FA_READ|FA_WRITE|FA_CREATE_ALWAYS ); //打开创建索引文件
-
 	}
-	result = f_open(&file, "0:/FILELIST.TXT",FA_READ|FA_WRITE|FA_OPEN_ALWAYS);
-	if(result == FR_OK)
-	{
-		result = f_write(&file, "012345678",10,&bw);
-		f_close(&file);
-	}
-	result = f_open(&file,"0:/FILELIST.TXT",FA_READ|FA_OPEN_EXISTING);
-	result = f_read(&file,buffer,10,&bw);
+//	result = 	f_open(&file,"0:filelist.txt",FA_READ|FA_WRITE|FA_OPEN_ALWAYS);
+//	result = f_open(&file,"0:filelist.txt",FA_READ|FA_WRITE|FA_OPEN_EXISTING);
 //	CPU_IntDis();//BSP_IntDisAll();                           /* Disable all interrupts.  
 	/* 初始化"uC/OS-III"内核 */  
 	OSInit(&err);	

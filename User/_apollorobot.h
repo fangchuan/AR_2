@@ -5,10 +5,15 @@
 #include "stdlib.h"
 /*********************************************************************
 *
-*       一些全局标志位
+*       一些错误信息
 *
 **********************************************************************
 */
+typedef enum _ERROR {	NO_ERROR = 0,
+											ERROR_ID ,    //操作对象的id越界
+											ERROR_GRAMMAR,   //语句的语法有误
+							
+}_Error;
 
 //指令操作所属类别
 #define  FLAG_CHANGE  1
@@ -80,6 +85,8 @@ typedef struct _STATUSTACK {
 //
 //电机控制数据结构
 //
+#define  MOTOR1   1
+#define  MOTOR2   2
 #define  FORWARD  1
 #define  BACKWARD -1
 typedef struct _MOTOR {
@@ -91,6 +98,10 @@ typedef struct _MOTOR {
 //
 //舵机控制数据结构
 //
+#define  SERVO1   1
+#define  SERVO2   2
+#define  SERVO3   3
+#define  SERVO4   4
 typedef struct _SERVO {
 				uint8_t 		id;     //舵机编号  1、2、3、4
 				int     degree; //舵机转角  
@@ -99,12 +110,12 @@ typedef struct _SERVO {
 //
 //LED控制数据结构
 //
-/** the macro definition to trigger the led on or off 
-  * 1 - off
-  *0 - on
-  */
-#define ON  1
-#define OFF 0
+#define  LED1    1
+#define  LED2    2
+#define  LED3    3
+#define  LED4    4
+#define  ON      1
+#define  OFF     0
 typedef struct _LED {
 				uint8_t 		id;    //LED编号 1、2、3、4
 				uint8_t status;//LED状态 打开或关闭  0、1
@@ -130,8 +141,8 @@ typedef struct _PORT {
 //
 //变量数据结构
 //
-#define VAR_A  0
-#define VAR_B  1
+#define VAR_A  1
+#define VAR_B  2
 typedef struct _VARIABLE {
 				uint8_t      id;  //变量编号 A/B
 				int 		set_val;  //设定值，也是当前值

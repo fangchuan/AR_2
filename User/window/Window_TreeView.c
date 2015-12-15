@@ -21,7 +21,7 @@
 #include "Window_TreeView.h"
 #include "includes.h"
 #include "Window_1_1.h"
-
+#include "WIDGET_NumPad.h"
 /*********************************************************************
 *
 *       Global data
@@ -53,11 +53,13 @@ WM_HWIN hTree;
 #define ID_TREEVIEW_FILE  (GUI_ID_USER + 0x02)
 #define ID_TEXT_EXPLAN    (GUI_ID_USER + 0x03)
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x04)
+#define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
+#define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
 
 #define FILE_NAME_LEN 	100							//文件名长度，如果检测到文件名超过50 则丢弃这个文件 
 #define PATH_LEN		    50              //路径长度
 #define FILE_LIST_PATH 			"0:/FILELIST.TXT"	//文件记录列表文件的目录
-#define _DF1S        0x80
+//#define _DF1S        0x80   //支持长文件名的,我没用长文件名
 /*********************************************************************
 *
 *       Static data
@@ -66,11 +68,12 @@ WM_HWIN hTree;
 */
 //static uint16_t *buffer=0;
 //static char *txtBuffer=0;
-static char* record_file=0;
-
+//static char* record_file=0;
+static char DeleteProgram[10] = {0};
 static const char *StringHZ[] = {
 	"\xe8\xaf\xb7\xe9\x80\x89\xe6\x8b\xa9\xe4\xb8\x80\xe4\xb8\xaa\xe7\xa8\x8b\xe5\xba\x8f...",//0:请选择一个程序
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe4\xb8\xbb\xe7\xa8\x8b\xe5\xba\x8f",//1:返回   2:主程序
+	"\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//3:删除程序
 };
 
 /*********************************************************************
@@ -80,8 +83,10 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { TREEVIEW_CreateIndirect, "Treeview", ID_TREEVIEW_FILE, 0, 0, 240, 193, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_EXPLAN, 60, 240, 100, 20, 0, 0x0, 0 },
-	{BUTTON_CreateIndirect,"BACK", ID_BUTTON_BACK,180, 300, 60,  20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "说明文本", ID_TEXT_EXPLAN, 60, 200, 100, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect,"返回", ID_BUTTON_BACK,180, 300, 60,  20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "删除程序", ID_BUTTON_DEL, 0, 240, 80, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "程序名", ID_EDIT_PN, 80, 240, 100, 20, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -167,6 +172,34 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 //	return 1;	
 //}
 
+//写入用户保存的文本，都是叶子项目，没有结点项目
+void WriteFileProcess(void)
+{
+		_Listptr  p = Ins_List_Head -> next;
+		int      ListLength = GetListLength();
+		int      NumBytesPerList = 56;
+		char     path[PATH_LEN] = {0};
+	
+		sprintf(path,"%s/%s","0:",program_name);
+//		result = f_write(&file,FILE_LIST_PATH,sizeof(path),&bw);//在filelist中写入新保存的程序文件名
+//		if(result != FR_OK)
+//			return ;
+		result = f_open(&file,path,FA_WRITE | FA_CREATE_ALWAYS);//新建一个程序文件，如果该程序文件已存在，则覆盖原文件
+		if(result != FR_OK)
+			return ;
+		while(ListLength > 0)
+		{
+			if(p)
+			{	
+				result = f_write(&file, p, NumBytesPerList, &bw);
+				if(result != FR_OK)
+					return ;
+				p = p -> next;
+			}
+			ListLength --;
+		}
+		f_close(&file);
+}
 
 /**
   * @brief  OpenFileProcess打开文件	 
@@ -174,7 +207,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   * @param  none
   * @retval none
   */
-static void OpenFileProcess(int sel_num, char* record_file)
+static void OpenFileProcess(int sel_num )
 {
 	char                     openfile[FILE_NAME_LEN]={0};
 	_Listptr   p = (_Listptr)malloc(sizeof(_Instructor));
@@ -188,7 +221,7 @@ static void OpenFileProcess(int sel_num, char* record_file)
 	result = f_read (&file, openfile, FILE_NAME_LEN, &bw);//从filelist文件中找到被选择的那个文件名openfile	
 	if(result != FR_OK)
       return ;
-	//printf("\nfileItem=:%s",openfile);
+
 	f_close (&file);
 	
 	f_open(&file, openfile, FA_READ | FA_OPEN_EXISTING);
@@ -206,10 +239,34 @@ static void OpenFileProcess(int sel_num, char* record_file)
 				}while(p->next); //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
 				free(p);
 	}
-	strcpy(program_name,openfile);//将要打开的程序文件名赋给program_name
+	strcpy(program_name,openfile+3);//将要打开的程序文件名赋给program_name.因为openfile是路径名，要去掉"0:/"
 //		txt2buffer(openfile);//将openfile文件的内容转换到UTF8编码的txtbuffer字符串中
-	
+	CreateWindow_1_1();//利用保存起来的程序创建EDIT
 }
+
+//删除一个程序文件
+static void DeleteFileProcess(int sel_num )
+{
+	char                     deletefile[FILE_NAME_LEN]={0};
+	
+	result = f_open (&file, FILE_LIST_PATH, FA_READ|FA_OPEN_EXISTING); //打开索引文件
+	if(result != FR_OK)
+      return ;
+	result = f_lseek (&file, sel_num*FILE_NAME_LEN);
+	if(result != FR_OK)
+      return ;
+	result = f_read (&file, deletefile, FILE_NAME_LEN, &bw);//从filelist文件中找到被选择的那个文件名deletefile	
+	if(result != FR_OK)
+      return ;
+
+	f_close (&file);
+	
+	result = f_unlink(deletefile);
+	if(result != FR_OK)
+		return ;
+
+}
+
 /**
   * @brief  scan_files 递归扫描flash内的文件
   * @param  path:初始扫描路径 file_name：指向用来存储文件名的一段空间 hFile:用于记录文件路径的文件指针 hTree 目录树 hNode 目录结点
@@ -298,12 +355,12 @@ static FRESULT scan_files (char* path,char* file_name,FIL *hFile,WM_HWIN hTree, 
   * @param  path:初始扫描路径
   * @retval none
   */
-void Fill_FileList(char* path,char* record_file,WM_HWIN hTree, TREEVIEW_ITEM_Handle hNode,int *p)
+void Fill_FileList(char* path, WM_HWIN hTree, TREEVIEW_ITEM_Handle hNode,int *p)
 {
 	char  p_path[PATH_LEN]={0};									//目录名 指针
 	char  file_name[FILE_NAME_LEN]={0};								//用于存储的目录文件名，
-//	result = f_unlink(record_file);//暂时删除旧的目录， 增加自建目录
-	result = f_open (&file, record_file, FA_READ|FA_WRITE| FA_OPEN_ALWAYS ); //打开创建索引文件
+	result = f_unlink(FILE_LIST_PATH);//暂时删除旧的目录， 增加自建目录
+	result = f_open (&file, FILE_LIST_PATH, FA_READ|FA_WRITE| FA_OPEN_ALWAYS ); //索引文件,若不存在则创建一个索引文件
   if(result != FR_OK)
       return ;
 	strcpy(p_path,path);						//复制目录名到指针
@@ -324,8 +381,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN                hItem;
   int                    NCode;
   int                    Id;
-  // USER START (Optionally insert additional variables)
-  // USER END
+  WM_HWIN      hNumPad;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -334,6 +390,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = pMsg->hWin;
     WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
+		
     //
     // Initialization of 'Treeview'
     //
@@ -345,7 +402,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		TREEVIEW_SetSelMode(hItem, TREEVIEW_SELMODE_ROW);
 		hNode = TREEVIEW_InsertItem(hItem, TREEVIEW_ITEM_TYPE_NODE, 0, 0, StringHZ[2]);
 		//更新filelist文件
-		Fill_FileList("0:", record_file, hItem ,hNode,(void*)0);
+		Fill_FileList("0:", hItem ,hNode,(void*)0);
 		TREEVIEW_ITEM_Expand(hNode);//展开指定结点
     //
     // Initialization of 'Text'
@@ -362,6 +419,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem, StringHZ[1]);
 		
+		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_DEL);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem, StringHZ[3]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -379,7 +439,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				
 						if(ItemInfo.IsNode == 0)        //点击的是目录树的叶子（即文件）
 						{
-							OpenFileProcess(hNode,record_file);
+							OpenFileProcess(hNode);
 						}
         break;
       case WM_NOTIFICATION_MOVED_OUT:
@@ -396,8 +456,37 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 						case WM_NOTIFICATION_RELEASED:
 									GUI_EndDialog(pMsg->hWin ,0);
-//									WM_HideWindow(hTree);
 							break;
+					}
+				break;
+		case ID_BUTTON_DEL: // Notifications sent by 'Delete Program'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						if(DeleteProgram[0] != 0)
+						{
+							 char del_path[PATH_LEN];
+							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
+							 result = f_unlink(del_path);
+							 if(result != FR_OK)
+								 _MessageBox("Please Input Correct Program Name","Error");
+						}
+						else
+							_MessageBox("Please Input the Program Name","Error");     
+				break;
+      }
+      break;
+		case ID_EDIT_PN:
+			   switch(NCode) {
+					case WM_NOTIFICATION_CLICKED:
+						break;
+					case WM_NOTIFICATION_RELEASED:
+								hNumPad = Create_NumPad(hTree);
+								WM_MakeModal(hNumPad);
+								GUI_ExecCreatedDialog(hNumPad);
+								EDIT_GetText(pMsg->hWinSrc,DeleteProgram,sizeof(DeleteProgram));
+						break;
 					}
 				break;
     }
@@ -423,44 +512,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateWindow_TreeView(void);
 WM_HWIN CreateWindow_TreeView(void) {
 
-	record_file = FILE_LIST_PATH;
   hTree = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hTree;
 }
 
-//写入用户保存的文本，都是叶子项目，没有结点项目
-void WriteFileProcess(void)
-{
-		_Listptr  p = Ins_List_Head -> next;
-		int      ListLength = GetListLength();
-		int      NumBytesPerList = 56;
-		char     path[PATH_LEN] = {0};
-	
-//		result = f_open (&file, FILE_LIST_PATH, FA_WRITE|FA_OPEN_EXISTING); //打开索引文件
-//		if(result != FR_OK)
-//      return ;
-//		result = f_lseek (&file, file.fsize * FILE_NAME_LEN);
-//		if(result != FR_OK)
-//      return ;
-		sprintf(path,"%s/%s","0:",program_name);
-//		result = f_write(&file,FILE_LIST_PATH,sizeof(path),&bw);//在filelist中写入新保存的程序文件名
-//		if(result != FR_OK)
-//			return ;
-		result = f_open(&file,path,FA_WRITE | FA_CREATE_ALWAYS);//新建一个程序文件，如果该程序文件已存在，则覆盖原文件
-		if(result != FR_OK)
-			return ;
-		while(ListLength > 0)
-		{
-			if(p)
-			{	
-				result = f_write(&file, p, NumBytesPerList, &bw);
-				if(result != FR_OK)
-					return ;
-				p = p -> next;
-			}
-			ListLength --;
-		}
-		f_close(&file);
-}
 
 /*************************** End of file ****************************/

@@ -61,7 +61,7 @@ char program_name[10];
 
 const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",//0:新建
 	"\xe6\x89\x93\xe5\xbc\x80","\xe8\xbf\x94\xe5\x9b\x9e",////1:打开,2:返回
-	"\xe8\xbf\x9b\xe5\x85\xa5", //3：进入
+	"\xe8\xbf\x9b\xe5\x85\xa5","\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d", //3：进入  4:请输入程序名
 };
 
 /*********************************************************************
@@ -103,6 +103,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
+		//
+		//Initialization of Window
+		//
+		hItem = pMsg->hWin;
+    WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
     //
     // Initialization of 'Button'
     //
@@ -135,6 +140,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     MULTIEDIT_SetText(hItem, "");
 		MULTIEDIT_SetFocussable(hItem,1);
     break;
+	case WM_PAINT:
+				GUI_SetColor(GUI_RED);
+				GUI_SetFont(&GUI_FontSongTi12);
+				GUI_DispStringAt(_StringHZ[4], 100, 25);
+		break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
@@ -185,7 +195,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
 						CreateWindow_TreeView();
-//						WM_ShowWindow(hTree);
         break;
       }
       break;
@@ -209,7 +218,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							GUI_ExecCreatedDialog(hNumPad);
        break;
       case WM_NOTIFICATION_VALUE_CHANGED:
-							
         break;
       }
       break;

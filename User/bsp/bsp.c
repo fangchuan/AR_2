@@ -363,8 +363,7 @@ void BSP_Init(void)
 {  
 	
 	NVIC_Configuration();  /* 中断优先级分组配置 */
-	/* LED 端口初始化 */
-//	LED_GPIO_Config();  
+
 	/*舵机初始化*/
 	SERVO_PWM_Init();
 	/*ADC10\11\12\13初始化*/

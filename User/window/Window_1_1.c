@@ -937,9 +937,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of Edit 1、2、3...
     //
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-		EDIT_SetFont(hItem, &GUI_FontSongTi12);
 		EDIT_SetDefaultFont(&GUI_FontSongTi12);
-    EDIT_SetText(hItem, StringHZ[2]);
+		EDIT_SetFont(hItem, &GUI_FontSongTi12);
+		EDIT_SetText(hItem, StringHZ[2]);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		WM_DisableWindow(hItem);
 
@@ -951,24 +951,19 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 				hText[i] = hItem;
 		}
-
+		//如果链表不为空，说明是打开原来保存的程序，则将链表内容赋给EDIT
 		if(Ins_List_Head -> next)
 		{
 			int listlength = GetListLength();
 			_Listptr p = Ins_List_Head -> next;
 			for(i = 1; i <= listlength; i++)
 			{
+					EDIT_SetFont(hEdit[i], &GUI_FontSongTi12);
 					EDIT_SetText(hEdit[i], p->EditContent );
+					EDIT_SetBkColor(hEdit[i],EDIT_CI_ENABLED,GUI_CYAN);
 					p = p -> next;
 			}
 		}
-//    //
-//    // Initialization of Text 1、2、3、4、5...
-//    //
-//		for(i =0; i< MAX_TEXT_NUM; i++)
-//		{
-
-//		}
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -1235,10 +1230,15 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						_MessageBox("Save And Running ?","Message");//先让用户确认
-						WriteFileProcess();
-						Create_RunningWindow();
-						OS_SemPost(&RUN_SEM, OS_OPT_POST_1, 0, &err);//发送运行信号量
+						if(Ins_List_Head->next)
+						{
+							_MessageBox("Save And Running ?","Message");//先让用户确认
+							WriteFileProcess();//将链表内容写进Flash
+							Create_RunningWindow();
+							OS_SemPost(&RUN_SEM, OS_OPT_POST_1, 0, &err);//发送运行信号量
+						}
+						else
+							_MessageBox("The program is empty!","Error");
 						
         break;
       }
