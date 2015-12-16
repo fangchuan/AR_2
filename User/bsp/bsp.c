@@ -1,15 +1,8 @@
 #include "includes.h"
-#include "bsp_touch.h"
-#include "bsp_fsmc_sram.h"
 #include "GUI.h"
 #include "BUTTON.h"
 #include "MULTIPAGE.h"
 #include "HEADER.h"
-#include "bsp_servo.h"
-#include "bsp_motor.h"
-#include "bsp_adc.h"
-#include "bsp_digitalsensor.h"
-#include "bsp_ultrasnio.h"
 #include "_apollorobot.h"
 /*
 *********************************************************************************************************

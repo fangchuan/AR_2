@@ -12,7 +12,7 @@
 
 
 extern void adc_Init(void);
-extern u16 Get_adc(u8 ch);
+extern float Get_adc(u8 ch) ;
 extern u16 Get_Adc_Average(u8 ch,u8 times);
 extern int Get_Temp(void);
 

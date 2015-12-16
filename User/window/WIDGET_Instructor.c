@@ -82,9 +82,10 @@
 #define ID_BUTTON_OBSG  (GUI_ID_USER + 0X56)
 #define ID_BUTTON_OBSL  (GUI_ID_USER + 0X57)
 
-#define ID_WINDOW_App   (GUI_ID_USER + 0X06)
+#define ID_WINDOW_App     (GUI_ID_USER + 0X06)
 #define ID_BUTTON_DLY     (GUI_ID_USER + 0x60)
-#define ID_BUTTON_MUS    (GUI_ID_USER + 0x61)
+#define ID_BUTTON_MUS     (GUI_ID_USER + 0x61)
+#define ID_BUTTON_DISTANCE (GUI_ID_USER + 0x62)
 /*********************************************************************
 *
 *       Global data
@@ -145,7 +146,7 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"LED_\xe5\x85\xb3\xe9\x97\xad",//36:LED_关闭
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9>_",//37:如果障碍物>_
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9<_",//38:如果障碍物<_
-
+	"\xe6\x98\xbe\xe7\xa4\xba\xe8\xb6\x85\xe5\xa3\xb0\xe6\xb3\xa2\xe8\xb7\x9d\xe7\xa6\xbb",//39:显示超声波距离
 };
  
 
@@ -255,6 +256,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
 	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_App, 1, 1, 198, 258, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "延时_ms", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "音乐", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "显示距离", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
@@ -1071,6 +1073,10 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[27]);
 		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DISTANCE);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[39]);
+		
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -1101,6 +1107,19 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 									case WM_NOTIFICATION_RELEASED:
 												_flag = FLAG_MUSIC ;
 												strcpy(_acText,StringHZ[32]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_DISTANCE:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SHOW_DISTANCE ;
+												strcpy(_acText,StringHZ[39]);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);

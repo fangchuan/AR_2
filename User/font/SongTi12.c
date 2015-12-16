@@ -18,12 +18,16 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-* Character enabled:   0x540D (21517)                                *
+* Character enabled:   0x58F0 (22768)                                *
+* Character enabled:   0x6CE2 (27874)                                *
+* Character enabled:   0x79BB (31163)                                *
+* Character enabled:   0x8D85 (36229)                                *
+* Character enabled:   0x8DDD (36317)                                *
 *                                                                    *
 **********************************************************************
 */
 
-#include "SongTi12.h"
+#include "GUI.h"
 
 #ifndef GUI_CONST_STORAGE
   #define GUI_CONST_STORAGE const
@@ -1842,6 +1846,20 @@ GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_589E[ 24] = { /* code 589E */
   XX___X__,_X______,
   _____XXX,XX______};
 
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_58F0[ 24] = { /* code 58F0 */
+  _____X__,________,
+  XXXXXXXX,XXX_____,
+  _____X__,________,
+  _XXXXXXX,XX______,
+  ________,________,
+  _XXXXXXX,XX______,
+  _X___X__,_X______,
+  _X___X__,_X______,
+  _XXXXXXX,XX______,
+  _X______,_X______,
+  _X______,________,
+  X_______,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_5934[ 24] = { /* code 5934 */
   ______X_,________,
   ___X__X_,________,
@@ -2402,6 +2420,20 @@ GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_6B63[ 24] = { /* code 6B63 */
   __X__X__,________,
   XXXXXXXX,XXX_____};
 
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_6CE2[ 24] = { /* code 6CE2 */
+  _______X,________,
+  X______X,________,
+  _X_XXXXX,XXX_____,
+  ___X___X,__X_____,
+  ___X___X,________,
+  X__XXXXX,XX______,
+  _X_X_X__,_X______,
+  ___X_X__,_X______,
+  ___X__X_,X_______,
+  _X_X___X,________,
+  X__X__X_,X_______,
+  __X_XX__,_XX_____};
+
 GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_6D41[ 24] = { /* code 6D41 */
   ______X_,________,
   X______X,________,
@@ -2527,6 +2559,20 @@ GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_793A[ 24] = { /* code 793A */
   _X___X__,__X_____,
   X____X__,__X_____,
   ____XX__,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_79BB[ 24] = { /* code 79BB */
+  _____X__,________,
+  XXXXXXXX,XXX_____,
+  ___X___X,________,
+  _X__XXX_,_X______,
+  _X_X___X,_X______,
+  _XXXXXXX,XX______,
+  _____X__,________,
+  XXXXXXXX,XXX_____,
+  X___X___,__X_____,
+  X__X__X_,__X_____,
+  X_XXXXXX,__X_____,
+  X______X,_XX_____};
 
 GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_7A0B[ 24] = { /* code 7A0B */
   ___X_XXX,XX______,
@@ -2695,6 +2741,34 @@ GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_8C03[ 24] = { /* code 8C03 */
   _XX_X_XX,X_X_____,
   _X__X___,__X_____,
   ___X____,XXX_____};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_8D85[ 24] = { /* code 8D85 */
+  ___X____,________,
+  ___X__XX,XXX_____,
+  _XXXX__X,__X_____,
+  ___X___X,__X_____,
+  ___X__X_,_XX_____,
+  XXXXXX__,________,
+  ___X__XX,XXX_____,
+  _X_X__X_,__X_____,
+  _X_XXXX_,__X_____,
+  _X_X__XX,XXX_____,
+  _XXX____,________,
+  X__XXXXX,XXX_____};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_8DDD[ 24] = { /* code 8DDD */
+  ________,________,
+  _XXXX_XX,XXX_____,
+  _X__X_X_,________,
+  _X__X_X_,________,
+  _XXXX_XX,XXX_____,
+  ___X__X_,__X_____,
+  ___X__X_,__X_____,
+  _X_XX_X_,__X_____,
+  _X_X__XX,XXX_____,
+  _X_X__X_,________,
+  _X_XX_X_,________,
+  XXX___XX,XXX_____};
 
 GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_8F66[ 24] = { /* code 8F66 */
   ____X___,________,
@@ -2962,7 +3036,7 @@ GUI_CONST_STORAGE unsigned char acGUI_FontSongTi12_97F3[ 24] = { /* code 97F3 */
   _XXXXXXX,XX______,
   _X______,_X______};
 
-GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
+GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[214] = {
    {   6,   6,  1, acGUI_FontSongTi12_0020 } /* code 0020 */
   ,{   6,   6,  1, acGUI_FontSongTi12_0021 } /* code 0021 */
   ,{   6,   6,  1, acGUI_FontSongTi12_0022 } /* code 0022 */
@@ -3092,6 +3166,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
   ,{  12,  12,  2, acGUI_FontSongTi12_56DE } /* code 56DE */
   ,{  12,  12,  2, acGUI_FontSongTi12_56FA } /* code 56FA */
   ,{  12,  12,  2, acGUI_FontSongTi12_589E } /* code 589E */
+  ,{  12,  12,  2, acGUI_FontSongTi12_58F0 } /* code 58F0 */
   ,{  12,  12,  2, acGUI_FontSongTi12_5934 } /* code 5934 */
   ,{  12,  12,  2, acGUI_FontSongTi12_5982 } /* code 5982 */
   ,{  12,  12,  2, acGUI_FontSongTi12_59CB } /* code 59CB */
@@ -3132,6 +3207,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
   ,{  12,  12,  2, acGUI_FontSongTi12_679C } /* code 679C */
   ,{  12,  12,  2, acGUI_FontSongTi12_6B62 } /* code 6B62 */
   ,{  12,  12,  2, acGUI_FontSongTi12_6B63 } /* code 6B63 */
+  ,{  12,  12,  2, acGUI_FontSongTi12_6CE2 } /* code 6CE2 */
   ,{  12,  12,  2, acGUI_FontSongTi12_6D41 } /* code 6D41 */
   ,{  12,  12,  2, acGUI_FontSongTi12_7269 } /* code 7269 */
   ,{  12,  12,  2, acGUI_FontSongTi12_72B6 } /* code 72B6 */
@@ -3141,6 +3217,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
   ,{  12,  12,  2, acGUI_FontSongTi12_786E } /* code 786E */
   ,{  12,  12,  2, acGUI_FontSongTi12_788D } /* code 788D */
   ,{  12,  12,  2, acGUI_FontSongTi12_793A } /* code 793A */
+  ,{  12,  12,  2, acGUI_FontSongTi12_79BB } /* code 79BB */
   ,{  12,  12,  2, acGUI_FontSongTi12_7A0B } /* code 7A0B */
   ,{  12,  12,  2, acGUI_FontSongTi12_7AEF } /* code 7AEF */
   ,{  12,  12,  2, acGUI_FontSongTi12_7B49 } /* code 7B49 */
@@ -3153,6 +3230,8 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
   ,{  12,  12,  2, acGUI_FontSongTi12_8BED } /* code 8BED */
   ,{  12,  12,  2, acGUI_FontSongTi12_8BF7 } /* code 8BF7 */
   ,{  12,  12,  2, acGUI_FontSongTi12_8C03 } /* code 8C03 */
+  ,{  12,  12,  2, acGUI_FontSongTi12_8D85 } /* code 8D85 */
+  ,{  12,  12,  2, acGUI_FontSongTi12_8DDD } /* code 8DDD */
   ,{  12,  12,  2, acGUI_FontSongTi12_8F66 } /* code 8F66 */
   ,{  12,  12,  2, acGUI_FontSongTi12_8F6C } /* code 8F6C */
   ,{  12,  12,  2, acGUI_FontSongTi12_8F93 } /* code 8F93 */
@@ -3174,555 +3253,590 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi12_CharInfo[209] = {
   ,{  12,  12,  2, acGUI_FontSongTi12_97F3 } /* code 97F3 */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop111 = {
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop116 = {
    0x97F3 /* first character */
   ,0x97F3 /* last character  */
-  ,&GUI_FontSongTi12_CharInfo[208] /* address of first character */
+  ,&GUI_FontSongTi12_CharInfo[213] /* address of first character */
   ,(GUI_CONST_STORAGE GUI_FONT_PROP *)0 /* pointer to next GUI_FONT_PROP */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop110 = {
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop115 = {
    0x969C /* first character */
   ,0x969C /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[212] /* address of first character */
+  ,&GUI_FontSongTi12_Prop116 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop114 = {
+   0x9664 /* first character */
+  ,0x9664 /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[211] /* address of first character */
+  ,&GUI_FontSongTi12_Prop115 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop113 = {
+   0x95ED /* first character */
+  ,0x95ED /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[210] /* address of first character */
+  ,&GUI_FontSongTi12_Prop114 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop112 = {
+   0x91CF /* first character */
+  ,0x91CF /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[209] /* address of first character */
+  ,&GUI_FontSongTi12_Prop113 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop111 = {
+   0x90E8 /* first character */
+  ,0x90E8 /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[208] /* address of first character */
+  ,&GUI_FontSongTi12_Prop112 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop110 = {
+   0x9065 /* first character */
+  ,0x9065 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[207] /* address of first character */
   ,&GUI_FontSongTi12_Prop111 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop109 = {
-   0x9664 /* first character */
-  ,0x9664 /* last character  */
+   0x9053 /* first character */
+  ,0x9053 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[206] /* address of first character */
   ,&GUI_FontSongTi12_Prop110 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop108 = {
-   0x95ED /* first character */
-  ,0x95ED /* last character  */
+   0x901F /* first character */
+  ,0x901F /* last character  */
   ,&GUI_FontSongTi12_CharInfo[205] /* address of first character */
   ,&GUI_FontSongTi12_Prop109 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop107 = {
-   0x91CF /* first character */
-  ,0x91CF /* last character  */
+   0x901A /* first character */
+  ,0x901A /* last character  */
   ,&GUI_FontSongTi12_CharInfo[204] /* address of first character */
   ,&GUI_FontSongTi12_Prop108 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop106 = {
-   0x90E8 /* first character */
-  ,0x90E8 /* last character  */
+   0x9009 /* first character */
+  ,0x9009 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[203] /* address of first character */
   ,&GUI_FontSongTi12_Prop107 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop105 = {
-   0x9065 /* first character */
-  ,0x9065 /* last character  */
+   0x9000 /* first character */
+  ,0x9000 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[202] /* address of first character */
   ,&GUI_FontSongTi12_Prop106 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop104 = {
-   0x9053 /* first character */
-  ,0x9053 /* last character  */
+   0x8FDE /* first character */
+  ,0x8FDE /* last character  */
   ,&GUI_FontSongTi12_CharInfo[201] /* address of first character */
   ,&GUI_FontSongTi12_Prop105 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop103 = {
-   0x901F /* first character */
-  ,0x901F /* last character  */
+   0x8FDB /* first character */
+  ,0x8FDB /* last character  */
   ,&GUI_FontSongTi12_CharInfo[200] /* address of first character */
   ,&GUI_FontSongTi12_Prop104 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop102 = {
-   0x901A /* first character */
-  ,0x901A /* last character  */
+   0x8FD4 /* first character */
+  ,0x8FD4 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[199] /* address of first character */
   ,&GUI_FontSongTi12_Prop103 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop101 = {
-   0x9009 /* first character */
-  ,0x9009 /* last character  */
+   0x8FD0 /* first character */
+  ,0x8FD0 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[198] /* address of first character */
   ,&GUI_FontSongTi12_Prop102 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop100 = {
-   0x9000 /* first character */
-  ,0x9000 /* last character  */
+   0x8F93 /* first character */
+  ,0x8F93 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[197] /* address of first character */
   ,&GUI_FontSongTi12_Prop101 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop99 = {
-   0x8FDE /* first character */
-  ,0x8FDE /* last character  */
+   0x8F6C /* first character */
+  ,0x8F6C /* last character  */
   ,&GUI_FontSongTi12_CharInfo[196] /* address of first character */
   ,&GUI_FontSongTi12_Prop100 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop98 = {
-   0x8FDB /* first character */
-  ,0x8FDB /* last character  */
+   0x8F66 /* first character */
+  ,0x8F66 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[195] /* address of first character */
   ,&GUI_FontSongTi12_Prop99 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop97 = {
-   0x8FD4 /* first character */
-  ,0x8FD4 /* last character  */
+   0x8DDD /* first character */
+  ,0x8DDD /* last character  */
   ,&GUI_FontSongTi12_CharInfo[194] /* address of first character */
   ,&GUI_FontSongTi12_Prop98 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop96 = {
-   0x8FD0 /* first character */
-  ,0x8FD0 /* last character  */
+   0x8D85 /* first character */
+  ,0x8D85 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[193] /* address of first character */
   ,&GUI_FontSongTi12_Prop97 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop95 = {
-   0x8F93 /* first character */
-  ,0x8F93 /* last character  */
+   0x8C03 /* first character */
+  ,0x8C03 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[192] /* address of first character */
   ,&GUI_FontSongTi12_Prop96 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop94 = {
-   0x8F6C /* first character */
-  ,0x8F6C /* last character  */
+   0x8BF7 /* first character */
+  ,0x8BF7 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[191] /* address of first character */
   ,&GUI_FontSongTi12_Prop95 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop93 = {
-   0x8F66 /* first character */
-  ,0x8F66 /* last character  */
+   0x8BED /* first character */
+  ,0x8BED /* last character  */
   ,&GUI_FontSongTi12_CharInfo[190] /* address of first character */
   ,&GUI_FontSongTi12_Prop94 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop92 = {
-   0x8C03 /* first character */
-  ,0x8C03 /* last character  */
+   0x8BBE /* first character */
+  ,0x8BBE /* last character  */
   ,&GUI_FontSongTi12_CharInfo[189] /* address of first character */
   ,&GUI_FontSongTi12_Prop93 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop91 = {
-   0x8BF7 /* first character */
-  ,0x8BF7 /* last character  */
+   0x884C /* first character */
+  ,0x884C /* last character  */
   ,&GUI_FontSongTi12_CharInfo[188] /* address of first character */
   ,&GUI_FontSongTi12_Prop92 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop90 = {
-   0x8BED /* first character */
-  ,0x8BED /* last character  */
+   0x8282 /* first character */
+  ,0x8282 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[187] /* address of first character */
   ,&GUI_FontSongTi12_Prop91 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop89 = {
-   0x8BBE /* first character */
-  ,0x8BBE /* last character  */
+   0x8235 /* first character */
+  ,0x8235 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[186] /* address of first character */
   ,&GUI_FontSongTi12_Prop90 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop88 = {
-   0x884C /* first character */
-  ,0x884C /* last character  */
+   0x81EA /* first character */
+  ,0x81EA /* last character  */
   ,&GUI_FontSongTi12_CharInfo[185] /* address of first character */
   ,&GUI_FontSongTi12_Prop89 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop87 = {
-   0x8282 /* first character */
-  ,0x8282 /* last character  */
+   0x7ED3 /* first character */
+  ,0x7ED3 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[184] /* address of first character */
   ,&GUI_FontSongTi12_Prop88 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop86 = {
-   0x8235 /* first character */
-  ,0x8235 /* last character  */
+   0x7B49 /* first character */
+  ,0x7B49 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[183] /* address of first character */
   ,&GUI_FontSongTi12_Prop87 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop85 = {
-   0x81EA /* first character */
-  ,0x81EA /* last character  */
+   0x7AEF /* first character */
+  ,0x7AEF /* last character  */
   ,&GUI_FontSongTi12_CharInfo[182] /* address of first character */
   ,&GUI_FontSongTi12_Prop86 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop84 = {
-   0x7ED3 /* first character */
-  ,0x7ED3 /* last character  */
+   0x7A0B /* first character */
+  ,0x7A0B /* last character  */
   ,&GUI_FontSongTi12_CharInfo[181] /* address of first character */
   ,&GUI_FontSongTi12_Prop85 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop83 = {
-   0x7B49 /* first character */
-  ,0x7B49 /* last character  */
+   0x79BB /* first character */
+  ,0x79BB /* last character  */
   ,&GUI_FontSongTi12_CharInfo[180] /* address of first character */
   ,&GUI_FontSongTi12_Prop84 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop82 = {
-   0x7AEF /* first character */
-  ,0x7AEF /* last character  */
+   0x793A /* first character */
+  ,0x793A /* last character  */
   ,&GUI_FontSongTi12_CharInfo[179] /* address of first character */
   ,&GUI_FontSongTi12_Prop83 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop81 = {
-   0x7A0B /* first character */
-  ,0x7A0B /* last character  */
+   0x788D /* first character */
+  ,0x788D /* last character  */
   ,&GUI_FontSongTi12_CharInfo[178] /* address of first character */
   ,&GUI_FontSongTi12_Prop82 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop80 = {
-   0x793A /* first character */
-  ,0x793A /* last character  */
+   0x786E /* first character */
+  ,0x786E /* last character  */
   ,&GUI_FontSongTi12_CharInfo[177] /* address of first character */
   ,&GUI_FontSongTi12_Prop81 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop79 = {
-   0x788D /* first character */
-  ,0x788D /* last character  */
+   0x7535 /* first character */
+  ,0x7535 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[176] /* address of first character */
   ,&GUI_FontSongTi12_Prop80 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop78 = {
-   0x786E /* first character */
-  ,0x786E /* last character  */
+   0x7528 /* first character */
+  ,0x7528 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[175] /* address of first character */
   ,&GUI_FontSongTi12_Prop79 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop77 = {
-   0x7535 /* first character */
-  ,0x7535 /* last character  */
+   0x73AF /* first character */
+  ,0x73AF /* last character  */
   ,&GUI_FontSongTi12_CharInfo[174] /* address of first character */
   ,&GUI_FontSongTi12_Prop78 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop76 = {
-   0x7528 /* first character */
-  ,0x7528 /* last character  */
+   0x72B6 /* first character */
+  ,0x72B6 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[173] /* address of first character */
   ,&GUI_FontSongTi12_Prop77 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop75 = {
-   0x73AF /* first character */
-  ,0x73AF /* last character  */
+   0x7269 /* first character */
+  ,0x7269 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[172] /* address of first character */
   ,&GUI_FontSongTi12_Prop76 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop74 = {
-   0x72B6 /* first character */
-  ,0x72B6 /* last character  */
+   0x6D41 /* first character */
+  ,0x6D41 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[171] /* address of first character */
   ,&GUI_FontSongTi12_Prop75 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop73 = {
-   0x7269 /* first character */
-  ,0x7269 /* last character  */
+   0x6CE2 /* first character */
+  ,0x6CE2 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[170] /* address of first character */
   ,&GUI_FontSongTi12_Prop74 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop72 = {
-   0x6D41 /* first character */
-  ,0x6D41 /* last character  */
-  ,&GUI_FontSongTi12_CharInfo[169] /* address of first character */
+   0x6B62 /* first character */
+  ,0x6B63 /* last character  */
+  ,&GUI_FontSongTi12_CharInfo[168] /* address of first character */
   ,&GUI_FontSongTi12_Prop73 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop71 = {
-   0x6B62 /* first character */
-  ,0x6B63 /* last character  */
+   0x679C /* first character */
+  ,0x679C /* last character  */
   ,&GUI_FontSongTi12_CharInfo[167] /* address of first character */
   ,&GUI_FontSongTi12_Prop72 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop70 = {
-   0x679C /* first character */
-  ,0x679C /* last character  */
+   0x6761 /* first character */
+  ,0x6761 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[166] /* address of first character */
   ,&GUI_FontSongTi12_Prop71 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop69 = {
-   0x6761 /* first character */
-  ,0x6761 /* last character  */
+   0x675F /* first character */
+  ,0x675F /* last character  */
   ,&GUI_FontSongTi12_CharInfo[165] /* address of first character */
   ,&GUI_FontSongTi12_Prop70 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop68 = {
-   0x675F /* first character */
-  ,0x675F /* last character  */
+   0x673A /* first character */
+  ,0x673A /* last character  */
   ,&GUI_FontSongTi12_CharInfo[164] /* address of first character */
   ,&GUI_FontSongTi12_Prop69 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop67 = {
-   0x673A /* first character */
-  ,0x673A /* last character  */
+   0x6709 /* first character */
+  ,0x6709 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[163] /* address of first character */
   ,&GUI_FontSongTi12_Prop68 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop66 = {
-   0x6709 /* first character */
-  ,0x6709 /* last character  */
+   0x66F4 /* first character */
+  ,0x66F4 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[162] /* address of first character */
   ,&GUI_FontSongTi12_Prop67 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop65 = {
-   0x66F4 /* first character */
-  ,0x66F4 /* last character  */
+   0x663E /* first character */
+  ,0x663E /* last character  */
   ,&GUI_FontSongTi12_CharInfo[161] /* address of first character */
   ,&GUI_FontSongTi12_Prop66 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop64 = {
-   0x663E /* first character */
-  ,0x663E /* last character  */
+   0x65F6 /* first character */
+  ,0x65F6 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[160] /* address of first character */
   ,&GUI_FontSongTi12_Prop65 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop63 = {
-   0x65F6 /* first character */
-  ,0x65F6 /* last character  */
+   0x65E0 /* first character */
+  ,0x65E0 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[159] /* address of first character */
   ,&GUI_FontSongTi12_Prop64 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop62 = {
-   0x65E0 /* first character */
-  ,0x65E0 /* last character  */
+   0x65B0 /* first character */
+  ,0x65B0 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[158] /* address of first character */
   ,&GUI_FontSongTi12_Prop63 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop61 = {
-   0x65B0 /* first character */
-  ,0x65B0 /* last character  */
+   0x65AD /* first character */
+  ,0x65AD /* last character  */
   ,&GUI_FontSongTi12_CharInfo[157] /* address of first character */
   ,&GUI_FontSongTi12_Prop62 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop60 = {
-   0x65AD /* first character */
-  ,0x65AD /* last character  */
+   0x6539 /* first character */
+  ,0x6539 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[156] /* address of first character */
   ,&GUI_FontSongTi12_Prop61 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop59 = {
-   0x6539 /* first character */
-  ,0x6539 /* last character  */
+   0x64CD /* first character */
+  ,0x64CD /* last character  */
   ,&GUI_FontSongTi12_CharInfo[155] /* address of first character */
   ,&GUI_FontSongTi12_Prop60 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop58 = {
-   0x64CD /* first character */
-  ,0x64CD /* last character  */
+   0x63D2 /* first character */
+  ,0x63D2 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[154] /* address of first character */
   ,&GUI_FontSongTi12_Prop59 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop57 = {
-   0x63D2 /* first character */
-  ,0x63D2 /* last character  */
+   0x63A7 /* first character */
+  ,0x63A7 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[153] /* address of first character */
   ,&GUI_FontSongTi12_Prop58 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop56 = {
-   0x63A7 /* first character */
-  ,0x63A7 /* last character  */
+   0x63A5 /* first character */
+  ,0x63A5 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[152] /* address of first character */
   ,&GUI_FontSongTi12_Prop57 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop55 = {
-   0x63A5 /* first character */
-  ,0x63A5 /* last character  */
+   0x6307 /* first character */
+  ,0x6307 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[151] /* address of first character */
   ,&GUI_FontSongTi12_Prop56 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop54 = {
-   0x6307 /* first character */
-  ,0x6307 /* last character  */
+   0x62E9 /* first character */
+  ,0x62E9 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[150] /* address of first character */
   ,&GUI_FontSongTi12_Prop55 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop53 = {
-   0x62E9 /* first character */
-  ,0x62E9 /* last character  */
+   0x62CD /* first character */
+  ,0x62CD /* last character  */
   ,&GUI_FontSongTi12_CharInfo[149] /* address of first character */
   ,&GUI_FontSongTi12_Prop54 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop52 = {
-   0x62CD /* first character */
-  ,0x62CD /* last character  */
+   0x6253 /* first character */
+  ,0x6253 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[148] /* address of first character */
   ,&GUI_FontSongTi12_Prop53 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop51 = {
-   0x6253 /* first character */
-  ,0x6253 /* last character  */
+   0x6210 /* first character */
+  ,0x6210 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[147] /* address of first character */
   ,&GUI_FontSongTi12_Prop52 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop50 = {
-   0x6210 /* first character */
-  ,0x6210 /* last character  */
+   0x611F /* first character */
+  ,0x611F /* last character  */
   ,&GUI_FontSongTi12_CharInfo[146] /* address of first character */
   ,&GUI_FontSongTi12_Prop51 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop49 = {
-   0x611F /* first character */
-  ,0x611F /* last character  */
+   0x6001 /* first character */
+  ,0x6001 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[145] /* address of first character */
   ,&GUI_FontSongTi12_Prop50 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop48 = {
-   0x6001 /* first character */
-  ,0x6001 /* last character  */
+   0x5FAA /* first character */
+  ,0x5FAA /* last character  */
   ,&GUI_FontSongTi12_CharInfo[144] /* address of first character */
   ,&GUI_FontSongTi12_Prop49 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop47 = {
-   0x5FAA /* first character */
-  ,0x5FAA /* last character  */
+   0x5F85 /* first character */
+  ,0x5F85 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[143] /* address of first character */
   ,&GUI_FontSongTi12_Prop48 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop46 = {
-   0x5F85 /* first character */
-  ,0x5F85 /* last character  */
+   0x5F00 /* first character */
+  ,0x5F00 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[142] /* address of first character */
   ,&GUI_FontSongTi12_Prop47 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop45 = {
-   0x5F00 /* first character */
-  ,0x5F00 /* last character  */
+   0x5EF6 /* first character */
+  ,0x5EF6 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[141] /* address of first character */
   ,&GUI_FontSongTi12_Prop46 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop44 = {
-   0x5EF6 /* first character */
-  ,0x5EF6 /* last character  */
+   0x5EA6 /* first character */
+  ,0x5EA6 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[140] /* address of first character */
   ,&GUI_FontSongTi12_Prop45 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop43 = {
-   0x5EA6 /* first character */
-  ,0x5EA6 /* last character  */
+   0x5E94 /* first character */
+  ,0x5E94 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[139] /* address of first character */
   ,&GUI_FontSongTi12_Prop44 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop42 = {
-   0x5E94 /* first character */
-  ,0x5E94 /* last character  */
+   0x5E8F /* first character */
+  ,0x5E8F /* last character  */
   ,&GUI_FontSongTi12_CharInfo[138] /* address of first character */
   ,&GUI_FontSongTi12_Prop43 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop41 = {
-   0x5E8F /* first character */
-  ,0x5E8F /* last character  */
+   0x5DE6 /* first character */
+  ,0x5DE6 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[137] /* address of first character */
   ,&GUI_FontSongTi12_Prop42 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop40 = {
-   0x5DE6 /* first character */
-  ,0x5DE6 /* last character  */
+   0x5C3E /* first character */
+  ,0x5C3E /* last character  */
   ,&GUI_FontSongTi12_CharInfo[136] /* address of first character */
   ,&GUI_FontSongTi12_Prop41 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop39 = {
-   0x5C3E /* first character */
-  ,0x5C3E /* last character  */
+   0x5C0F /* first character */
+  ,0x5C0F /* last character  */
   ,&GUI_FontSongTi12_CharInfo[135] /* address of first character */
   ,&GUI_FontSongTi12_Prop40 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop38 = {
-   0x5C0F /* first character */
-  ,0x5C0F /* last character  */
+   0x5C06 /* first character */
+  ,0x5C06 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[134] /* address of first character */
   ,&GUI_FontSongTi12_Prop39 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop37 = {
-   0x5C06 /* first character */
-  ,0x5C06 /* last character  */
+   0x5B9A /* first character */
+  ,0x5B9A /* last character  */
   ,&GUI_FontSongTi12_CharInfo[133] /* address of first character */
   ,&GUI_FontSongTi12_Prop38 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop36 = {
-   0x5B9A /* first character */
-  ,0x5B9A /* last character  */
+   0x59CB /* first character */
+  ,0x59CB /* last character  */
   ,&GUI_FontSongTi12_CharInfo[132] /* address of first character */
   ,&GUI_FontSongTi12_Prop37 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop35 = {
-   0x59CB /* first character */
-  ,0x59CB /* last character  */
+   0x5982 /* first character */
+  ,0x5982 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[131] /* address of first character */
   ,&GUI_FontSongTi12_Prop36 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop34 = {
-   0x5982 /* first character */
-  ,0x5982 /* last character  */
+   0x5934 /* first character */
+  ,0x5934 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[130] /* address of first character */
   ,&GUI_FontSongTi12_Prop35 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi12_Prop33 = {
-   0x5934 /* first character */
-  ,0x5934 /* last character  */
+   0x58F0 /* first character */
+  ,0x58F0 /* last character  */
   ,&GUI_FontSongTi12_CharInfo[129] /* address of first character */
   ,&GUI_FontSongTi12_Prop34 /* pointer to next GUI_FONT_PROP */
 };

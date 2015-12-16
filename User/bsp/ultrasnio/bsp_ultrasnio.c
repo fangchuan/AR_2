@@ -1,5 +1,5 @@
 #include  "bsp_ultrasnio.h"
-
+#include  "_apollorobot.h"
 /*********************************************************************
 *
 *       Static data
@@ -15,7 +15,7 @@ uint16_t TIM8CH4_Rise,TIM8CH4_Fall,TIM8_T;
 *
 **********************************************************************
 */
-uint16_t Cur_Distance;//当前测得距离，单位为cm
+extern _Ultrasnio ult;//当前测得距离，单位为cm
 
 /*********************************************************************
 *
@@ -84,7 +84,7 @@ static void Ultrasnio_Port_Init(void)
 //超声波延时
 static void Ultra_delay_us(void)
 {
-    volatile int i = 14;	 
+    volatile int i = 16;	 
     while (i)
         i--;
 }
@@ -112,11 +112,31 @@ void Ultrasnio_Init(void)
 void Ultrasnio_update(void)
 {
      Ultrasnio_Trigger_H;
-     Ultra_delay_nus(6);//按道理应该延时10us,网上还说延时40~50us效果最好
+     Ultra_delay_nus(12);//按道理应该延时10us,网上还说延时40~50us效果最好
      Ultrasnio_Trigger_L;
 }
-
-
+////
+////
+//void Ultra_Ranging(void)
+//{
+//	u8 i;
+//	u32 j;
+//	float Ultr_Temp;	
+//	for(i=0;i<5;i++)
+//	{
+//		Ultrasnio_update();
+//		while(!Ultranio_Echo);
+//		while(Ultranio_Echo)
+//		{
+//			Ultra_delay_nus(10);
+//			j++;
+//		}
+//		Ultr_Temp += 340/2*j*10;//  模块最大可测距3m 
+//		j=0;
+////		delay_ms(60);//防止发射信号对回响信号的影响
+//	}
+//	Cur_Distance = Ultr_Temp/5/1000000; 	
+//}
 /**
   * @超声波ECHO引脚根据接受到的高电平时间更新距离
   */ 
@@ -146,7 +166,7 @@ void TIM8_CC_IRQHandler(void)
 							TIM8_T = 0;
 						}	
 						
-						Cur_Distance = TIM8CH4_Fall - TIM8CH4_Rise + TIM8_T;  //得到总的高电平时间，值域
+						ult.cur_distance = (float)(TIM8CH4_Fall - TIM8CH4_Rise + TIM8_T)*0.018;  //得到总的高电平时间，值域
 						TIM_OC4PolarityConfig(TIM8,TIM_ICPolarity_Rising); //CC4P=0 设置为上升沿捕获		
 				}		    
 		}

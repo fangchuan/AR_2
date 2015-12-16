@@ -20,7 +20,7 @@ void DigitalSensor_Init(void)
 		
 		/*  GPIOC config */
 		GPIO_InitStructure.GPIO_Pin = DigitalSensor_1 | DigitalSensor_2 | DigitalSensor_3 | DigitalSensor_4;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//上拉输入
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;//下拉输入
 		GPIO_Init(DigitalSensorPort, &GPIO_InitStructure);
 	
 }

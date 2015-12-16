@@ -27,6 +27,7 @@ _Motor    motor;
 _Servo    servo;
 _Led        led;
 _Port      port;
+_Ultrasnio  ult;
 _Variable   var;
 
 int32_t  delay_time;
@@ -39,68 +40,99 @@ int32_t  delay_time;
 static int or_branch (_Listptr  p);
 static int if_branch (_Listptr  p);
 static int while_branch(_Listptr  p);
-static uint8_t Detect_Port(uint8_t port);
-static uint16_t Get_Port  (uint8_t port);
+static _Error Detect_Port(_Port *port);
+static _Error Get_Port  (_Port * port);
 
 //
 //侦测端口Port的状态：有无信号
 //
-static uint8_t Detect_Port(uint8_t port)
+static _Error Detect_Port(_Port *port)
 {
-			if(port < 1 || port > 4)
-					return  NOSIGNAL;
+			if(port->id < 1 || port->id > 4)
+					return  ERROR_ID;
 			else
 			{
-				switch(port)
+				DigitalSensor_Init();//每次有关于数字传感器的相关操作时，要先将这几个引脚重设为输入模式
+				switch(port->id )
 					{
 						case PORT_1:
-									if(Detect_DS1 != NOSIGNAL || Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
-										return SIGNAL;
-									else
-										return NOSIGNAL;
+									if( Detect_DS1 != NOSIGNAL )
+									{
+										  port->species = DS;
+										  port->status = SIGNAL;
+									}
+									if(	Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
+									{
+										  port->species = AS;
+										  port->status = SIGNAL;
+									}
+							break;
 						case PORT_2:
-									if(Detect_DS2 != NOSIGNAL || Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
-										return SIGNAL;
-									else
-										return NOSIGNAL;
+									if(Detect_DS2 != NOSIGNAL )
+									{
+										  port->species = DS;
+										  port->status = SIGNAL;
+									}
+									if(Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
+									{
+										  port->species = AS;
+										  port->status = SIGNAL;
+									}
+              break;
 						case PORT_3:
-									if(Detect_DS3 != NOSIGNAL || Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
-										return SIGNAL;
-									else
-										return NOSIGNAL;
+									if(Detect_DS3 != NOSIGNAL)
+									{
+										  port->species = DS;
+										  port->status = SIGNAL;
+									}
+									if(Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
+									{
+										  port->species = AS;
+										  port->status = SIGNAL;
+									}
+              break;
 						case PORT_4:
-									if(Detect_DS4 != NOSIGNAL || Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
-										return SIGNAL;
-									else
-										return NOSIGNAL;
+									if(Detect_DS4 != NOSIGNAL)
+									{
+										  port->species = DS;
+										  port->status = SIGNAL;
+									}
+									if(Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
+									{
+										  port->species = AS;
+										  port->status = SIGNAL;
+									}
+             break;
 					}
+				return NO_ERROR;
 			}
 }
 //
-//获取指定port的值,默认指的是模拟传感器的值
+//获取指定port的值,默认指的是模拟传感器的值//也可以获得数字传感器的值
 //
-static uint16_t Get_Port  (uint8_t port)
+static _Error Get_Port  (_Port * port)
 {
-			if(port < 1 || port > 4)
-					return 0;
+			if(port->id < 1 || port->id > 4)
+					return ERROR_ID;
 			else{
-						uint16_t temp;
-						switch(port)
+//						DigitalSensor_Init();//每次有关于数字传感器的相关操作时，要先将这几个引脚重设为输入模式
+				    port->species = AS;
+						switch(port->id)
 						{
 							case PORT_1:
-										temp = Get_adc(ANOLOG_Sensor_1);
+										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_1);
 								break;
 							case PORT_2:
-										temp = Get_adc(ANOLOG_Sensor_2);
+										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_2);
 								break;
 							case PORT_3:
-										temp = Get_adc(ANOLOG_Sensor_3);
+										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_3);
 								break;
 							case PORT_4:
-										temp = Get_adc(ANOLOG_Sensor_4);
+										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_4);
 								break;
 						}
-				return temp;
+				return NO_ERROR;
 			}
 }
 //
@@ -162,7 +194,8 @@ static int if_branch (_Listptr  p)
 					break;
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (p->EditContent)[12] - 0x30;
-							if(Detect_Port(port.id) == SIGNAL)
+							Detect_Port(&port);
+							if( port.status == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
@@ -179,7 +212,8 @@ static int if_branch (_Listptr  p)
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
 							port.id = (p->EditContent)[12] - 0x30;
-							if(Detect_Port(port.id) == NOSIGNAL)
+				      Detect_Port(&port);
+							if(port.status  == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
@@ -196,16 +230,21 @@ static int if_branch (_Listptr  p)
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
 							port.id = (p->EditContent)[12] - 0x30;
-							while(Detect_Port(port.id) != SIGNAL);
+							do{
+								  Detect_Port(&port);
+							}while(port.status  != SIGNAL);
 					break;
 				case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 							port.id = (p->EditContent)[12] - 0x30;
-							while(Detect_Port(port.id) != NOSIGNAL);
+							do{
+								  Detect_Port(&port);
+							}while(port.status  != NOSIGNAL);
 					break;
 				case FLAG_PORT_GREATER: //如果端口_>_
 							port.id = (p->EditContent)[12] - 0x30;
 							port.tar_val = atoi(p->EditContent + 14);
-							if(Get_Port(port.id) > port.tar_val )
+				      Get_Port(&port);
+							if(port.cur_val > port.tar_val )
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
@@ -223,7 +262,8 @@ static int if_branch (_Listptr  p)
 				case FLAG_PORT_LITTLER: //如果端口_<_
 							port.id = (p->EditContent)[12] - 0x30;
 							port.tar_val = atoi(p->EditContent + 14);
-							if(Get_Port(port.id) < port.tar_val )
+				      Get_Port( &port );
+							if(port.cur_val < port.tar_val )
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
@@ -239,8 +279,38 @@ static int if_branch (_Listptr  p)
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER:
+					    ult.tar_distance = atoi(p->EditContent + 16);
+							if(ult.cur_distance > ult.tar_distance )
+							{
+									//如果条件成立，则进入if分支
+									p = p -> next;
+									if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									q = Find_Node(p->index ,FLAG_OR);
+									if(!q)
+										q = Find_Node(p->index ,FLAG_IF_END);
+									
+									p -> next = q;//将这个结点赋给p的后继
+							}
 					break;
 				case FLAG_OBSTRACLE_LITTER:
+							ult.tar_distance = atoi(p->EditContent + 16);
+							if(ult.cur_distance < ult.tar_distance )
+							{
+									//如果条件成立，则进入if分支
+									p = p -> next;
+									if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									q = Find_Node(p->index ,FLAG_OR);
+									if(!q)
+										q = Find_Node(p->index ,FLAG_IF_END);
+									
+									p -> next = q;//将这个结点赋给p的后继
+							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
 							var.id = VAR_A;
@@ -334,6 +404,9 @@ static int if_branch (_Listptr  p)
 				case FLAG_MUSIC:
 					
 					break;
+				case FLAG_SHOW_DISTANCE:
+					   ult.ifshow = SHOW_ON;
+					break;
 				default:break;
 				}
 				p = p -> next;
@@ -402,7 +475,8 @@ static int or_branch (_Listptr  p)
 							break;
 						case FLAG_PORT_SIGNAL://如果端口_有信号
 									port.id = (p->EditContent)[12] - 0x30;
-									if(Detect_Port(port.id) == SIGNAL)
+						      Detect_Port( &port );
+									if(port.status == SIGNAL)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
@@ -419,7 +493,8 @@ static int or_branch (_Listptr  p)
 							break;
 						case FLAG_PORT_NOSIGNAL://如果端口_无信号
 									port.id = (p->EditContent)[12] - 0x30;
-									if(Detect_Port(port.id) == NOSIGNAL)
+						      Detect_Port(&port);
+									if(port.status == NOSIGNAL)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
@@ -436,16 +511,21 @@ static int or_branch (_Listptr  p)
 							break;
 						case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
 									port.id = (p->EditContent)[12] - 0x30;
-									while(Detect_Port(port.id) != SIGNAL);
+						      do{
+										  Detect_Port(&port);
+									}while(port.status != SIGNAL);
 							break;
 						case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 									port.id = (p->EditContent)[12] - 0x30;
-									while(Detect_Port(port.id) != NOSIGNAL);
+						      do{
+										  Detect_Port(&port) ;
+									}while(port.status != NOSIGNAL);
 							break;
 						case FLAG_PORT_GREATER: //如果端口_>_
 									port.id = (p->EditContent)[12] - 0x30;
 									port.tar_val = atoi(p->EditContent + 14);
-									if(Get_Port(port.id) > port.tar_val )
+						      Get_Port(&port);
+									if(port.cur_val > port.tar_val )
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
@@ -463,7 +543,8 @@ static int or_branch (_Listptr  p)
 						case FLAG_PORT_LITTLER: //如果端口_<_
 									port.id = (p->EditContent)[12] - 0x30;
 									port.tar_val = atoi(p->EditContent + 14);
-									if(Get_Port(port.id) < port.tar_val )
+						      Get_Port(&port);
+									if(port.cur_val < port.tar_val )
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
@@ -479,8 +560,38 @@ static int or_branch (_Listptr  p)
 									}
 							break;
 						case FLAG_OBSTRACLE_GREATER:
+									ult.tar_distance = atoi(p->EditContent + 16);
+									if(ult.cur_distance > ult.tar_distance )
+									{
+											//如果条件成立，则进入if分支
+											p = p -> next;
+											if_branch(p);                      //嵌套
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											q = Find_Node(p->index ,FLAG_OR);
+											if(!q)
+												q = Find_Node(p->index ,FLAG_IF_END);
+											
+											p -> next = q;//将这个结点赋给p的后继
+									}
 							break;
 						case FLAG_OBSTRACLE_LITTER:
+							    ult.tar_distance = atoi(p->EditContent + 16);
+									if(ult.cur_distance < ult.tar_distance )
+									{
+											//如果条件成立，则进入if分支
+											p = p -> next;
+											if_branch(p);                      //嵌套
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											q = Find_Node(p->index ,FLAG_OR);
+											if(!q)
+												q = Find_Node(p->index ,FLAG_IF_END);
+											
+											p -> next = q;//将这个结点赋给p的后继
+									}
 							break;
 						case FLAG_VAR_SET_A: //设定A=
 									var.id = VAR_A;
@@ -575,6 +686,9 @@ static int or_branch (_Listptr  p)
 						case FLAG_MUSIC:
 							
 							break;
+					  case FLAG_SHOW_DISTANCE:
+									ult.ifshow = SHOW_ON;
+							break;
 						default:break;
 					 }
 					p = p -> next;
@@ -584,7 +698,7 @@ static int or_branch (_Listptr  p)
 }
 //
 //"循环开始"后面的代码块处理.支持嵌套
-//Tips:其实没必要定义index_last、index_temp,让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
+//Tips:让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
 static int while_branch (_Listptr  p)
 {
 			if(!p)
@@ -649,7 +763,8 @@ static int while_branch (_Listptr  p)
 												break;
 											case FLAG_PORT_SIGNAL://如果端口_有信号
 														port.id = (p->EditContent)[12] - 0x30;
-														if(Detect_Port(port.id) == SIGNAL)
+														Detect_Port(&port);
+														if(port.status == SIGNAL)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -666,7 +781,8 @@ static int while_branch (_Listptr  p)
 												break;
 											case FLAG_PORT_NOSIGNAL://如果端口_无信号
 														port.id = (p->EditContent)[12] - 0x30;
-														if(Detect_Port(port.id) == NOSIGNAL)
+														Detect_Port(&port);
+														if(port.status == NOSIGNAL)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -683,16 +799,21 @@ static int while_branch (_Listptr  p)
 												break;
 											case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
 														port.id = (p->EditContent)[12] - 0x30;
-														while(Detect_Port(port.id ) != SIGNAL);
+														do{
+															  Detect_Port(&port);
+														}while(port.status != SIGNAL);
 												break;
 											case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 														port.id = (p->EditContent)[12] - 0x30;
-														while(Detect_Port(port.id ) != NOSIGNAL);
+														do{
+															  Detect_Port(&port);
+														}while(port.status != NOSIGNAL);
 												break;
 											case FLAG_PORT_GREATER: //如果端口_>_
 														port.id = (p->EditContent)[12] - 0x30;
 														port.tar_val = atoi(p->EditContent + 14);
-														if(Get_Port(port.id) > port.tar_val )
+														Get_Port(&port);
+														if(port.cur_val > port.tar_val )
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -710,7 +831,8 @@ static int while_branch (_Listptr  p)
 											case FLAG_PORT_LITTLER: //如果端口_<_
 														port.id = (p->EditContent)[12] - 0x30;
 														port.tar_val = atoi(p->EditContent + 14);
-														if(Get_Port(port.id) < port.tar_val )
+														Get_Port(&port);
+														if(port.cur_val < port.tar_val )
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -726,8 +848,38 @@ static int while_branch (_Listptr  p)
 														}
 												break;
 											case FLAG_OBSTRACLE_GREATER:
+												    ult.tar_distance = atoi(p->EditContent + 16);
+														if(ult.cur_distance > ult.tar_distance )
+														{
+																//如果条件成立，则进入if分支
+																p = p -> next;
+																if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																q = Find_Node(p->index ,FLAG_OR);
+																if(!q)
+																	q = Find_Node(p->index ,FLAG_IF_END);
+																
+																p -> next = q;//将这个结点赋给p的后继
+														}
 												break;
 											case FLAG_OBSTRACLE_LITTER:
+												    ult.tar_distance = atoi(p->EditContent + 16);
+														if(ult.cur_distance < ult.tar_distance )
+														{
+																//如果条件成立，则进入if分支
+																p = p -> next;
+																if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																q = Find_Node(p->index ,FLAG_OR);
+																if(!q)
+																	q = Find_Node(p->index ,FLAG_IF_END);
+																
+																p -> next = q;//将这个结点赋给p的后继
+														}
 												break;
 											case FLAG_VAR_SET_A: //设定A=
 														var.id = VAR_A;
@@ -824,6 +976,9 @@ static int while_branch (_Listptr  p)
 											case FLAG_MUSIC:
 												
 												break;
+											case FLAG_SHOW_DISTANCE:
+														ult.ifshow = SHOW_ON;
+												break;
 											default:break;
 										 }
                                   
@@ -864,7 +1019,7 @@ int Add_Node(int index, uint8_t flag, char *content)
 				
 				q -> index = index;
 				strcpy(q -> EditContent, content);
-				q -> _flag = flag;
+				q -> _flag = (enum _FLAG)flag;
 				
 				while(p && i < index-1)
 				{
@@ -1106,7 +1261,8 @@ void List_Parse(_Listptr  ptr)
 				//遇到流程控制语句if\or\while等，先判断是否符合判断条件，符合条件的话直接进入下一个结点
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (ptr->EditContent)[12] - 0x30;
-							if(Detect_Port(port.id) == SIGNAL)
+							Detect_Port(&port);
+							if(port.status == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1123,7 +1279,8 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
 							port.id = (ptr->EditContent)[12] - 0x30;
-							if(Detect_Port(port.id ) == NOSIGNAL)
+							Detect_Port(&port);
+							if(port.status == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1140,16 +1297,21 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
 							port.id = (ptr->EditContent)[12] - 0x30;
-							while(Detect_Port(port.id) != SIGNAL);
+							do{
+								  Detect_Port(&port);
+							}while(port.status != SIGNAL);
 					break;
 				case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 							port.id = (ptr->EditContent)[12] - 0x30;
-							while(Detect_Port(port.id) != NOSIGNAL);
+							do{
+								  Detect_Port(&port);
+							}while(port.status != NOSIGNAL);
 					break;
 				case FLAG_PORT_GREATER: //如果端口_>_
 							port.id = (ptr->EditContent)[12] - 0x30;
 							port.tar_val = atoi(ptr->EditContent + 14);
-							if(Get_Port(port.id) > port.tar_val )
+							Get_Port(&port);
+							if(port.cur_val > port.tar_val )
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1167,7 +1329,8 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_PORT_LITTLER: //如果端口_<_
 							port.id = (ptr->EditContent)[12] - 0x30;
 							port.tar_val = atoi(ptr->EditContent + 14);
-							if(Get_Port(port.id) < port.tar_val )
+							Get_Port(&port);
+							if(port.cur_val < port.tar_val )
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1183,8 +1346,38 @@ void List_Parse(_Listptr  ptr)
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER:
+					   	ult.tar_distance = atoi(ptr->EditContent + 16);
+							if(ult.cur_distance > ult.tar_distance )
+							{
+									//如果条件成立，则进入if分支
+									ptr = ptr -> next;
+									if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									q = Find_Node(ptr->index ,FLAG_OR);
+									if(!q)
+										q = Find_Node(ptr->index ,FLAG_IF_END);
+									
+									ptr -> next = q;//将这个结点赋给p的后继
+							}
 					break;
 				case FLAG_OBSTRACLE_LITTER:
+					    ult.tar_distance = atoi(ptr->EditContent + 16);
+							if(ult.cur_distance > ult.tar_distance )
+							{
+									//如果条件成立，则进入if分支
+									ptr = ptr -> next;
+									if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									q = Find_Node(ptr->index ,FLAG_OR);
+									if(!q)
+										q = Find_Node(ptr->index ,FLAG_IF_END);
+									
+									ptr -> next = q;//将这个结点赋给p的后继
+							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
 							var.id = VAR_A;
@@ -1281,6 +1474,9 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_MUSIC:
 					
+					break;
+				case FLAG_SHOW_DISTANCE:
+					   ult.ifshow = SHOW_ON;
 					break;
 				default:break;
 			}

@@ -11,9 +11,11 @@
 #define  Ultrasnio_Trigger_H   digitalHi(ULTRASNIO_PORT,ULTRASNIO_TRIG)
 #define  Ultrasnio_Trigger_L	 digitalLo(ULTRASNIO_PORT,ULTRASNIO_TRIG)
 
-
+#define  Ultranio_Echo         GPIO_ReadInputDataBit(ULTRASNIO_PORT , ULTRASNIO_ECHO)
 
 extern void Ultrasnio_Init(void);
 extern void Ultrasnio_update(void);
+extern void Ultra_Ranging(void);
 
 #endif /*_BSP_ULTRASNIO_H*/
+

@@ -9,7 +9,7 @@
 */
 extern OS_TCB	AppTaskStartTCB;
 extern uint8_t Key_Value ;
-//extern volatile uint8_t flag_run;//运行标志
+extern _Ultrasnio ult;
 extern enum _FLAG _flag;//指令标志
 extern _Listptr Ins_List_Head;//程序链表的头指针
 
@@ -53,6 +53,9 @@ static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
   
 	(void)p_arg;
 	GUI_TOUCH_Exec();			//每10ms调用一次，触发调用触摸驱动
+	Ultrasnio_update();   //每10ms触发一次超声波更新
+	if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
+		WM_Invalidate(hRun);
 }
 
 /*
@@ -128,14 +131,14 @@ void  AppTaskStart(void *p_arg)
 static void AppTaskGUIUpdate(void *p_arg)
 {
 	OS_ERR      err;
-	
+
 	(void)p_arg;
 	
-//	GUIDEMO_Main();
 	GUI_Main_Task();
 	while(1)
 	{
 		GUI_Exec();
+
 		if(flag_end) 
 		{
 			flag_end = 0;

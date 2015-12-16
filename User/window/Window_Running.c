@@ -20,7 +20,7 @@
 
 #include "Window_Running.h"
 #include "SongTi12.h"
-#include "WIDGET_SelectDialog.h"
+#include "_apollorobot.h"
 /*********************************************************************
 *
 *       Defines
@@ -40,6 +40,7 @@
 **********************************************************************
 */
 WM_HWIN                       hRun;
+extern              _Ultrasnio ult;
 /*********************************************************************
 *
 *       Static data
@@ -60,7 +61,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { EDIT_CreateIndirect, "A", ID_EDIT_A, 60, 20, 120, 20, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "B", ID_EDIT_B, 60, 60, 120, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "A", ID_TEXT_A, 0, 20, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "Distance", ID_TEXT_A, 0, 20, 40, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "B", ID_TEXT_B, 0, 60, 40, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -143,6 +144,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				GUI_SetColor(GUI_RED);
 				GUI_SetFont(&GUI_FontSongTi12);
 				GUI_DispStringHCenterAt(StringHZ[1], 120, 140);
+
+				if(ult.ifshow )
+				{
+					char distance[10] = {0};
+					sprintf(distance,"%dcm",(int)ult.cur_distance );
+					hItem = WM_GetDialogItem(pMsg->hWin ,ID_EDIT_A);
+					EDIT_SetText(hItem,distance);
+				}	
 				break;
   default:
     WM_DefaultProc(pMsg);
@@ -165,6 +174,7 @@ WM_HWIN Create_RunningWindow(void) {
 
 
   hRun = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+
   return hRun;
 }
 

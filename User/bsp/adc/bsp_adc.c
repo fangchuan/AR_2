@@ -59,14 +59,16 @@ void  adc_Init(void)
 //获得ADC值
 //ch:通道值 0~16
 //返回值:转换结果
-u16 Get_adc(u8 ch)   
+float Get_adc(u8 ch)   
 {
+	  float  temp;
 		//设置转换序列	  		 
 		ADC1->SQR3 &= 0XFFFFFFE0;//规则序列1 通道ch
 		ADC1->SQR3 |= ch;		  			    
 		ADC1->CR2 |= 1<<22;       //启动规则转换通道 
-		while(!(ADC1->SR & 1<<1));//等待转换结束	 	   
-		return ADC1->DR;		    //返回adc值	
+		while(!(ADC1->SR & 1<<1));//等待转换结束	 
+    temp = (ADC1->DR *100) /4095;	
+		return temp;		    //返回adc值	
 }
 //获取通道ch的转换值，取times次,然后平均 
 //ch:通道编号

@@ -2,7 +2,8 @@
 #define  _APOLLOROBOT_H
 
 #include  "stm32f10x.h"
-#include "stdlib.h"
+#include  "stdlib.h"
+#include  "stdio.h"
 /*********************************************************************
 *
 *       一些错误信息
@@ -57,14 +58,15 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_OR,				//否则标志位
 									FLAG_IF_END,    //条件结束标志位
 									FLAG_DELAY_NMS, //延时nms标志位
-									FLAG_MUSIC     //播放音乐标志位
+									FLAG_MUSIC,     //播放音乐标志位
+									FLAG_SHOW_DISTANCE,//显示当前距离
 };
 //
 //每一条编辑完的程序数据结构
 //
 typedef struct _INSTRUCTOR {
 				uint8_t        		index; //该节点位于链表中的索引
-				uint8_t        		_flag; //该条程序的指令类别
+				enum _FLAG     		_flag; //该条程序的指令类别
 				char    EditContent[50]; //该条指令的文本内容
 				struct _INSTRUCTOR* next; //指向下一条指令的指针
 }_Instructor,*_Listptr;
@@ -131,13 +133,28 @@ typedef struct _LED {
 
 #define  SIGNAL    1
 #define  NOSIGNAL  0
+
+#define  DS        1
+#define  AS        2
+#define  ULTRASNIO 3
 typedef struct _PORT {
 				uint8_t 		id;     //端口编号 1\2\3\4
 				uint8_t status; //端口状态 有/无信号 0/1
+	      uint8_t species;//端口传感器的种类
 				int     cur_val;//当前值
 				int     tar_val;//目标值
 }_Port;
 
+//
+//超声波的数据结构
+//
+#define SHOW_ON   1
+#define SHOW_OFF  0
+typedef struct _ULTRASNIO{
+	      uint8_t         ifshow;// 是否现显示当前距离
+	      float     cur_distance;// 超声波测得的当前的距离
+	      uint16_t  tar_distance;// 目标距离，要比较的值
+}_Ultrasnio;
 //
 //变量数据结构
 //
