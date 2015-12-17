@@ -46,6 +46,8 @@ int main(void)
 {
 	OS_ERR err;	
 
+//	FLASH_SPI_Init();
+//	W25QXX_Erase_Chip();
 	//初始化文件系统
 	result = f_mount(&fs,"0:",1);//挂载外部Flash为逻辑磁盘0
 	

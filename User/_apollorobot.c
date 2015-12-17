@@ -37,78 +37,92 @@ int32_t  delay_time;
 *
 **********************************************************************
 */
-static int or_branch (_Listptr  p);
-static int if_branch (_Listptr  p);
-static int while_branch(_Listptr  p);
+static _Listptr or_branch (_Listptr  p);
+static _Listptr if_branch (_Listptr  p);
+static _Listptr while_branch(_Listptr  p);
 static _Error Detect_Port(_Port *port);
 static _Error Get_Port  (_Port * port);
 
 //
 //侦测端口Port的状态：有无信号
-//
+//Tips:默认是用来判断数字传感器的
 static _Error Detect_Port(_Port *port)
 {
 			if(port->id < 1 || port->id > 4)
 					return  ERROR_ID;
 			else
 			{
-				DigitalSensor_Init();//每次有关于数字传感器的相关操作时，要先将这几个引脚重设为输入模式
+				port->species = DS;
+				DS_Config(port);//将此引脚配置为上拉输入
 				switch(port->id )
 					{
 						case PORT_1:
-									if( Detect_DS1 != NOSIGNAL )
+							   
+									if( !Detect_DS1 )
 									{
-										  port->species = DS;
 										  port->status = SIGNAL;
 									}
-									if(	Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
+									else
 									{
-										  port->species = AS;
-										  port->status = SIGNAL;
+										  port->status = NOSIGNAL;
 									}
+//									if(	Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
+//									{
+//										  port->species = AS;
+//										  port->status = SIGNAL;
+//									}
 							break;
 						case PORT_2:
-									if(Detect_DS2 != NOSIGNAL )
+									if( !Detect_DS2 )
 									{
-										  port->species = DS;
 										  port->status = SIGNAL;
 									}
-									if(Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
+									else
 									{
-										  port->species = AS;
-										  port->status = SIGNAL;
+										  port->status = NOSIGNAL;
 									}
+//									if(Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
+//									{
+//										  port->species = AS;
+//										  port->status = SIGNAL;
+//									}
               break;
 						case PORT_3:
-									if(Detect_DS3 != NOSIGNAL)
+									if( !Detect_DS3 )
 									{
-										  port->species = DS;
 										  port->status = SIGNAL;
 									}
-									if(Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
+									else
 									{
-										  port->species = AS;
-										  port->status = SIGNAL;
+										  port->status = NOSIGNAL;
 									}
+//									if(Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
+//									{
+//										  port->species = AS;
+//										  port->status = SIGNAL;
+//									}
               break;
 						case PORT_4:
-									if(Detect_DS4 != NOSIGNAL)
+									if( !Detect_DS4 )
 									{
-										  port->species = DS;
 										  port->status = SIGNAL;
 									}
-									if(Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
+									else
 									{
-										  port->species = AS;
-										  port->status = SIGNAL;
+										  port->status = NOSIGNAL;
 									}
+//									if(Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
+//									{
+//										  port->species = AS;
+//										  port->status = SIGNAL;
+//									}
              break;
 					}
 				return NO_ERROR;
 			}
 }
 //
-//获取指定port的值,默认指的是模拟传感器的值//也可以获得数字传感器的值
+//获取指定port的值,默认指的是模拟传感器的值
 //
 static _Error Get_Port  (_Port * port)
 {
@@ -138,11 +152,11 @@ static _Error Get_Port  (_Port * port)
 //
 //if 满足条件后面的代码块处理，支持多条语句，支持嵌套
 //
-static int if_branch (_Listptr  p)
+static _Listptr if_branch (_Listptr  p)
 {
 		
 		if(!p)
-			return -1;
+			return NULL;
 		else{
 			_Listptr  q;//指向or指令或IF_END指令
 			OS_ERR  err;
@@ -199,7 +213,7 @@ static int if_branch (_Listptr  p)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
-								if_branch(p);                      //嵌套
+								p = if_branch(p);                      //嵌套
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -207,7 +221,7 @@ static int if_branch (_Listptr  p)
 								if(!q)
 									q = Find_Node(p->index ,FLAG_IF_END);
 								
-								p -> next = q;//将这个结点赋给p的后继
+								p = q;//将这个结点赋给p
 							}
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -217,7 +231,7 @@ static int if_branch (_Listptr  p)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
-								if_branch(p);                      //嵌套
+								p = if_branch(p);                      //嵌套
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -225,7 +239,7 @@ static int if_branch (_Listptr  p)
 								if(!q)
 									q = Find_Node(p->index ,FLAG_IF_END);
 								
-								p -> next = q;//将这个结点赋给p的后继
+								p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -248,7 +262,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -256,7 +270,7 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_PORT_LITTLER: //如果端口_<_
@@ -267,7 +281,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -275,7 +289,7 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER:
@@ -284,7 +298,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -292,7 +306,7 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_OBSTRACLE_LITTER:
@@ -301,7 +315,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -309,7 +323,7 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
@@ -351,7 +365,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -359,7 +373,7 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_VAR_A_LITTLER: //变量A<_
@@ -369,7 +383,7 @@ static int if_branch (_Listptr  p)
 							{
 									//如果条件成立，则进入if分支
 									p = p -> next;
-									if_branch(p);                      //嵌套
+									p = if_branch(p);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -377,19 +391,19 @@ static int if_branch (_Listptr  p)
 									if(!q)
 										q = Find_Node(p->index ,FLAG_IF_END);
 									
-									p -> next = q;//将这个结点赋给p的后继
+									p = q;//将这个结点赋给p的后继
 							}
 					break;
 				case FLAG_WHILE_HEAD:
 							p = p -> next;
-							while_branch(p);
+							p = while_branch(p);
 					break;
 				case FLAG_WHILE_TAIL:
 							
 							//
 							//此处应该报错！！！
 							//
-							return -1;
+							return NULL;
 				case FLAG_END_PROGRAM:
 							p ->next = (void *)0;//则下一条语句无效，断开链表
 					break;
@@ -411,18 +425,21 @@ static int if_branch (_Listptr  p)
 				}
 				p = p -> next;
 			}
-			return 0;
+			if(p->_flag == FLAG_OR)     //如果执行到OR语句了，则直接寻找IF_END语句，跳过OR语句的代码块
+				p = Find_Node(p->index ,FLAG_IF_END);
+			
+			return p;
 		}
 }
 
 //
 //"否则"后面的代码块处理,支持多条语句，支持嵌套
 //
-static int or_branch (_Listptr  p)
+static _Listptr or_branch (_Listptr  p)
 {
 	
 			if(!p)
-					return -1;
+					return NULL;
 			else
 			{
 				_Listptr    q;//用于指向IF_END指令结点或嵌套的if指令结点
@@ -480,7 +497,7 @@ static int or_branch (_Listptr  p)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
-										if_branch(p);                      //嵌套
+										p = if_branch(p);     //返回的p指向“条件结束”指令
 									}
 									else{
 										//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -488,7 +505,7 @@ static int or_branch (_Listptr  p)
 										if(!q)
 											q = Find_Node(p->index ,FLAG_IF_END);
 										
-										p -> next = q;//将这个结点赋给p的后继
+										p = q;//将这个结点赋给p的后继
 									}
 							break;
 						case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -498,7 +515,7 @@ static int or_branch (_Listptr  p)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
-										if_branch(p);                      //嵌套
+										p = if_branch(p);        //返回的p指向“条件结束”指令
 									}
 									else{
 										//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -506,7 +523,7 @@ static int or_branch (_Listptr  p)
 										if(!q)
 											q = Find_Node(p->index ,FLAG_IF_END);
 										
-										p -> next = q;//将这个结点赋给p的后继
+										p = q;//将这个结点赋给p的后继
 									}
 							break;
 						case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -529,7 +546,7 @@ static int or_branch (_Listptr  p)
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
-											if_branch(p);                      //嵌套
+											p = if_branch(p);       //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -537,7 +554,7 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p的后继
 									}
 							break;
 						case FLAG_PORT_LITTLER: //如果端口_<_
@@ -548,7 +565,7 @@ static int or_branch (_Listptr  p)
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
-											if_branch(p);                      //嵌套
+											p = if_branch(p);       //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -556,7 +573,7 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p的后继
 									}
 							break;
 						case FLAG_OBSTRACLE_GREATER:
@@ -565,7 +582,7 @@ static int or_branch (_Listptr  p)
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
-											if_branch(p);                      //嵌套
+											p = if_branch(p);         //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -573,7 +590,7 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p
 									}
 							break;
 						case FLAG_OBSTRACLE_LITTER:
@@ -582,7 +599,7 @@ static int or_branch (_Listptr  p)
 									{
 											//如果条件成立，则进入if分支
 											p = p -> next;
-											if_branch(p);                      //嵌套
+											p = if_branch(p);      //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -590,7 +607,7 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p
 									}
 							break;
 						case FLAG_VAR_SET_A: //设定A=
@@ -632,7 +649,7 @@ static int or_branch (_Listptr  p)
 									{
 										//如果条件成立，则进入if分支，否则什么也不执行，取下一个指令
 										p = p -> next;
-										if_branch(p);
+										p = if_branch(p);  //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -640,7 +657,7 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p
 									}
 							break;
 						case FLAG_VAR_A_LITTLER: //变量A<_
@@ -650,7 +667,7 @@ static int or_branch (_Listptr  p)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
-										if_branch(p);                      //嵌套
+										p = if_branch(p);        //返回的p指向“条件结束”指令
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -658,24 +675,24 @@ static int or_branch (_Listptr  p)
 											if(!q)
 												q = Find_Node(p->index ,FLAG_IF_END);
 											
-											p -> next = q;//将这个结点赋给p的后继
+											p = q;//将这个结点赋给p
 									}
 							break;
 						case FLAG_WHILE_HEAD:
 									p = p -> next;
-									while_branch(p);
+									p = while_branch(p);
 							break;
 						case FLAG_WHILE_TAIL:
 									//
 									//do nothing....
 									//
-									return -1;
+									return NULL;
 						case FLAG_END_PROGRAM:
 									p ->next = (void *)0;//则下一条语句无效，断开链表
 							break;
 						case FLAG_OR:  //嵌套 "否则" 的情况
-									p = p -> next;
-									or_branch(p);
+									
+									p = or_branch(p);   //返回的p指向“条件结束”指令
 							break;
 //						case FLAG_IF_END:   //不包含if_end的结点，只处理"否则"指令里包含的代码块
 //							break;
@@ -693,16 +710,16 @@ static int or_branch (_Listptr  p)
 					 }
 					p = p -> next;
 				}
-			 return 0;
+			 return p;
 			}
 }
 //
 //"循环开始"后面的代码块处理.支持嵌套
 //Tips:让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
-static int while_branch (_Listptr  p)
+static _Listptr while_branch (_Listptr  p)
 {
 			if(!p)
-				return -1;
+				return NULL;
 			else
 			{
 					int index_first = p->index ;//while循环里的第一句所在地址(索引)
@@ -712,7 +729,7 @@ static int while_branch (_Listptr  p)
 				
 					q_whiletail = Find_Node(index_first,FLAG_WHILE_TAIL);//找到WHILE_TAIL结点
 					if(!q_whiletail)
-						return -1;
+						return NULL;
 					else{
 
 								while( p)
@@ -768,7 +785,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);   //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -776,7 +793,7 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -786,7 +803,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);      //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -794,7 +811,7 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -817,7 +834,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -825,7 +842,7 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_PORT_LITTLER: //如果端口_<_
@@ -836,7 +853,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -844,7 +861,7 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_OBSTRACLE_GREATER:
@@ -853,7 +870,7 @@ static int while_branch (_Listptr  p)
 														{
 																//如果条件成立，则进入if分支
 																p = p -> next;
-																if_branch(p);                      //嵌套
+																p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -861,7 +878,7 @@ static int while_branch (_Listptr  p)
 																if(!q)
 																	q = Find_Node(p->index ,FLAG_IF_END);
 																
-																p -> next = q;//将这个结点赋给p的后继
+																p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_OBSTRACLE_LITTER:
@@ -870,7 +887,7 @@ static int while_branch (_Listptr  p)
 														{
 																//如果条件成立，则进入if分支
 																p = p -> next;
-																if_branch(p);                      //嵌套
+																p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -878,7 +895,7 @@ static int while_branch (_Listptr  p)
 																if(!q)
 																	q = Find_Node(p->index ,FLAG_IF_END);
 																
-																p -> next = q;//将这个结点赋给p的后继
+																p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_VAR_SET_A: //设定A=
@@ -920,7 +937,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -928,7 +945,7 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_VAR_A_LITTLER: //变量A<_
@@ -938,7 +955,7 @@ static int while_branch (_Listptr  p)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
-															if_branch(p);                      //嵌套
+															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -946,12 +963,12 @@ static int while_branch (_Listptr  p)
 															if(!q)
 																q = Find_Node(p->index ,FLAG_IF_END);
 															
-															p -> next = q;//将这个结点赋给p的后继
+															p = q;//将这个结点赋给p的后继
 														}
 												break;
 											case FLAG_WHILE_HEAD:
 														p = p -> next;
-														while_branch(p); //嵌套
+														p = while_branch(p); //嵌套
 												break;
 											case FLAG_WHILE_TAIL://到了循环语句尾部就跳转至循环语句首部
 														p = Find_Node(index_first -1,FLAG_WHILE_HEAD);//因为这里记录的Index_first是WHILE_HEAD指令的后一句，
@@ -961,8 +978,8 @@ static int while_branch (_Listptr  p)
 														p ->next = (void *)0;//则下一条语句无效，断开链表
 												break;
 											case FLAG_OR:
-												    p = p->next;
-											      or_branch(p);
+												    
+											      p = or_branch(p);  //返回的p指向“条件结束”指令
 												break;
 											case FLAG_IF_END:
 														//
@@ -984,9 +1001,9 @@ static int while_branch (_Listptr  p)
                                   
 										p = p ->next ;//这时的p指向的才是循环语句里的第一条指令
 										 
-										OSTimeDly(10,OS_OPT_TIME_DLY, &err);//while循环语句里必须加一句延时，以防死循环不能实现任务调度
+										OSTimeDly(5 ,OS_OPT_TIME_DLY, &err);//while循环语句里必须加一句延时，以防死循环不能实现任务调度
 								}
-								return 0;
+								return p;
 					}
 		 }
 }
@@ -1266,7 +1283,7 @@ void List_Parse(_Listptr  ptr)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
-								if_branch(ptr);                    
+								ptr = if_branch(ptr);                    
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1274,7 +1291,7 @@ void List_Parse(_Listptr  ptr)
 								if(!q)
 									q = Find_Node(ptr->index ,FLAG_IF_END);
 								
-								ptr -> next = q;//将这个结点赋给ptr的后继
+								ptr = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -1284,7 +1301,7 @@ void List_Parse(_Listptr  ptr)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
-								if_branch(ptr);                    
+								ptr = if_branch(ptr);                    
 							}
 							else {
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1292,7 +1309,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给ptr的后继
+									ptr = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -1315,7 +1332,7 @@ void List_Parse(_Listptr  ptr)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
-								if_branch(ptr);                    
+								ptr = if_branch(ptr);                    
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1323,7 +1340,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给ptr的后继
+									ptr = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_LITTLER: //如果端口_<_
@@ -1334,7 +1351,7 @@ void List_Parse(_Listptr  ptr)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
-								if_branch(ptr);                    
+								ptr = if_branch(ptr);                    
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1342,7 +1359,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给ptr的后继
+									ptr = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER:
@@ -1351,7 +1368,7 @@ void List_Parse(_Listptr  ptr)
 							{
 									//如果条件成立，则进入if分支
 									ptr = ptr -> next;
-									if_branch(ptr);                      //嵌套
+									ptr = if_branch(ptr);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1359,7 +1376,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给p的后继
+									ptr = q;//将这个结点赋给p
 							}
 					break;
 				case FLAG_OBSTRACLE_LITTER:
@@ -1368,7 +1385,7 @@ void List_Parse(_Listptr  ptr)
 							{
 									//如果条件成立，则进入if分支
 									ptr = ptr -> next;
-									if_branch(ptr);                      //嵌套
+									ptr = if_branch(ptr);                      //嵌套
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1376,7 +1393,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给p的后继
+									ptr = q;//将这个结点赋给p
 							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
@@ -1418,7 +1435,7 @@ void List_Parse(_Listptr  ptr)
 							{
 									//如果条件成立，则进入if分支
 									ptr = ptr -> next;
-									if_branch(ptr);                    
+									ptr = if_branch(ptr);                    
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1426,7 +1443,7 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给ptr的后继
+									ptr  = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_VAR_A_LITTLER: //如果A<_
@@ -1436,7 +1453,7 @@ void List_Parse(_Listptr  ptr)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
-								if_branch(ptr);                    
+								ptr = if_branch(ptr);                    
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1444,12 +1461,12 @@ void List_Parse(_Listptr  ptr)
 									if(!q)
 										q = Find_Node(ptr->index ,FLAG_IF_END);
 									
-									ptr -> next = q;//将这个结点赋给ptr的后继
+									ptr = q;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_WHILE_HEAD:
 								ptr = ptr ->next ;
-								while_branch(ptr);
+								ptr = while_branch(ptr);
 					break;
 				case FLAG_WHILE_TAIL:
 					   //
@@ -1460,8 +1477,8 @@ void List_Parse(_Listptr  ptr)
 							ptr ->next = (void *)0;
 					break;
 				case FLAG_OR:
-							ptr = ptr -> next;
-							or_branch(ptr);
+
+							ptr = or_branch(ptr); //返回的p指向“条件结束”指令
 					break;
 				case FLAG_IF_END:
 							//

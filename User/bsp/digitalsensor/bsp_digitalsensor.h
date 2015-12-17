@@ -2,6 +2,7 @@
 #define  _BSP_DIGITALSENSOR_H
 
 #include "stm32f10x.h"
+#include "_apollorobot.h"
 
 //数字传感器的IO引脚分配
 #define DigitalSensorPort    GPIOC
@@ -18,7 +19,7 @@
 #define Detect_DS4           GPIO_ReadInputDataBit(DigitalSensorPort, DigitalSensor_4)
 //
 extern void DigitalSensor_Init(void);
-
+extern _Error DS_Config(_Port *port);
 #endif /*_BSP_DIGITALSENSOR_H*/
 
 /* --------------------------------------end of file--------------------------------------- */

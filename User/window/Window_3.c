@@ -18,11 +18,17 @@
 **********************************************************************
 */
 
-// USER START (Optionally insert additional includes)
-// USER END
-
 #include "Window_3.h"
+#include "SongTi12.h"
+#include "bsp_motor.h"
+#include "bsp_servo.h"
 
+/*********************************************************************
+*
+*       Global  data
+*
+**********************************************************************
+*/
 extern uint8_t Key_Value;
 WM_HWIN hWin_3;
 WM_HWIN hDialog_Page1;
@@ -33,20 +39,34 @@ WM_HWIN hDialog_Page2;
 *
 **********************************************************************
 */
-#define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_HEADER_0     (GUI_ID_USER + 0x02)
-#define ID_HEADER_1     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x04)
+#define ID_WINDOW_0        (GUI_ID_USER + 0x00)
+#define ID_HEADER_0        (GUI_ID_USER + 0x02)
+#define ID_HEADER_1        (GUI_ID_USER + 0x03)
+#define ID_BUTTON_BACK     (GUI_ID_USER + 0x04)
 #define ID_MULTIPAGE_0     (GUI_ID_USER + 0x05)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x06)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x07)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x08)
-#define ID_BUTTON_4     (GUI_ID_USER + 0x09)
+#define ID_TEXT_M1         (GUI_ID_USER + 0x06)
+#define ID_TEXT_M2         (GUI_ID_USER + 0x07)
+#define ID_BUTTON_M1C      (GUI_ID_USER + 0x08)
+#define ID_BUTTON_M1CC     (GUI_ID_USER + 0x09)
+#define ID_BUTTON_M2C      (GUI_ID_USER + 0x0A)
+#define ID_BUTTON_M2CC     (GUI_ID_USER + 0x0B)
 
-#define ID_BUTTON_5     (GUI_ID_USER + 0x0A)
-#define ID_BUTTON_6     (GUI_ID_USER + 0x0B)
-#define ID_BUTTON_7     (GUI_ID_USER + 0x0C)
-
+#define ID_TEXT_S1         (GUI_ID_USER + 0x0C)
+#define ID_TEXT_S2         (GUI_ID_USER + 0x0D)
+#define ID_TEXT_S3         (GUI_ID_USER + 0x0E)
+#define ID_TEXT_S4         (GUI_ID_USER + 0x0F)
+#define ID_BUTTON_S1_60    (GUI_ID_USER + 0x10)
+#define ID_BUTTON_S1_90    (GUI_ID_USER + 0x11)
+#define ID_BUTTON_S1_120   (GUI_ID_USER + 0x12)
+#define ID_BUTTON_S2_60    (GUI_ID_USER + 0x13)
+#define ID_BUTTON_S2_90    (GUI_ID_USER + 0x14)
+#define ID_BUTTON_S2_120   (GUI_ID_USER + 0x15)
+#define ID_BUTTON_S3_60    (GUI_ID_USER + 0x16)
+#define ID_BUTTON_S3_90    (GUI_ID_USER + 0x17)
+#define ID_BUTTON_S3_120   (GUI_ID_USER + 0x18)
+#define ID_BUTTON_S4_60    (GUI_ID_USER + 0x19)
+#define ID_BUTTON_S4_90    (GUI_ID_USER + 0x1A)
+#define ID_BUTTON_S4_120   (GUI_ID_USER + 0x1B)
 /*********************************************************************
 *
 *       Static data
@@ -55,6 +75,9 @@ WM_HWIN hDialog_Page2;
 */
 static const char *StringHZ[] = {
 	"\xe8\xbf\x94\xe5\x9b\x9e",                              //0:返回
+	"\xe7\x94\xb5\xe6\x9c\xba","\xe8\x88\xb5\xe6\x9c\xba",   //1:电机   2:舵机
+	"\xe6\xad\xa3\xe8\xbd\xac","\xe5\x8f\x8d\xe8\xbd\xac",   //3:正转   4:反转
+	"60\xe5\xba\xa6","90\xe5\xba\xa6","120\xe5\xba\xa6",     //5:60度   6:90度  7:120度
 };
 
 /*********************************************************************
@@ -65,7 +88,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Back", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "返回", ID_BUTTON_BACK, 0, 300, 80, 20, 0, 0x0, 0 },
   { MULTIPAGE_CreateIndirect, "Multipage", ID_MULTIPAGE_0, 0, 20, 240, 280, 0, 0x0, 0 },
 
   // USER START (Optionally insert additional widgets)
@@ -73,16 +96,31 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 };
 static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage1[] = {
   { WINDOW_CreateIndirect,    "Dialog 1", 0, 0,   0, 240, 280, FRAMEWIN_CF_MOVEABLE },
-  { BUTTON_CreateIndirect, "servo1_60", ID_BUTTON_5, 10, 30, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "servo1_90", ID_BUTTON_6, 90, 30, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "servo1_120", ID_BUTTON_7, 170, 30, 60, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机1",        ID_TEXT_S1, 0, 20, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转60度", ID_BUTTON_S1_60, 10, 40, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转90度", ID_BUTTON_S1_90, 90, 40, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转120度", ID_BUTTON_S1_120, 170, 40, 60, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机2",        ID_TEXT_S2, 0, 80, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机2转60度", ID_BUTTON_S2_60, 10, 100, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机2转90度", ID_BUTTON_S2_90, 90, 100, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机2转120度", ID_BUTTON_S2_120, 170, 100, 60, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机3",        ID_TEXT_S3, 0, 140, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机3转60度", ID_BUTTON_S3_60, 10, 160, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机3转90度", ID_BUTTON_S3_90, 90, 160, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机3转120度", ID_BUTTON_S3_120, 170, 160, 60, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机4",        ID_TEXT_S4, 0, 200, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机4转60度", ID_BUTTON_S4_60, 10, 220, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机4转90度", ID_BUTTON_S4_90, 90, 220, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机4转120度", ID_BUTTON_S4_120, 170, 220, 60, 20, 0, 0x0, 0 },
 };
 static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage2[] = {
   { WINDOW_CreateIndirect,    "Dialog 2", 0,  0,   0, 240, 280, FRAMEWIN_CF_MOVEABLE },
-  { BUTTON_CreateIndirect, "motor1forward", ID_BUTTON_1, 20, 80, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor1reverse", ID_BUTTON_2, 130, 80, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor2forward", ID_BUTTON_3, 20, 160, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor2reverse", ID_BUTTON_4, 130, 160, 80, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "电机1",         ID_TEXT_M1, 0, 60, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor1forward", ID_BUTTON_M1C, 20, 80, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor1reverse", ID_BUTTON_M1CC, 130, 80, 80, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "电机2",         ID_TEXT_M2, 0, 140, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor2forward", ID_BUTTON_M2C, 20, 160, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor2reverse", ID_BUTTON_M2CC, 130, 160, 80, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -90,9 +128,333 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage2[] = {
 *
 **********************************************************************
 */
+/*********************************************************************
+*
+*       _cbServo
+*/
+static void _cbServo (WM_MESSAGE * pMsg)
+{
+	 	  WM_HWIN  hItem;
+	    int      NCode;
+			int         Id;
+			char   str[10];
+			switch(pMsg->MsgId)
+			{
+				case WM_INIT_DIALOG:
+					//
+					//Intialization of Text
+					//
+				  hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S1);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+					strcpy(str, StringHZ[2]);
+				  strcat(str,  "1");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+				
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S2);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+				  strcpy(str, StringHZ[2]);
+				  strcat(str,  "2");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+				
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S3);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+				  strcpy(str, StringHZ[2]);
+				  strcat(str,  "3");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S4);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+				  strcpy(str, StringHZ[2]);
+				  strcat(str,  "4");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+					//
+					// Initialization of Button
+					//
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S1_60);
+				  BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[5]);
 
-// USER START (Optionally insert additional static code)
-// USER END
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S1_90);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[6]);
+
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S1_120);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[7]);
+
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S2_60);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[5]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S2_90);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[6]);	
+				
+				  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S2_120);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[7]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S3_60);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[5]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S3_90);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[6]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S3_120);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[7]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S4_60);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[5]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S4_90);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[6]);	
+					
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_S4_120);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[7]);	
+					break;
+				case WM_NOTIFY_PARENT:
+					   Id    = WM_GetId(pMsg->hWinSrc);
+						 NCode = pMsg->Data.v;
+				     switch(Id)
+						 {
+							 case ID_BUTTON_S1_60:
+								switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S1_90:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S1_120:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S2_60:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S2_90:
+								switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S2_120:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S3_60:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S3_90:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+						   case ID_BUTTON_S3_120:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S4_60:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_S4_90:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+						   case ID_BUTTON_S4_120:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+						 }
+					break;
+				default:
+					WM_DefaultProc(pMsg);
+					break;
+			}
+}
+/*********************************************************************
+*
+*       _cbMotor
+*/
+static void _cbMotor (WM_MESSAGE * pMsg)
+{
+	    WM_HWIN  hItem;
+	    int      NCode;
+			int         Id;
+			char   str[10];
+			switch(pMsg->MsgId)
+			{
+				case WM_INIT_DIALOG:
+					//
+					//Intialization of Text
+					//
+				  hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_M1);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+					strcpy(str, StringHZ[1]);
+				  strcat(str,  "1");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+				
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_M2);
+					TEXT_SetFont(hItem, &GUI_FontSongTi12);
+				  strcpy(str, StringHZ[1]);
+				  strcat(str,  "1");
+				  TEXT_SetText(hItem, str);
+					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+					//
+					// Initialization of Button
+					//
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_M1C);
+				  BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[3]);
+
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_M1CC);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[4]);
+
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_M2C);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[3]);
+
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_M2CC);
+					BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+					BUTTON_SetText(hItem, StringHZ[4]);	
+				
+					break;
+				case WM_NOTIFY_PARENT:
+					   Id    = WM_GetId(pMsg->hWinSrc);
+						 NCode = pMsg->Data.v;
+				     switch(Id)
+						 {
+							 case ID_BUTTON_M1C:
+								switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_M1CC:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_M2C:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+							 case ID_BUTTON_M2CC:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+										
+										break;
+									case WM_NOTIFICATION_RELEASED:
+										
+										break;
+									}
+								 break;
+						 }
+					break;
+				default:
+					WM_DefaultProc(pMsg);
+					break;
+			}
+}
 
 /*********************************************************************
 *
@@ -115,28 +477,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     // Initialization of 'Back'
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-    BUTTON_SetText(hItem, "BACK");
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
+	  BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+    BUTTON_SetText(hItem, StringHZ[0]);
     //
     // Initialization of 'Multipage'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIPAGE_0);  
-		MULTIPAGE_AddPage(hItem, hDialog_Page1, "Servo");
-		MULTIPAGE_AddPage(hItem, hDialog_Page2, "Motor");
-    //
-    // Initialization of Button
-    //
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
-//    BUTTON_SetText(hItem, "1_Forward");
+		MULTIPAGE_SetFont(hItem, &GUI_FontSongTi12);
+		MULTIPAGE_AddPage(hItem, hDialog_Page1, StringHZ[2]);
+		MULTIPAGE_AddPage(hItem, hDialog_Page2, StringHZ[1]);
 
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-//    BUTTON_SetText(hItem, "1_Reverse");
-
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
-//    BUTTON_SetText(hItem, "2_Forward");
-
-//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
-//    BUTTON_SetText(hItem, "2_Reverse");
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -164,7 +515,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_0: // Notifications sent by 'Back'
+    case ID_BUTTON_BACK: // Notifications sent by 'Back'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -182,46 +533,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_MOVED_OUT:
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
-      break;
-    case ID_BUTTON_1: // Notifications sent by 'motor1forward'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      }
-      break;
-    case ID_BUTTON_2: // Notifications sent by 'motor1reverse'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      }
-      break;
-    case ID_BUTTON_3: // Notifications sent by 'motor2forward'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      }
-      break;
-    case ID_BUTTON_4: // Notifications sent by 'motor2reverse'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
         break;
       }
       break;
@@ -246,8 +557,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateWindow_3(void);
 WM_HWIN CreateWindow_3(void) {
 	
-	hDialog_Page1 = GUI_CreateDialogBox(_aDialogCreatePage1, GUI_COUNTOF(_aDialogCreatePage1), NULL, WM_UNATTACHED, 0, 0);
-	hDialog_Page2 = GUI_CreateDialogBox(_aDialogCreatePage2, GUI_COUNTOF(_aDialogCreatePage2), NULL, WM_UNATTACHED, 0, 0);
+	hDialog_Page1 = GUI_CreateDialogBox(_aDialogCreatePage1, GUI_COUNTOF(_aDialogCreatePage1), _cbMotor, WM_UNATTACHED, 0, 0);
+	hDialog_Page2 = GUI_CreateDialogBox(_aDialogCreatePage2, GUI_COUNTOF(_aDialogCreatePage2), _cbServo, WM_UNATTACHED, 0, 0);
 	
   hWin_3 = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin_3;

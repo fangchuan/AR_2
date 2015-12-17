@@ -64,9 +64,10 @@ WM_HWIN hWin_Top;
 **********************************************************************
 */
 
-static const char *_acStringHZ[] = {"\xe7\xbc\x96\xe7\xa8\x8b","\xe8\x93\x9d\xe7\x89\x99",
-"\xe6\x89\x8b\xe5\x8a\xa8\xe6\x8e\xa7\xe5\x88\xb6","\xe9\x81\xa5\xe6\x8e\xa7","\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1",
-"\xe7\x94\xb5\xe8\x84\x91\xe8\xbf\x9e\xe6\x8e\xa5"};
+static const char *_acStringHZ[] = {"\xe7\xbc\x96\xe7\xa8\x8b","\xe8\x93\x9d\xe7\x89\x99",//0:编程    1:蓝牙
+	"\xe6\x89\x8b\xe5\x8a\xa8\xe6\x8e\xa7\xe5\x88\xb6","\xe9\x81\xa5\xe6\x8e\xa7",          //2:手动控制  3:遥控
+	"\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1","\xe7\x94\xb5\xe8\x84\x91\xe8\xbf\x9e\xe6\x8e\xa5",//4:自平衡  5:电脑连接
+};
 
 static const char *_acStringE[]={"ApolloRobot"};
 
@@ -286,7 +287,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateWindow_Top(void);
 WM_HWIN CreateWindow_Top(void) {
 
-	GUI_UC_SetEncodeUTF8();
+	
 	GUI_SetFont(&GUI_FontSongTi16);
   hWin_Top = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin_Top;

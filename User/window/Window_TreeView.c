@@ -51,7 +51,7 @@ WM_HWIN hTree;
 */
 #define ID_WINDOW_0       (GUI_ID_USER + 0x00)
 #define ID_TREEVIEW_FILE  (GUI_ID_USER + 0x02)
-#define ID_TEXT_EXPLAN    (GUI_ID_USER + 0x03)
+#define ID_BUTTON_FORMAT  (GUI_ID_USER + 0x03)
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x04)
 #define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
 #define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
@@ -71,7 +71,7 @@ WM_HWIN hTree;
 //static char* record_file=0;
 static char DeleteProgram[10] = {0};
 static const char *StringHZ[] = {
-	"\xe8\xaf\xb7\xe9\x80\x89\xe6\x8b\xa9\xe4\xb8\x80\xe4\xb8\xaa\xe7\xa8\x8b\xe5\xba\x8f...",//0:请选择一个程序
+	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96",//0:格式化
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe4\xb8\xbb\xe7\xa8\x8b\xe5\xba\x8f",//1:返回   2:主程序
 	"\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//3:删除程序
 };
@@ -83,7 +83,7 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { TREEVIEW_CreateIndirect, "Treeview", ID_TREEVIEW_FILE, 0, 0, 240, 193, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "说明文本", ID_TEXT_EXPLAN, 60, 200, 100, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect,"格式化", ID_BUTTON_FORMAT, 0, 200, 80, 20, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect,"返回", ID_BUTTON_BACK,180, 300, 60,  20, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "删除程序", ID_BUTTON_DEL, 0, 240, 80, 20, 0, 0x0, 0 },
   { EDIT_CreateIndirect, "程序名", ID_EDIT_PN, 80, 240, 100, 20, 0, 0x64, 0 },
@@ -177,13 +177,11 @@ void WriteFileProcess(void)
 {
 		_Listptr  p = Ins_List_Head -> next;
 		int      ListLength = GetListLength();
-		int      NumBytesPerList = 56;
+		int      NumBytesPerList = sizeof(_Instructor);
 		char     path[PATH_LEN] = {0};
 	
 		sprintf(path,"%s/%s","0:",program_name);
-//		result = f_write(&file,FILE_LIST_PATH,sizeof(path),&bw);//在filelist中写入新保存的程序文件名
-//		if(result != FR_OK)
-//			return ;
+
 		result = f_open(&file,path,FA_WRITE | FA_CREATE_ALWAYS);//新建一个程序文件，如果该程序文件已存在，则覆盖原文件
 		if(result != FR_OK)
 			return ;
@@ -230,7 +228,7 @@ static void OpenFileProcess(int sel_num )
 	if(!p)
 		return ;
 	else{
-				u16      NumBytesPerList = 56;
+				u16      NumBytesPerList = sizeof(_Instructor);
 				do{
 						result = f_read(&file,p, NumBytesPerList, &bw);
 						if(result != FR_OK)
@@ -405,16 +403,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		Fill_FileList("0:", hItem ,hNode,(void*)0);
 		TREEVIEW_ITEM_Expand(hNode);//展开指定结点
     //
-    // Initialization of 'Text'
+    // Initialization of 'Button'
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_EXPLAN);
-    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    TEXT_SetTextColor(hItem, GUI_RED);
-    TEXT_SetFont(hItem, &GUI_FontSongTi12);
-		TEXT_SetText(hItem,StringHZ[0]);
-		//
-		//Initializztion of Button
-		//
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_FORMAT);
+    BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[0]);
+
 		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_BACK);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem, StringHZ[1]);
@@ -471,12 +465,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							 result = f_unlink(del_path);
 							 if(result != FR_OK)
 								 _MessageBox("Please Input Correct Program Name","Error");
+							 else
+								 _MessageBox("Delete Program Successly","Success");
+							 
 						}
 						else
 							_MessageBox("Please Input the Program Name","Error");     
 				break;
       }
       break;
+		case ID_BUTTON_FORMAT:  //格式化FLASH
+					switch(NCode)
+					{
+						case WM_NOTIFICATION_CLICKED:
+							break;
+						case WM_NOTIFICATION_RELEASED:
+									W25QXX_Erase_Chip();
+						      _MessageBox("Formatting Flash Successfully","Success");
+							break;
+					}
+				break;
 		case ID_EDIT_PN:
 			   switch(NCode) {
 					case WM_NOTIFICATION_CLICKED:

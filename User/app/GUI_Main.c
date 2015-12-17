@@ -10,6 +10,7 @@ void GUI_Main_Task()
 {
 			WM_SetCreateFlags(WM_CF_MEMDEV);
 			WM_EnableMemdev(WM_HBKWIN);
+			GUI_UC_SetEncodeUTF8();
 	
 			CreateWindow_Top();
 			CreateWindow_1();
