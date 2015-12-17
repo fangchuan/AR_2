@@ -59,7 +59,7 @@ static void TIM8_PWMInCap_Init(void)
   	TIM8_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;	//先上升沿捕获
   	TIM8_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI; //映射到TI1上
   	TIM8_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;	 //配置输入分频,不分频 
-  	TIM8_ICInitStructure.TIM_ICFilter = 0x0B;//IC1F=1010 滤掉1us以下脉冲宽度的干扰
+  	TIM8_ICInitStructure.TIM_ICFilter = 0x00;//IC1F=1010 滤掉1us以下脉冲宽度的干扰
   	TIM_ICInit(TIM8, &TIM8_ICInitStructure);
 		
 		TIM_ITConfig(TIM8,TIM_IT_CC4,ENABLE);//允许CC4IE边沿捕获中断	 
