@@ -371,6 +371,8 @@ void BSP_Init(void)
 	Ultrasnio_Init();
 	/*初始化UART1*/
 	USART1_Config();
+	/*初始化NRF24L01*/
+	SPI_NRF_Init();
 	/*初始化滴答定时器*/
 	BSP_Tick_Init();
 	
@@ -392,6 +394,8 @@ void BSP_Init(void)
     BSP_CPU_REG_DBGMCU_CR &= ~BSP_DBGMCU_CR_TRACE_MODE_MASK;    /* Clr trace mode sel bits.                             */
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_MODE_SYNC_04; /* Cfg trace mode to synch 4-bit.                       */
 #endif
+	
+//		NRF_Check();
 }
 
 

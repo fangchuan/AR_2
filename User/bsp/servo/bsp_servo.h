@@ -19,6 +19,7 @@
 /*Public function*/
 extern void SERVO_PWM_Init(void);
 extern _Error  SERVO_Config(_Servo *servo);
+extern _Error   SERVO_Manual (uint8_t id, uint8_t degree);
 #endif /*_BSP_SERVO_H*/
 
 /* --------------------------------------end of file--------------------------------------- */

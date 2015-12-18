@@ -152,6 +152,44 @@ void MOTOR_2_Disable(void)
 		 digitalLo(MOTOR_PORT, MOTOR_Enable_2);
 }
 
+//电机1正转
+void MOTOR_1_Forward(void)
+{
+	   MOTOR_11_OUT = DEFAULT_AVR;
+	   MOTOR_12_OUT = 0;
+}
+//电机1反转
+void MOTOR_1_Reverse(void)
+{
+	   MOTOR_11_OUT = 0;
+	   MOTOR_12_OUT = DEFAULT_AVR;
+}
+//电机1停止
+void MOTOR_1_Stop(void)
+{
+	   MOTOR_11_OUT = 0;
+	   MOTOR_12_OUT = 0;
+}
+
+//电机2正转
+void MOTOR_2_Forward(void)
+{
+	   MOTOR_21_OUT = DEFAULT_AVR;
+	   MOTOR_22_OUT = 0;
+}
+//电机2反转
+void MOTOR_2_Reverse(void)
+{
+	   MOTOR_21_OUT = 0;
+	   MOTOR_22_OUT = DEFAULT_AVR;
+}
+//电机2停止
+void MOTOR_2_Stop(void)
+{
+	   MOTOR_21_OUT = 0;
+	   MOTOR_22_OUT = 0;
+}
+
 //电机配置，根据编程配置电机参数
 _Error MOTOR_Config(_Motor *motor)
 {

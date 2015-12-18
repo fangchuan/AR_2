@@ -136,4 +136,28 @@ _Error  SERVO_Config(_Servo *servo)
 			}
 			return NO_ERROR;
 }
+
+//手动控制配置舵机参数
+_Error   SERVO_Manual (uint8_t id, uint8_t degree)
+{
+	     if(id < 1 || id > 4)
+				 return ERROR_ID;
+			 
+			 switch(id)
+			 {
+				 case SERVO1:
+					    SERVO1_OUT = degree;
+					 break;
+				 case SERVO2:
+					    SERVO2_OUT = degree;
+					 break;
+				 case SERVO3:
+					    SERVO3_OUT = degree;
+					 break;
+				 case SERVO4:
+					    SERVO4_OUT = degree;
+					 break;
+			 }
+			 return NO_ERROR;
+}
 /*********************************************END OF FILE**********************/

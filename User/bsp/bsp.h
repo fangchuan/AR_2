@@ -10,6 +10,7 @@
 #include "bsp_ultrasnio.h"
 #include "bsp_touch.h"
 #include "bsp_fsmc_sram.h"
+#include "bsp_spi_nrf.h"
 
 /* 提供给其他C文件调用的函数 */
 void BSP_Init(void);

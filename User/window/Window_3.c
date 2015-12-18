@@ -96,31 +96,31 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 };
 static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage1[] = {
   { WINDOW_CreateIndirect,    "Dialog 1", 0, 0,   0, 240, 280, FRAMEWIN_CF_MOVEABLE },
-	{ TEXT_CreateIndirect,   "舵机1",        ID_TEXT_S1, 0, 20, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机1转60度", ID_BUTTON_S1_60, 10, 40, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机1转90度", ID_BUTTON_S1_90, 90, 40, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机1转120度", ID_BUTTON_S1_120, 170, 40, 60, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect,   "舵机2",        ID_TEXT_S2, 0, 80, 80, 20, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "舵机2转60度", ID_BUTTON_S2_60, 10, 100, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机2转90度", ID_BUTTON_S2_90, 90, 100, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机2转120度", ID_BUTTON_S2_120, 170, 100, 60, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect,   "舵机3",        ID_TEXT_S3, 0, 140, 80, 20, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "舵机3转60度", ID_BUTTON_S3_60, 10, 160, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机3转90度", ID_BUTTON_S3_90, 90, 160, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机3转120度", ID_BUTTON_S3_120, 170, 160, 60, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect,   "舵机4",        ID_TEXT_S4, 0, 200, 80, 20, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "舵机4转60度", ID_BUTTON_S4_60, 10, 220, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机4转90度", ID_BUTTON_S4_90, 90, 220, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "舵机4转120度", ID_BUTTON_S4_120, 170, 220, 60, 20, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "电机1",         ID_TEXT_M1, 0, 30, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor1forward", ID_BUTTON_M1C, 20, 70, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor1reverse", ID_BUTTON_M1CC, 130, 70, 80, 30, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "电机2",         ID_TEXT_M2, 0, 130, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor2forward", ID_BUTTON_M2C, 20, 160, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "motor2reverse", ID_BUTTON_M2CC, 130, 160, 80, 30, 0, 0x0, 0 },
 };
 static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage2[] = {
-  { WINDOW_CreateIndirect,    "Dialog 2", 0,  0,   0, 240, 280, FRAMEWIN_CF_MOVEABLE },
-	{ TEXT_CreateIndirect,   "电机1",         ID_TEXT_M1, 0, 60, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor1forward", ID_BUTTON_M1C, 20, 80, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor1reverse", ID_BUTTON_M1CC, 130, 80, 80, 20, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect,   "电机2",         ID_TEXT_M2, 0, 140, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor2forward", ID_BUTTON_M2C, 20, 160, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "motor2reverse", ID_BUTTON_M2CC, 130, 160, 80, 20, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect,    "Dialog 2", 0,  0,   0, 240, 280, FRAMEWIN_CF_MOVEABLE },	
+	{ TEXT_CreateIndirect,   "舵机1",        ID_TEXT_S1, 0, 10, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转60度", ID_BUTTON_S1_60, 10, 30, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转90度", ID_BUTTON_S1_90, 90, 30, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机1转120度", ID_BUTTON_S1_120, 170, 30, 60, 30, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机2",        ID_TEXT_S2, 0, 70, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机2转60度", ID_BUTTON_S2_60, 10, 90, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机2转90度", ID_BUTTON_S2_90, 90, 90, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机2转120度", ID_BUTTON_S2_120, 170, 90, 60, 30, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机3",        ID_TEXT_S3, 0, 130, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机3转60度", ID_BUTTON_S3_60, 10, 150, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机3转90度", ID_BUTTON_S3_90, 90, 150, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机3转120度", ID_BUTTON_S3_120, 170, 150, 60,30, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect,   "舵机4",        ID_TEXT_S4, 0, 190, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "舵机4转60度", ID_BUTTON_S4_60, 10, 210, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机4转90度", ID_BUTTON_S4_90, 90, 210, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "舵机4转120度", ID_BUTTON_S4_120, 170, 210, 60, 30, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -149,28 +149,24 @@ static void _cbServo (WM_MESSAGE * pMsg)
 					strcpy(str, StringHZ[2]);
 				  strcat(str,  "1");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 				
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S2);
 					TEXT_SetFont(hItem, &GUI_FontSongTi12);
 				  strcpy(str, StringHZ[2]);
 				  strcat(str,  "2");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 				
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S3);
 					TEXT_SetFont(hItem, &GUI_FontSongTi12);
 				  strcpy(str, StringHZ[2]);
 				  strcat(str,  "3");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 					
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_S4);
 					TEXT_SetFont(hItem, &GUI_FontSongTi12);
 				  strcpy(str, StringHZ[2]);
 				  strcat(str,  "4");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 					//
 					// Initialization of Button
 					//
@@ -233,7 +229,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										    SERVO_Manual( 1, 60);
 										break;
 									}
 								 break;
@@ -243,7 +239,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual( 1, 90);
 										break;
 									}
 								 break;
@@ -253,7 +249,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual( 1, 120);
 										break;
 									}
 								 break;
@@ -263,7 +259,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(2, 60);
 										break;
 									}
 								 break;
@@ -273,7 +269,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(2, 90);
 										break;
 									}
 								 break;
@@ -283,7 +279,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(2, 120);
 										break;
 									}
 								 break;
@@ -293,7 +289,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(3, 60);
 										break;
 									}
 								 break;
@@ -303,7 +299,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										    SERVO_Manual(3, 90);
 										break;
 									}
 								 break;
@@ -313,7 +309,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(3, 120);
 										break;
 									}
 								 break;
@@ -323,7 +319,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(4, 60);
 										break;
 									}
 								 break;
@@ -333,7 +329,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(4, 90);
 										break;
 									}
 								 break;
@@ -343,7 +339,7 @@ static void _cbServo (WM_MESSAGE * pMsg)
 										
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     SERVO_Manual(4, 120);
 										break;
 									}
 								 break;
@@ -375,14 +371,12 @@ static void _cbMotor (WM_MESSAGE * pMsg)
 					strcpy(str, StringHZ[1]);
 				  strcat(str,  "1");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 				
 					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_M2);
 					TEXT_SetFont(hItem, &GUI_FontSongTi12);
 				  strcpy(str, StringHZ[1]);
-				  strcat(str,  "1");
+				  strcat(str,  "2");
 				  TEXT_SetText(hItem, str);
-					TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 					//
 					// Initialization of Button
 					//
@@ -411,40 +405,40 @@ static void _cbMotor (WM_MESSAGE * pMsg)
 							 case ID_BUTTON_M1C:
 								switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
-										
+										     MOTOR_1_Forward();
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     MOTOR_1_Stop();
 										break;
 									}
 								 break;
 							 case ID_BUTTON_M1CC:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
-										
+										    MOTOR_1_Reverse();
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										    MOTOR_1_Stop();
 										break;
 									}
 								 break;
 							 case ID_BUTTON_M2C:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
-										
+										     MOTOR_2_Forward();
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     MOTOR_2_Stop();
 										break;
 									}
 								 break;
 							 case ID_BUTTON_M2CC:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
-										
+										     MOTOR_2_Reverse();
 										break;
 									case WM_NOTIFICATION_RELEASED:
-										
+										     MOTOR_2_Stop();
 										break;
 									}
 								 break;
@@ -485,8 +479,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIPAGE_0);  
 		MULTIPAGE_SetFont(hItem, &GUI_FontSongTi12);
-		MULTIPAGE_AddPage(hItem, hDialog_Page1, StringHZ[2]);
-		MULTIPAGE_AddPage(hItem, hDialog_Page2, StringHZ[1]);
+		MULTIPAGE_AddPage(hItem, hDialog_Page1, StringHZ[1]);
+		MULTIPAGE_AddPage(hItem, hDialog_Page2, StringHZ[2]);
 
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
@@ -557,8 +551,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateWindow_3(void);
 WM_HWIN CreateWindow_3(void) {
 	
-	hDialog_Page1 = GUI_CreateDialogBox(_aDialogCreatePage1, GUI_COUNTOF(_aDialogCreatePage1), _cbMotor, WM_UNATTACHED, 0, 0);
-	hDialog_Page2 = GUI_CreateDialogBox(_aDialogCreatePage2, GUI_COUNTOF(_aDialogCreatePage2), _cbServo, WM_UNATTACHED, 0, 0);
+	hDialog_Page1 = GUI_CreateDialogBox(_aDialogCreatePage1, GUI_COUNTOF(_aDialogCreatePage1), _cbMotor, WM_UNATTACHED , 0, 0);
+	hDialog_Page2 = GUI_CreateDialogBox(_aDialogCreatePage2, GUI_COUNTOF(_aDialogCreatePage2), _cbServo, WM_UNATTACHED , 0, 0);
 	
   hWin_3 = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin_3;
