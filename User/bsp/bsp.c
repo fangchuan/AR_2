@@ -395,7 +395,6 @@ void BSP_Init(void)
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_MODE_SYNC_04; /* Cfg trace mode to synch 4-bit.                       */
 #endif
 	
-//		NRF_Check();
 }
 
 

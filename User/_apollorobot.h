@@ -4,6 +4,7 @@
 #include  "stm32f10x.h"
 #include  "stdlib.h"
 #include  "stdio.h"
+#include  "protocol.h"
 /*********************************************************************
 *
 *       一些错误信息
@@ -16,6 +17,17 @@ typedef enum _ERROR {	NO_ERROR = 0,
 							
 }_Error;
 
+//用于标识传感器种类的枚举类型
+typedef enum _SENSORFLAG {
+                           SENSOR_INFRARED = 1,//红外光电传感器
+													 SENSOR_SWITCH,      //触碰开关
+													 SENSOR_LED,         //LED
+													 SENSOR_LDR,         //光敏电阻
+													 SENSOR_ULTRASNIO,   //超声波
+													 SENSOR_MPU,         //MPU6050
+													
+														
+}_SensorFlag;
 //指令操作所属类别
 #define  FLAG_CHANGE  1
 #define  FLAG_INSERT  2
@@ -144,7 +156,25 @@ typedef struct _PORT {
 				int     cur_val;//当前值
 				int     tar_val;//目标值
 }_Port;
+//数字传感器
+typedef struct _DS {
+				uint8_t   sta;   //是否插上数字传感器
+	      uint8_t   val;//
 
+}_DS;
+//模拟传感器
+typedef struct _AS {
+	      uint8_t    sta;//是否插上模拟传感器
+	      uint16_t    val;
+
+}_AS;
+//MPU6050
+typedef struct _EULER {
+				float  angle_x;
+	      float  angle_y;
+	      float  accel_x;
+	      float  accel_y;
+}_Euler;
 //
 //超声波的数据结构
 //

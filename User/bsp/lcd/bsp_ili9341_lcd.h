@@ -24,6 +24,7 @@
 #define ILI9341_REG		*(__IO uint16_t *)(0x6C000000)
 #define ILI9341_RAM		*(__IO uint16_t *)(0x6D000000)
 
+#define LCD_ILI9341
 
 void LCD9341_SetCursor(uint16_t _usX1 , uint16_t _usY1);
 void LCD9341_SetPoint(uint16_t _usX1 , uint16_t _usY1 , uint16_t _usColor);

@@ -62,6 +62,7 @@ char program_name[10];
 const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",//0:新建
 	"\xe6\x89\x93\xe5\xbc\x80","\xe8\xbf\x94\xe5\x9b\x9e",////1:打开,2:返回
 	"\xe8\xbf\x9b\xe5\x85\xa5","\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d", //3：进入  4:请输入程序名
+	"\xe9\x94\x99\xe8\xaf\xaf",//5:错误
 };
 
 /*********************************************************************
@@ -180,7 +181,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						//warning the situation of empty program name
 						if(strcmp(program_name, "") == 0)
 						{
-							_MessageBox("Please Input the Program Name","Error");
+							_MessageBox(_StringHZ[4],_StringHZ[5]);
 						}
 						else
 						{

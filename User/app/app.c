@@ -11,10 +11,22 @@ extern OS_TCB	AppTaskStartTCB;
 extern uint8_t Key_Value ;
 extern _Ultrasnio ult;
 extern enum _FLAG _flag;//指令标志
+//extern _SensorFlag  sensorflag;//传感器种类
 extern _Listptr Ins_List_Head;//程序链表的头指针
+extern _DS    digital_sensor1;
+extern _DS    digital_sensor2;
+extern _DS    digital_sensor3;
+extern _DS    digital_sensor4;
+extern _AS     analog_sensor1;
+extern _AS     analog_sensor2;
+extern _AS     analog_sensor3;
+extern _AS     analog_sensor4;
+extern _Ultrasnio        ult;
+extern _Euler          euler;
 
 OS_SEM  RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
 //OS_SEM  END_SEM;    //定义一个信号量，用于运行任务结束后发送给GUIUpdate任务
+//OS_FLAG_GRP	SensorFlags;		//定义一个事件标志组，用于决定传输哪个传感器数据
 /*********************************************************************
 *
 *       Static data
@@ -33,19 +45,23 @@ static  CPU_STK  AppTaskUserIFStk[APP_CFG_TASK_USER_IF_STK_SIZE];
 static  OS_TCB   AppTaskMainTaskTCB;//这里没把他定义为静态是为了让GUI面板能随时随地将运行任务挂起
 static  CPU_STK  AppTaskMainTaskStk[APP_CFG_TASK_MAIN_TASK_STK_SIZE];
 
-static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
+static  OS_TCB   AppTaskTransferTCB;
+static  CPU_STK  AppTaskTransferStk[APP_CFG_TASK_TRANSFER_STK_SIZE];
 
+static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
+static uint8_t  transferdata[MAX_LEN];
 /*********************************************************************
 *
 *       Static code
 *
 **********************************************************************
 */
-static  void  AppTaskCreate(void);
+static void   AppTaskCreate(void);
 static void   AppTaskGUIUpdate(void *p_arg);
 static void   AppTaskUserIF(void *p_arg);
 static void   AppTaskCOM(void *p_arg);
 static void   AppTaskMainTask(void *p_arg);
+static void   AppTaskTransfer(void *p_arg);
 
 //软件定时器的回调函数
 static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
@@ -55,7 +71,9 @@ static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
 	GUI_TOUCH_Exec();			//每10ms调用一次，触发调用触摸驱动
 	Ultrasnio_update();   //每10ms触发一次超声波更新
 	if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
-		WM_Invalidate(hRun);
+	{
+			WM_Invalidate(hRun);
+	}
 }
 
 /*
@@ -142,7 +160,10 @@ static void AppTaskGUIUpdate(void *p_arg)
 		if(flag_end) 
 		{
 			flag_end = 0;
-			GUI_EndDialog(hRun,0);//运行结束则关闭“运行”界面
+			if(WM_IsWindow(hRun))
+			{
+				GUI_EndDialog(hRun,0);//运行结束则关闭“运行”界面
+			}
 		}
 		OSTimeDlyHMSM(0, 0, 0, 100,
                       OS_OPT_TIME_PERIODIC | OS_OPT_TIME_HMSM_STRICT,
@@ -162,17 +183,17 @@ static void AppTaskGUIUpdate(void *p_arg)
 static void AppTaskCOM(void *p_arg)
 {	
 	OS_ERR      err;
-	_Listptr p = Ins_List_Head;
+//	_Listptr p = Ins_List_Head;
 	(void)p_arg;
 	 
 	while(1)
 	{
-		p = Ins_List_Head;
-		while(p -> next )
-		{
-				printf("flag:%d\n",(p -> next)->_flag );
-			  p = p -> next ;
-		}
+//		p = Ins_List_Head;
+//		while(p -> next )
+//		{
+//				printf("flag:%d\n",(p -> next)->_flag );
+//			  p = p -> next ;
+//		}
 		OSTimeDlyHMSM(0, 0, 5, 0,
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
@@ -194,7 +215,7 @@ static void AppTaskCOM(void *p_arg)
 static void AppTaskUserIF(void *p_arg)
 {
 	OS_ERR      err;
-	
+	(void)    p_arg;
 	while (1) 
 	{   
 		if( Key_Value == 0)
@@ -243,6 +264,69 @@ static void AppTaskUserIF(void *p_arg)
                       &err);     
 	}
 }
+
+/*
+*********************************************************************************************************
+*	函 数 名: AppTaskTransfer
+*	功能说明: 传感器数据回传任务
+*	形    参：p_arg 是在创建该任务时传递的形参
+*	返 回 值: 无
+	优 先 级：3
+*********************************************************************************************************
+*/
+static void AppTaskTransfer(void *p_arg)
+{
+			 OS_ERR   err;
+	     (void) p_arg;
+	
+	     while(1)
+			 {
+//				 		//等待事件标志组
+//					OSFlagPend((OS_FLAG_GRP*)&SensorFlags,
+//								 (OS_FLAGS	  )sensorflag,
+//								 (OS_TICK     )0,
+//								 (OS_OPT	    )OS_OPT_PEND_FLAG_SET_ANY+OS_OPT_PEND_FLAG_CONSUME,
+//								 (CPU_TS*     )0,
+//								 (OS_ERR*	    )&err);
+				  if(digital_sensor1.sta )
+					{
+						
+					}
+					if(digital_sensor2.sta )
+					{
+						
+					}
+					if(digital_sensor3.sta )
+					{
+						
+					}
+					if(digital_sensor4.sta )
+					{
+						
+					}
+					if(analog_sensor1.sta )
+					{
+						
+					}
+					if(analog_sensor2.sta )
+					{
+						
+					}
+					if(analog_sensor3.sta )
+					{
+						
+					}
+					if(analog_sensor4.sta )
+					{
+						
+					}
+					if(ult.cur_distance )
+					{
+						
+					}
+				  OSTimeDlyHMSM(0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
+			 }
+}
 /*
 *********************************************************************************************************
 *	函 数 名: AppTaskMainTask
@@ -283,6 +367,11 @@ static  void  AppTaskCreate(void)
 	OSSemCreate(&RUN_SEM,"Run Semaphore",0, &err);
 //	//创建一个信号量，用于主运行任务运行结束后通知GUIUpdate任务
 //	OSSemCreate(&END_SEM, "End of Run Semaphore",0 ,&err);
+//	//创建一个事件标志组
+//	OSFlagCreate((OS_FLAG_GRP*)&SensorFlags,		//指向事件标志组
+//                 (CPU_CHAR*	  )"Sensor Flags",	//名字
+//                 (OS_FLAGS	  )0,	           //事件标志组初始值
+//                 (OS_ERR*  	  )&err);			//错误码
 	/***********************************/
 	OSTaskCreate((OS_TCB       *)&AppTaskGUIUpdateTCB,             
                  (CPU_CHAR     *)"App Task GUI Update",
@@ -308,7 +397,7 @@ static  void  AppTaskCreate(void)
                  (CPU_STK_SIZE  )APP_CFG_TASK_COM_STK_SIZE / 10,
                  (CPU_STK_SIZE  )APP_CFG_TASK_COM_STK_SIZE,
                  (OS_MSG_QTY    )2,
-                 (OS_TICK       )0,
+                 (OS_TICK       )2,
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);
@@ -327,7 +416,7 @@ static  void  AppTaskCreate(void)
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);			
-
+	/***********************************/
 	OSTaskCreate((OS_TCB       *)&AppTaskMainTaskTCB,             
                  (CPU_CHAR     *)"App Task MainTask",
                  (OS_TASK_PTR   )AppTaskMainTask, 
@@ -341,6 +430,20 @@ static  void  AppTaskCreate(void)
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);		
+		/***********************************/						 
+		OSTaskCreate((OS_TCB       *)&AppTaskTransferTCB,             
+                 (CPU_CHAR     *)"App Task Transfer",
+                 (OS_TASK_PTR   )AppTaskTransfer, 
+                 (void         *)0,
+                 (OS_PRIO       )APP_CFG_TASK_TRANSFER_PRIO,
+                 (CPU_STK      *)&AppTaskTransferStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE,
+                 (OS_MSG_QTY    )10,
+                 (OS_TICK       )2,     //因为与串口任务相同优先级，所以设置他的轮转时间片为2ms
+                 (void         *)0,
+                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+                 (OS_ERR       *)&err);					
 								 
 }
 

@@ -15,6 +15,7 @@
 */
 _Listptr Ins_List_Head;//程序链表的头指针
 _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
+_SensorFlag  sensorflag;//传感器种类
 
 
 /*********************************************************************
@@ -27,8 +28,18 @@ _Motor    motor;
 _Servo    servo;
 _Led        led;
 _Port      port;
-_Ultrasnio  ult;
 _Variable   var;
+
+_DS    digital_sensor1;
+_DS    digital_sensor2;
+_DS    digital_sensor3;
+_DS    digital_sensor4;
+_AS     analog_sensor1;
+_AS     analog_sensor2;
+_AS     analog_sensor3;
+_AS     analog_sensor4;
+_Ultrasnio        ult;
+_Euler          euler;
 
 int32_t  delay_time;
 /*********************************************************************
@@ -42,7 +53,38 @@ static _Listptr if_branch (_Listptr  p);
 static _Listptr while_branch(_Listptr  p);
 static _Error Detect_Port(_Port *port);
 static _Error Get_Port  (_Port * port);
+static void  InitDigitalSensor(_DS *sensor);
+static void  InitAnalogSensor(_AS *sensor);
+static void  InitMPUSensor(_Euler *sensor);
+static void InitUltrasnio(_Ultrasnio *sensor);
 
+
+//初始化传感器数据结构
+
+static void  InitDigitalSensor(_DS *sensor)
+{
+	    sensor->sta = 0;
+	    sensor->val =  0;
+	
+}
+static void InitAnalogSensor(_AS *sensor)
+{
+	    sensor->sta = 0;
+	    sensor->val  = 0;
+}
+static void InitMPUSensor(_Euler *sensor)
+{
+	    sensor->angle_x = 0;
+	    sensor->angle_y = 0;
+	    sensor->accel_x = 0;
+			sensor->accel_y = 0;
+}
+static void InitUltrasnio(_Ultrasnio *sensor)
+{
+	    sensor->ifshow = 0;
+	    sensor->cur_distance = 0;
+	    sensor->tar_distance = 0;
+}
 //
 //侦测端口Port的状态：有无信号
 //Tips:默认是用来判断数字传感器的
@@ -57,7 +99,6 @@ static _Error Detect_Port(_Port *port)
 				switch(port->id )
 					{
 						case PORT_1:
-							   
 									if( !Detect_DS1 )
 									{
 										  port->status = SIGNAL;
@@ -66,6 +107,8 @@ static _Error Detect_Port(_Port *port)
 									{
 										  port->status = NOSIGNAL;
 									}
+									digital_sensor1.sta = PORT_1;
+									digital_sensor1.val = port->status;
 //									if(	Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
 //									{
 //										  port->species = AS;
@@ -81,6 +124,8 @@ static _Error Detect_Port(_Port *port)
 									{
 										  port->status = NOSIGNAL;
 									}
+									digital_sensor2.sta = PORT_2;
+									digital_sensor2.val = port->status;
 //									if(Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
 //									{
 //										  port->species = AS;
@@ -96,6 +141,8 @@ static _Error Detect_Port(_Port *port)
 									{
 										  port->status = NOSIGNAL;
 									}
+									digital_sensor3.sta = PORT_3;
+									digital_sensor3.val = port->status;
 //									if(Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
 //									{
 //										  port->species = AS;
@@ -111,6 +158,8 @@ static _Error Detect_Port(_Port *port)
 									{
 										  port->status = NOSIGNAL;
 									}
+									digital_sensor4.sta = PORT_4;
+									digital_sensor4.val = port->status;
 //									if(Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
 //									{
 //										  port->species = AS;
@@ -129,23 +178,31 @@ static _Error Get_Port  (_Port * port)
 			if(port->id < 1 || port->id > 4)
 					return ERROR_ID;
 			else{
-//						DigitalSensor_Init();//每次有关于数字传感器的相关操作时，要先将这几个引脚重设为输入模式
 				    port->species = AS;
 						switch(port->id)
 						{
 							case PORT_1:
 										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_1);
+										analog_sensor1.sta = PORT_1;
+							      analog_sensor1.val = port->cur_val ;
 								break;
 							case PORT_2:
 										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_2);
+										analog_sensor2.sta = PORT_2;
+							      analog_sensor2.val = port->cur_val ;
 								break;
 							case PORT_3:
 										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_3);
+										analog_sensor3.sta = PORT_3;
+							      analog_sensor3.val = port->cur_val ;
 								break;
 							case PORT_4:
 										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_4);
+										analog_sensor4.sta = PORT_4;
+							      analog_sensor4.val = port->cur_val ;
 								break;
 						}
+						
 				return NO_ERROR;
 			}
 }
@@ -1228,6 +1285,23 @@ void List_Parse(_Listptr  ptr)
 {
 		_Listptr  q;//用于if语句
 		OS_ERR  err;
+		//清空所有关于回传数据和显示的标志
+	
+		//初始化4个数字传感器数据结构
+		InitDigitalSensor(&digital_sensor1);
+	  InitDigitalSensor(&digital_sensor2);
+	  InitDigitalSensor(&digital_sensor3);
+	  InitDigitalSensor(&digital_sensor4);
+		//初始化4个模拟传感器数据结构
+		InitAnalogSensor(&analog_sensor1);
+	  InitAnalogSensor(&analog_sensor2);
+		InitAnalogSensor(&analog_sensor3);
+		InitAnalogSensor(&analog_sensor4);
+		//初始化MPU数据结构
+		InitMPUSensor(&euler);
+		//初始化超声波数据结构
+		InitUltrasnio(&ult);
+	
 		while(ptr)
 		{
 

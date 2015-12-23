@@ -24,7 +24,7 @@
 #include "Window_4.h"
 #include "stdio.h"
 #include "SongTi12.h"
-
+#include "WIDGET_MessageBox.h"
 /*********************************************************************
 *
 *       Global data
@@ -34,7 +34,7 @@
 
 extern uint8_t Key_Value;
 
-WM_HWIN hWin_4;
+WM_HWIN           hWin_4;
 /*********************************************************************
 *
 *       Defines
@@ -46,8 +46,8 @@ WM_HWIN hWin_4;
 #define ID_HEADER_1     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
-#define ID_RADIO_0     (GUI_ID_USER + 0x07)
-
+#define ID_RADIO_0      (GUI_ID_USER + 0x07)
+#define ID_TEXT_EXP     (GUI_ID_USER + 0x08)
 
 /*********************************************************************
 *
@@ -55,10 +55,12 @@ WM_HWIN hWin_4;
 *
 **********************************************************************
 */
-static 	char String_Show[4];
 
 static const char *StringHZ[] = {
 	"\xe8\xbf\x9e\xe6\x8e\xa5","\xe6\x96\xad\xe5\xbc\x80",//0:连接，1:断开
+	"\xe8\xaf\xb7\xe9\x80\x89\xe6\x8b\xa9\xe9\x81\xa5\xe6\x8e\xa7\xe5\x99\xa8\xe9\x80\x9a\xe9\x81\x93:",//2:请选择遥控器通道
+	"\xe8\xbf\x9e\xe6\x8e\xa5\xe6\x88\x90\xe5\x8a\x9f",//3:连接成功
+	"\xe9\x80\x9a\xe9\x81\x93",//4:通道
 };
 
 /*********************************************************************
@@ -69,11 +71,10 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Disconnect", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Connect", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "断开", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "连接", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
   { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 160, 50, 80, 180, 0, 0x1408, 0 },
-  // USER START (Optionally insert additional widgets)
-  // USER END
+  { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 50, 100,20,0, 0X0, 0}
 };
 
 /*********************************************************************
@@ -94,12 +95,15 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
   int     NCode;
   int     Id;
-  // USER START (Optionally insert additional variables)
-	
-  // USER END
+  char    str[10];
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
+		//
+		//Initialization of windows
+		//
+		hItem = pMsg->hWin;
+    WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
     //
     // Initialization of 'HeaderTop'
     //
@@ -109,14 +113,23 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Radio'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-    RADIO_SetText(hItem, "RC1", 1);
-    RADIO_SetText(hItem, "RC2", 2);
-    RADIO_SetText(hItem, "RC3", 3);
-    RADIO_SetText(hItem, "RC4", 4);
-    RADIO_SetText(hItem, "RC5", 5);
-    RADIO_SetText(hItem, "RC6", 6);
-    RADIO_SetText(hItem, "RC7", 7);
-    RADIO_SetText(hItem, "RC8", 0);
+		RADIO_SetFont(hItem, &GUI_FontSongTi12);
+		sprintf(str, "%s%s",StringHZ[4],"0");
+    RADIO_SetText(hItem, str, 0);
+		sprintf(str, "%s%s",StringHZ[4],"1");
+    RADIO_SetText(hItem, str, 1);
+		sprintf(str, "%s%s",StringHZ[4],"2");
+    RADIO_SetText(hItem, str, 2);
+		sprintf(str, "%s%s",StringHZ[4],"3");
+    RADIO_SetText(hItem, str, 3);
+		sprintf(str, "%s%s",StringHZ[4],"4");
+    RADIO_SetText(hItem, str, 4);
+		sprintf(str, "%s%s",StringHZ[4],"5");
+    RADIO_SetText(hItem, str, 5);
+		sprintf(str, "%s%s",StringHZ[4],"6");
+    RADIO_SetText(hItem, str, 6);
+		sprintf(str, "%s%s",StringHZ[4],"7");
+    RADIO_SetText(hItem, str, 7);
 		//
 		//Initialize of Button
 		//
@@ -127,7 +140,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_1);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[0]);
-
+		//
+		//Initialization of Explanation Text
+		//
+		hItem = WM_GetDialogItem(pMsg->hWin ,ID_TEXT_EXP);
+		TEXT_SetFont(hItem, &GUI_FontSongTi12);
+		TEXT_SetText(hItem, StringHZ[2]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -168,10 +186,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
 						hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-//						Radio_Index = RADIO_GetValue(hItem);
-//						sprintf(String_Show,"%d\n",Radio_Index);
-						RADIO_GetText(hItem, RADIO_GetValue(hItem),String_Show,4);
-						GUI_MessageBox(String_Show,"Connect Success",0);
+						RADIO_GetText(hItem, RADIO_GetValue(hItem),str,10);
+						_MessageBox(str,StringHZ[3]);
         break;
       }
       break;
@@ -188,9 +204,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     }
     break;
 	case WM_PAINT:
-			GUI_SetColor(GUI_RED);
-			GUI_SetFont(&GUI_Font16_ASCII);
-			GUI_DispStringAt("Please Select RC Channel:",0,50);
 	break;
   default:
     WM_DefaultProc(pMsg);

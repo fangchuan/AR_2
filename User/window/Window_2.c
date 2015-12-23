@@ -42,10 +42,10 @@ WM_HWIN hWin_2;
 #define ID_BUTTON_0     (GUI_ID_USER + 0x02)
 #define ID_HEADER_1     (GUI_ID_USER + 0x03)
 
-#define ID_LISTVIEW_0     (GUI_ID_USER + 0x05)
+#define ID_LISTVIEW_0   (GUI_ID_USER + 0x05)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x07)
 #define ID_BUTTON_2     (GUI_ID_USER + 0x08)
-
+#define ID_TEXT_EXP     (GUI_ID_USER + 0x09)
 
 // USER START (Optionally insert additional defines)
 // USER END
@@ -59,6 +59,7 @@ WM_HWIN hWin_2;
 static const char *StringHZ[] = {
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe6\x96\xad\xe5\xbc\x80",//0:返回，1:断开
 	"\xe6\x9b\xb4\xe6\x96\xb0\xe5\x9b\xba\xe4\xbb\xb6",//2:更新固件
+	"\xe4\xbc\xa0\xe6\x84\x9f\xe5\x99\xa8\xe7\x8a\xb6\xe6\x80\x81",//3:传感器状态
 };
 
 /*********************************************************************
@@ -68,13 +69,12 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "返回", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "Listview", ID_LISTVIEW_0, 0, 40, 200, 33, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Update Firmware", ID_BUTTON_1, 0, 120, 100, 40, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Disconnect", ID_BUTTON_2, 160, 300, 80, 20, 0, 0x0, 0 },
-  // USER START (Optionally insert additional widgets)
-  // USER END
+  { BUTTON_CreateIndirect, "更新固件", ID_BUTTON_1, 0, 120, 100, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "断开", ID_BUTTON_2, 160, 300, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect,   "传感器状态",  ID_TEXT_EXP, 0,  25,  80, 20, 0, 0x0, 0 },
 };
 
 /*********************************************************************
@@ -100,6 +100,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
+		//
+		//Initialization of windows
+		//
+		hItem = pMsg->hWin;
+    WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
     //
     // Initialization of 'Button'
     //
@@ -114,6 +119,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
     BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem, StringHZ[1]);
+		//
+		//Initialization of Explantion Text
+		//
+	  hItem = WM_GetDialogItem(pMsg->hWin ,ID_TEXT_EXP);
+		TEXT_SetFont(hItem, &GUI_FontSongTi12);
+	  TEXT_SetText(hItem, StringHZ[3]);
     //
     // Initialization of 'Header'
     //
@@ -195,9 +206,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     break;
 		
 	case WM_PAINT:
-			GUI_SetColor(GUI_RED);
-			GUI_SetFont(&GUI_Font16_ASCII);
-			GUI_DispStringAt("Sensor Statu:",0,20);
+
 	break;
 	
   default:

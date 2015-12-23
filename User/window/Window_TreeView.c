@@ -22,6 +22,7 @@
 #include "includes.h"
 #include "Window_1_1.h"
 #include "WIDGET_NumPad.h"
+#include "WIDGET_MessageBox.h"
 /*********************************************************************
 *
 *       Global data
@@ -74,6 +75,12 @@ static const char *StringHZ[] = {
 	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96",//0:格式化
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe4\xb8\xbb\xe7\xa8\x8b\xe5\xba\x8f",//1:返回   2:主程序
 	"\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//3:删除程序
+	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe6\xad\xa3\xe7\xa1\xae\xe7\x9a\x84\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//4:请输入正确的文件名
+	"\xe9\x94\x99\xe8\xaf\xaf","\xe6\x88\x90\xe5\x8a\x9f",//5:错误  6:成功
+	"\xe6\x88\x90\xe5\x8a\x9f\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//7:成功删除程序
+	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//8:请输入程序名
+	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96\xe7\xa3\x81\xe7\x9b\x98\xe6\x88\x90\xe5\x8a\x9f!",//9:格式化磁盘成功!
+	
 };
 
 /*********************************************************************
@@ -464,13 +471,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
 							 result = f_unlink(del_path);
 							 if(result != FR_OK)
-								 _MessageBox("Please Input Correct Program Name","Error");
+								 _MessageBox(StringHZ[4],StringHZ[5]);
 							 else
-								 _MessageBox("Delete Program Successly","Success");
+								 _MessageBox(StringHZ[7],StringHZ[6]);
 							 
 						}
 						else
-							_MessageBox("Please Input the Program Name","Error");     
+							_MessageBox(StringHZ[8],StringHZ[5]);     
 				break;
       }
       break;
@@ -481,7 +488,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 						case WM_NOTIFICATION_RELEASED:
 									W25QXX_Erase_Chip();
-						      _MessageBox("Formatting Flash Successfully","Success");
+						      _MessageBox(StringHZ[9],StringHZ[6]);
 							break;
 					}
 				break;

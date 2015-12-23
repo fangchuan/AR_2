@@ -463,6 +463,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
+		//
+		//Initialization of windows
+		//
+		hItem = pMsg->hWin;
+		WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
     //
     // Initialization of 'HeaderTop'
     //

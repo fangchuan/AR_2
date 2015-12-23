@@ -396,6 +396,7 @@ void bsp_InitLCD(void)
 	/* ¸´Î» */
 	LCD_Reset();
 		
+#ifdef  LCD_ILI9341
 	/*  Power control B (CFh)  */
 	DEBUG_DELAY();
 	LCD_ILI9341_CMD(0xCF);
@@ -548,7 +549,89 @@ void bsp_InitLCD(void)
 
 	/* Display ON (29h) */
 	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0x29); 						
+	LCD_ILI9341_CMD(0x29); 	
+
+#else
+
+			LCD_ILI9341_CMD(0XF2);
+			LCD_ILI9341_Parameter(0x18);
+			LCD_ILI9341_Parameter(0xA3);
+			LCD_ILI9341_Parameter(0x12);
+			LCD_ILI9341_Parameter(0x02);
+			LCD_ILI9341_Parameter(0XB2);
+			LCD_ILI9341_Parameter(0x12);
+			LCD_ILI9341_Parameter(0xFF);
+			LCD_ILI9341_Parameter(0x10);
+			LCD_ILI9341_Parameter(0x00);
+			
+			LCD_ILI9341_CMD(0XF8);
+			LCD_ILI9341_Parameter(0x21);
+			LCD_ILI9341_Parameter(0x04);
+			
+			LCD_ILI9341_CMD(0XF9);
+			LCD_ILI9341_Parameter(0x00);
+			LCD_ILI9341_Parameter(0x08);
+			
+			LCD_ILI9341_CMD(0x36);
+			LCD_ILI9341_Parameter(0x08);
+			
+			LCD_ILI9341_CMD(0x3A);
+			LCD_ILI9341_Parameter(0x05);
+			
+			LCD_ILI9341_CMD(0xB4);
+			LCD_ILI9341_Parameter(0x01);//0x00
+			
+			LCD_ILI9341_CMD(0xB6);
+			LCD_ILI9341_Parameter(0x02);
+			LCD_ILI9341_Parameter(0x22);
+			
+			LCD_ILI9341_CMD(0xC1);
+			LCD_ILI9341_Parameter(0x41);
+			
+			LCD_ILI9341_CMD(0xC5);
+			LCD_ILI9341_Parameter(0x00);
+			LCD_ILI9341_Parameter(0x07);//0X18
+			
+			LCD_ILI9341_CMD(0xE0);
+			LCD_ILI9341_Parameter(0x0F);
+			LCD_ILI9341_Parameter(0x1F);
+			LCD_ILI9341_Parameter(0x1C);
+			LCD_ILI9341_Parameter(0x0C);
+			LCD_ILI9341_Parameter(0x0F);
+			LCD_ILI9341_Parameter(0x08);
+			LCD_ILI9341_Parameter(0x48);
+			LCD_ILI9341_Parameter(0x98);
+			LCD_ILI9341_Parameter(0x37);
+			LCD_ILI9341_Parameter(0x0A);
+			LCD_ILI9341_Parameter(0x13);
+			LCD_ILI9341_Parameter(0x04);
+			LCD_ILI9341_Parameter(0x11);
+			LCD_ILI9341_Parameter(0x0D);
+			LCD_ILI9341_Parameter(0x00);
+			
+			LCD_ILI9341_CMD(0xE1);
+			LCD_ILI9341_Parameter(0x0F);
+			LCD_ILI9341_Parameter(0x32);
+			LCD_ILI9341_Parameter(0x2E);
+			LCD_ILI9341_Parameter(0x0B);
+			LCD_ILI9341_Parameter(0x0D);
+			LCD_ILI9341_Parameter(0x05);
+			LCD_ILI9341_Parameter(0x47);
+			LCD_ILI9341_Parameter(0x75);
+			LCD_ILI9341_Parameter(0x37);
+			LCD_ILI9341_Parameter(0x06);
+			LCD_ILI9341_Parameter(0x10);
+			LCD_ILI9341_Parameter(0x03);
+			LCD_ILI9341_Parameter(0x24);
+			LCD_ILI9341_Parameter(0x20);
+			LCD_ILI9341_Parameter(0x00);
+			
+			/* Sleep Out (11h)  */
+			LCD_ILI9341_CMD(0x11);
+			DEBUG_DELAY();
+			/* Display ON (29h) */
+			LCD_ILI9341_CMD(0x29);
+#endif
 }
 
 /*

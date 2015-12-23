@@ -26,7 +26,7 @@
 */
 OS_TCB	AppTaskStartTCB;		     //定义任务控制块
 FATFS 							 fs;//逻辑磁盘工作区.	 
-FIL 							 file  /*__attribute__((at(0x680830D0)))*/;//文件结构体
+FIL 							 file  __attribute__((at(0x680830D0)));//文件结构体
 FRESULT          result;//文件操作返回值
 UINT         				 bw;//读/写文件操作时实际读/写的字节数，用于检验是否读/写够了足够的字节。	
 /*********************************************************************
@@ -45,6 +45,7 @@ char buffer[10] = {0};
 int main(void)
 {
 	OS_ERR err;	
+
 
 //	FLASH_SPI_Init();
 //	W25QXX_Erase_Chip();

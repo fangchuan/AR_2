@@ -22,7 +22,6 @@
 // USER END
 
 #include "Window_1_1.h"
-#include "Window_TreeView.h"
 #include "_apollorobot.h"
 #include "os.h"
 /*********************************************************************
@@ -469,7 +468,11 @@ volatile int Edit_Index;//文本框的索引,用于链表的插入
 
 static const char*StringHZ[] = {
 	"\xe8\xbf\x90\xe8\xa1\x8c","\xe8\xbf\x94\xe5\x9b\x9e",//0:运行，1:返回
-	"\xe5\xbc\x80\xe5\xa7\x8b",                           //2:开始
+	"\xe5\xbc\x80\xe5\xa7\x8b",//2:开始 
+	"\xe4\xbf\x9d\xe5\xad\x98\xe5\xb9\xb6\xe8\xbf\x90\xe8\xa1\x8c?",//3:保存并运行?
+	"\xe9\x80\x9a\xe7\x9f\xa5",//4:通知
+	"\xe7\xa8\x8b\xe5\xba\x8f\xe4\xb8\xba\xe7\xa9\xba!",//5:程序为空!
+	"\xe9\x94\x99\xe8\xaf\xaf",//6:错误
 };
 /*********************************************************************
 *
@@ -1232,14 +1235,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						if(Ins_List_Head->next)
 						{
-							_MessageBox("Save And Running ?","Message");//先让用户确认
+							_MessageBox(StringHZ[3],StringHZ[4]);//先让用户确认
 							WriteFileProcess();//将链表内容写进Flash
 							OS_SemPost(&RUN_SEM, OS_OPT_POST_1, 0, &err);//发送运行信号量
 							Create_RunningWindow();
 							
 						}
 						else
-							_MessageBox("The program is empty!","Error");
+							_MessageBox(StringHZ[5],StringHZ[6]);
 						
         break;
       }
@@ -1298,16 +1301,5 @@ WM_HWIN CreateWindow_1_1(void) {
   return hWin1_1;
 }
 
-/*********************************************************************
-*
-*       _MessageBox
-*/
-void _MessageBox(const char* pText, const char* pCaption) {
-  WM_HWIN hWin;
-
-  hWin = MESSAGEBOX_Create(pText, pCaption, 0);
-  WM_MakeModal(hWin);
-  GUI_ExecCreatedDialog(hWin);
-}
 
 /*************************** End of file ****************************/

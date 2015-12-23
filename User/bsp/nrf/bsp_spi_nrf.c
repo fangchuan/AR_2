@@ -17,10 +17,10 @@
 #include "bsp_spi_nrf.h"
 #include "bsp_usart1.h"
 
- u8 RX_BUF[RX_PLOAD_WIDTH];		//接收数据缓存
- u8 TX_BUF[TX_PLOAD_WIDTH];		//发射数据缓存
- u8 TX_ADDRESS[TX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x15};  // 定义一个静态发送地址
- u8 RX_ADDRESS[RX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x15};
+ u8 nrf_rx[RX_PLOAD_WIDTH];		//接收数据缓存
+ u8 nrf_tx[TX_PLOAD_WIDTH];		//发射数据缓存
+ u8 TX_ADDRESS[TX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x04};  // 定义一个静态发送地址
+ u8 RX_ADDRESS[RX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x04};
 
  /*********************************************************************
 *
