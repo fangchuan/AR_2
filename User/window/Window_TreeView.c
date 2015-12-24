@@ -104,6 +104,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 *
 **********************************************************************
 */
+/*
 //将汉字的Unicode码转换成UTF8编码的字符串
 //static void gbk2utf8(const char *src, char *str,uint32_t maxnum)
 //{
@@ -178,6 +179,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 //	OSSchedUnlock(&err);
 //	return 1;	
 //}
+*/
 
 //写入用户保存的文本，都是叶子项目，没有结点项目
 void WriteFileProcess(void)
@@ -249,6 +251,7 @@ static void OpenFileProcess(int sel_num )
 	CreateWindow_1_1();//利用保存起来的程序创建EDIT
 }
 
+/*
 //删除一个程序文件
 static void DeleteFileProcess(int sel_num )
 {
@@ -271,6 +274,7 @@ static void DeleteFileProcess(int sel_num )
 		return ;
 
 }
+*/
 
 /**
   * @brief  scan_files 递归扫描flash内的文件

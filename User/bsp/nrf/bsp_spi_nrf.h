@@ -49,12 +49,31 @@
 
 #define RX_DR		0x40 //接收到数据中断标志位
 
+//接收数据类型
+typedef struct _NRF_PKT {
+	
+				uint8_t car_speed;   //小车前进还是后退
+	      uint8_t car_angle;   //小车左转还是右转
+	      uint8_t key_value;   //键值
+	      int X_angle;         //MPU6050   roll
+				int Y_angle;         //MPU6050   pitch
+	      
+}_nrf_pkt;
+#define  NRF_ROCKER_FORWARD   1
+#define  NRF_ROCKER_BACKWARD  255
+#define  NRF_ROCKER_LEFT      1
+#define  NRF_ROCKER_RIGHT     255
+#define  NRF_STOP             0
+#define  NRF_KEY_FORWARD      5
+#define  NRF_KEY_BACKWARD     8
+#define  NRF_KEY_LEFT         6
+#define  NRF_KEY_RIGHT        7
+#define  NRF_EULER_THRE       15   //体感模式下的阈值是15度
+#define  NRF_EULER_SAFE       10   //体感模式下的安全值是10度
 //
-#define TX_ADR_WIDTH 	5  	//发射地址宽度
-#define TX_PLOAD_WIDTH  32   //发射数据通道有效数据宽度0~32Byte 
-
-#define RX_ADR_WIDTH    5
-#define RX_PLOAD_WIDTH  32
+#define ADR_WIDTH 	5  	//发射地址宽度
+#define TX_PLOAD_WIDTH  sizeof(_nrf_pkt)   //发射数据通道有效数据宽度0~32Byte 
+#define RX_PLOAD_WIDTH  sizeof(_nrf_pkt)
 
 #define NRF_CE_PIN          GPIO_Pin_2
 #define NRF_CE_PORT         GPIOD

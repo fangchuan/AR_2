@@ -174,7 +174,7 @@ static void _SetPixelIndex(GUI_DEVICE * pDevice, int x, int y, int PixelIndex) {
 *   that no check on the parameters needs to be performed.
 */
 static unsigned int _GetPixelIndex(GUI_DEVICE * pDevice, int x, int y) {
-  unsigned int PixelIndex;
+//  unsigned int PixelIndex;
     //
     // Convert logical into physical coordinates (Dep. on LCDConf.h)
     //

@@ -32,8 +32,11 @@
 **********************************************************************
 */
 
-extern uint8_t Key_Value;
+extern uint8_t  Key_Value;
+extern u8  NRF_ADDRESS[5];//NRF24L01的地址
 
+u8 flag_nrf_link = 0;
+u8 flag_change_nrf_addr = 0;
 WM_HWIN           hWin_4;
 /*********************************************************************
 *
@@ -96,6 +99,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     NCode;
   int     Id;
   char    str[10];
+	int     nrf_channel;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -177,6 +181,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       case WM_NOTIFICATION_RELEASED:
 						Key_Value = 0;
+			      flag_nrf_link = 0;
         break;
       }
       break;
@@ -185,8 +190,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
+						//选择NRF通道，共8个通道，其实是更改NRF的地址
 						hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-						RADIO_GetText(hItem, RADIO_GetValue(hItem),str,10);
+						nrf_channel = RADIO_GetValue(hItem) ;
+						
+						NRF_ADDRESS[4] = nrf_channel;
+						flag_change_nrf_addr = 1;
+						flag_nrf_link =  1;
+						RADIO_GetText(hItem, nrf_channel,str,10);
 						_MessageBox(str,StringHZ[3]);
         break;
       }

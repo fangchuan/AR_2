@@ -19,7 +19,7 @@ typedef enum _ERROR {	NO_ERROR = 0,
 
 //用于标识传感器种类的枚举类型
 typedef enum _SENSORFLAG {
-                           SENSOR_INFRARED = 1,//红外光电传感器
+                           SENSOR_IR     = 1,//红外光电传感器
 													 SENSOR_SWITCH,      //触碰开关
 													 SENSOR_LED,         //LED
 													 SENSOR_LDR,         //光敏电阻
@@ -165,7 +165,7 @@ typedef struct _DS {
 //模拟传感器
 typedef struct _AS {
 	      uint8_t    sta;//是否插上模拟传感器
-	      uint16_t    val;
+	      uint8_t    val;
 
 }_AS;
 //MPU6050

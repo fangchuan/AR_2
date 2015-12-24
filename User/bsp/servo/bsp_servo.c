@@ -49,10 +49,10 @@ static void TIM2_Mode_Config(void)
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 
 	/* PWM信号电平跳变值 */
- 	u16 CCR1_Val = 50;        
- 	u16 CCR2_Val = 50;
- 	u16 CCR3_Val = 50;
- 	u16 CCR4_Val = 50;
+ 	u16 CCR1_Val = 60;        
+ 	u16 CCR2_Val = 60;
+ 	u16 CCR3_Val = 60;
+ 	u16 CCR4_Val = 60;
 
 /* ----------------------------------------------------------------------- 
     TIM2 Channel1 duty cycle = (TIM2_CCR1/ TIM2_ARR+1)* 100% = 2.5%
@@ -113,25 +113,28 @@ void SERVO_PWM_Init(void)
 	TIM2_Mode_Config();	
 }
 
-
+//舵机转角：60~260
 //根据编程配置舵机参数
 _Error  SERVO_Config(_Servo *servo)
 {
-	    if(servo->id <1 || servo->id > 4)
+			u16  degree = servo->degree + 60;
+	
+			if(servo->id <1 || servo->id > 4)
 				return ERROR_ID;
+			
 			switch(servo->id)
 			{
 				case SERVO1:
-					   SERVO1_OUT = servo->degree ; 
+					   SERVO1_OUT = degree ; 
 					break;
 				case SERVO2:
-					   SERVO2_OUT = servo->degree ;
+					   SERVO2_OUT = degree ;
 					break;
 				case SERVO3:
-					   SERVO3_OUT = servo->degree ;
+					   SERVO3_OUT = degree ;
 					break;
 				case SERVO4:
-					   SERVO4_OUT = servo->degree ;
+					   SERVO4_OUT = degree ;
 					break;
 			}
 			return NO_ERROR;
@@ -140,22 +143,24 @@ _Error  SERVO_Config(_Servo *servo)
 //手动控制配置舵机参数
 _Error   SERVO_Manual (uint8_t id, uint8_t degree)
 {
+	     u16   deg = degree + 60; 
+	
 	     if(id < 1 || id > 4)
 				 return ERROR_ID;
 			 
 			 switch(id)
 			 {
 				 case SERVO1:
-					    SERVO1_OUT = degree;
+					    SERVO1_OUT = deg;
 					 break;
 				 case SERVO2:
-					    SERVO2_OUT = degree;
+					    SERVO2_OUT = deg;
 					 break;
 				 case SERVO3:
-					    SERVO3_OUT = degree;
+					    SERVO3_OUT = deg;
 					 break;
 				 case SERVO4:
-					    SERVO4_OUT = degree;
+					    SERVO4_OUT = deg;
 					 break;
 			 }
 			 return NO_ERROR;

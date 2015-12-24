@@ -17,11 +17,17 @@
 #include "bsp_spi_nrf.h"
 #include "bsp_usart1.h"
 
- u8 nrf_rx[RX_PLOAD_WIDTH];		//接收数据缓存
- u8 nrf_tx[TX_PLOAD_WIDTH];		//发射数据缓存
- u8 TX_ADDRESS[TX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x04};  // 定义一个静态发送地址
- u8 RX_ADDRESS[RX_ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x04};
+ /*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
 
+// u8 nrf_tx[TX_PLOAD_WIDTH];		//发射数据缓存
+ u8 NRF_ADDRESS[ADR_WIDTH] = {0x00,0x01,0x02,0x03,0x00};  // 定义一个发送地址,默认为0地址
+
+ #define  ADDRESS_BASE  0x807FFFA      //将对码后的地址存在最后6byte
  /*********************************************************************
 *
 *       Static code
@@ -235,7 +241,7 @@ void NRF_RX_Mode(void)
 {
 	 NRF_CE_LOW();	
 
-   SPI_NRF_WriteBuf(NRF_WRITE_REG+RX_ADDR_P0,RX_ADDRESS,RX_ADR_WIDTH);//写RX节点地址
+   SPI_NRF_WriteBuf(NRF_WRITE_REG+RX_ADDR_P0,NRF_ADDRESS,ADR_WIDTH);//写RX节点地址
 
    SPI_NRF_WriteReg(NRF_WRITE_REG+EN_AA,0x01);    //使能通道0的自动应答    
 
@@ -263,9 +269,9 @@ void NRF_TX_Mode(void)
 {  
 	 NRF_CE_LOW();		
 
-   SPI_NRF_WriteBuf(NRF_WRITE_REG+TX_ADDR,TX_ADDRESS,TX_ADR_WIDTH);    //写TX节点地址 
+   SPI_NRF_WriteBuf(NRF_WRITE_REG+TX_ADDR,NRF_ADDRESS,ADR_WIDTH);    //写TX节点地址 
 
-   SPI_NRF_WriteBuf(NRF_WRITE_REG+RX_ADDR_P0,RX_ADDRESS,RX_ADR_WIDTH); //设置TX节点地址,主要为了使能ACK   
+   SPI_NRF_WriteBuf(NRF_WRITE_REG+RX_ADDR_P0,NRF_ADDRESS,ADR_WIDTH); //设置TX节点地址,主要为了使能ACK   
 
    SPI_NRF_WriteReg(NRF_WRITE_REG+EN_AA,0x01);     //使能通道0的自动应答    
 
@@ -333,7 +339,7 @@ u8 NRF_Tx_Dat(u8 *txbuf)
 		/*CE为高，txbuf非空，发送数据包 */   
 		NRF_CE_HIGH();
 				
-			/*等待发送完成中断 */                            
+		/*等待发送完成中断 */                            
 		while(NRF_Read_IRQ()!=0); 	
 		
 		/*读取状态寄存器的值 */                              

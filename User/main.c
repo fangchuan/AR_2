@@ -36,7 +36,6 @@ UINT         				 bw;//读/写文件操作时实际读/写的字节数，用于检验是否读/写够了足
 **********************************************************************
 */
 static	CPU_STK	AppTaskStartStk[APP_TASK_START_STK_SIZE];	   //定义任务堆栈
-char buffer[10] = {0};
 /**
   * @brief  主函数
   * @param  无

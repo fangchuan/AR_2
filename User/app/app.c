@@ -23,10 +23,12 @@ extern _AS     analog_sensor3;
 extern _AS     analog_sensor4;
 extern _Ultrasnio        ult;
 extern _Euler          euler;
+extern u8    flag_nrf_link,flag_change_nrf_addr;
 
 OS_SEM  RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
 //OS_SEM  END_SEM;    //定义一个信号量，用于运行任务结束后发送给GUIUpdate任务
 //OS_FLAG_GRP	SensorFlags;		//定义一个事件标志组，用于决定传输哪个传感器数据
+_nrf_pkt    nrf_rx;		//接收数据缓存
 /*********************************************************************
 *
 *       Static data
@@ -48,6 +50,9 @@ static  CPU_STK  AppTaskMainTaskStk[APP_CFG_TASK_MAIN_TASK_STK_SIZE];
 static  OS_TCB   AppTaskTransferTCB;
 static  CPU_STK  AppTaskTransferStk[APP_CFG_TASK_TRANSFER_STK_SIZE];
 
+static  OS_TCB   AppTaskNRFReceiverTCB;
+static  CPU_STK  AppTaskNRFReceiverStk[APP_CFG_TASK_NRF_STK_SIZE];
+
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
 static uint8_t  transferdata[MAX_LEN];
 /*********************************************************************
@@ -62,6 +67,7 @@ static void   AppTaskUserIF(void *p_arg);
 static void   AppTaskCOM(void *p_arg);
 static void   AppTaskMainTask(void *p_arg);
 static void   AppTaskTransfer(void *p_arg);
+static void   AppTaskNRFReceiver(void *p_arg);
 
 //软件定时器的回调函数
 static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
@@ -143,7 +149,7 @@ void  AppTaskStart(void *p_arg)
 *	功能说明: 
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
-	优 先 级：3
+	优 先 级：2
 *********************************************************************************************************
 */
 static void AppTaskGUIUpdate(void *p_arg)
@@ -177,7 +183,7 @@ static void AppTaskGUIUpdate(void *p_arg)
 *	功能说明: 
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
-	优 先 级：3
+	优 先 级：4
 *********************************************************************************************************
 */
 static void AppTaskCOM(void *p_arg)
@@ -208,7 +214,7 @@ static void AppTaskCOM(void *p_arg)
 *	功能说明: 界面切换任务
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
-	优 先 级：2
+	优 先 级：6
 *********************************************************************************************************
 */
 
@@ -271,7 +277,7 @@ static void AppTaskUserIF(void *p_arg)
 *	功能说明: 传感器数据回传任务
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
-	优 先 级：3
+	优 先 级：4
 *********************************************************************************************************
 */
 static void AppTaskTransfer(void *p_arg)
@@ -279,6 +285,8 @@ static void AppTaskTransfer(void *p_arg)
 			 OS_ERR   err;
 	     (void) p_arg;
 	
+	     transferdata[0] = FRAME_STR;
+			 transferdata[1] = VERSION;
 	     while(1)
 			 {
 //				 		//等待事件标志组
@@ -290,40 +298,105 @@ static void AppTaskTransfer(void *p_arg)
 //								 (OS_ERR*	    )&err);
 				  if(digital_sensor1.sta )
 					{
-						
+             transferdata[2] = DS_1_ID;                    //type
+						 transferdata[3] = sizeof(digital_sensor1.val);//length
+						 transferdata[4] = digital_sensor1.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(digital_sensor2.sta )
 					{
-						
+						 transferdata[2] = DS_2_ID;                    //type
+						 transferdata[3] = sizeof(digital_sensor2.val);//length
+						 transferdata[4] = digital_sensor2.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(digital_sensor3.sta )
 					{
-						
+						 transferdata[2] = DS_3_ID;                    //type
+						 transferdata[3] = sizeof(digital_sensor3.val);//length
+						 transferdata[4] = digital_sensor3.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(digital_sensor4.sta )
 					{
-						
+						 transferdata[2] = DS_4_ID;                    //type
+						 transferdata[3] = sizeof(digital_sensor4.val);//length
+						 transferdata[4] = digital_sensor4.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(analog_sensor1.sta )
 					{
-						
+						 transferdata[2] = AS_1_ID;                   //type
+						 transferdata[3] = sizeof(analog_sensor1.val);//length
+						 transferdata[4] = analog_sensor1.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(analog_sensor2.sta )
 					{
-						
+						 transferdata[2] = AS_2_ID;                   //type
+						 transferdata[3] = sizeof(analog_sensor2.val);//length
+						 transferdata[4] = analog_sensor2.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(analog_sensor3.sta )
 					{
-						
+						 transferdata[2] = AS_3_ID;                   //type
+						 transferdata[3] = sizeof(analog_sensor3.val);//length
+						 transferdata[4] = analog_sensor3.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(analog_sensor4.sta )
 					{
-						
+						 transferdata[2] = AS_4_ID;                   //type
+						 transferdata[3] = sizeof(analog_sensor4.val);//length
+						 transferdata[4] = analog_sensor4.val ;       //value
+						 transferdata[5] = FRAME_END;
+						 printf("%s",transferdata);
 					}
 					if(ult.cur_distance )
 					{
-						
+						 transferdata[2] = ULTRASNIO_ID;                   //type
+						 transferdata[3] = sizeof(ult.cur_distance );//length
+//						 transferdata[4] = analog_sensor1.val >> 24;       //value  因STM32小端模式，所以
+//						 transferdata[5] = analog_sensor1.val >> 16;
+//						 transferdata[6] = analog_sensor1.val >> 8;
+//						 transferdata[7] = analog_sensor1.val;
+						 memcpy(transferdata + 4, &(ult.cur_distance),transferdata[3]);
+						 transferdata[8] = FRAME_END;
+						 printf("%s",transferdata);
 					}
+					
+					transferdata[2] = ANGLE_X_ID;
+					transferdata[3] = sizeof(euler.angle_x);
+					memcpy(transferdata + 4, &(euler.angle_x),transferdata[3]);
+					transferdata[8] = FRAME_END;
+					printf("%s",transferdata);
+					
+					transferdata[2] = ANGLE_Y_ID;
+					transferdata[3] = sizeof(euler.angle_y);
+					memcpy(transferdata + 4, &(euler.angle_y),transferdata[3]);
+					transferdata[8] = FRAME_END;
+					printf("%s",transferdata);
+					
+					transferdata[2] = ACCEL_X_ID;
+					transferdata[3] = sizeof(euler.accel_x);
+					memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
+					transferdata[8] = FRAME_END;
+					printf("%s",transferdata);
+					
+					transferdata[2] = ACCEL_Y_ID;
+					transferdata[3] = sizeof(euler.accel_y);
+					memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
+					transferdata[8] = FRAME_END;
+					printf("%s",transferdata);
+					
 				  OSTimeDlyHMSM(0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
 			 }
 }
@@ -351,6 +424,64 @@ static void AppTaskMainTask(void *p_arg)
 			}
 }
 
+
+/*
+*********************************************************************************************************
+*	函 数 名: AppTaskNRFReceiver
+*	功能说明: 主要运行任务，运行图形化编程中编写的程序
+*	形    参：p_arg 是在创建该任务时传递的形参
+*	返 回 值: 无
+	优 先 级：5
+*********************************************************************************************************
+*/
+static void AppTaskNRFReceiver(void *p_arg)
+{ 
+	     OS_ERR  err;
+	     u8   status;
+			 (void)p_arg;
+	
+			 NRF_RX_Mode();//设置初始地址
+	     while(1)
+			 {
+				  if(flag_nrf_link)
+					{
+						if(flag_change_nrf_addr)
+						{
+								flag_change_nrf_addr = 0;
+								NRF_RX_Mode();
+						}
+						/*等待接收数据*/
+						status = NRF_Rx_Dat((u8 *)&nrf_rx);
+						
+						/*判断接收状态*/
+						if(status == RX_DR)
+
+						{
+							if(nrf_rx.car_speed == NRF_ROCKER_FORWARD ||
+								 nrf_rx.key_value  == NRF_KEY_FORWARD ||
+								 nrf_rx.Y_angle < -NRF_EULER_THRE) 
+									Car_Forward();
+							if(nrf_rx.car_speed == NRF_ROCKER_BACKWARD ||
+    						 nrf_rx.key_value  == NRF_KEY_BACKWARD ||
+ 							   nrf_rx.Y_angle > NRF_EULER_THRE) 
+									Car_Backward(); 
+							if(nrf_rx.car_angle == NRF_ROCKER_LEFT || 
+								 nrf_rx.key_value  == NRF_KEY_LEFT || 
+							   nrf_rx.X_angle > NRF_EULER_THRE) 
+									Car_Left();
+							if(nrf_rx.car_angle == NRF_ROCKER_RIGHT || 
+								 nrf_rx.key_value == NRF_KEY_RIGHT || 
+							   nrf_rx.X_angle < -NRF_EULER_THRE) 
+									Car_Right();
+							if(nrf_rx.car_speed == NRF_STOP && nrf_rx.car_angle == NRF_STOP && nrf_rx.key_value == NRF_STOP 
+								&& fabs(nrf_rx.X_angle) < NRF_EULER_SAFE && fabs(nrf_rx.Y_angle) < NRF_EULER_SAFE ) 
+									Car_Stop();
+							
+						}
+					}
+				 OSTimeDlyHMSM(0, 0, 0, 50, OS_OPT_TIME_HMSM_STRICT, &err);
+			 }
+}
 /*
 *********************************************************************************************************
 *	函 数 名: AppTaskCreate
@@ -439,11 +570,25 @@ static  void  AppTaskCreate(void)
                  (CPU_STK      *)&AppTaskTransferStk[0],
                  (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE / 10,
                  (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE,
-                 (OS_MSG_QTY    )10,
+                 (OS_MSG_QTY    )0,
                  (OS_TICK       )2,     //因为与串口任务相同优先级，所以设置他的轮转时间片为2ms
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
-                 (OS_ERR       *)&err);					
+                 (OS_ERR       *)&err);		
+		/************************************/
+		OSTaskCreate((OS_TCB       *)&AppTaskNRFReceiverTCB,             
+                 (CPU_CHAR     *)"App Task NRFReceiver",
+                 (OS_TASK_PTR   )AppTaskNRFReceiver, 
+                 (void         *)0,
+                 (OS_PRIO       )APP_CFG_TASK_NRF_PRIO,
+                 (CPU_STK      *)&AppTaskNRFReceiverStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_NRF_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_NRF_STK_SIZE,
+                 (OS_MSG_QTY    )0,
+                 (OS_TICK       )0,    
+                 (void         *)0,
+                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+                 (OS_ERR       *)&err);			
 								 
 }
 
