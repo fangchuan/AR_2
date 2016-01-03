@@ -13,7 +13,9 @@
 */
 typedef enum _ERROR {	NO_ERROR = 0,
 											ERROR_ID ,    //操作对象的id越界
-											ERROR_GRAMMAR,   //语句的语法有误
+											ERROR_GRAMMAR,//语句的语法有误
+											ERROR_TONES,  //错误的音调 
+											ERROR_TIME,   //错误的节拍
 							
 }_Error;
 
@@ -196,6 +198,15 @@ typedef struct _VARIABLE {
 				int     tar_val;  //目标值
 }_Variable;
 
+
+//
+//音符数据结构
+//
+
+typedef struct  _MUSIC {
+        uint8_t  tones;  //音调  用户配置时都是选择1~7
+	      uint8_t  time;   //节拍  用户配置时都是选择1~7
+}_Music;
 
 extern _Listptr Ins_List_Head;//程序链表的表头节点
 extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 

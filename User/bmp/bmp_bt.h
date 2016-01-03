@@ -5,6 +5,6 @@
 
 #include "GUI.h"
 
-extern GUI_CONST_STORAGE GUI_BITMAP bmbmp4_1;
+extern GUI_CONST_STORAGE GUI_BITMAP bmbt;
 
 #endif

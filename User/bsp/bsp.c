@@ -357,6 +357,8 @@ void BSP_Init(void)
 	
 	NVIC_Configuration();  /* 中断优先级分组配置 */
 
+	/*初始化滴答定时器*/
+	BSP_Tick_Init();
 	/*初始化外部SRAM*/
 	FSMC_SRAM_Init();
 	/*舵机初始化*/
@@ -373,8 +375,10 @@ void BSP_Init(void)
 	USART1_Config();
 	/*初始化NRF24L01*/
 	SPI_NRF_Init();
-	/*初始化滴答定时器*/
-	BSP_Tick_Init();
+	/*初始化蜂鸣器*/
+	Music_Init();
+//	/*初始化6050*/
+//	MPU6050_initialize();
 	
 	/*创建带有表头结点的单链表*/
 	Create_List();

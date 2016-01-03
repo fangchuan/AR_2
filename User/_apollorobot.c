@@ -6,6 +6,7 @@
 #include "bsp_led.h"
 #include "bsp_motor.h" 
 #include "bsp_servo.h"
+#include "bsp_music.h"
 #include "os.h"
 /*********************************************************************
 *
@@ -29,6 +30,7 @@ _Servo    servo;
 _Led        led;
 _Port      port;
 _Variable   var;
+_Music    music;
 
 _DS    digital_sensor1;
 _DS    digital_sensor2;
@@ -473,7 +475,9 @@ static _Listptr if_branch (_Listptr  p)
 							OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
 					break;
 				case FLAG_MUSIC:
-					
+							music.tones = atoi(p->EditContent + 6);
+							music.time = atoi(p->EditContent + 13);
+							Music_Config(&music);
 					break;
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;
@@ -758,7 +762,9 @@ static _Listptr or_branch (_Listptr  p)
 									OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
 							break;
 						case FLAG_MUSIC:
-							
+									music.tones = atoi(p->EditContent + 6);
+									music.time = atoi(p->EditContent + 13);
+									Music_Config(&music);
 							break;
 					  case FLAG_SHOW_DISTANCE:
 									ult.ifshow = SHOW_ON;
@@ -1048,7 +1054,9 @@ static _Listptr while_branch (_Listptr  p)
 														OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
 												break;
 											case FLAG_MUSIC:
-												
+												   	music.tones = atoi(p->EditContent + 6);
+														music.time = atoi(p->EditContent + 13);
+														Music_Config(&music);
 												break;
 											case FLAG_SHOW_DISTANCE:
 														ult.ifshow = SHOW_ON;
@@ -1564,7 +1572,9 @@ void List_Parse(_Listptr  ptr)
 							OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
 					break;
 				case FLAG_MUSIC:
-					
+					    music.tones = atoi(ptr->EditContent + 6);
+							music.time = atoi(ptr->EditContent + 13);
+							Music_Config(&music);
 					break;
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;

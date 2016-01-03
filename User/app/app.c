@@ -38,8 +38,8 @@ _nrf_pkt    nrf_rx;		//接收数据缓存
 static  OS_TCB   AppTaskGUIUpdateTCB;
 static  CPU_STK  AppTaskGUIUpdateStk[APP_CFG_TASK_GUI_UPDATE_STK_SIZE];
 
-static  OS_TCB   AppTaskCOMTCB;
-static  CPU_STK  AppTaskCOMStk[APP_CFG_TASK_COM_STK_SIZE];
+static  OS_TCB   AppTaskCOMRxTCB;
+static  CPU_STK  AppTaskCOMRxStk[APP_CFG_TASK_COM_RX_STK_SIZE];
 
 static  OS_TCB   AppTaskUserIFTCB;
 static  CPU_STK  AppTaskUserIFStk[APP_CFG_TASK_USER_IF_STK_SIZE];
@@ -47,11 +47,14 @@ static  CPU_STK  AppTaskUserIFStk[APP_CFG_TASK_USER_IF_STK_SIZE];
 static  OS_TCB   AppTaskMainTaskTCB;//这里没把他定义为静态是为了让GUI面板能随时随地将运行任务挂起
 static  CPU_STK  AppTaskMainTaskStk[APP_CFG_TASK_MAIN_TASK_STK_SIZE];
 
-static  OS_TCB   AppTaskTransferTCB;
-static  CPU_STK  AppTaskTransferStk[APP_CFG_TASK_TRANSFER_STK_SIZE];
+static  OS_TCB   AppTaskCOMTxTCB;
+static  CPU_STK  AppTaskCOMTxStk[APP_CFG_TASK_COM_TX_STK_SIZE];
 
 static  OS_TCB   AppTaskNRFReceiverTCB;
 static  CPU_STK  AppTaskNRFReceiverStk[APP_CFG_TASK_NRF_STK_SIZE];
+
+static  OS_TCB   AppTaskMPU6050TCB;
+static  CPU_STK  AppTaskMPU6050Stk[APP_CFG_TASK_MPU6050_STK_SIZE];
 
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
 static uint8_t  transferdata[MAX_LEN];
@@ -64,9 +67,9 @@ static uint8_t  transferdata[MAX_LEN];
 static void   AppTaskCreate(void);
 static void   AppTaskGUIUpdate(void *p_arg);
 static void   AppTaskUserIF(void *p_arg);
-static void   AppTaskCOM(void *p_arg);
+static void   AppTaskCOMRx(void *p_arg);
 static void   AppTaskMainTask(void *p_arg);
-static void   AppTaskTransfer(void *p_arg);
+static void   AppTaskCOMTx(void *p_arg);
 static void   AppTaskNRFReceiver(void *p_arg);
 
 //软件定时器的回调函数
@@ -75,13 +78,20 @@ static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
   
 	(void)p_arg;
 	GUI_TOUCH_Exec();			//每10ms调用一次，触发调用触摸驱动
-	Ultrasnio_update();   //每10ms触发一次超声波更新
-	if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
-	{
-			WM_Invalidate(hRun);
-	}
+	
+
 }
 
+
+static void _cbOfTmr2(OS_TMR *p_tmr, void *p_arg)
+{
+	  (void)p_arg;
+		Ultrasnio_update();   //每100ms触发一次超声波更新
+	  if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
+		{
+				WM_Invalidate(hRun);
+		}
+}
 /*
 *********************************************************************************************************
 *                                          STARTUP TASK
@@ -103,7 +113,7 @@ void  AppTaskStart(void *p_arg)
     OS_ERR      err;
 	
 	//定时器变量
-    OS_TMR             MyTmr;
+    OS_TMR             Tmr_10ms, Tmr_100ms;
 	
    (void)p_arg;
 	                                                /* Initialize BSP functions                             */
@@ -124,18 +134,28 @@ void  AppTaskStart(void *p_arg)
     APP_TRACE_INFO(("Creating Application Tasks...\n\r"));
     AppTaskCreate();                                            /* Create Application Tasks                             */
     
-	//创建定时器
-  OSTmrCreate ((OS_TMR              *)&MyTmr,
-               (CPU_CHAR            *)"MyTimer",          
-               (OS_TICK              )1,                //第一次延时设置为100，结合定时器的频率是100Hz，正好1s
-               (OS_TICK              )1,                //重复延时的时候100个TmrTick，结合定时器的频率是100Hz，正好1s
+	//创建定时器  OS_CFG_TMR_TASK_RATE_HZ = 100HZ
+  OSTmrCreate ((OS_TMR              *)&Tmr_10ms,
+               (CPU_CHAR            *)"MyTimer 10ms",          
+               (OS_TICK              )1,                  //第一次延时设置为10ms，
+               (OS_TICK              )1,                  //定时器周期10ms
                (OS_OPT               )OS_OPT_TMR_PERIODIC,//模式设置为重复模式
                (OS_TMR_CALLBACK_PTR  )_cbOfTmr1,          //回调函数
                (void                *)0,                  //参数设置为0
                (OS_ERR              *)err);
+		//创建定时器
+  OSTmrCreate ((OS_TMR              *)&Tmr_100ms,
+               (CPU_CHAR            *)"MyTimer 100ms",          
+               (OS_TICK              )10,                 //第一次延时设置为100ms
+               (OS_TICK              )10,                //定时周期10*10ms
+               (OS_OPT               )OS_OPT_TMR_PERIODIC,//模式设置为重复模式
+               (OS_TMR_CALLBACK_PTR  )_cbOfTmr2,          //回调函数
+               (void                *)0,                  //参数设置为0
+               (OS_ERR              *)err);
   
   //启动定时器
-  OSTmrStart((OS_TMR *)&MyTmr,(OS_ERR *)err);
+  OSTmrStart((OS_TMR *)&Tmr_10ms,(OS_ERR *)err);
+	OSTmrStart((OS_TMR *)&Tmr_100ms,(OS_ERR *)err);
 			  
 	/*Delete task*/
 	OSTaskDel(&AppTaskStartTCB,&err);	
@@ -186,7 +206,7 @@ static void AppTaskGUIUpdate(void *p_arg)
 	优 先 级：4
 *********************************************************************************************************
 */
-static void AppTaskCOM(void *p_arg)
+static void AppTaskCOMRx(void *p_arg)
 {	
 	OS_ERR      err;
 //	_Listptr p = Ins_List_Head;
@@ -280,7 +300,7 @@ static void AppTaskUserIF(void *p_arg)
 	优 先 级：4
 *********************************************************************************************************
 */
-static void AppTaskTransfer(void *p_arg)
+static void AppTaskCOMTx(void *p_arg)
 {
 			 OS_ERR   err;
 	     (void) p_arg;
@@ -484,6 +504,26 @@ static void AppTaskNRFReceiver(void *p_arg)
 }
 /*
 *********************************************************************************************************
+*	函 数 名: AppTaskMPU6050
+*	功能说明: MPU6050数据采集及结算任务
+*	形    参：p_arg 是在创建该任务时传递的形参
+*	返 回 值: 无
+	优 先 级：5
+*********************************************************************************************************
+*/
+static void AppTaskMPU6050(void *p_arg)
+{
+	   OS_ERR  err;
+	   (void)p_arg;
+	
+		 while(1)
+		 {
+			 //Get_Attitude();
+			 OSTimeDlyHMSM(0, 0, 0, 20, OS_OPT_TIME_HMSM_STRICT, &err);
+		 }
+}
+/*
+*********************************************************************************************************
 *	函 数 名: AppTaskCreate
 *	功能说明: 创建应用任务
 *	形    参：p_arg 是在创建该任务时传递的形参
@@ -519,14 +559,14 @@ static  void  AppTaskCreate(void)
                  (OS_ERR       *)&err);
 	
 	/***********************************/
-	OSTaskCreate((OS_TCB       *)&AppTaskCOMTCB,            
+	OSTaskCreate((OS_TCB       *)&AppTaskCOMRxTCB,            
                  (CPU_CHAR     *)"App Task COM",
-                 (OS_TASK_PTR   )AppTaskCOM, 
+                 (OS_TASK_PTR   )AppTaskCOMRx, 
                  (void         *)0,
-                 (OS_PRIO       )APP_CFG_TASK_COM_PRIO,
-                 (CPU_STK      *)&AppTaskCOMStk[0],
-                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_STK_SIZE / 10,
-                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_STK_SIZE,
+                 (OS_PRIO       )APP_CFG_TASK_COM_RX_PRIO,
+                 (CPU_STK      *)&AppTaskCOMRxStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_RX_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_RX_STK_SIZE,
                  (OS_MSG_QTY    )2,
                  (OS_TICK       )2,
                  (void         *)0,
@@ -562,14 +602,14 @@ static  void  AppTaskCreate(void)
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);		
 		/***********************************/						 
-		OSTaskCreate((OS_TCB       *)&AppTaskTransferTCB,             
-                 (CPU_CHAR     *)"App Task Transfer",
-                 (OS_TASK_PTR   )AppTaskTransfer, 
+		OSTaskCreate((OS_TCB       *)&AppTaskCOMTxTCB,             
+                 (CPU_CHAR     *)"App Task COM Transfer",
+                 (OS_TASK_PTR   )AppTaskCOMTx, 
                  (void         *)0,
-                 (OS_PRIO       )APP_CFG_TASK_TRANSFER_PRIO,
-                 (CPU_STK      *)&AppTaskTransferStk[0],
-                 (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE / 10,
-                 (CPU_STK_SIZE  )APP_CFG_TASK_TRANSFER_STK_SIZE,
+                 (OS_PRIO       )APP_CFG_TASK_COM_TX_PRIO,
+                 (CPU_STK      *)&AppTaskCOMTxStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_TX_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_COM_TX_STK_SIZE,
                  (OS_MSG_QTY    )0,
                  (OS_TICK       )2,     //因为与串口任务相同优先级，所以设置他的轮转时间片为2ms
                  (void         *)0,
@@ -589,6 +629,20 @@ static  void  AppTaskCreate(void)
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);			
+		/************************************/
+		OSTaskCreate((OS_TCB       *)&AppTaskMPU6050TCB,
+								 (CPU_CHAR     *)"App Task MPU6050",
+								 (OS_TASK_PTR   )AppTaskMPU6050,
+								 (void         *)0,
+								 (OS_PRIO       )APP_CFG_TASK_MPU6050_PRIO,
+								 (CPU_STK      *)&AppTaskMPU6050Stk[0],
+								 (CPU_STK_SIZE  )APP_CFG_TASK_MPU6050_STK_SIZE / 10,
+								 (CPU_STK_SIZE  )APP_CFG_TASK_MPU6050_STK_SIZE,
+								 (OS_MSG_QTY    )0,
+								 (OS_TICK       )0,
+								 (void         *)0,
+								 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+								 (OS_ERR       *)&err);
 								 
 }
 

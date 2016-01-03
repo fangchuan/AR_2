@@ -5,6 +5,6 @@
 
 #include "GUI.h"
 
-extern GUI_CONST_STORAGE GUI_BITMAP bmControl;
+extern GUI_CONST_STORAGE GUI_BITMAP bmmanual;
 
 #endif //

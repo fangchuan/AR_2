@@ -906,6 +906,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	OS_ERR  err;
 	static int _yOld=0;
 	int i;
+	GUI_RECT  rect;
 	
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -954,6 +955,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 				hText[i] = hItem;
 		}
+
 		//如果链表不为空，说明是打开原来保存的程序，则将链表内容赋给EDIT
 		if(Ins_List_Head -> next)
 		{
@@ -967,8 +969,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					p = p -> next;
 			}
 		}
-    // USER START (Optionally insert additional code for further widget initialization)
-    // USER END
+    
+		WM_HideWindow(hEdit[9]);
+		WM_HideWindow(hText[9]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -1265,6 +1268,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 								{ //the step is 30 pixels
 									WM_MoveWindow(hEdit[y] , 0, (_yOld - ScrollState.v)*30);
 									WM_MoveWindow(hText[y] , 0, (_yOld - ScrollState.v)*30);
+								}
+								WM_GetWindowRectEx(hEdit[y], &rect);//如果EDIT控件所在位置越界，则隐藏该EDIT
+								if(rect.y1 >= 300 || rect.y1 <= 20)
+								{
+									WM_HideWindow(hEdit[y]);
+									WM_HideWindow(hText[y]);
+								}
+								else
+								{
+									WM_ShowWindow(hEdit[y]);
+									WM_ShowWindow(hText[y]);
 								}
 							}	
 						}
