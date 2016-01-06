@@ -5,7 +5,7 @@
 #include "WIDGET_SelectDialog.h"
 #include "_apollorobot.h"
 #include "SongTi12.h"
-
+#include "WIDGET_MessageBox.h"
 /*********************************************************************
 *
 *       Defines
@@ -77,6 +77,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     Id;
   GUI_RECT r;
 	WM_HWIN hDlg;
+	char string[50];
+	u8   Mb_Val;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -115,11 +117,18 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						flag_operation = FLAG_CHANGE;
 						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
-						hDlg = CreateWindow_Instructor();
-						WM_MakeModal(hDlg);
-						GUI_ExecCreatedDialog(hDlg);
+						EDIT_GetText(hEdit[Edit_Index],string,sizeof(string));
+						if(string[0] != 0)
+						{
+							hDlg = CreateWindow_Instructor();
+							WM_MakeModal(hDlg);
+							GUI_ExecCreatedDialog(hDlg);
+						}
+						else
+						{
+							_MessageBox("Error","Operation Error!",&Mb_Val);
+						}
 						
-
         break;
       }
       break;

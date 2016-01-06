@@ -50,10 +50,11 @@
 #define  APP_TASK_START_PRIO                        2u
 #define  APP_CFG_TASK_MAIN_TASK_PRIO                3u
 #define  APP_CFG_TASK_GUI_UPDATE_PRIO               2u
-#define  APP_CFG_TASK_COM_PRIO                      4u
+#define  APP_CFG_TASK_COM_RX_PRIO                   4u
 #define  APP_CFG_TASK_USER_IF_PRIO                  6u
-#define  APP_CFG_TASK_TRANSFER_PRIO                 4u
+#define  APP_CFG_TASK_COM_TX_PRIO                   4u
 #define  APP_CFG_TASK_NRF_PRIO                      5u
+#define  APP_CFG_TASK_MPU6050_PRIO                  7u
 /*
 *********************************************************************************************************
 *                                            TASK STACK SIZES
@@ -63,11 +64,12 @@
 
 #define  APP_TASK_START_STK_SIZE                    128u
 #define  APP_CFG_TASK_GUI_UPDATE_STK_SIZE           1024u   
-#define  APP_CFG_TASK_COM_STK_SIZE                  128u     
+#define  APP_CFG_TASK_COM_RX_STK_SIZE               128u     
 #define  APP_CFG_TASK_USER_IF_STK_SIZE              128u                         
 #define  APP_CFG_TASK_MAIN_TASK_STK_SIZE            256u
-#define  APP_CFG_TASK_TRANSFER_STK_SIZE             128u
+#define  APP_CFG_TASK_COM_TX_STK_SIZE               128u
 #define  APP_CFG_TASK_NRF_STK_SIZE                  128u
+#define  APP_CFG_TASK_MPU6050_STK_SIZE              128u
 
 /*
 *********************************************************************************************************

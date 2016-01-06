@@ -8,6 +8,8 @@
 #include "bsp_servo.h"
 #include "bsp_music.h"
 #include "os.h"
+#include  "WIDGET_MessageBox.h"
+#include "malloc.h"
 /*********************************************************************
 *
 *       Global data
@@ -15,8 +17,8 @@
 **********************************************************************
 */
 _Listptr Ins_List_Head;//程序链表的头指针
-_StatuStack StaStk;    //表示代码嵌套层次的状态栈 
-_SensorFlag  sensorflag;//传感器种类
+//_StatuStack StaStk;    //表示代码嵌套层次的状态栈 
+//_SensorFlag  sensorflag;//传感器种类
 
 
 /*********************************************************************
@@ -28,6 +30,7 @@ _SensorFlag  sensorflag;//传感器种类
 _Motor    motor;
 _Servo    servo;
 _Led        led;
+_Car        car;
 _Port      port;
 _Variable   var;
 _Music    music;
@@ -251,19 +254,37 @@ static _Listptr if_branch (_Listptr  p)
 							LED_Config(&led);
 					break;
 				case FLAG_CAR_LEFT:
-							Car_Left();
+							car.direction = LEFT;
+				      car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_RIGHT:
-							Car_Right();
+					    car.direction = RIGHT;
+							car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_FORWARD:
-							Car_Forward();
+							car.direction = FORWARD;
+							car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_BACKWARD:
-					    Car_Backward();
+							car.direction = BACKWARD;
+							car.speed_step = 0;
+					    CAR_Config(&car);
 					break;
 				case FLAG_CAR_STOP:
-					    Car_Stop();
+							car.direction = STOP;
+							car.speed_step = 0;
+					    CAR_Config(&car);
+					break;
+				case FLAG_CAR_ACCEL:
+					   car.speed_step = SPEED_STEP;
+						 CAR_Config(&car);
+					break;
+				case FLAG_CAR_SLOW:
+					   car.speed_step = -SPEED_STEP;
+				     CAR_Config(&car);
 					break;
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (p->EditContent)[12] - 0x30;
@@ -537,19 +558,37 @@ static _Listptr or_branch (_Listptr  p)
 									LED_Config(&led);
 							break;
 						case FLAG_CAR_LEFT:
-									Car_Left();
+									car.direction = LEFT;
+									car.speed_step = 0;
+									CAR_Config(&car);
 							break;
 						case FLAG_CAR_RIGHT:
-							    Car_Right();
+									car.direction = RIGHT;
+									car.speed_step = 0;
+									CAR_Config(&car);
 							break;
 						case FLAG_CAR_FORWARD:
-							    Car_Forward();
+									car.direction = FORWARD;
+									car.speed_step = 0;
+									CAR_Config(&car);
 							break;
 						case FLAG_CAR_BACKWARD:
-							    Car_Backward();
+									car.direction = BACKWARD;
+									car.speed_step = 0;
+									CAR_Config(&car);
 							break;
 						case FLAG_CAR_STOP:
-							    Car_Stop();
+									car.direction = STOP;
+									car.speed_step = 0;
+									CAR_Config(&car);
+							break;
+						case FLAG_CAR_ACCEL:
+								 car.speed_step = SPEED_STEP;
+								 CAR_Config(&car);
+							break;
+						case FLAG_CAR_SLOW:
+								 car.speed_step = -SPEED_STEP;
+								 CAR_Config(&car);
 							break;
 						case FLAG_PORT_SIGNAL://如果端口_有信号
 									port.id = (p->EditContent)[12] - 0x30;
@@ -827,19 +866,37 @@ static _Listptr while_branch (_Listptr  p)
 														LED_Config(&led);
 												break;
 											case FLAG_CAR_LEFT:
-														Car_Left();
+														car.direction = LEFT;
+														car.speed_step = 0;
+														CAR_Config(&car);
 												break;
 											case FLAG_CAR_RIGHT:
-												    Car_Right();
+														car.direction = RIGHT;
+														car.speed_step = 0;
+														CAR_Config(&car);
 												break;
 											case FLAG_CAR_FORWARD:
-												    Car_Forward();
+														car.direction = FORWARD;
+														car.speed_step = 0;
+														CAR_Config(&car);
 												break;
 											case FLAG_CAR_BACKWARD:
-												    Car_Backward();
+														car.direction = BACKWARD;
+														car.speed_step = 0;
+														CAR_Config(&car);
 												break;
 											case FLAG_CAR_STOP:
-												    Car_Stop();
+														car.direction = STOP;
+														car.speed_step = 0;
+														CAR_Config(&car);
+												break;
+											case FLAG_CAR_ACCEL:
+													 car.speed_step = SPEED_STEP;
+													 CAR_Config(&car);
+												break;
+											case FLAG_CAR_SLOW:
+													 car.speed_step = -SPEED_STEP;
+													 CAR_Config(&car);
 												break;
 											case FLAG_PORT_SIGNAL://如果端口_有信号
 														port.id = (p->EditContent)[12] - 0x30;
@@ -1081,7 +1138,7 @@ static _Listptr while_branch (_Listptr  p)
 //建立一个有表头结点的单链表
 int Create_List(void){
 	
-		Ins_List_Head = (_Listptr)malloc(sizeof(_Instructor));
+		Ins_List_Head = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
 		if( !Ins_List_Head)
 			return -1;
 		Ins_List_Head -> index = 0;
@@ -1093,11 +1150,14 @@ int Create_List(void){
 int Add_Node(int index, uint8_t flag, char *content)
 {
 				int i = 0;
-				_Listptr    q = (_Listptr)malloc(sizeof(_Instructor));
+				_Listptr    q = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
 				_Listptr    p = Ins_List_Head;
-			
+			  u8      Mb_Val;
 				if(index <= 0 || !q)
+				{
+					_MessageBox("Fail to malloc","Error",&Mb_Val);
 					return -1;
+				}
 				
 				q -> index = index;
 				strcpy(q -> EditContent, content);
@@ -1123,18 +1183,22 @@ int  Replace_Node(int index, enum _FLAG flag,char *content)
 {
 				int i = 0;
 				_Listptr    p = Ins_List_Head;
-			
+				u8        Mb_Val;
+	
 				if(index <= 0 )
 					return -1;
 
 				while(p && i < index)
 				{
-					p = p ->next ;//此时p即为下标为index的结点点
+					p = p ->next ;//此时p即为下标为index的结点
 					i ++;
 				}
 				
 				if(!p)
+				{
+					
 					return -1;
+				}
 				else{
 							p->_flag  = flag ;
 							strcpy(p -> EditContent, content);
@@ -1164,7 +1228,7 @@ int Delete_Node(int index)
 		{
 			q = p->next ;//q结点即为Index结点
 			p -> next = q -> next;//使index结点的后继成为p的后继
-			free(q);  //释放index结点的空间
+			myfree(SRAMIN,q);  //释放index结点的空间
 			
 			return 0;
 		}
@@ -1197,7 +1261,7 @@ void Clear_List(void)
 		{
 				q = p -> next;
 				p -> next = q -> next;
-				free(q);
+				myfree(SRAMIN, q);
 		}
 		
 }
@@ -1231,61 +1295,61 @@ _Listptr  Find_Node(int index, enum _FLAG flag)
 				
 }
 //初始化一个状态栈
-int Create_Stack(void)
-{
-		StaStk.base = (ELETYPE *)malloc(MAX_SIZE_STACK * sizeof(_StatuStack));
-		if(!StaStk.base )
-			return -1;
-		else
-		{
-			StaStk.top = StaStk.base ;//当前栈为空栈
-			StaStk.stacksize = MAX_SIZE_STACK;
-			
-			return 0;
-		}
-}
+//int Create_Stack(void)
+//{
+//		StaStk.base = (ELETYPE *)malloc(MAX_SIZE_STACK * sizeof(_StatuStack));
+//		if(!StaStk.base )
+//			return -1;
+//		else
+//		{
+//			StaStk.top = StaStk.base ;//当前栈为空栈
+//			StaStk.stacksize = MAX_SIZE_STACK;
+//			
+//			return 0;
+//		}
+//}
 
-//返回当前栈的长度
-int GetStackLength(_StatuStack *stk)
-{
-		if(!stk->base)
-			return -1;
-		else
-		{
-			return (stk->top - stk->base );
-		}
-}
-//获取栈顶元素，存入ele，不是出栈
-int GetTop(_StatuStack *Stk,uint8_t *ele)
-{
-		if(!Stk->base || Stk->base == Stk->top )//若是空栈则返回-1
-			return -1;
-		else
-		{
-			*ele = *(Stk->top -1);
-			return 0;
-		}
-}
-//元素入栈操作
-int Push(_StatuStack *Stk, uint8_t ele)
-{
-		if(!Stk->base )
-			return -1;
-		else{
-			*Stk->top++ = ele;
-			return 0;
-		}
-}
-//元素出栈
-int Pop(_StatuStack *Stk, uint8_t *ele)
-{
-		if(!Stk->base|| Stk->base == Stk->top )//若是空栈则返回-1
-			return -1;
-		else{
-			*ele = *(--Stk->top);
-			return 0;
-		}
-}
+////返回当前栈的长度
+//int GetStackLength(_StatuStack *stk)
+//{
+//		if(!stk->base)
+//			return -1;
+//		else
+//		{
+//			return (stk->top - stk->base );
+//		}
+//}
+////获取栈顶元素，存入ele，不是出栈
+//int GetTop(_StatuStack *Stk,uint8_t *ele)
+//{
+//		if(!Stk->base || Stk->base == Stk->top )//若是空栈则返回-1
+//			return -1;
+//		else
+//		{
+//			*ele = *(Stk->top -1);
+//			return 0;
+//		}
+//}
+////元素入栈操作
+//int Push(_StatuStack *Stk, uint8_t ele)
+//{
+//		if(!Stk->base )
+//			return -1;
+//		else{
+//			*Stk->top++ = ele;
+//			return 0;
+//		}
+//}
+////元素出栈
+//int Pop(_StatuStack *Stk, uint8_t *ele)
+//{
+//		if(!Stk->base|| Stk->base == Stk->top )//若是空栈则返回-1
+//			return -1;
+//		else{
+//			*ele = *(--Stk->top);
+//			return 0;
+//		}
+//}
 //
 //链表解析函数
 //
@@ -1343,19 +1407,37 @@ void List_Parse(_Listptr  ptr)
 							LED_Config(&led );
 					break;
 				case FLAG_CAR_LEFT:
-							Car_Left();
+							car.direction = LEFT;
+				      car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_RIGHT:
-					    Car_Right();
+					    car.direction = RIGHT;
+							car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_FORWARD:
-					    Car_Forward();
+							car.direction = FORWARD;
+							car.speed_step = 0;
+							CAR_Config(&car);
 					break;
 				case FLAG_CAR_BACKWARD:
-					    Car_Backward();
+							car.direction = BACKWARD;
+							car.speed_step = 0;
+					    CAR_Config(&car);
 					break;
 				case FLAG_CAR_STOP:
-					    Car_Stop();
+							car.direction = STOP;
+							car.speed_step = 0;
+					    CAR_Config(&car);
+					break;
+				case FLAG_CAR_ACCEL:
+					   car.speed_step = SPEED_STEP;
+						 CAR_Config(&car);
+					break;
+				case FLAG_CAR_SLOW:
+					   car.speed_step = -SPEED_STEP;
+				     CAR_Config(&car);
 					break;
 				//遇到流程控制语句if\or\while等，先判断是否符合判断条件，符合条件的话直接进入下一个结点
 				case FLAG_PORT_SIGNAL://如果端口_有信号

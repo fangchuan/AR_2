@@ -75,7 +75,7 @@ static const char *StringHZ[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 110, 170, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 0, 110, 20, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 0, 109, 20, 0, 0x64, 0 },
   { BUTTON_CreateIndirect,   "7",      ID_BUTTON_7,   5,   25,  25,  20},
   { BUTTON_CreateIndirect,   "8",      ID_BUTTON_8,  40,   25,  25,  20},
   { BUTTON_CreateIndirect,   "9",      ID_BUTTON_9,  75,   25,  25,  20},
@@ -230,7 +230,7 @@ WM_HWIN Create_EDITPad(WM_HWIN hParent);
 WM_HWIN Create_EDITPad(WM_HWIN hParent) {
   WM_HWIN hWin;
 
-  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, hParent, 100, 20);
+  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, hParent, 105, 20);
   return hWin;
 }
 

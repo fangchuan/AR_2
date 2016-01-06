@@ -14,7 +14,6 @@
 
 //extern function
 WM_HWIN CreateWindow_1_1(void);
-void _MessageBox(const char* pText, const char* pCaption);
 
 extern WM_HWIN hWin1_1;
 #endif //

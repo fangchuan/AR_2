@@ -76,7 +76,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "断开", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "连接", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 160, 50, 80, 180, 0, 0x1408, 0 },
+  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 00, 70, 80, 180, 0, 0x1408, 0 },
   { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 50, 100,20,0, 0X0, 0}
 };
 
@@ -100,6 +100,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     Id;
   char    str[10];
 	int     nrf_channel;
+	u8      Mb_Val;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -155,26 +156,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
-    case ID_HEADER_1: // Notifications sent by 'HeaderBottom'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
+//    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
+//      switch(NCode) {
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//        break;
+//      case WM_NOTIFICATION_MOVED_OUT:
+//        break;
+//      }
+//      break;
+//    case ID_HEADER_1: // Notifications sent by 'HeaderBottom'
+//      switch(NCode) {
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//        break;
+//      case WM_NOTIFICATION_MOVED_OUT:
+//        break;
+//      }
+//      break;
     case ID_BUTTON_0: // Notifications sent by 'Disconnect'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -192,13 +193,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						//选择NRF通道，共8个通道，其实是更改NRF的地址
 						hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-						nrf_channel = RADIO_GetValue(hItem) ;
+						nrf_channel = RADIO_GetValue(hItem) + 4;
 						
 						NRF_ADDRESS[4] = nrf_channel;
 						flag_change_nrf_addr = 1;
 						flag_nrf_link =  1;
 						RADIO_GetText(hItem, nrf_channel,str,10);
-						_MessageBox(str,StringHZ[3]);
+						_MessageBox(str,StringHZ[3], &Mb_Val);
         break;
       }
       break;

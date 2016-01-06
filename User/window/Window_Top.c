@@ -131,32 +131,32 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Button'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-		BUTTON_SetBitmap(hItem,0,&bmprogram);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_program);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[0]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
-		BUTTON_SetBitmap(hItem,0,&bmbt);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_bt);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[1]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-		BUTTON_SetBitmap(hItem,0,&bmmanual);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_manual);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[2]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
-		BUTTON_SetBitmap(hItem,0,&bmRC);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_rc);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[3]);
  
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
-		BUTTON_SetBitmap(hItem,0,&bmSB);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_sb);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[4]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
-		BUTTON_SetBitmap(hItem,0,&bmpc);
+		BUTTON_SetBitmap(hItem,0,&bmbmp_pc);
 //		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
 //		BUTTON_SetText(hItem,_acStringHZ[5]);
     //

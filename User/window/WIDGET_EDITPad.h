@@ -7,4 +7,5 @@
 #include "stdint.h"
 
 extern WM_HWIN Create_EDITPad(WM_HWIN hParent);
+
 #endif /*_WIDGET_EDITPAD_H*/

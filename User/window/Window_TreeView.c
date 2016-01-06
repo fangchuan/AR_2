@@ -57,7 +57,7 @@ WM_HWIN hTree;
 #define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
 #define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
 
-#define FILE_NAME_LEN 	100							//文件名长度，如果检测到文件名超过50 则丢弃这个文件 
+#define FILE_NAME_LEN 	50							//文件名长度，如果检测到文件名超过50 则丢弃这个文件 
 #define PATH_LEN		    50              //路径长度
 #define FILE_LIST_PATH 			"0:/FILELIST.TXT"	//文件记录列表文件的目录
 //#define _DF1S        0x80   //支持长文件名的,我没用长文件名
@@ -217,7 +217,7 @@ void WriteFileProcess(void)
 static void OpenFileProcess(int sel_num )
 {
 	char                     openfile[FILE_NAME_LEN]={0};
-	_Listptr   p = (_Listptr)malloc(sizeof(_Instructor));
+	_Listptr   p = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
 	
 	result = f_open (&file, FILE_LIST_PATH, FA_READ|FA_OPEN_EXISTING); //打开索引文件
 	if(result != FR_OK)
@@ -244,7 +244,7 @@ static void OpenFileProcess(int sel_num )
 							return ;
 						Add_Node(p->index , p->_flag ,p->EditContent );
 				}while(p->next); //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
-				free(p);
+				myfree(SRAMIN, p);
 	}
 	strcpy(program_name,openfile+3);//将要打开的程序文件名赋给program_name.因为openfile是路径名，要去掉"0:/"
 //		txt2buffer(openfile);//将openfile文件的内容转换到UTF8编码的txtbuffer字符串中
@@ -391,7 +391,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int                    NCode;
   int                    Id;
   WM_HWIN      hNumPad;
-
+	u8            Mb_Val;
+	
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
     //
@@ -475,13 +476,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
 							 result = f_unlink(del_path);
 							 if(result != FR_OK)
-								 _MessageBox(StringHZ[4],StringHZ[5]);
+								 _MessageBox(StringHZ[4],StringHZ[5], &Mb_Val);
 							 else
-								 _MessageBox(StringHZ[7],StringHZ[6]);
+								 _MessageBox(StringHZ[7],StringHZ[6], &Mb_Val);
 							 
 						}
 						else
-							_MessageBox(StringHZ[8],StringHZ[5]);     
+							_MessageBox(StringHZ[8],StringHZ[5], &Mb_Val);     
 				break;
       }
       break;
@@ -492,7 +493,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 						case WM_NOTIFICATION_RELEASED:
 									W25QXX_Erase_Chip();
-						      _MessageBox(StringHZ[9],StringHZ[6]);
+						      _MessageBox(StringHZ[9],StringHZ[6], &Mb_Val);
 							break;
 					}
 				break;

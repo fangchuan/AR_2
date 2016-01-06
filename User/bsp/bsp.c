@@ -380,6 +380,9 @@ void BSP_Init(void)
 //	/*初始化6050*/
 //	MPU6050_initialize();
 	
+	my_mem_init(SRAMIN); 	//初始化内部内存池
+	my_mem_init(SRAMEX);  	//初始化外部内存池
+	
 	/*创建带有表头结点的单链表*/
 	Create_List();
 

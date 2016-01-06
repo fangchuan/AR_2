@@ -26,10 +26,10 @@
 #define  DEFAULT_MIN      1000
 
 extern  void MOTOR_Init(void);
-extern  void MOTOR_1_Enable(void);
-extern  void MOTOR_1_Disable(void);
-extern  void MOTOR_2_Enable(void);
-extern  void MOTOR_2_Disable(void);
+//extern  void MOTOR_1_Enable(void);
+//extern  void MOTOR_1_Disable(void);
+//extern  void MOTOR_2_Enable(void);
+//extern  void MOTOR_2_Disable(void);
 extern  void MOTOR_1_Forward(void);
 extern  void MOTOR_1_Reverse(void);
 extern  void MOTOR_1_Stop(void);
@@ -37,14 +37,12 @@ extern  void MOTOR_2_Forward(void);
 extern  void MOTOR_2_Reverse(void);
 extern  void MOTOR_2_Stop(void);
 extern  _Error MOTOR_Config(_Motor *motor);
-extern  void Car_Forward(void);
-extern  void Car_Backward(void);
-extern  void Car_Left(void);
-extern  void Car_Right(void);
-extern  void Car_Stop(void);
-
-
-
+extern  _Error CAR_Config(_Car *car);
+extern void Car_Forward(void);
+extern void Car_Backward(void);
+extern void Car_Left(void);
+extern void Car_Right(void);
+extern void Car_Stop(void);
 	
 #endif /*_BSP_MOTOR_H*/
 /* --------------------------------------end of file--------------------------------------- */

@@ -13,6 +13,7 @@
 #include "bsp_spi_nrf.h"
 #include "bsp_music.h"
 #include "bsp_mpu6050.h"
+#include "malloc.h"
 
 /* 提供给其他C文件调用的函数 */
 void BSP_Init(void);

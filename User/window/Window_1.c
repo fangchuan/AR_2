@@ -101,6 +101,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int              NCode;
   int              Id;
   WM_HWIN         hNumPad;
+	u8              Mb_Val;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -181,7 +182,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						//warning the situation of empty program name
 						if(strcmp(program_name, "") == 0)
 						{
-							_MessageBox(_StringHZ[4],_StringHZ[5]);
+							_MessageBox(_StringHZ[4],_StringHZ[5], &Mb_Val);
 						}
 						else
 						{

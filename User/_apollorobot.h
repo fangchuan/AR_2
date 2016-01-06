@@ -16,6 +16,7 @@ typedef enum _ERROR {	NO_ERROR = 0,
 											ERROR_GRAMMAR,//语句的语法有误
 											ERROR_TONES,  //错误的音调 
 											ERROR_TIME,   //错误的节拍
+											ERROR_DIR,    //错误的小车方向
 							
 }_Error;
 
@@ -48,6 +49,8 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_CAR_FORWARD,//小车前进标志位
 									FLAG_CAR_BACKWARD,//小车后退标志位
 									FLAG_CAR_STOP,    //小车停止标志位
+									FLAG_CAR_ACCEL,   //小车加速标志位
+									FLAG_CAR_SLOW,    //小车减速标志位
 									FLAG_PORT_SIGNAL,	//如果端口有信号标志位
 									FLAG_PORT_NOSIGNAL,//如果端口无信号标志位
 									FLAG_PORT_WAIT_SIGNAL,//等待端口有信号标志位
@@ -137,6 +140,19 @@ typedef struct _LED {
 				uint8_t status;//LED状态 打开或关闭  0、1
 }_Led;
 
+//
+//小车控制结构体
+//
+#define  LEFT    2
+#define  RIGHT   -2
+#define  STOP    3
+
+#define  SPEED_STEP  50
+typedef struct _CAR  {
+				int8_t   direction;
+				int     speed_step;//车速步进.步进为正则是加速，步进为负就是减速
+
+}_Car;
 //
 //端口控制数据结构
 //

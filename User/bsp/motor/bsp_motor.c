@@ -115,9 +115,11 @@ static void  IC_Init(void)
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 		GPIO_Init(MOTOR_PORT, &GPIO_InitStructure);
 	
-		MOTOR_1_Enable();
-		MOTOR_2_Enable();
+//		MOTOR_1_Enable();
+//		MOTOR_2_Enable();
 }
+
+
 /*********************************************************************
 *
 *       Public code
@@ -131,26 +133,26 @@ void MOTOR_Init(void)
 	TIM4_Mode_Config();	
 	IC_Init();
 }
-//使能电机1的控制端
-void MOTOR_1_Enable(void)
-{
-		 digitalHi(MOTOR_PORT, MOTOR_Enable_1);
-}
-//禁用电机1的控制端
-void MOTOR_1_Disable(void)
-{
-		 digitalLo(MOTOR_PORT, MOTOR_Enable_1);
-}
-//是能电机2的控制端
-void MOTOR_2_Enable(void)
-{
-		 digitalHi(MOTOR_PORT, MOTOR_Enable_2);
-}
-//禁用电机2的控制端
-void MOTOR_2_Disable(void)
-{
-		 digitalLo(MOTOR_PORT, MOTOR_Enable_2);
-}
+////使能电机1的控制端
+//void MOTOR_1_Enable(void)
+//{
+//		 digitalHi(MOTOR_PORT, MOTOR_Enable_1);
+//}
+////禁用电机1的控制端
+//void MOTOR_1_Disable(void)
+//{
+//		 digitalLo(MOTOR_PORT, MOTOR_Enable_1);
+//}
+////是能电机2的控制端
+//void MOTOR_2_Enable(void)
+//{
+//		 digitalHi(MOTOR_PORT, MOTOR_Enable_2);
+//}
+////禁用电机2的控制端
+//void MOTOR_2_Disable(void)
+//{
+//		 digitalLo(MOTOR_PORT, MOTOR_Enable_2);
+//}
 
 //电机1正转
 void MOTOR_1_Forward(void)
@@ -263,5 +265,48 @@ void Car_Stop(void)
 	   MOTOR_12_OUT = 0;
 	   MOTOR_21_OUT = 0;
 	   MOTOR_22_OUT = 0;
+}
+//
+//小车配置函数
+//
+_Error  CAR_Config(_Car *car)
+{
+	     if(!car->direction)
+				 return ERROR_DIR;
+			 
+			 switch(car->direction )
+			 {
+				 case FORWARD:
+								 MOTOR_11_OUT += car->speed_step ;
+								 MOTOR_12_OUT  = 0;
+								 MOTOR_21_OUT += car->speed_step ;
+							   MOTOR_22_OUT  = 0;
+					 break;
+				 case BACKWARD:
+					       MOTOR_11_OUT = 0;
+								 MOTOR_12_OUT += car->speed_step ;
+								 MOTOR_21_OUT = 0;
+								 MOTOR_22_OUT += car->speed_step ;
+					 break;
+				 case LEFT:
+								 MOTOR_11_OUT = DEFAULT_AVR;
+								 MOTOR_12_OUT += car->speed_step ;
+				         MOTOR_21_OUT = DEFAULT_AVR;
+								 MOTOR_22_OUT += car->speed_step ;
+					 break;
+				 case RIGHT:
+								 MOTOR_11_OUT = DEFAULT_AVR;
+								 MOTOR_12_OUT += car->speed_step ;
+								 MOTOR_21_OUT = DEFAULT_AVR;
+								 MOTOR_22_OUT += car->speed_step ;
+							
+					 break;
+				 case STOP :
+					    Car_Stop();
+							car->speed_step = 0;           // 小车停止时是不允许加减速的
+					 break;
+			 }
+			 
+			 return NO_ERROR;
 }
 /*********************************************END OF FILE**********************/

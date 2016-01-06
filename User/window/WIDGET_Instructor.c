@@ -59,6 +59,8 @@
 #define ID_BUTTON_Forward (GUI_ID_USER + 0x32)
 #define ID_BUTTON_Backward (GUI_ID_USER + 0x33)
 #define ID_BUTTON_Stop  (GUI_ID_USER + 0x34)
+#define ID_BUTTON_Accel (GUI_ID_USER + 0x35)
+#define ID_BUTTON_Slow  (GUI_ID_USER + 0x36)
 
 #define ID_WINDOW_Var   (GUI_ID_USER + 0x04)
 #define ID_BUTTON_SA     (GUI_ID_USER + 0x41)
@@ -147,6 +149,7 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9>_",//37:如果障碍物>_
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9<_",//38:如果障碍物<_
 	"\xe6\x98\xbe\xe7\xa4\xba\xe8\xb6\x85\xe5\xa3\xb0\xe6\xb3\xa2\xe8\xb7\x9d\xe7\xa6\xbb",//39:显示超声波距离
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x8a\xa0\xe9\x80\x9f","\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x87\x8f\xe9\x80\x9f",//40:小车加速  41:小车减速
 };
  
 
@@ -155,7 +158,7 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 *       _aDialog_Create_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 20, 59, 200, 260, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 1 , 59, 219, 260, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "输出控制", ID_BUTTON_OUT, 10, 10, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "小车控制", ID_BUTTON_CAR, 105, 10, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "端口判断", ID_BUTTON_PORT, 10, 70, 80, 40, 0, 0x0, 0 },
@@ -172,7 +175,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 *       _aDialog_Output_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Out, 1, 1, 198, 258, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Out, 2, 1, 218, 258, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "电机正转", ID_BUTTON_DCMC, 0, 20, 100, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "电机反转", ID_BUTTON_DCMCC, 0, 70, 100, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "舵机", ID_BUTTON_SER, 0, 120, 100, 30, 0, 0x0, 0 },
@@ -187,12 +190,14 @@ static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
 *       _aDialog_Car_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Car, 1, 1, 198, 258, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Car, 2, 1, 218, 258, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "左转", ID_BUTTON_Left, 10, 20, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "右转", ID_BUTTON_Right, 10, 60, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "前进", ID_BUTTON_Forward, 10, 100, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "后退", ID_BUTTON_Backward, 10, 140, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "停止", ID_BUTTON_Stop, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "小车加速", ID_BUTTON_Accel, 105, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "小车减速", ID_BUTTON_Slow, 105, 100, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -202,7 +207,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
 *       _aDialog_Pro_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogPro_Panel[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Pro, 1, 1, 198, 258, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Pro, 2, 1, 218, 258, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "循环开始", ID_BUTTON_While, 0, 10, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "循环结束", ID_BUTTON_EndWhile, 0, 60, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "程序结束", ID_BUTTON_End, 0, 110, 80, 30, 0, 0x0, 0 },
@@ -217,7 +222,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPro_Panel[] = {
 *       _aDialog_Var_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Var, 1, 1, 198, 258, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Var, 2, 1, 218, 258, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Set A", ID_BUTTON_SA, 10, 20, 60, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Set B", ID_BUTTON_SB, 100, 20, 60, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "变量A+1", ID_BUTTON_AA, 10, 60, 60, 30, 0, 0x0, 0 },
@@ -237,7 +242,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
 *       _aDialog_Port_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
-	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_Port, 1, 1, 198, 258, 0, 0x0, 0 },
+	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_Port, 2, 1, 218, 258, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "有信号", ID_BUTTON_S, 0, 20, 100, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "无信号", ID_BUTTON_NS, 0, 60, 100, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "等待有信号", ID_BUTTON_WS, 0, 100, 100, 30, 0, 0x0, 0 },
@@ -253,7 +258,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
 *       _aDialog_App_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
-	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_App, 1, 1, 198, 258, 0, 0x0, 0 },
+	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_App, 2, 1, 218, 258, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "延时_ms", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "音乐", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "显示距离", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
@@ -270,8 +275,7 @@ static void _cbDialog_Out(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
+		WM_HWIN hItem, hEdit;
 	
 	switch(pMsg->MsgId)
 	{
@@ -397,8 +401,7 @@ static void _cbDialog_Car(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
+		WM_HWIN hItem, hEdit;
 
 	switch(pMsg->MsgId)
 	{
@@ -425,6 +428,14 @@ static void _cbDialog_Car(WM_MESSAGE *pMsg)
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_Stop);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[15]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_Accel);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[40]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_Slow);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[41]);
 		
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
@@ -505,6 +516,34 @@ static void _cbDialog_Car(WM_MESSAGE *pMsg)
 									break;		
 							}
 							break;
+						case ID_BUTTON_Accel:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_CAR_ACCEL ;
+//												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												strcpy(_acText , StringHZ[40]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Slow:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_CAR_SLOW ;
+//												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												strcpy(_acText , StringHZ[41]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
 						case ID_BUTTON_BACK:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
@@ -529,8 +568,7 @@ static void _cbDialog_Port(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
+		WM_HWIN hItem, hEdit;
 	
 		switch(pMsg->MsgId)
 		{
@@ -707,8 +745,7 @@ static void _cbDialog_Var(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
+		WM_HWIN hItem, hEdit;
 		char string[10];
 	
 	switch(pMsg->MsgId)
@@ -922,8 +959,7 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
+		WM_HWIN hItem, hEdit;
 	
 	switch(pMsg->MsgId)
 	{
@@ -1051,9 +1087,8 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 {
 		int NCode;
 		int Id;
-		WM_HWIN hItem;
-		WM_HWIN hEdit;
-		char string[10];
+		WM_HWIN hItem, hEdit;
+		char     string[10];
 	
 	switch(pMsg->MsgId)
 	{
