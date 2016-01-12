@@ -15,6 +15,7 @@
 #include "Window_4.h"
 #include "Window_Running.h"
 #include  "Window_TreeView.h"
+#include "Window_TouchCali.h"
 
 void GUI_Main_Task(void);
 

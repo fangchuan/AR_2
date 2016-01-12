@@ -51,10 +51,11 @@
 #define  APP_CFG_TASK_MAIN_TASK_PRIO                3u
 #define  APP_CFG_TASK_GUI_UPDATE_PRIO               2u
 #define  APP_CFG_TASK_COM_RX_PRIO                   4u
-#define  APP_CFG_TASK_USER_IF_PRIO                  6u
+#define  APP_CFG_TASK_USER_IF_PRIO                  7u
 #define  APP_CFG_TASK_COM_TX_PRIO                   4u
 #define  APP_CFG_TASK_NRF_PRIO                      5u
-#define  APP_CFG_TASK_MPU6050_PRIO                  7u
+#define  APP_CFG_TASK_MPU6050_PRIO                  6u
+#define  APP_CFG_TASK_TOUCHCALI_PRIO                9u
 /*
 *********************************************************************************************************
 *                                            TASK STACK SIZES
@@ -70,7 +71,7 @@
 #define  APP_CFG_TASK_COM_TX_STK_SIZE               128u
 #define  APP_CFG_TASK_NRF_STK_SIZE                  128u
 #define  APP_CFG_TASK_MPU6050_STK_SIZE              128u
-
+#define  APP_CFG_TASK_TOUCHCALI_STK_SIZE            256u
 /*
 *********************************************************************************************************
 *                                    BSP CONFIGURATION: RS-232

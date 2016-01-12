@@ -39,22 +39,26 @@ _Error DS_Config(_Port *port)
 					 {
 						 case PORT_1:
 							    Pin = DigitalSensor_1;
+//									GPIOC->CRL &= 0xfff8ffff;
 							 break;
 						 case PORT_2:
 							    Pin = DigitalSensor_2;
+//									GPIOC->CRL &= 0xff8fffff;
 							 break;
 						 case PORT_3:
 							    Pin = DigitalSensor_3;
+//									GPIOC->CRL &= 0xf8ffffff;
 							 break;
 						 case PORT_4:
 							    Pin = DigitalSensor_4;
+//									GPIOC->CRL &= 0x8fffffff;
 							 break;
 					 }
 					  
 						GPIO_InitStructure.GPIO_Pin = Pin;
 						GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//…œ¿≠ ‰»Î
 						GPIO_Init(DigitalSensorPort, &GPIO_InitStructure);
-					 
+					 					 
 					 return NO_ERROR;
 			}
 }

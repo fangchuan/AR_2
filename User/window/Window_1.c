@@ -44,7 +44,7 @@ char program_name[10];
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
 #define ID_MULTIEDIT_0     (GUI_ID_USER + 0x01)
-#define ID_HEADER_0     (GUI_ID_USER + 0x02)
+//#define ID_HEADER_0     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
 #define ID_BUTTON_2     (GUI_ID_USER + 0x06)
@@ -72,7 +72,7 @@ const static char *_StringHZ[] = {"\xe6\x96\xb0\xe5\xbb\xba",//0:ÐÂ½¨
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { MULTIEDIT_CreateIndirect, "Edit0",  ID_MULTIEDIT_0, 100, 40, 110, 40, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
+//  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "New", ID_BUTTON_2, 0, 40, 80, 40, 0, 0x0, 0 },
@@ -151,16 +151,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_HEADER_0: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
+
     case ID_BUTTON_0: // Notifications sent by 'Button'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

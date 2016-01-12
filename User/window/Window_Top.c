@@ -22,14 +22,15 @@
 // USER END
 
 #include "Window_Top.h"
-
+#include "os.h"
 /*********************************************************************
 *
-*       Public data
+*       Global data
 *
 **********************************************************************
 */
 extern uint8_t Key_Value;
+extern OS_SEM  TOUCH_SEM;
 
 WM_HWIN hWin_Top;
 /*********************************************************************
@@ -54,8 +55,7 @@ WM_HWIN hWin_Top;
 #define ID_TEXT_4     (GUI_ID_USER + 0x0D)
 #define ID_TEXT_5     (GUI_ID_USER + 0x0E)
 
-// USER START (Optionally insert additional defines)
-// USER END
+#define ID_ICONVIEW_0 (GUI_ID_USER + 0x0F)
 
 /*********************************************************************
 *
@@ -66,7 +66,7 @@ WM_HWIN hWin_Top;
 
 static const char *_acStringHZ[] = {"\xe7\xbc\x96\xe7\xa8\x8b","\xe8\x93\x9d\xe7\x89\x99",//0:编程    1:蓝牙
 	"\xe6\x89\x8b\xe5\x8a\xa8\xe6\x8e\xa7\xe5\x88\xb6","\xe9\x81\xa5\xe6\x8e\xa7",          //2:手动控制  3:遥控
-	"\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1","\xe7\x94\xb5\xe8\x84\x91\xe8\xbf\x9e\xe6\x8e\xa5",//4:自平衡  5:电脑连接
+	"\xe8\x87\xaa\xe5\xb9\xb3\xe8\xa1\xa1","\xe8\xa7\xa6\xe6\x91\xb8\xe6\xa0\xa1\xe5\x87\x86",//4:自平衡  5:触摸校准
 };
 
 static const char *_acStringE[]={"ApolloRobot"};
@@ -114,8 +114,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
   int     NCode;
   int     Id;
-  // USER START (Optionally insert additional variables)
-  // USER END
+  
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -132,33 +131,21 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_program);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[0]);
-
+	
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_bt);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[1]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_manual);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[2]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_rc);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[3]);
  
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_sb);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[4]);
 
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_pc);
-//		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
-//		BUTTON_SetText(hItem,_acStringHZ[5]);
     //
     // Initialization of TEXT
     //
@@ -192,8 +179,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[5]);
 
-    // USER START (Optionally insert additional code for further widget initialization)
-    // USER END
+//    hItem = ICONVIEW_CreateEx(10, 30, 125 + 11, 200, 
+//                           pMsg->hWin, WM_CF_SHOW | WM_CF_HASTRANS, 
+//                           0, ID_ICONVIEW_0, 80, 50);
+//		ICONVIEW_SetFont(hItem,&GUI_FontSongTi16);
+//		ICONVIEW_AddBitmapItem(hItem, &bmbmp_program, _acStringHZ[0]);
     break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -256,14 +246,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_5: // Notifications sent by 'PC Program'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-						Key_Value = 6;
-        break;
-      }
+    case ID_BUTTON_5: // Notifications sent by '触屏校准'
+      if( NCode == WM_NOTIFICATION_RELEASED)
+			{
+					 OS_ERR  err;
+				   Key_Value = 6;
+					 OS_SemPost(&TOUCH_SEM, OS_OPT_POST_1, 0, &err);
+			}
+		
       break;
 
     }
@@ -271,7 +261,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	case  WM_PAINT:
 		hItem = pMsg->hWin;
 		GUI_SetColor(GUI_RED);
-		GUI_SetFont(&GUI_Font24_ASCII);
+		GUI_SetFont(&GUI_FontSongTi16);
 		GUI_DispStringHCenterAt(_acStringE[0], 120, 280);
 		break;
   default:

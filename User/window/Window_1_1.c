@@ -435,8 +435,8 @@
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
 #define ID_SCROLLBAR_0  (GUI_ID_USER + 0X05)
-#define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
-#define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
+//#define ID_BUTTON_ADD   (GUI_ID_USER + 0X06)
+//#define ID_BUTTON_DEL   (GUI_ID_USER + 0X07)
 #define MAX_EDIT_NUM      198
 #define MAX_TEXT_NUM      198
 // USER END
@@ -877,8 +877,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 	{ TEXT_CreateIndirect, "195", ID_TEXT_195, 0, 5880, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "196", ID_TEXT_196, 0, 5910, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "197", ID_TEXT_197, 0, 5940, 40, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 180, 300, 60, 20, 0, 0x0, 0 },
 };
 
 /*********************************************************************
@@ -920,7 +920,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		SCROLLBAR_CreateEx(220,20,20,280, hItem, WM_CF_SHOW, SCROLLBAR_CF_VERTICAL, ID_SCROLLBAR_0);
 		hItem = WM_GetDialogItem(pMsg->hWin,ID_SCROLLBAR_0);
-		SCROLLBAR_SetNumItems(hItem,200);
+		SCROLLBAR_SetNumItems(hItem,198);//设置滚动条项目数为200
+		SCROLLBAR_SetPageSize(hItem, 9); //设置每页的项目数为9
     //
 		// Initialize the 'Header'
 		//
@@ -1197,8 +1198,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						hDlg = CreateSelectDialog(pMsg->hWin,State.x,State.y);
 						WM_MakeModal(hDlg);
 						GUI_ExecCreatedDialog(hDlg);
-//						WM_MakeModal(pMsg->hWin);
-//						WM_SetFocus(pMsg->hWin);
+
 						if(_acText[0] != 0)
 						{		
 								EDIT_SetFont(pMsg->hWinSrc, &GUI_FontSongTi12);
@@ -1249,16 +1249,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       break;
 
 		case ID_SCROLLBAR_0: // Notifications sent by 'Scrollbar'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
+				 WM_GetScrollState(pMsg->hWinSrc, &ScrollState);
+				 if (NCode == WM_NOTIFICATION_RELEASED)
+				{
 				//the envent that trigger by kick the scrollbar
-						WM_GetScrollState(pMsg->hWinSrc, &ScrollState);
+						
 						if (_yOld != ScrollState.v) {
 							int y;
+							
 							for( y = 0; y < MAX_EDIT_NUM; y++)
 							{
 								if(hEdit[y] != NULL && hText[y] != NULL)
@@ -1277,10 +1275,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 									WM_ShowWindow(hEdit[y]);
 									WM_ShowWindow(hText[y]);
 								}
-							}	
+							}
+						
 						}
-          _yOld = ScrollState.v;
-        break;//end 
+						_yOld = ScrollState.v;
       }
       break;
     }

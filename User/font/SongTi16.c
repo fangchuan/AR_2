@@ -18,34 +18,10 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-* Initial font height:  16                                           *
-* Range disabled:       0000 - FFFF                                  *
-* Range enabled:        0000 - 007F                                  *
-* Edit/Shift/Right      at character 0x5961 (22881)                  *
-* Edit/Shift/Right      at character 0x5961 (22881)                  *
-* Edit/Shift/Right      at character 0x5961 (22881)                  *
-* Edit/Shift/Left       at character 0x5961 (22881)                  *
-* Edit/Shift/Left       at character 0x5961 (22881)                  *
-* Edit/Shift/Left       at character 0x5961 (22881)                  *
-* Range enabled:        7F16 - 7F16                                  *
-* Character disabled:  0x7F16 (32534)                                *
-* Character enabled:   0x7F16 (32534)                                *
-* Range enabled:        7A0B - 7A0B                                  *
-* Range enabled:        84DD - 84DD                                  *
-* Range enabled:        7259 - 7259                                  *
-* Range enabled:        624B - 624B                                  *
-* Range enabled:        52A8 - 52A8                                  *
-* Range enabled:        63A7 - 63A7                                  *
-* Range enabled:        5236 - 5236                                  *
-* Range enabled:        9065 - 9065                                  *
-* Range enabled:        63A7 - 63A7                                  *
-* Range enabled:        81EA - 81EA                                  *
-* Range enabled:        5E73 - 5E73                                  *
-* Range enabled:        8861 - 8861                                  *
-* Range enabled:        7535 - 7535                                  *
-* Range enabled:        8111 - 8111                                  *
-* Range enabled:        8FDE - 8FDE                                  *
-* Range enabled:        63A5 - 63A5                                  *
+* Range enabled:        89E6 - 89E6                                  *
+* Character enabled:   0x51C6 (20934)                                *
+* Character enabled:   0x6478 (25720)                                *
+* Character enabled:   0x6821 (26657)                                *
 *                                                                    *
 **********************************************************************
 */
@@ -59,2353 +35,2577 @@
 /* The following line needs to be included in any file selecting the
    font.
 */
-
+extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi16;
 
 /* Start of unicode area <Basic Latin> */
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0020[ 16] = { /* code 0020, SPACE */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0021[ 16] = { /* code 0021, EXCLAMATION MARK */
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ________,
-  ________,
-  ___XX___,
-  ___XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0022[ 16] = { /* code 0022, QUOTATION MARK */
-  ________,
-  ___X__X_,
-  __XX_XX_,
-  __X__X__,
-  _X__X___,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0023[ 16] = { /* code 0023, NUMBER SIGN */
-  ________,
-  ________,
-  ________,
-  __X__X__,
-  __X__X__,
-  __X__X__,
-  XXXXXXX_,
-  _X__X___,
-  _X__X___,
-  _X__X___,
-  XXXXXXX_,
-  _X__X___,
-  _X__X___,
-  _X__X___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0024[ 16] = { /* code 0024, DOLLAR SIGN */
-  ________,
-  ________,
-  ___X____,
-  __XXX___,
-  _X_X_X__,
-  _X_X_X__,
-  _X_X____,
-  __XX____,
-  ___XX___,
-  ___X_X__,
-  ___X_X__,
-  _X_X_X__,
-  _X_X_X__,
-  __XXX___,
-  ___X____,
-  ___X____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0025[ 16] = { /* code 0025, PERCENT SIGN */
-  ________,
-  ________,
-  ________,
-  _X___X__,
-  X_X__X__,
-  X_X_X___,
-  X_X_X___,
-  X_X_X___,
-  _X_X_X__,
-  ___XX_X_,
-  __X_X_X_,
-  __X_X_X_,
-  __X_X_X_,
-  _X___X__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0026[ 16] = { /* code 0026, AMPERSAND */
-  ________,
-  ________,
-  ________,
-  __XX____,
-  _X__X___,
-  _X__X___,
-  _X__X___,
-  _X_X____,
-  _XX_XXX_,
-  X_X__X__,
-  X__X_X__,
-  X___X___,
-  X___X__X,
-  _XXX_XX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0027[ 16] = { /* code 0027, APOSTROPHE */
-  ________,
-  _XX_____,
-  _XX_____,
-  __X_____,
-  XX______,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0028[ 16] = { /* code 0028, LEFT PARENTHESIS */
-  ________,
-  ______X_,
-  _____X__,
-  ____X___,
-  ____X___,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ____X___,
-  ____X___,
-  _____X__,
-  ______X_,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0029[ 16] = { /* code 0029, RIGHT PARENTHESIS */
-  ________,
-  _X______,
-  __X_____,
-  ___X____,
-  ___X____,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ___X____,
-  ___X____,
-  __X_____,
-  _X______,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002A[ 16] = { /* code 002A, ASTERISK */
-  ________,
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  XX_X_XX_,
-  __XXX___,
-  __XXX___,
-  XX_X_XX_,
-  ___X____,
-  ___X____,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002B[ 16] = { /* code 002B, PLUS SIGN */
-  ________,
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  XXXXXXX_,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002C[ 16] = { /* code 002C, COMMA */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  _XX_____,
-  _XX_____,
-  __X_____,
-  XX______};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002D[ 16] = { /* code 002D, HYPHEN-MINUS */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  _XXXXXXX,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002E[ 16] = { /* code 002E, FULL STOP */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  _XX_____,
-  _XX_____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002F[ 16] = { /* code 002F, SOLIDUS */
-  ________,
-  ________,
-  _______X,
-  ______X_,
-  ______X_,
-  _____X__,
-  _____X__,
-  ____X___,
-  ____X___,
-  ___X____,
-  ___X____,
-  __X_____,
-  __X_____,
-  _X______,
-  _X______,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0030[ 16] = { /* code 0030, DIGIT ZERO */
-  ________,
-  ________,
-  ________,
-  ___XX___,
-  __X__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X__X__,
-  ___XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0031[ 16] = { /* code 0031, DIGIT ONE */
-  ________,
-  ________,
-  ________,
-  ___X____,
-  _XXX____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0032[ 16] = { /* code 0032, DIGIT TWO */
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _____X__,
-  _____X__,
-  ____X___,
-  ___X____,
-  __X_____,
-  _X____X_,
-  _XXXXXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0033[ 16] = { /* code 0033, DIGIT THREE */
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  _____X__,
-  ___XX___,
-  _____X__,
-  ______X_,
-  ______X_,
-  _X____X_,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0034[ 16] = { /* code 0034, DIGIT FOUR */
-  ________,
-  ________,
-  ________,
-  _____X__,
-  ____XX__,
-  ___X_X__,
-  __X__X__,
-  __X__X__,
-  _X___X__,
-  _X___X__,
-  _XXXXXX_,
-  _____X__,
-  _____X__,
-  ___XXXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0035[ 16] = { /* code 0035, DIGIT FIVE */
-  ________,
-  ________,
-  ________,
-  _XXXXXX_,
-  _X______,
-  _X______,
-  _X______,
-  _X_XX___,
-  _XX__X__,
-  ______X_,
-  ______X_,
-  _X____X_,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0036[ 16] = { /* code 0036, DIGIT SIX */
-  ________,
-  ________,
-  ________,
-  ___XXX__,
-  __X__X__,
-  _X______,
-  _X______,
-  _X_XX___,
-  _XX__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X__X__,
-  ___XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0037[ 16] = { /* code 0037, DIGIT SEVEN */
-  ________,
-  ________,
-  ________,
-  _XXXXXX_,
-  _X___X__,
-  _X___X__,
-  ____X___,
-  ____X___,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0038[ 16] = { /* code 0038, DIGIT EIGHT */
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X__X__,
-  ___XX___,
-  __X__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __XXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0039[ 16] = { /* code 0039, DIGIT NINE */
-  ________,
-  ________,
-  ________,
-  ___XX___,
-  __X__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X__XX_,
-  ___XX_X_,
-  ______X_,
-  ______X_,
-  __X__X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003A[ 16] = { /* code 003A, COLON */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___XX___,
-  ___XX___,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___XX___,
-  ___XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003B[ 16] = { /* code 003B, SEMICOLON */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  __X_____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003C[ 16] = { /* code 003C, LESS-THAN SIGN */
-  ________,
-  ________,
-  ________,
-  ______X_,
-  _____X__,
-  ____X___,
-  ___X____,
-  __X_____,
-  _X______,
-  __X_____,
-  ___X____,
-  ____X___,
-  _____X__,
-  ______X_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003D[ 16] = { /* code 003D, EQUALS SIGN */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXXXXXX_,
-  ________,
-  ________,
-  ________,
-  XXXXXXX_,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003E[ 16] = { /* code 003E, GREATER-THAN SIGN */
-  ________,
-  ________,
-  ________,
-  _X______,
-  __X_____,
-  ___X____,
-  ____X___,
-  _____X__,
-  ______X_,
-  _____X__,
-  ____X___,
-  ___X____,
-  __X_____,
-  _X______,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003F[ 16] = { /* code 003F, QUESTION MARK */
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  _XX___X_,
-  ______X_,
-  _____X__,
-  ____X___,
-  ____X___,
-  ________,
-  ___XX___,
-  ___XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0040[ 16] = { /* code 0040, COMMERCIAL AT */
-  ________,
-  ________,
-  ________,
-  __XXX___,
-  _X___X__,
-  _X_XX_X_,
-  X_X_X_X_,
-  X_X_X_X_,
-  X_X_X_X_,
-  X_X_X_X_,
-  X_XX_X__,
-  _X____X_,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0041[ 16] = { /* code 0041, LATIN CAPITAL LETTER A */
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  ___XX___,
-  __X_X___,
-  __X_X___,
-  __X__X__,
-  __XXXX__,
-  _X___X__,
-  _X____X_,
-  _X____X_,
-  XXX__XXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0042[ 16] = { /* code 0042, LATIN CAPITAL LETTER B */
-  ________,
-  ________,
-  ________,
-  XXXXX___,
-  _X___X__,
-  _X___X__,
-  _X___X__,
-  _XXXX___,
-  _X___X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X___X__,
-  XXXXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0043[ 16] = { /* code 0043, LATIN CAPITAL LETTER C */
-  ________,
-  ________,
-  ________,
-  __XXXXX_,
-  _X____X_,
-  _X____X_,
-  X_______,
-  X_______,
-  X_______,
-  X_______,
-  X_______,
-  _X____X_,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0044[ 16] = { /* code 0044, LATIN CAPITAL LETTER D */
-  ________,
-  ________,
-  ________,
-  XXXXX___,
-  _X___X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X___X__,
-  XXXXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0045[ 16] = { /* code 0045, LATIN CAPITAL LETTER E */
-  ________,
-  ________,
-  ________,
-  XXXXXX__,
-  _X____X_,
-  _X__X___,
-  _X__X___,
-  _XXXX___,
-  _X__X___,
-  _X__X___,
-  _X______,
-  _X____X_,
-  _X____X_,
-  XXXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0046[ 16] = { /* code 0046, LATIN CAPITAL LETTER F */
-  ________,
-  ________,
-  ________,
-  XXXXXX__,
-  _X____X_,
-  _X__X___,
-  _X__X___,
-  _XXXX___,
-  _X__X___,
-  _X__X___,
-  _X______,
-  _X______,
-  _X______,
-  XXX_____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0047[ 16] = { /* code 0047, LATIN CAPITAL LETTER G */
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X___X__,
-  _X___X__,
-  X_______,
-  X_______,
-  X_______,
-  X___XXX_,
-  X____X__,
-  _X___X__,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0048[ 16] = { /* code 0048, LATIN CAPITAL LETTER H */
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _XXXXXX_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  XXX__XXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0049[ 16] = { /* code 0049, LATIN CAPITAL LETTER I */
-  ________,
-  ________,
-  ________,
-  _XXXXX__,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004A[ 16] = { /* code 004A, LATIN CAPITAL LETTER J */
-  ________,
-  ________,
-  ________,
-  __XXXXX_,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  X___X___,
-  XXXX____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004B[ 16] = { /* code 004B, LATIN CAPITAL LETTER K */
-  ________,
-  ________,
-  ________,
-  XXX_XXX_,
-  _X___X__,
-  _X__X___,
-  _X_X____,
-  _XXX____,
-  _X_X____,
-  _X__X___,
-  _X__X___,
-  _X___X__,
-  _X___X__,
-  XXX_XXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004C[ 16] = { /* code 004C, LATIN CAPITAL LETTER L */
-  ________,
-  ________,
-  ________,
-  XXX_____,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  _X____X_,
-  XXXXXXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004D[ 16] = { /* code 004D, LATIN CAPITAL LETTER M */
-  ________,
-  ________,
-  ________,
-  XXX_XXX_,
-  _XX_XX__,
-  _XX_XX__,
-  _XX_XX__,
-  _XX_XX__,
-  _X_X_X__,
-  _X_X_X__,
-  _X_X_X__,
-  _X_X_X__,
-  _X_X_X__,
-  XX_X_XX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004E[ 16] = { /* code 004E, LATIN CAPITAL LETTER N */
-  ________,
-  ________,
-  ________,
-  XX___XXX,
-  _XX___X_,
-  _XX___X_,
-  _X_X__X_,
-  _X_X__X_,
-  _X__X_X_,
-  _X__X_X_,
-  _X__X_X_,
-  _X___XX_,
-  _X___XX_,
-  XXX___X_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004F[ 16] = { /* code 004F, LATIN CAPITAL LETTER O */
-  ________,
-  ________,
-  ________,
-  __XXX___,
-  _X___X__,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  _X___X__,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0050[ 16] = { /* code 0050, LATIN CAPITAL LETTER P */
-  ________,
-  ________,
-  ________,
-  XXXXXX__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _XXXXX__,
-  _X______,
-  _X______,
-  _X______,
-  _X______,
-  XXX_____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0051[ 16] = { /* code 0051, LATIN CAPITAL LETTER Q */
-  ________,
-  ________,
-  ________,
-  __XXX___,
-  _X___X__,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_____X_,
-  X_XX__X_,
-  XX__X_X_,
-  _X__XX__,
-  __XXX___,
-  _____XX_,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0052[ 16] = { /* code 0052, LATIN CAPITAL LETTER R */
-  ________,
-  ________,
-  ________,
-  XXXXXX__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _XXXXX__,
-  _X__X___,
-  _X__X___,
-  _X___X__,
-  _X___X__,
-  _X____X_,
-  XXX___XX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0053[ 16] = { /* code 0053, LATIN CAPITAL LETTER S */
-  ________,
-  ________,
-  ________,
-  __XXXXX_,
-  _X____X_,
-  _X____X_,
-  _X______,
-  __X_____,
-  ___XX___,
-  _____X__,
-  ______X_,
-  _X____X_,
-  _X____X_,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0054[ 16] = { /* code 0054, LATIN CAPITAL LETTER T */
-  ________,
-  ________,
-  ________,
-  XXXXXXX_,
-  X__X__X_,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0055[ 16] = { /* code 0055, LATIN CAPITAL LETTER U */
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __XXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0056[ 16] = { /* code 0056, LATIN CAPITAL LETTER V */
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  _X____X_,
-  _X___X__,
-  __X__X__,
-  __X__X__,
-  __X_X___,
-  __X_X___,
-  ___XX___,
-  ___X____,
-  ___X____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0057[ 16] = { /* code 0057, LATIN CAPITAL LETTER W */
-  ________,
-  ________,
-  ________,
-  XX_X_XX_,
-  X__X__X_,
-  X__X__X_,
-  X__X__X_,
-  X__X__X_,
-  X_X_X_X_,
-  X_X_X_X_,
-  _XX_XX__,
-  _X___X__,
-  _X___X__,
-  _X___X__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0058[ 16] = { /* code 0058, LATIN CAPITAL LETTER X */
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  __X__X__,
-  __X__X__,
-  ___XX___,
-  ___XX___,
-  ___XX___,
-  __X__X__,
-  __X__X__,
-  _X____X_,
-  XXX__XXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0059[ 16] = { /* code 0059, LATIN CAPITAL LETTER Y */
-  ________,
-  ________,
-  ________,
-  XXX_XXX_,
-  _X___X__,
-  _X___X__,
-  __X_X___,
-  __X_X___,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  __XXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005A[ 16] = { /* code 005A, LATIN CAPITAL LETTER Z */
-  ________,
-  ________,
-  ________,
-  _XXXXXX_,
-  X____X__,
-  _____X__,
-  ____X___,
-  ____X___,
-  ___X____,
-  __X_____,
-  __X_____,
-  _X____X_,
-  _X____X_,
-  XXXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005B[ 16] = { /* code 005B, LEFT SQUARE BRACKET */
-  ________,
-  ___XXXX_,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___XXXX_,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005C[ 16] = { /* code 005C, REVERSE SOLIDUS */
-  ________,
-  ________,
-  _X______,
-  _X______,
-  __X_____,
-  __X_____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ____X___,
-  ____X___,
-  _____X__,
-  _____X__,
-  _____X__,
-  ______X_,
-  ______X_};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005D[ 16] = { /* code 005D, RIGHT SQUARE BRACKET */
-  ________,
-  _XXXX___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  _XXXX___,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005E[ 16] = { /* code 005E, CIRCUMFLEX ACCENT */
-  ________,
-  ___XXX__,
-  __X___X_,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005F[ 16] = { /* code 005F, LOW LINE */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXXXXXXX};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0060[ 16] = { /* code 0060, GRAVE ACCENT */
-  ________,
-  _XX_____,
-  ___X____,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0061[ 16] = { /* code 0061, LATIN SMALL LETTER A */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  ___XXXX_,
-  __X___X_,
-  _X____X_,
-  _X____X_,
-  __XXXXXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0062[ 16] = { /* code 0062, LATIN SMALL LETTER B */
-  ________,
-  ________,
-  ________,
-  XX______,
-  _X______,
-  _X______,
-  _X______,
-  _X_XX___,
-  _XX__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _XX__X__,
-  _X_XX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0063[ 16] = { /* code 0063, LATIN SMALL LETTER C */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___XXX__,
-  __X___X_,
-  _X______,
-  _X______,
-  _X______,
-  __X___X_,
-  ___XXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0064[ 16] = { /* code 0064, LATIN SMALL LETTER D */
-  ________,
-  ________,
-  ________,
-  _____XX_,
-  ______X_,
-  ______X_,
-  ______X_,
-  ___XXXX_,
-  __X___X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X__XX_,
-  ___XX_XX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0065[ 16] = { /* code 0065, LATIN SMALL LETTER E */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _XXXXXX_,
-  _X______,
-  _X______,
-  _X____X_,
-  __XXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0066[ 16] = { /* code 0066, LATIN SMALL LETTER F */
-  ________,
-  ________,
-  ________,
-  ____XXXX,
-  ___X___X,
-  ___X____,
-  ___X____,
-  _XXXXXX_,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0067[ 16] = { /* code 0067, LATIN SMALL LETTER G */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  __XXXXX_,
-  _X___X__,
-  _X___X__,
-  __XXX___,
-  _X______,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  __XXXX__};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0068[ 16] = { /* code 0068, LATIN SMALL LETTER H */
-  ________,
-  ________,
-  ________,
-  XX______,
-  _X______,
-  _X______,
-  _X______,
-  _X_XXX__,
-  _XX___X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  XXX__XXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0069[ 16] = { /* code 0069, LATIN SMALL LETTER I */
-  ________,
-  ________,
-  ________,
-  __XX____,
-  __XX____,
-  ________,
-  ________,
-  _XXX____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006A[ 16] = { /* code 006A, LATIN SMALL LETTER J */
-  ________,
-  ________,
-  ________,
-  ____XX__,
-  ____XX__,
-  ________,
-  ________,
-  ___XXX__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _X___X__,
-  _XXXX___};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006B[ 16] = { /* code 006B, LATIN SMALL LETTER K */
-  ________,
-  ________,
-  ________,
-  XX______,
-  _X______,
-  _X______,
-  _X______,
-  _X__XXX_,
-  _X__X___,
-  _X_X____,
-  _XX_X___,
-  _X__X___,
-  _X___X__,
-  XXX_XXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006C[ 16] = { /* code 006C, LATIN SMALL LETTER L */
-  ________,
-  ________,
-  ________,
-  _XXX____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006D[ 16] = { /* code 006D, LATIN SMALL LETTER M */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXXXXXX_,
-  _X__X__X,
-  _X__X__X,
-  _X__X__X,
-  _X__X__X,
-  _X__X__X,
-  XXX_XX_X,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006E[ 16] = { /* code 006E, LATIN SMALL LETTER N */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XX_XXX__,
-  _XX___X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  XXX__XXX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006F[ 16] = { /* code 006F, LATIN SMALL LETTER O */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  __XXXX__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __XXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0070[ 16] = { /* code 0070, LATIN SMALL LETTER P */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XX_XX___,
-  _XX__X__,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X___X__,
-  _XXXX___,
-  _X______,
-  XXX_____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0071[ 16] = { /* code 0071, LATIN SMALL LETTER Q */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___XXXX_,
-  __X___X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  __X___X_,
-  ___XXXX_,
-  ______X_,
-  _____XXX};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0072[ 16] = { /* code 0072, LATIN SMALL LETTER R */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXX_XXX_,
-  __XX__X_,
-  __X_____,
-  __X_____,
-  __X_____,
-  __X_____,
-  XXXXX___,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0073[ 16] = { /* code 0073, LATIN SMALL LETTER S */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  __XXXXX_,
-  _X____X_,
-  _X______,
-  __XXXX__,
-  ______X_,
-  _X____X_,
-  _XXXXX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0074[ 16] = { /* code 0074, LATIN SMALL LETTER T */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ___X____,
-  ___X____,
-  _XXXXX__,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ____XX__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0075[ 16] = { /* code 0075, LATIN SMALL LETTER U */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XX___XX_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X____X_,
-  _X___XX_,
-  __XXX_XX,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0076[ 16] = { /* code 0076, LATIN SMALL LETTER V */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  __X__X__,
-  __X__X__,
-  __X_X___,
-  ___X____,
-  ___X____,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0077[ 16] = { /* code 0077, LATIN SMALL LETTER W */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XX_X_XXX,
-  X__X__X_,
-  X__X__X_,
-  X_X_X_X_,
-  X_X_X_X_,
-  _X___X__,
-  _X___X__,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0078[ 16] = { /* code 0078, LATIN SMALL LETTER X */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  _XX_XXX_,
-  __X__X__,
-  ___XX___,
-  ___XX___,
-  ___XX___,
-  __X__X__,
-  _XXX_XX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0079[ 16] = { /* code 0079, LATIN SMALL LETTER Y */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  XXX__XXX,
-  _X____X_,
-  __X__X__,
-  __X__X__,
-  __X_X___,
-  ___XX___,
-  ___X____,
-  ___X____,
-  XXX_____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007A[ 16] = { /* code 007A, LATIN SMALL LETTER Z */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  _XXXXXX_,
-  _X___X__,
-  ____X___,
-  ___X____,
-  ___X____,
-  __X___X_,
-  _XXXXXX_,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007B[ 16] = { /* code 007B, LEFT CURLY BRACKET */
-  ________,
-  ______XX,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  ____X___,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  _____X__,
-  ______XX,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007C[ 16] = { /* code 007C, VERTICAL LINE */
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___,
-  ____X___};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007D[ 16] = { /* code 007D, RIGHT CURLY BRACKET */
-  ________,
-  _XX_____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ____X___,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  ___X____,
-  _XX_____,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007E[ 16] = { /* code 007E, TILDE */
-  __XX____,
-  _X__XX__,
-  _X____XX,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007F[ 16] = { /* code 007F, <control> */
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________,
-  ________};
-
-/* Start of unicode area <CJK Unified Ideographs> */
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5236[ 32] = { /* code 5236 */
-  _____X__,_____X__,
-  __X__X__,_____X__,
-  __X__X__,_____X__,
-  __XXXXXX,X_X__X__,
-  _X___X__,__X__X__,
-  _____X__,__X__X__,
-  XXXXXXXX,XXX__X__,
-  _____X__,__X__X__,
-  _____X__,__X__X__,
-  __XXXXXX,X_X__X__,
-  __X__X__,X_X__X__,
-  __X__X__,X_X__X__,
-  __X__XX_,X____X__,
-  __X__X_X,_____X__,
-  _____X__,___X_X__,
-  _____X__,____X___};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_52A8[ 32] = { /* code 52A8 */
-  ________,_X______,
-  ________,_X______,
-  _XXXXX__,_X______,
-  ________,_X______,
-  _______X,XXXXXX__,
-  ________,_X___X__,
-  XXXXXXX_,_X___X__,
-  __X_____,_X___X__,
-  __X_____,_X___X__,
-  __X_____,X____X__,
-  _X__X___,X____X__,
-  _X___X__,X____X__,
-  XXXXXX_X,_____X__,
-  _X___X_X,_____X__,
-  ______X_,__X_X___,
-  _____X__,___X____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5E73[ 32] = { /* code 5E73 */
-  ________,________,
-  _XXXXXXX,XXXXXX__,
-  _______X,________,
-  _______X,________,
-  ___X___X,___X____,
-  ____X__X,___X____,
-  ____X__X,__X_____,
-  _______X,________,
-  XXXXXXXX,XXXXXXX_,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _______X,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_624B[ 32] = { /* code 624B */
-  ________,___X____,
-  ________,XXXXX___,
-  __XXXXXX,________,
-  _______X,________,
-  _______X,________,
-  __XXXXXX,XXXXX___,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  XXXXXXXX,XXXXXXX_,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  _____X_X,________,
-  ______X_,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_63A5[ 32] = { /* code 63A5 */
-  ___X____,X_______,
-  ___X____,_X______,
-  ___X__XX,XXXXXX__,
-  ___X____,________,
-  XXXXXX_X,____X___,
-  ___X____,X__X____,
-  ___X_XXX,XXXXXXX_,
-  ___X____,_X______,
-  ___XX___,_X______,
-  __XX_XXX,XXXXXXX_,
-  XX_X____,X___X___,
-  ___X___X,____X___,
-  ___X____,X__X____,
-  ___X____,_XX_____,
-  _X_X___X,X__XX___,
-  __X__XX_,_____X__};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_63A7[ 32] = { /* code 63A7 */
-  ___X____,_X______,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X__XX,XXXXXXX_,
-  XXXXX_X_,______X_,
-  ___X_X__,X__X_X__,
-  ___X___X,____X___,
-  ___XX_X_,_____X__,
-  __XX____,________,
-  XX_X___X,XXXXXX__,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  _X_X_XXX,XXXXXXX_,
-  __X_____,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7259[ 32] = { /* code 7259 */
-  ________,________,
-  __XXXXXX,XXXXXX__,
-  ________,_X______,
-  ________,_X______,
-  ___X____,_X______,
-  ___X____,_X______,
-  __X_____,_X______,
-  __XXXXXX,XXXXXXX_,
-  _______X,_X______,
-  ______X_,_X______,
-  _____X__,_X______,
-  ____X___,_X______,
-  ___X____,_X______,
-  _XX_____,_X______,
-  _______X,_X______,
-  ________,X_______};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7535[ 32] = { /* code 7535 */
-  _______X,________,
-  _______X,________,
-  _______X,________,
-  __XXXXXX,XXXXX___,
-  __X____X,____X___,
-  __X____X,____X___,
-  __X____X,____X___,
-  __XXXXXX,XXXXX___,
-  __X____X,____X___,
-  __X____X,____X___,
-  __X____X,____X___,
-  __XXXXXX,XXXXX___,
-  __X____X,____X_X_,
-  _______X,______X_,
-  _______X,______X_,
-  ________,XXXXXXX_};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7A0B[ 32] = { /* code 7A0B */
-  ____X___,________,
-  ___XXX_X,XXXXXX__,
-  XXXX___X,_____X__,
-  ___X___X,_____X__,
-  ___X___X,_____X__,
-  XXXXXX_X,XXXXXX__,
-  ___X____,________,
-  __XX____,________,
-  __XXX__X,XXXXXXX_,
-  _X_X_X__,__X_____,
-  _X_X_X__,__X_____,
-  X__X___X,XXXXXX__,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X__XX,XXXXXXX_,
-  ___X____,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7F16[ 32] = { /* code 7F16 */
-  ___X____,X_______,
-  ___X____,_X______,
-  __X___XX,XXXXXX__,
-  __X___X_,_____X__,
-  _X__X_X_,_____X__,
-  XXXXX_XX,XXXXXX__,
-  ___X__X_,________,
-  __X___X_,________,
-  _X____XX,XXXXXX__,
-  XXXXX_XX,_X_X_X__,
-  _X____XX,_X_X_X__,
-  _____X_X,XXXXXX__,
-  ___XXX_X,_X_X_X__,
-  XXX__X_X,_X_X_X__,
-  _X__X__X,_X___X__,
-  _______X,____XX__};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8111[ 32] = { /* code 8111 */
-  ________,_X______,
-  _XXXX___,__X_____,
-  _X__X___,__X_____,
-  _X__XXXX,XXXXXXX_,
-  _X__X___,________,
-  _XXXX___,________,
-  _X__X___,X__X____,
-  _X__X_X_,_X_X_X__,
-  _X__X_X_,__X__X__,
-  _XXXX_X_,__X__X__,
-  _X__X_X_,_X_X_X__,
-  _X__X_X_,X__X_X__,
-  _X__X_X_,_____X__,
-  _X__X_X_,_____X__,
-  _X__X_XX,XXXXXX__,
-  X__XX___,_____X__};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_81EA[ 32] = { /* code 81EA */
-  _______X,________,
-  ______X_,________,
-  _____X__,________,
-  ___XXXXX,XXXX____,
-  ___X____,___X____,
-  ___X____,___X____,
-  ___X____,___X____,
-  ___XXXXX,XXXX____,
-  ___X____,___X____,
-  ___X____,___X____,
-  ___XXXXX,XXXX____,
-  ___X____,___X____,
-  ___X____,___X____,
-  ___X____,___X____,
-  ___XXXXX,XXXX____,
-  ___X____,___X____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_84DD[ 32] = { /* code 84DD */
-  ____X___,__X_____,
-  ____X___,__X_____,
-  XXXXXXXX,XXXXXXX_,
-  ____X___,__X_____,
-  _____X__,X_______,
-  __X__X__,X_______,
-  __X__X__,XXXXXX__,
-  __X__X__,X_X_____,
-  __X__X_X,___X____,
-  ________,________,
-  __XXXXXX,XXXXX___,
-  __X__X__,_X__X___,
-  __X__X__,_X__X___,
-  __X__X__,_X__X___,
-  XXXXXXXX,XXXXXXX_,
-  ________,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8861[ 32] = { /* code 8861 */
-  ___X__X_,________,
-  ___X__XX,XX______,
-  __X__X__,_X__XXX_,
-  _X__X___,X_______,
-  X____XXX,XX______,
-  ___X_X_X,_X______,
-  __X__X_X,_X_XXXX_,
-  _XX__XXX,XX___X__,
-  X_X__X_X,_X___X__,
-  __X__X_X,_X___X__,
-  __X__XXX,XX___X__,
-  __X____X,_____X__,
-  __X_XXXX,XXX__X__,
-  __X____X,_____X__,
-  __X___X_,X__X_X__,
-  __X__X__,_X__X___};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8FDE[ 32] = { /* code 8FDE */
-  ________,_X______,
-  __X_____,_X______,
-  ___X_XXX,XXXXXXX_,
-  ___X____,X_______,
-  ________,X_X_____,
-  _______X,__X_____,
-  XXXX__XX,XXXXXX__,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X_XXX,XXXXXXX_,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  __X_X___,__X_____,
-  _X___XXX,XXXXXXX_,
-  ________,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_9065[ 32] = { /* code 9065 */
-  ________,__XXXX__,
-  __X___XX,XX______,
-  ___X____,_____X__,
-  ___X__X_,_X___X__,
-  _______X,__X_X___,
-  _______X,XXXXXX__,
-  XXXX__X_,__X_____,
-  ___X____,__X_____,
-  ___X__XX,XXXXXXX_,
-  ___X____,__X_____,
-  ___X___X,__X__X__,
-  ___X___X,__X__X__,
-  ___X___X,__X__X__,
-  ___X___X,XXXXXX__,
-  __X_X___,________,
-  _X___XXX,XXXXXXX_};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5EFA[ 32] = { /* code 5EFA */
-  ________,_X______,
-  ________,_X______,
-  XXXXX_XX,XXXXX___,
-  ____X___,_X__X___,
-  ___X_XXX,XXXXXXX_,
-  ___X____,_X__X___,
-  __X___XX,XXXXX___,
-  _XXXX___,_X______,
-  ____X_XX,XXXXX___,
-  ____X___,_X______,
-  _X__X___,_X______,
-  __XX_XXX,XXXXXX__,
-  ___X____,_X______,
-  __X_XX__,_X______,
-  _X____XX,XXXXXXX_,
-  X_______,________};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5F00[ 32] = { /* code 5F00 */
-  ________,________,
-  _XXXXXXX,XXXXXX__,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  XXXXXXXX,XXXXXXX_,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ____X___,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  __X_____,__X_____,
-  _X______,__X_____};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_6253[ 32] = { /* code 6253 */
-  ___X____,________,
-  ___X____,________,
-  ___X__XX,XXXXXXX_,
-  ___X____,__X_____,
-  XXXXXX__,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X_X__,__X_____,
-  ___XX___,__X_____,
-  __XX____,__X_____,
-  XX_X____,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  ___X____,__X_____,
-  _X_X____,X_X_____,
-  __X_____,_X______};
-
-GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_65B0[ 32] = { /* code 65B0 */
-  ___X____,________,
-  ____X___,_____X__,
-  _XXXXXXX,_XXXX___,
-  ________,_X______,
-  __X___X_,_X______,
-  ___X_X__,_X______,
-  XXXXXXXX,_XXXXXX_,
-  ____X___,_X__X___,
-  ____X___,_X__X___,
-  _XXXXXXX,_X__X___,
-  ____X___,_X__X___,
-  __X_X_X_,_X__X___,
-  _X__X__X,_X__X___,
-  X___X___,X___X___,
-  __X_X___,X___X___,
-  ___X___X,____X___};
-
-GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi16_CharInfo[116] = {
-   {   8,   8,  1, acGUI_FontSongTi16_0020 } /* code 0020 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0021 } /* code 0021 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0022 } /* code 0022 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0023 } /* code 0023 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0024 } /* code 0024 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0025 } /* code 0025 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0026 } /* code 0026 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0027 } /* code 0027 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0028 } /* code 0028 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0029 } /* code 0029 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002A } /* code 002A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002B } /* code 002B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002C } /* code 002C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002D } /* code 002D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002E } /* code 002E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_002F } /* code 002F */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0030 } /* code 0030 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0031 } /* code 0031 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0032 } /* code 0032 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0033 } /* code 0033 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0034 } /* code 0034 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0035 } /* code 0035 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0036 } /* code 0036 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0037 } /* code 0037 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0038 } /* code 0038 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0039 } /* code 0039 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003A } /* code 003A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003B } /* code 003B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003C } /* code 003C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003D } /* code 003D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003E } /* code 003E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_003F } /* code 003F */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0040 } /* code 0040 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0041 } /* code 0041 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0042 } /* code 0042 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0043 } /* code 0043 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0044 } /* code 0044 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0045 } /* code 0045 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0046 } /* code 0046 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0047 } /* code 0047 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0048 } /* code 0048 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0049 } /* code 0049 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004A } /* code 004A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004B } /* code 004B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004C } /* code 004C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004D } /* code 004D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004E } /* code 004E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_004F } /* code 004F */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0050 } /* code 0050 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0051 } /* code 0051 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0052 } /* code 0052 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0053 } /* code 0053 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0054 } /* code 0054 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0055 } /* code 0055 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0056 } /* code 0056 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0057 } /* code 0057 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0058 } /* code 0058 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0059 } /* code 0059 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005A } /* code 005A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005B } /* code 005B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005C } /* code 005C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005D } /* code 005D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005E } /* code 005E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_005F } /* code 005F */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0060 } /* code 0060 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0061 } /* code 0061 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0062 } /* code 0062 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0063 } /* code 0063 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0064 } /* code 0064 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0065 } /* code 0065 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0066 } /* code 0066 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0067 } /* code 0067 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0068 } /* code 0068 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0069 } /* code 0069 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006A } /* code 006A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006B } /* code 006B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006C } /* code 006C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006D } /* code 006D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006E } /* code 006E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_006F } /* code 006F */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0070 } /* code 0070 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0071 } /* code 0071 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0072 } /* code 0072 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0073 } /* code 0073 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0074 } /* code 0074 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0075 } /* code 0075 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0076 } /* code 0076 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0077 } /* code 0077 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0078 } /* code 0078 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_0079 } /* code 0079 */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007A } /* code 007A */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007B } /* code 007B */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007C } /* code 007C */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007D } /* code 007D */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007E } /* code 007E */
-  ,{   8,   8,  1, acGUI_FontSongTi16_007F } /* code 007F */
-  ,{  16,  16,  2, acGUI_FontSongTi16_5236 } /* code 5236 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_52A8 } /* code 52A8 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_5E73 } /* code 5E73 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_624B } /* code 624B */
-  ,{  16,  16,  2, acGUI_FontSongTi16_63A5 } /* code 63A5 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_63A7 } /* code 63A7 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_7259 } /* code 7259 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_7535 } /* code 7535 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_7A0B } /* code 7A0B */
-  ,{  16,  16,  2, acGUI_FontSongTi16_7F16 } /* code 7F16 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_8111 } /* code 8111 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_81EA } /* code 81EA */
-  ,{  16,  16,  2, acGUI_FontSongTi16_84DD } /* code 84DD */
-  ,{  16,  16,  2, acGUI_FontSongTi16_8861 } /* code 8861 */
-  ,{  16,  16,  2, acGUI_FontSongTi16_8FDE } /* code 8FDE */
-  ,{  16,  16,  2, acGUI_FontSongTi16_9065 } /* code 9065 */
-	,{  16,  16,	2, acGUI_FontSongTi16_5EFA } /*code 5EFA */
-	,{  16,  16,	2, acGUI_FontSongTi16_5F00 } /*code 5F00 */
-	,{  16,  16,	2, acGUI_FontSongTi16_6253 } /*code 6253 */
-	,{  16,  16,	2, acGUI_FontSongTi16_65B0 } /*code 65B0 */
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0020[ 32] = { /* code 0020, SPACE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop21 = {
-   0x65B0 /* first character */
-  ,0x65B0 /* last character  */
-  ,&GUI_FontSongTi16_CharInfo[115] /* address of first character */
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0021[ 32] = { /* code 0021, EXCLAMATION MARK */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0022[ 32] = { /* code 0022, QUOTATION MARK */
+  0x00, 0x00,
+  0x03, 0x0C,
+  0x0F, 0x3C,
+  0x0C, 0x30,
+  0x30, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0023[ 32] = { /* code 0023, NUMBER SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0xFF, 0xFC,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0xFF, 0xFC,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0024[ 32] = { /* code 0024, DOLLAR SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x0F, 0xC0,
+  0x33, 0x30,
+  0x33, 0x30,
+  0x33, 0x00,
+  0x0F, 0x00,
+  0x03, 0xC0,
+  0x03, 0x30,
+  0x03, 0x30,
+  0x33, 0x30,
+  0x33, 0x30,
+  0x0F, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0025[ 32] = { /* code 0025, PERCENT SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x30, 0x30,
+  0xCC, 0x30,
+  0xCC, 0xC0,
+  0xCC, 0xC0,
+  0xCC, 0xC0,
+  0x33, 0x30,
+  0x03, 0xCC,
+  0x0C, 0xCC,
+  0x0C, 0xCC,
+  0x0C, 0xCC,
+  0x30, 0x30,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0026[ 32] = { /* code 0026, AMPERSAND */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0x00,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x33, 0x00,
+  0x3C, 0xFC,
+  0xCC, 0x30,
+  0xC3, 0x30,
+  0xC0, 0xC0,
+  0xC0, 0xC3,
+  0x3F, 0x3C,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0027[ 32] = { /* code 0027, APOSTROPHE */
+  0x00, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x0C, 0x00,
+  0xF0, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0028[ 32] = { /* code 0028, LEFT PARENTHESIS */
+  0x00, 0x00,
+  0x00, 0x0C,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0029[ 32] = { /* code 0029, RIGHT PARENTHESIS */
+  0x00, 0x00,
+  0x30, 0x00,
+  0x0C, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x30, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002A[ 32] = { /* code 002A, ASTERISK */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0xF3, 0x3C,
+  0x0F, 0xC0,
+  0x0F, 0xC0,
+  0xF3, 0x3C,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002B[ 32] = { /* code 002B, PLUS SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0xFF, 0xFC,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002C[ 32] = { /* code 002C, COMMA */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x0C, 0x00,
+  0xF0, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002D[ 32] = { /* code 002D, HYPHEN-MINUS */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xFF,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002E[ 32] = { /* code 002E, FULL STOP */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3C, 0x00,
+  0x3C, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_002F[ 32] = { /* code 002F, SOLIDUS */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x03,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0030[ 32] = { /* code 0030, DIGIT ZERO */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x0C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0031[ 32] = { /* code 0031, DIGIT ONE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x3F, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0032[ 32] = { /* code 0032, DIGIT TWO */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x30, 0x0C,
+  0x3F, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0033[ 32] = { /* code 0033, DIGIT THREE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x00, 0x30,
+  0x03, 0xC0,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0034[ 32] = { /* code 0034, DIGIT FOUR */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x30,
+  0x00, 0xF0,
+  0x03, 0x30,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x3F, 0xFC,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x03, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0035[ 32] = { /* code 0035, DIGIT FIVE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xFC,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x33, 0xC0,
+  0x3C, 0x30,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0036[ 32] = { /* code 0036, DIGIT SIX */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xF0,
+  0x0C, 0x30,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x33, 0xC0,
+  0x3C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0037[ 32] = { /* code 0037, DIGIT SEVEN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xFC,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0038[ 32] = { /* code 0038, DIGIT EIGHT */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x03, 0xC0,
+  0x0C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0039[ 32] = { /* code 0039, DIGIT NINE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x0C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x3C,
+  0x03, 0xCC,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x0C, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003A[ 32] = { /* code 003A, COLON */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003B[ 32] = { /* code 003B, SEMICOLON */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0C, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003C[ 32] = { /* code 003C, LESS-THAN SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x0C,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x30, 0x00,
+  0x0C, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003D[ 32] = { /* code 003D, EQUALS SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003E[ 32] = { /* code 003E, GREATER-THAN SIGN */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x30, 0x00,
+  0x0C, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x30, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_003F[ 32] = { /* code 003F, QUESTION MARK */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3C, 0x0C,
+  0x00, 0x0C,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0x00,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0040[ 32] = { /* code 0040, COMMERCIAL AT */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xC0,
+  0x30, 0x30,
+  0x33, 0xCC,
+  0xCC, 0xCC,
+  0xCC, 0xCC,
+  0xCC, 0xCC,
+  0xCC, 0xCC,
+  0xCF, 0x30,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0041[ 32] = { /* code 0041, LATIN CAPITAL LETTER A */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0xC0,
+  0x0C, 0xC0,
+  0x0C, 0xC0,
+  0x0C, 0x30,
+  0x0F, 0xF0,
+  0x30, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFC, 0x3F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0042[ 32] = { /* code 0042, LATIN CAPITAL LETTER B */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xC0,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x3F, 0xC0,
+  0x30, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0xFF, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0043[ 32] = { /* code 0043, LATIN CAPITAL LETTER C */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xFC,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0044[ 32] = { /* code 0044, LATIN CAPITAL LETTER D */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xC0,
+  0x30, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0xFF, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0045[ 32] = { /* code 0045, LATIN CAPITAL LETTER E */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xF0,
+  0x30, 0x0C,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x3F, 0xC0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0x00,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFF, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0046[ 32] = { /* code 0046, LATIN CAPITAL LETTER F */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xF0,
+  0x30, 0x0C,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x3F, 0xC0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0xFC, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0047[ 32] = { /* code 0047, LATIN CAPITAL LETTER G */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x30,
+  0x30, 0x30,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0xC0, 0x00,
+  0xC0, 0xFC,
+  0xC0, 0x30,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0048[ 32] = { /* code 0048, LATIN CAPITAL LETTER H */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3F, 0xFC,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFC, 0x3F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0049[ 32] = { /* code 0049, LATIN CAPITAL LETTER I */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xF0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004A[ 32] = { /* code 004A, LATIN CAPITAL LETTER J */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xFC,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0xC0, 0xC0,
+  0xFF, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004B[ 32] = { /* code 004B, LATIN CAPITAL LETTER K */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0xFC,
+  0x30, 0x30,
+  0x30, 0xC0,
+  0x33, 0x00,
+  0x3F, 0x00,
+  0x33, 0x00,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0x30,
+  0x30, 0x30,
+  0xFC, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004C[ 32] = { /* code 004C, LATIN CAPITAL LETTER L */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x0C,
+  0xFF, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004D[ 32] = { /* code 004D, LATIN CAPITAL LETTER M */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0xFC,
+  0x3C, 0xF0,
+  0x3C, 0xF0,
+  0x3C, 0xF0,
+  0x3C, 0xF0,
+  0x33, 0x30,
+  0x33, 0x30,
+  0x33, 0x30,
+  0x33, 0x30,
+  0x33, 0x30,
+  0xF3, 0x3C,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004E[ 32] = { /* code 004E, LATIN CAPITAL LETTER N */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF0, 0x3F,
+  0x3C, 0x0C,
+  0x3C, 0x0C,
+  0x33, 0x0C,
+  0x33, 0x0C,
+  0x30, 0xCC,
+  0x30, 0xCC,
+  0x30, 0xCC,
+  0x30, 0x3C,
+  0x30, 0x3C,
+  0xFC, 0x0C,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_004F[ 32] = { /* code 004F, LATIN CAPITAL LETTER O */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xC0,
+  0x30, 0x30,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0050[ 32] = { /* code 0050, LATIN CAPITAL LETTER P */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3F, 0xF0,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0xFC, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0051[ 32] = { /* code 0051, LATIN CAPITAL LETTER Q */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xC0,
+  0x30, 0x30,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xC0, 0x0C,
+  0xCF, 0x0C,
+  0xF0, 0xCC,
+  0x30, 0xF0,
+  0x0F, 0xC0,
+  0x00, 0x3C,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0052[ 32] = { /* code 0052, LATIN CAPITAL LETTER R */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3F, 0xF0,
+  0x30, 0xC0,
+  0x30, 0xC0,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x30, 0x0C,
+  0xFC, 0x0F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0053[ 32] = { /* code 0053, LATIN CAPITAL LETTER S */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xFC,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x00,
+  0x0C, 0x00,
+  0x03, 0xC0,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0054[ 32] = { /* code 0054, LATIN CAPITAL LETTER T */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xFC,
+  0xC3, 0x0C,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0055[ 32] = { /* code 0055, LATIN CAPITAL LETTER U */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0056[ 32] = { /* code 0056, LATIN CAPITAL LETTER V */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x0C, 0xC0,
+  0x0C, 0xC0,
+  0x03, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0057[ 32] = { /* code 0057, LATIN CAPITAL LETTER W */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF3, 0x3C,
+  0xC3, 0x0C,
+  0xC3, 0x0C,
+  0xC3, 0x0C,
+  0xC3, 0x0C,
+  0xCC, 0xCC,
+  0xCC, 0xCC,
+  0x3C, 0xF0,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0058[ 32] = { /* code 0058, LATIN CAPITAL LETTER X */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x30, 0x0C,
+  0xFC, 0x3F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0059[ 32] = { /* code 0059, LATIN CAPITAL LETTER Y */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0xFC,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x0C, 0xC0,
+  0x0C, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0F, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005A[ 32] = { /* code 005A, LATIN CAPITAL LETTER Z */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xFC,
+  0xC0, 0x30,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFF, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005B[ 32] = { /* code 005B, LEFT SQUARE BRACKET */
+  0x00, 0x00,
+  0x03, 0xFC,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0xFC,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005C[ 32] = { /* code 005C, REVERSE SOLIDUS */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x0C,
+  0x00, 0x0C
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005D[ 32] = { /* code 005D, RIGHT SQUARE BRACKET */
+  0x00, 0x00,
+  0x3F, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x3F, 0xC0,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005E[ 32] = { /* code 005E, CIRCUMFLEX ACCENT */
+  0x00, 0x00,
+  0x03, 0xF0,
+  0x0C, 0x0C,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_005F[ 32] = { /* code 005F, LOW LINE */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xFF
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0060[ 32] = { /* code 0060, GRAVE ACCENT */
+  0x00, 0x00,
+  0x3C, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0061[ 32] = { /* code 0061, LATIN SMALL LETTER A */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x03, 0xFC,
+  0x0C, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0F, 0xFF,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0062[ 32] = { /* code 0062, LATIN SMALL LETTER B */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF0, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x33, 0xC0,
+  0x3C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x3C, 0x30,
+  0x33, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0063[ 32] = { /* code 0063, LATIN SMALL LETTER C */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xF0,
+  0x0C, 0x0C,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x0C, 0x0C,
+  0x03, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0064[ 32] = { /* code 0064, LATIN SMALL LETTER D */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x3C,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x00, 0x0C,
+  0x03, 0xFC,
+  0x0C, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x3C,
+  0x03, 0xCF,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0065[ 32] = { /* code 0065, LATIN SMALL LETTER E */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x3F, 0xFC,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x0C,
+  0x0F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0066[ 32] = { /* code 0066, LATIN SMALL LETTER F */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0xFF,
+  0x03, 0x03,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xFC,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0067[ 32] = { /* code 0067, LATIN SMALL LETTER G */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xFC,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x0F, 0xC0,
+  0x30, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0F, 0xF0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0068[ 32] = { /* code 0068, LATIN SMALL LETTER H */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF0, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x33, 0xF0,
+  0x3C, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFC, 0x3F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0069[ 32] = { /* code 0069, LATIN SMALL LETTER I */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0x00,
+  0x0F, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006A[ 32] = { /* code 006A, LATIN SMALL LETTER J */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0xF0,
+  0x00, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xF0,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x30, 0x30,
+  0x3F, 0xC0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006B[ 32] = { /* code 006B, LATIN SMALL LETTER K */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF0, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0x00,
+  0x30, 0xFC,
+  0x30, 0xC0,
+  0x33, 0x00,
+  0x3C, 0xC0,
+  0x30, 0xC0,
+  0x30, 0x30,
+  0xFC, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006C[ 32] = { /* code 006C, LATIN SMALL LETTER L */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006D[ 32] = { /* code 006D, LATIN SMALL LETTER M */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFF, 0xFC,
+  0x30, 0xC3,
+  0x30, 0xC3,
+  0x30, 0xC3,
+  0x30, 0xC3,
+  0x30, 0xC3,
+  0xFC, 0xF3,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006E[ 32] = { /* code 006E, LATIN SMALL LETTER N */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF3, 0xF0,
+  0x3C, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0xFC, 0x3F,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_006F[ 32] = { /* code 006F, LATIN SMALL LETTER O */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xF0,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0070[ 32] = { /* code 0070, LATIN SMALL LETTER P */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF3, 0xC0,
+  0x3C, 0x30,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x30,
+  0x3F, 0xC0,
+  0x30, 0x00,
+  0xFC, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0071[ 32] = { /* code 0071, LATIN SMALL LETTER Q */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0xFC,
+  0x0C, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x0C, 0x0C,
+  0x03, 0xFC,
+  0x00, 0x0C,
+  0x00, 0x3F
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0072[ 32] = { /* code 0072, LATIN SMALL LETTER R */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0xFC,
+  0x0F, 0x0C,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0x0C, 0x00,
+  0xFF, 0xC0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0073[ 32] = { /* code 0073, LATIN SMALL LETTER S */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x0F, 0xFC,
+  0x30, 0x0C,
+  0x30, 0x00,
+  0x0F, 0xF0,
+  0x00, 0x0C,
+  0x30, 0x0C,
+  0x3F, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0074[ 32] = { /* code 0074, LATIN SMALL LETTER T */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3F, 0xF0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0xF0,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0075[ 32] = { /* code 0075, LATIN SMALL LETTER U */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF0, 0x3C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x0C,
+  0x30, 0x3C,
+  0x0F, 0xCF,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0076[ 32] = { /* code 0076, LATIN SMALL LETTER V */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x0C, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0077[ 32] = { /* code 0077, LATIN SMALL LETTER W */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xF3, 0x3F,
+  0xC3, 0x0C,
+  0xC3, 0x0C,
+  0xCC, 0xCC,
+  0xCC, 0xCC,
+  0x30, 0x30,
+  0x30, 0x30,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0078[ 32] = { /* code 0078, LATIN SMALL LETTER X */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3C, 0xFC,
+  0x0C, 0x30,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x03, 0xC0,
+  0x0C, 0x30,
+  0x3F, 0x3C,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_0079[ 32] = { /* code 0079, LATIN SMALL LETTER Y */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0xFC, 0x3F,
+  0x30, 0x0C,
+  0x0C, 0x30,
+  0x0C, 0x30,
+  0x0C, 0xC0,
+  0x03, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0xFC, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007A[ 32] = { /* code 007A, LATIN SMALL LETTER Z */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x3F, 0xFC,
+  0x30, 0x30,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x0C, 0x0C,
+  0x3F, 0xFC,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007B[ 32] = { /* code 007B, LEFT CURLY BRACKET */
+  0x00, 0x00,
+  0x00, 0x0F,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0xC0,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x30,
+  0x00, 0x0F,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007C[ 32] = { /* code 007C, VERTICAL LINE */
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0,
+  0x00, 0xC0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007D[ 32] = { /* code 007D, RIGHT CURLY BRACKET */
+  0x00, 0x00,
+  0x3C, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x00, 0xC0,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x03, 0x00,
+  0x3C, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007E[ 32] = { /* code 007E, TILDE */
+  0x0F, 0x00,
+  0x30, 0xF0,
+  0x30, 0x0F,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_007F[ 32] = { /* code 007F, <control> */
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00,
+  0x00, 0x00
+};
+
+/* Start of unicode area <CJK Unified Ideographs> */
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_51C6[ 64] = { /* code 51C6 */
+  0x00, 0x03, 0x30, 0x00,
+  0x30, 0x03, 0x0C, 0x00,
+  0x0C, 0x03, 0x0C, 0x00,
+  0x0C, 0x0F, 0xFF, 0xFC,
+  0x00, 0x0C, 0x0C, 0x00,
+  0x03, 0x3C, 0x0C, 0x00,
+  0x03, 0xCF, 0xFF, 0xF0,
+  0x03, 0x0C, 0x0C, 0x00,
+  0x0C, 0x0C, 0x0C, 0x00,
+  0x0C, 0x0F, 0xFF, 0xF0,
+  0xFC, 0x0C, 0x0C, 0x00,
+  0x0C, 0x0C, 0x0C, 0x00,
+  0x0C, 0x0C, 0x0C, 0x00,
+  0x0C, 0x0F, 0xFF, 0xFC,
+  0x0C, 0x0C, 0x00, 0x00,
+  0x00, 0x0C, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5236[ 64] = { /* code 5236 */
+  0x00, 0x30, 0x00, 0x30,
+  0x0C, 0x30, 0x00, 0x30,
+  0x0C, 0x30, 0x00, 0x30,
+  0x0F, 0xFF, 0xCC, 0x30,
+  0x30, 0x30, 0x0C, 0x30,
+  0x00, 0x30, 0x0C, 0x30,
+  0xFF, 0xFF, 0xFC, 0x30,
+  0x00, 0x30, 0x0C, 0x30,
+  0x00, 0x30, 0x0C, 0x30,
+  0x0F, 0xFF, 0xCC, 0x30,
+  0x0C, 0x30, 0xCC, 0x30,
+  0x0C, 0x30, 0xCC, 0x30,
+  0x0C, 0x3C, 0xC0, 0x30,
+  0x0C, 0x33, 0x00, 0x30,
+  0x00, 0x30, 0x03, 0x30,
+  0x00, 0x30, 0x00, 0xC0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_52A8[ 64] = { /* code 52A8 */
+  0x00, 0x00, 0x30, 0x00,
+  0x00, 0x00, 0x30, 0x00,
+  0x3F, 0xF0, 0x30, 0x00,
+  0x00, 0x00, 0x30, 0x00,
+  0x00, 0x03, 0xFF, 0xF0,
+  0x00, 0x00, 0x30, 0x30,
+  0xFF, 0xFC, 0x30, 0x30,
+  0x0C, 0x00, 0x30, 0x30,
+  0x0C, 0x00, 0x30, 0x30,
+  0x0C, 0x00, 0xC0, 0x30,
+  0x30, 0xC0, 0xC0, 0x30,
+  0x30, 0x30, 0xC0, 0x30,
+  0xFF, 0xF3, 0x00, 0x30,
+  0x30, 0x33, 0x00, 0x30,
+  0x00, 0x0C, 0x0C, 0xC0,
+  0x00, 0x30, 0x03, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5E73[ 64] = { /* code 5E73 */
+  0x00, 0x00, 0x00, 0x00,
+  0x3F, 0xFF, 0xFF, 0xF0,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x03, 0x03, 0x03, 0x00,
+  0x00, 0xC3, 0x03, 0x00,
+  0x00, 0xC3, 0x0C, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0xFF, 0xFF, 0xFF, 0xFC,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5EFA[ 64] = { /* code 5EFA */
+  0x00, 0x00, 0x30, 0x00,
+  0x00, 0x00, 0x30, 0x00,
+  0xFF, 0xCF, 0xFF, 0xC0,
+  0x00, 0xC0, 0x30, 0xC0,
+  0x03, 0x3F, 0xFF, 0xFC,
+  0x03, 0x00, 0x30, 0xC0,
+  0x0C, 0x0F, 0xFF, 0xC0,
+  0x3F, 0xC0, 0x30, 0x00,
+  0x00, 0xCF, 0xFF, 0xC0,
+  0x00, 0xC0, 0x30, 0x00,
+  0x30, 0xC0, 0x30, 0x00,
+  0x0F, 0x3F, 0xFF, 0xF0,
+  0x03, 0x00, 0x30, 0x00,
+  0x0C, 0xF0, 0x30, 0x00,
+  0x30, 0x0F, 0xFF, 0xFC,
+  0xC0, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_5F00[ 64] = { /* code 5F00 */
+  0x00, 0x00, 0x00, 0x00,
+  0x3F, 0xFF, 0xFF, 0xF0,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0xFF, 0xFF, 0xFF, 0xFC,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x0C, 0x00, 0x0C, 0x00,
+  0x30, 0x00, 0x0C, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_624B[ 64] = { /* code 624B */
+  0x00, 0x00, 0x03, 0x00,
+  0x00, 0x00, 0xFF, 0xC0,
+  0x0F, 0xFF, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x0F, 0xFF, 0xFF, 0xC0,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0xFF, 0xFF, 0xFF, 0xFC,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x33, 0x00, 0x00,
+  0x00, 0x0C, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_6253[ 64] = { /* code 6253 */
+  0x03, 0x00, 0x00, 0x00,
+  0x03, 0x00, 0x00, 0x00,
+  0x03, 0x0F, 0xFF, 0xFC,
+  0x03, 0x00, 0x0C, 0x00,
+  0xFF, 0xF0, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x30, 0x0C, 0x00,
+  0x03, 0xC0, 0x0C, 0x00,
+  0x0F, 0x00, 0x0C, 0x00,
+  0xF3, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x33, 0x00, 0xCC, 0x00,
+  0x0C, 0x00, 0x30, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_63A5[ 64] = { /* code 63A5 */
+  0x03, 0x00, 0xC0, 0x00,
+  0x03, 0x00, 0x30, 0x00,
+  0x03, 0x0F, 0xFF, 0xF0,
+  0x03, 0x00, 0x00, 0x00,
+  0xFF, 0xF3, 0x00, 0xC0,
+  0x03, 0x00, 0xC3, 0x00,
+  0x03, 0x3F, 0xFF, 0xFC,
+  0x03, 0x00, 0x30, 0x00,
+  0x03, 0xC0, 0x30, 0x00,
+  0x0F, 0x3F, 0xFF, 0xFC,
+  0xF3, 0x00, 0xC0, 0xC0,
+  0x03, 0x03, 0x00, 0xC0,
+  0x03, 0x00, 0xC3, 0x00,
+  0x03, 0x00, 0x3C, 0x00,
+  0x33, 0x03, 0xC3, 0xC0,
+  0x0C, 0x3C, 0x00, 0x30
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_63A7[ 64] = { /* code 63A7 */
+  0x03, 0x00, 0x30, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x0F, 0xFF, 0xFC,
+  0xFF, 0xCC, 0x00, 0x0C,
+  0x03, 0x30, 0xC3, 0x30,
+  0x03, 0x03, 0x00, 0xC0,
+  0x03, 0xCC, 0x00, 0x30,
+  0x0F, 0x00, 0x00, 0x00,
+  0xF3, 0x03, 0xFF, 0xF0,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x33, 0x3F, 0xFF, 0xFC,
+  0x0C, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_6478[ 64] = { /* code 6478 */
+  0x03, 0x03, 0x03, 0x00,
+  0x03, 0x03, 0x03, 0x00,
+  0x03, 0x3F, 0xFF, 0xF0,
+  0x03, 0x03, 0x03, 0x00,
+  0xFF, 0xF0, 0x00, 0x00,
+  0x03, 0x0F, 0xFF, 0xC0,
+  0x03, 0x0C, 0x00, 0xC0,
+  0x03, 0x3F, 0xFF, 0xC0,
+  0x03, 0xCC, 0x00, 0xC0,
+  0x0F, 0x0F, 0xFF, 0xC0,
+  0xF3, 0x00, 0x30, 0x00,
+  0x03, 0x3F, 0xFF, 0xF0,
+  0x03, 0x00, 0xCC, 0x00,
+  0x03, 0x03, 0x03, 0x00,
+  0x33, 0x0C, 0x00, 0xC0,
+  0x0C, 0x30, 0x00, 0x3C
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_65B0[ 64] = { /* code 65B0 */
+  0x03, 0x00, 0x00, 0x00,
+  0x00, 0xC0, 0x00, 0x30,
+  0x3F, 0xFF, 0x3F, 0xC0,
+  0x00, 0x00, 0x30, 0x00,
+  0x0C, 0x0C, 0x30, 0x00,
+  0x03, 0x30, 0x30, 0x00,
+  0xFF, 0xFF, 0x3F, 0xFC,
+  0x00, 0xC0, 0x30, 0xC0,
+  0x00, 0xC0, 0x30, 0xC0,
+  0x3F, 0xFF, 0x30, 0xC0,
+  0x00, 0xC0, 0x30, 0xC0,
+  0x0C, 0xCC, 0x30, 0xC0,
+  0x30, 0xC3, 0x30, 0xC0,
+  0xC0, 0xC0, 0xC0, 0xC0,
+  0x0C, 0xC0, 0xC0, 0xC0,
+  0x03, 0x03, 0x00, 0xC0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_6821[ 64] = { /* code 6821 */
+  0x03, 0x00, 0x30, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x03, 0xFF, 0xFC,
+  0xFF, 0xF0, 0x00, 0x00,
+  0x03, 0x00, 0xC0, 0xC0,
+  0x0F, 0x03, 0x00, 0x30,
+  0x0F, 0xCC, 0x00, 0x0C,
+  0x33, 0x30, 0xC0, 0xC0,
+  0x33, 0x00, 0xC0, 0xC0,
+  0xC3, 0x00, 0x33, 0x00,
+  0x03, 0x00, 0x33, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x33, 0x00,
+  0x03, 0x00, 0xC0, 0xC0,
+  0x03, 0x0F, 0x00, 0x3C
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7259[ 64] = { /* code 7259 */
+  0x00, 0x00, 0x00, 0x00,
+  0x0F, 0xFF, 0xFF, 0xF0,
+  0x00, 0x00, 0x30, 0x00,
+  0x00, 0x00, 0x30, 0x00,
+  0x03, 0x00, 0x30, 0x00,
+  0x03, 0x00, 0x30, 0x00,
+  0x0C, 0x00, 0x30, 0x00,
+  0x0F, 0xFF, 0xFF, 0xFC,
+  0x00, 0x03, 0x30, 0x00,
+  0x00, 0x0C, 0x30, 0x00,
+  0x00, 0x30, 0x30, 0x00,
+  0x00, 0xC0, 0x30, 0x00,
+  0x03, 0x00, 0x30, 0x00,
+  0x3C, 0x00, 0x30, 0x00,
+  0x00, 0x03, 0x30, 0x00,
+  0x00, 0x00, 0xC0, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7535[ 64] = { /* code 7535 */
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x03, 0x00, 0x00,
+  0x0F, 0xFF, 0xFF, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0F, 0xFF, 0xFF, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0C, 0x03, 0x00, 0xC0,
+  0x0F, 0xFF, 0xFF, 0xC0,
+  0x0C, 0x03, 0x00, 0xCC,
+  0x00, 0x03, 0x00, 0x0C,
+  0x00, 0x03, 0x00, 0x0C,
+  0x00, 0x00, 0xFF, 0xFC
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7A0B[ 64] = { /* code 7A0B */
+  0x00, 0xC0, 0x00, 0x00,
+  0x03, 0xF3, 0xFF, 0xF0,
+  0xFF, 0x03, 0x00, 0x30,
+  0x03, 0x03, 0x00, 0x30,
+  0x03, 0x03, 0x00, 0x30,
+  0xFF, 0xF3, 0xFF, 0xF0,
+  0x03, 0x00, 0x00, 0x00,
+  0x0F, 0x00, 0x00, 0x00,
+  0x0F, 0xC3, 0xFF, 0xFC,
+  0x33, 0x30, 0x0C, 0x00,
+  0x33, 0x30, 0x0C, 0x00,
+  0xC3, 0x03, 0xFF, 0xF0,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x0F, 0xFF, 0xFC,
+  0x03, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_7F16[ 64] = { /* code 7F16 */
+  0x03, 0x00, 0xC0, 0x00,
+  0x03, 0x00, 0x30, 0x00,
+  0x0C, 0x0F, 0xFF, 0xF0,
+  0x0C, 0x0C, 0x00, 0x30,
+  0x30, 0xCC, 0x00, 0x30,
+  0xFF, 0xCF, 0xFF, 0xF0,
+  0x03, 0x0C, 0x00, 0x00,
+  0x0C, 0x0C, 0x00, 0x00,
+  0x30, 0x0F, 0xFF, 0xF0,
+  0xFF, 0xCF, 0x33, 0x30,
+  0x30, 0x0F, 0x33, 0x30,
+  0x00, 0x33, 0xFF, 0xF0,
+  0x03, 0xF3, 0x33, 0x30,
+  0xFC, 0x33, 0x33, 0x30,
+  0x30, 0xC3, 0x30, 0x30,
+  0x00, 0x03, 0x00, 0xF0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8111[ 64] = { /* code 8111 */
+  0x00, 0x00, 0x30, 0x00,
+  0x3F, 0xC0, 0x0C, 0x00,
+  0x30, 0xC0, 0x0C, 0x00,
+  0x30, 0xFF, 0xFF, 0xFC,
+  0x30, 0xC0, 0x00, 0x00,
+  0x3F, 0xC0, 0x00, 0x00,
+  0x30, 0xC0, 0xC3, 0x00,
+  0x30, 0xCC, 0x33, 0x30,
+  0x30, 0xCC, 0x0C, 0x30,
+  0x3F, 0xCC, 0x0C, 0x30,
+  0x30, 0xCC, 0x33, 0x30,
+  0x30, 0xCC, 0xC3, 0x30,
+  0x30, 0xCC, 0x00, 0x30,
+  0x30, 0xCC, 0x00, 0x30,
+  0x30, 0xCF, 0xFF, 0xF0,
+  0xC3, 0xC0, 0x00, 0x30
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_81EA[ 64] = { /* code 81EA */
+  0x00, 0x03, 0x00, 0x00,
+  0x00, 0x0C, 0x00, 0x00,
+  0x00, 0x30, 0x00, 0x00,
+  0x03, 0xFF, 0xFF, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0xFF, 0xFF, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0xFF, 0xFF, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0x00, 0x03, 0x00,
+  0x03, 0xFF, 0xFF, 0x00,
+  0x03, 0x00, 0x03, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_84DD[ 64] = { /* code 84DD */
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0xC0, 0x0C, 0x00,
+  0xFF, 0xFF, 0xFF, 0xFC,
+  0x00, 0xC0, 0x0C, 0x00,
+  0x00, 0x30, 0xC0, 0x00,
+  0x0C, 0x30, 0xC0, 0x00,
+  0x0C, 0x30, 0xFF, 0xF0,
+  0x0C, 0x30, 0xCC, 0x00,
+  0x0C, 0x33, 0x03, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x0F, 0xFF, 0xFF, 0xC0,
+  0x0C, 0x30, 0x30, 0xC0,
+  0x0C, 0x30, 0x30, 0xC0,
+  0x0C, 0x30, 0x30, 0xC0,
+  0xFF, 0xFF, 0xFF, 0xFC,
+  0x00, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8861[ 64] = { /* code 8861 */
+  0x03, 0x0C, 0x00, 0x00,
+  0x03, 0x0F, 0xF0, 0x00,
+  0x0C, 0x30, 0x30, 0xFC,
+  0x30, 0xC0, 0xC0, 0x00,
+  0xC0, 0x3F, 0xF0, 0x00,
+  0x03, 0x33, 0x30, 0x00,
+  0x0C, 0x33, 0x33, 0xFC,
+  0x3C, 0x3F, 0xF0, 0x30,
+  0xCC, 0x33, 0x30, 0x30,
+  0x0C, 0x33, 0x30, 0x30,
+  0x0C, 0x3F, 0xF0, 0x30,
+  0x0C, 0x03, 0x00, 0x30,
+  0x0C, 0xFF, 0xFC, 0x30,
+  0x0C, 0x03, 0x00, 0x30,
+  0x0C, 0x0C, 0xC3, 0x30,
+  0x0C, 0x30, 0x30, 0xC0
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_89E6[ 64] = { /* code 89E6 */
+  0x0C, 0x00, 0x0C, 0x00,
+  0x0C, 0x00, 0x0C, 0x00,
+  0x3F, 0xC0, 0x0C, 0x00,
+  0x30, 0xC3, 0xFF, 0xF0,
+  0xC3, 0x03, 0x0C, 0x30,
+  0x3F, 0xF3, 0x0C, 0x30,
+  0x33, 0x33, 0x0C, 0x30,
+  0x33, 0x33, 0x0C, 0x30,
+  0x3F, 0xF3, 0xFF, 0xF0,
+  0x33, 0x33, 0x0C, 0x30,
+  0x33, 0x30, 0x0C, 0x00,
+  0x3F, 0xF0, 0x0C, 0xC0,
+  0x33, 0x30, 0x0C, 0x30,
+  0x33, 0x3F, 0xFF, 0xFC,
+  0x30, 0x33, 0x00, 0x0C,
+  0xC0, 0xF0, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_8FDE[ 64] = { /* code 8FDE */
+  0x00, 0x00, 0x30, 0x00,
+  0x0C, 0x00, 0x30, 0x00,
+  0x03, 0x3F, 0xFF, 0xFC,
+  0x03, 0x00, 0xC0, 0x00,
+  0x00, 0x00, 0xCC, 0x00,
+  0x00, 0x03, 0x0C, 0x00,
+  0xFF, 0x0F, 0xFF, 0xF0,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x3F, 0xFF, 0xFC,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x0C, 0xC0, 0x0C, 0x00,
+  0x30, 0x3F, 0xFF, 0xFC,
+  0x00, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_FontSongTi16_9065[ 64] = { /* code 9065 */
+  0x00, 0x00, 0x0F, 0xF0,
+  0x0C, 0x0F, 0xF0, 0x00,
+  0x03, 0x00, 0x00, 0x30,
+  0x03, 0x0C, 0x30, 0x30,
+  0x00, 0x03, 0x0C, 0xC0,
+  0x00, 0x03, 0xFF, 0xF0,
+  0xFF, 0x0C, 0x0C, 0x00,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x0F, 0xFF, 0xFC,
+  0x03, 0x00, 0x0C, 0x00,
+  0x03, 0x03, 0x0C, 0x30,
+  0x03, 0x03, 0x0C, 0x30,
+  0x03, 0x03, 0x0C, 0x30,
+  0x03, 0x03, 0xFF, 0xF0,
+  0x0C, 0xC0, 0x00, 0x00,
+  0x30, 0x3F, 0xFF, 0xFC
+};
+
+GUI_CONST_STORAGE GUI_CHARINFO GUI_FontSongTi16_CharInfo[120] = {
+   {   8,   8,  2, acGUI_FontSongTi16_0020 } /* code 0020 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0021 } /* code 0021 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0022 } /* code 0022 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0023 } /* code 0023 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0024 } /* code 0024 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0025 } /* code 0025 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0026 } /* code 0026 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0027 } /* code 0027 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0028 } /* code 0028 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0029 } /* code 0029 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002A } /* code 002A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002B } /* code 002B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002C } /* code 002C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002D } /* code 002D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002E } /* code 002E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_002F } /* code 002F */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0030 } /* code 0030 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0031 } /* code 0031 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0032 } /* code 0032 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0033 } /* code 0033 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0034 } /* code 0034 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0035 } /* code 0035 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0036 } /* code 0036 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0037 } /* code 0037 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0038 } /* code 0038 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0039 } /* code 0039 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003A } /* code 003A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003B } /* code 003B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003C } /* code 003C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003D } /* code 003D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003E } /* code 003E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_003F } /* code 003F */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0040 } /* code 0040 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0041 } /* code 0041 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0042 } /* code 0042 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0043 } /* code 0043 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0044 } /* code 0044 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0045 } /* code 0045 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0046 } /* code 0046 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0047 } /* code 0047 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0048 } /* code 0048 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0049 } /* code 0049 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004A } /* code 004A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004B } /* code 004B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004C } /* code 004C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004D } /* code 004D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004E } /* code 004E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_004F } /* code 004F */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0050 } /* code 0050 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0051 } /* code 0051 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0052 } /* code 0052 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0053 } /* code 0053 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0054 } /* code 0054 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0055 } /* code 0055 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0056 } /* code 0056 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0057 } /* code 0057 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0058 } /* code 0058 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0059 } /* code 0059 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005A } /* code 005A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005B } /* code 005B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005C } /* code 005C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005D } /* code 005D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005E } /* code 005E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_005F } /* code 005F */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0060 } /* code 0060 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0061 } /* code 0061 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0062 } /* code 0062 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0063 } /* code 0063 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0064 } /* code 0064 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0065 } /* code 0065 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0066 } /* code 0066 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0067 } /* code 0067 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0068 } /* code 0068 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0069 } /* code 0069 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006A } /* code 006A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006B } /* code 006B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006C } /* code 006C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006D } /* code 006D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006E } /* code 006E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_006F } /* code 006F */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0070 } /* code 0070 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0071 } /* code 0071 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0072 } /* code 0072 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0073 } /* code 0073 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0074 } /* code 0074 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0075 } /* code 0075 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0076 } /* code 0076 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0077 } /* code 0077 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0078 } /* code 0078 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_0079 } /* code 0079 */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007A } /* code 007A */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007B } /* code 007B */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007C } /* code 007C */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007D } /* code 007D */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007E } /* code 007E */
+  ,{   8,   8,  2, acGUI_FontSongTi16_007F } /* code 007F */
+  ,{  16,  16,  4, acGUI_FontSongTi16_51C6 } /* code 51C6 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_5236 } /* code 5236 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_52A8 } /* code 52A8 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_5E73 } /* code 5E73 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_5EFA } /* code 5EFA */
+  ,{  16,  16,  4, acGUI_FontSongTi16_5F00 } /* code 5F00 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_624B } /* code 624B */
+  ,{  16,  16,  4, acGUI_FontSongTi16_6253 } /* code 6253 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_63A5 } /* code 63A5 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_63A7 } /* code 63A7 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_6478 } /* code 6478 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_65B0 } /* code 65B0 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_6821 } /* code 6821 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_7259 } /* code 7259 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_7535 } /* code 7535 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_7A0B } /* code 7A0B */
+  ,{  16,  16,  4, acGUI_FontSongTi16_7F16 } /* code 7F16 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_8111 } /* code 8111 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_81EA } /* code 81EA */
+  ,{  16,  16,  4, acGUI_FontSongTi16_84DD } /* code 84DD */
+  ,{  16,  16,  4, acGUI_FontSongTi16_8861 } /* code 8861 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_89E6 } /* code 89E6 */
+  ,{  16,  16,  4, acGUI_FontSongTi16_8FDE } /* code 8FDE */
+  ,{  16,  16,  4, acGUI_FontSongTi16_9065 } /* code 9065 */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop25 = {
+   0x9065 /* first character */
+  ,0x9065 /* last character  */
+  ,&GUI_FontSongTi16_CharInfo[119] /* address of first character */
   ,(GUI_CONST_STORAGE GUI_FONT_PROP *)0 /* pointer to next GUI_FONT_PROP */
 };
 
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop24 = {
+   0x8FDE /* first character */
+  ,0x8FDE /* last character  */
+  ,&GUI_FontSongTi16_CharInfo[118] /* address of first character */
+  ,&GUI_FontSongTi16_Prop25 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop23 = {
+   0x89E6 /* first character */
+  ,0x89E6 /* last character  */
+  ,&GUI_FontSongTi16_CharInfo[117] /* address of first character */
+  ,&GUI_FontSongTi16_Prop24 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop22 = {
+   0x8861 /* first character */
+  ,0x8861 /* last character  */
+  ,&GUI_FontSongTi16_CharInfo[116] /* address of first character */
+  ,&GUI_FontSongTi16_Prop23 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop21 = {
+   0x84DD /* first character */
+  ,0x84DD /* last character  */
+  ,&GUI_FontSongTi16_CharInfo[115] /* address of first character */
+  ,&GUI_FontSongTi16_Prop22 /* pointer to next GUI_FONT_PROP */
+};
+
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop20 = {
-   0x6253 /* first character */
-  ,0x6253 /* last character  */
+   0x81EA /* first character */
+  ,0x81EA /* last character  */
   ,&GUI_FontSongTi16_CharInfo[114] /* address of first character */
   ,&GUI_FontSongTi16_Prop21 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop19 = {
-   0x5F00 /* first character */
-  ,0x5F00 /* last character  */
+   0x8111 /* first character */
+  ,0x8111 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[113] /* address of first character */
   ,&GUI_FontSongTi16_Prop20 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop18 = {
-   0x5EFA /* first character */
-  ,0x5EFA /* last character  */
+   0x7F16 /* first character */
+  ,0x7F16 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[112] /* address of first character */
   ,&GUI_FontSongTi16_Prop19 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop17 = {
-   0x9065 /* first character */
-  ,0x9065 /* last character  */
+   0x7A0B /* first character */
+  ,0x7A0B /* last character  */
   ,&GUI_FontSongTi16_CharInfo[111] /* address of first character */
   ,&GUI_FontSongTi16_Prop18 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop16 = {
-   0x8FDE /* first character */
-  ,0x8FDE /* last character  */
+   0x7535 /* first character */
+  ,0x7535 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[110] /* address of first character */
   ,&GUI_FontSongTi16_Prop17 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop15 = {
-   0x8861 /* first character */
-  ,0x8861 /* last character  */
+   0x7259 /* first character */
+  ,0x7259 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[109] /* address of first character */
   ,&GUI_FontSongTi16_Prop16 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop14 = {
-   0x84DD /* first character */
-  ,0x84DD /* last character  */
+   0x6821 /* first character */
+  ,0x6821 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[108] /* address of first character */
   ,&GUI_FontSongTi16_Prop15 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop13 = {
-   0x81EA /* first character */
-  ,0x81EA /* last character  */
+   0x65B0 /* first character */
+  ,0x65B0 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[107] /* address of first character */
   ,&GUI_FontSongTi16_Prop14 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop12 = {
-   0x8111 /* first character */
-  ,0x8111 /* last character  */
+   0x6478 /* first character */
+  ,0x6478 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[106] /* address of first character */
   ,&GUI_FontSongTi16_Prop13 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop11 = {
-   0x7F16 /* first character */
-  ,0x7F16 /* last character  */
+   0x63A7 /* first character */
+  ,0x63A7 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[105] /* address of first character */
   ,&GUI_FontSongTi16_Prop12 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop10 = {
-   0x7A0B /* first character */
-  ,0x7A0B /* last character  */
+   0x63A5 /* first character */
+  ,0x63A5 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[104] /* address of first character */
   ,&GUI_FontSongTi16_Prop11 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop9 = {
-   0x7535 /* first character */
-  ,0x7535 /* last character  */
+   0x6253 /* first character */
+  ,0x6253 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[103] /* address of first character */
   ,&GUI_FontSongTi16_Prop10 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop8 = {
-   0x7259 /* first character */
-  ,0x7259 /* last character  */
+   0x624B /* first character */
+  ,0x624B /* last character  */
   ,&GUI_FontSongTi16_CharInfo[102] /* address of first character */
   ,&GUI_FontSongTi16_Prop9 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop7 = {
-   0x63A7 /* first character */
-  ,0x63A7 /* last character  */
+   0x5F00 /* first character */
+  ,0x5F00 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[101] /* address of first character */
   ,&GUI_FontSongTi16_Prop8 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop6 = {
-   0x63A5 /* first character */
-  ,0x63A5 /* last character  */
+   0x5EFA /* first character */
+  ,0x5EFA /* last character  */
   ,&GUI_FontSongTi16_CharInfo[100] /* address of first character */
   ,&GUI_FontSongTi16_Prop7 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop5 = {
-   0x624B /* first character */
-  ,0x624B /* last character  */
+   0x5E73 /* first character */
+  ,0x5E73 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[ 99] /* address of first character */
   ,&GUI_FontSongTi16_Prop6 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop4 = {
-   0x5E73 /* first character */
-  ,0x5E73 /* last character  */
+   0x52A8 /* first character */
+  ,0x52A8 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[ 98] /* address of first character */
   ,&GUI_FontSongTi16_Prop5 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop3 = {
-   0x52A8 /* first character */
-  ,0x52A8 /* last character  */
+   0x5236 /* first character */
+  ,0x5236 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[ 97] /* address of first character */
   ,&GUI_FontSongTi16_Prop4 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop2 = {
-   0x5236 /* first character */
-  ,0x5236 /* last character  */
+   0x51C6 /* first character */
+  ,0x51C6 /* last character  */
   ,&GUI_FontSongTi16_CharInfo[ 96] /* address of first character */
   ,&GUI_FontSongTi16_Prop3 /* pointer to next GUI_FONT_PROP */
 };
@@ -2418,7 +2618,7 @@ GUI_CONST_STORAGE GUI_FONT_PROP GUI_FontSongTi16_Prop1 = {
 };
 
 GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi16 = {
-   GUI_FONTTYPE_PROP /* type of font    */
+   GUI_FONTTYPE_PROP_AA2 /* type of font    */
   ,16 /* height of font  */
   ,16 /* space of font y */
   ,1 /* magnification x */

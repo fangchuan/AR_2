@@ -46,7 +46,7 @@ WM_HWIN           hWin_4;
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
 #define ID_HEADER_0     (GUI_ID_USER + 0x01)
-#define ID_HEADER_1     (GUI_ID_USER + 0x02)
+//#define ID_HEADER_1     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x04)
 #define ID_RADIO_0      (GUI_ID_USER + 0x07)
@@ -73,7 +73,7 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
+//  { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "¶Ï¿ª", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Á¬½Ó", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
   { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 00, 70, 80, 180, 0, 0x1408, 0 },
@@ -157,16 +157,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;
     switch(Id) {
 //    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-//        break;
-//      case WM_NOTIFICATION_MOVED_OUT:
-//        break;
-//      }
-//      break;
-//    case ID_HEADER_1: // Notifications sent by 'HeaderBottom'
 //      switch(NCode) {
 //      case WM_NOTIFICATION_CLICKED:
 //        break;

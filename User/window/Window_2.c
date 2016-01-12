@@ -38,7 +38,7 @@ WM_HWIN hWin_2;
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_HEADER_0     (GUI_ID_USER + 0x01)
+//#define ID_HEADER_0     (GUI_ID_USER + 0x01)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x02)
 #define ID_HEADER_1     (GUI_ID_USER + 0x03)
 
@@ -68,7 +68,7 @@ static const char *StringHZ[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
+//  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "·µ»Ø", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "Listview", ID_LISTVIEW_0, 0, 40, 200, 33, 0, 0x0, 0 },
@@ -145,16 +145,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_HEADER_0: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
     case ID_BUTTON_0: // Notifications sent by 'Button'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -164,16 +154,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_HEADER_1: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
+//    case ID_HEADER_1: // Notifications sent by 'Header'
+//      switch(NCode) {
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//        break;
+//      case WM_NOTIFICATION_MOVED_OUT:
+//        break;
+//      }
+//      break;
     case ID_LISTVIEW_0: // Notifications sent by 'Listview'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

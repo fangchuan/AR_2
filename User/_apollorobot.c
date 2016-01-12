@@ -35,14 +35,6 @@ _Port      port;
 _Variable   var;
 _Music    music;
 
-_DS    digital_sensor1;
-_DS    digital_sensor2;
-_DS    digital_sensor3;
-_DS    digital_sensor4;
-_AS     analog_sensor1;
-_AS     analog_sensor2;
-_AS     analog_sensor3;
-_AS     analog_sensor4;
 _Ultrasnio        ult;
 _Euler          euler;
 
@@ -56,33 +48,35 @@ int32_t  delay_time;
 static _Listptr or_branch (_Listptr  p);
 static _Listptr if_branch (_Listptr  p);
 static _Listptr while_branch(_Listptr  p);
-static _Error Detect_Port(_Port *port);
-static _Error Get_Port  (_Port * port);
-static void  InitDigitalSensor(_DS *sensor);
-static void  InitAnalogSensor(_AS *sensor);
-static void  InitMPUSensor(_Euler *sensor);
+//static _Error Get_Port  (_Port * port);
+//static void  InitDigitalSensor(_DS *sensor);
+//static void  InitAnalogSensor(_AS *sensor);
 static void InitUltrasnio(_Ultrasnio *sensor);
 
 
 //初始化传感器数据结构
 
-static void  InitDigitalSensor(_DS *sensor)
-{
-	    sensor->sta = 0;
-	    sensor->val =  0;
-	
-}
-static void InitAnalogSensor(_AS *sensor)
-{
-	    sensor->sta = 0;
-	    sensor->val  = 0;
-}
-static void InitMPUSensor(_Euler *sensor)
+//static void  InitDigitalSensor(_DS *sensor)
+//{
+//	    sensor->sta = 0;
+//	    sensor->val =  0;
+//	
+//}
+//static void InitAnalogSensor(_AS *sensor)
+//{
+//	    sensor->sta = 0;
+//	    sensor->val  = 0;
+//}
+void InitMPUSensor(_Euler *sensor)
 {
 	    sensor->angle_x = 0;
 	    sensor->angle_y = 0;
 	    sensor->accel_x = 0;
 			sensor->accel_y = 0;
+	    sensor->accel_z = 0;
+	    sensor->gyro_x  = 0;
+	    sensor->gyro_y  = 0;
+	    sensor->gyro_z  = 0;
 }
 static void InitUltrasnio(_Ultrasnio *sensor)
 {
@@ -93,83 +87,92 @@ static void InitUltrasnio(_Ultrasnio *sensor)
 //
 //侦测端口Port的状态：有无信号
 //Tips:默认是用来判断数字传感器的
-static _Error Detect_Port(_Port *port)
+_Error Detect_Port(_Port *port)
 {
+	    int  adc_val;
+	
 			if(port->id < 1 || port->id > 4)
 					return  ERROR_ID;
 			else
 			{
-				port->species = DS;
+				
 				DS_Config(port);//将此引脚配置为上拉输入
 				switch(port->id )
 					{
 						case PORT_1:
 									if( !Detect_DS1 )
 									{
-										  port->status = SIGNAL;
+										  port->species = DS;
+										  port->status = PORT_ON;
+										  port->cur_val = SIGNAL;
 									}
 									else
-									{
-										  port->status = NOSIGNAL;
+									{ 
+										  port->cur_val = NOSIGNAL;
+										  
 									}
-									digital_sensor1.sta = PORT_1;
-									digital_sensor1.val = port->status;
-//									if(	Get_adc(ANOLOG_Sensor_1) != NOSIGNAL)
-//									{
-//										  port->species = AS;
-//										  port->status = SIGNAL;
-//									}
+
+									if((adc_val = Get_adc(ANOLOG_Sensor_1)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									{
+										  port->species = AS;
+										  port->status = PORT_ON;
+										  port->cur_val = adc_val;
+									}
 							break;
 						case PORT_2:
 									if( !Detect_DS2 )
 									{
-										  port->status = SIGNAL;
+										  port->species = DS;
+										  port->status = PORT_ON;
+										  port->cur_val = SIGNAL;
 									}
 									else
 									{
-										  port->status = NOSIGNAL;
+										  port->cur_val = NOSIGNAL;
 									}
-									digital_sensor2.sta = PORT_2;
-									digital_sensor2.val = port->status;
-//									if(Get_adc(ANOLOG_Sensor_2) != NOSIGNAL)
-//									{
-//										  port->species = AS;
-//										  port->status = SIGNAL;
-//									}
+
+									if((adc_val = Get_adc(ANOLOG_Sensor_2)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									{
+										  port->species = AS;
+										  port->status = PORT_ON;
+											port->cur_val = adc_val;
+									}
               break;
 						case PORT_3:
 									if( !Detect_DS3 )
 									{
-										  port->status = SIGNAL;
+										  port->species = DS;
+										  port->status = PORT_ON;
+										  port->cur_val = SIGNAL;
 									}
 									else
 									{
-										  port->status = NOSIGNAL;
+										   port->cur_val = NOSIGNAL;
 									}
-									digital_sensor3.sta = PORT_3;
-									digital_sensor3.val = port->status;
-//									if(Get_adc(ANOLOG_Sensor_3) != NOSIGNAL)
-//									{
-//										  port->species = AS;
-//										  port->status = SIGNAL;
-//									}
+									if((adc_val = Get_adc(ANOLOG_Sensor_3)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									{
+										  port->species = AS;
+										  port->status = PORT_ON;
+										  port->cur_val = adc_val;
+									}
               break;
 						case PORT_4:
 									if( !Detect_DS4 )
 									{
-										  port->status = SIGNAL;
+										  port->species = DS;
+										  port->status = PORT_ON;
+										  port->cur_val = SIGNAL;
 									}
 									else
 									{
-										  port->status = NOSIGNAL;
+										  port->cur_val = NOSIGNAL;
 									}
-									digital_sensor4.sta = PORT_4;
-									digital_sensor4.val = port->status;
-//									if(Get_adc(ANOLOG_Sensor_4) != NOSIGNAL)
-//									{
-//										  port->species = AS;
-//										  port->status = SIGNAL;
-//									}
+									if((adc_val = Get_adc(ANOLOG_Sensor_4)) > 15)   //ADC值大于15才算作有模拟传感器插入
+									{
+										  port->species = AS;
+										  port->status = PORT_ON;
+										  port->cur_val = adc_val;
+									}
              break;
 					}
 				return NO_ERROR;
@@ -178,39 +181,39 @@ static _Error Detect_Port(_Port *port)
 //
 //获取指定port的值,默认指的是模拟传感器的值
 //
-static _Error Get_Port  (_Port * port)
-{
-			if(port->id < 1 || port->id > 4)
-					return ERROR_ID;
-			else{
-				    port->species = AS;
-						switch(port->id)
-						{
-							case PORT_1:
-										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_1);
-										analog_sensor1.sta = PORT_1;
-							      analog_sensor1.val = port->cur_val ;
-								break;
-							case PORT_2:
-										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_2);
-										analog_sensor2.sta = PORT_2;
-							      analog_sensor2.val = port->cur_val ;
-								break;
-							case PORT_3:
-										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_3);
-										analog_sensor3.sta = PORT_3;
-							      analog_sensor3.val = port->cur_val ;
-								break;
-							case PORT_4:
-										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_4);
-										analog_sensor4.sta = PORT_4;
-							      analog_sensor4.val = port->cur_val ;
-								break;
-						}
-						
-				return NO_ERROR;
-			}
-}
+//static _Error Get_Port  (_Port * port)
+//{
+//			if(port->id < 1 || port->id > 4)
+//					return ERROR_ID;
+//			else{
+//				    port->species = AS;
+//						switch(port->id)
+//						{
+//							case PORT_1:
+//										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_1);
+//										analog_sensor1.sta = PORT_1;
+//							      analog_sensor1.val = port->cur_val ;
+//								break;
+//							case PORT_2:
+//										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_2);
+//										analog_sensor2.sta = PORT_2;
+//							      analog_sensor2.val = port->cur_val ;
+//								break;
+//							case PORT_3:
+//										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_3);
+//										analog_sensor3.sta = PORT_3;
+//							      analog_sensor3.val = port->cur_val ;
+//								break;
+//							case PORT_4:
+//										port->cur_val  = (int)Get_adc(ANOLOG_Sensor_4);
+//										analog_sensor4.sta = PORT_4;
+//							      analog_sensor4.val = port->cur_val ;
+//								break;
+//						}
+//						
+//				return NO_ERROR;
+//			}
+//}
 //
 //if 满足条件后面的代码块处理，支持多条语句，支持嵌套
 //
@@ -256,27 +259,27 @@ static _Listptr if_branch (_Listptr  p)
 				case FLAG_CAR_LEFT:
 							car.direction = LEFT;
 				      car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Left();
 					break;
 				case FLAG_CAR_RIGHT:
 					    car.direction = RIGHT;
 							car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Right();
 					break;
 				case FLAG_CAR_FORWARD:
 							car.direction = FORWARD;
 							car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Forward();
 					break;
 				case FLAG_CAR_BACKWARD:
 							car.direction = BACKWARD;
 							car.speed_step = 0;
-					    CAR_Config(&car);
+					    Car_Backward();
 					break;
 				case FLAG_CAR_STOP:
 							car.direction = STOP;
 							car.speed_step = 0;
-					    CAR_Config(&car);
+					    Car_Stop();
 					break;
 				case FLAG_CAR_ACCEL:
 					   car.speed_step = SPEED_STEP;
@@ -289,7 +292,7 @@ static _Listptr if_branch (_Listptr  p)
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (p->EditContent)[12] - 0x30;
 							Detect_Port(&port);
-							if( port.status == SIGNAL)
+							if( port.cur_val == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
@@ -307,7 +310,7 @@ static _Listptr if_branch (_Listptr  p)
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
 							port.id = (p->EditContent)[12] - 0x30;
 				      Detect_Port(&port);
-							if(port.status  == NOSIGNAL)
+							if(port.cur_val  == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								p = p -> next;
@@ -326,18 +329,18 @@ static _Listptr if_branch (_Listptr  p)
 							port.id = (p->EditContent)[12] - 0x30;
 							do{
 								  Detect_Port(&port);
-							}while(port.status  != SIGNAL);
+							}while(port.cur_val != SIGNAL);
 					break;
 				case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 							port.id = (p->EditContent)[12] - 0x30;
 							do{
 								  Detect_Port(&port);
-							}while(port.status  != NOSIGNAL);
+							}while(port.cur_val != NOSIGNAL);
 					break;
 				case FLAG_PORT_GREATER: //如果端口_>_
 							port.id = (p->EditContent)[12] - 0x30;
 							port.tar_val = atoi(p->EditContent + 14);
-				      Get_Port(&port);
+				      Detect_Port(&port);
 							if(port.cur_val > port.tar_val )
 							{
 									//如果条件成立，则进入if分支
@@ -356,7 +359,7 @@ static _Listptr if_branch (_Listptr  p)
 				case FLAG_PORT_LITTLER: //如果端口_<_
 							port.id = (p->EditContent)[12] - 0x30;
 							port.tar_val = atoi(p->EditContent + 14);
-				      Get_Port( &port );
+				      Detect_Port( &port );
 							if(port.cur_val < port.tar_val )
 							{
 									//如果条件成立，则进入if分支
@@ -560,27 +563,27 @@ static _Listptr or_branch (_Listptr  p)
 						case FLAG_CAR_LEFT:
 									car.direction = LEFT;
 									car.speed_step = 0;
-									CAR_Config(&car);
+									Car_Left();
 							break;
 						case FLAG_CAR_RIGHT:
 									car.direction = RIGHT;
 									car.speed_step = 0;
-									CAR_Config(&car);
+									Car_Right();
 							break;
 						case FLAG_CAR_FORWARD:
 									car.direction = FORWARD;
 									car.speed_step = 0;
-									CAR_Config(&car);
+									Car_Forward();
 							break;
 						case FLAG_CAR_BACKWARD:
 									car.direction = BACKWARD;
 									car.speed_step = 0;
-									CAR_Config(&car);
+									Car_Backward();
 							break;
 						case FLAG_CAR_STOP:
 									car.direction = STOP;
 									car.speed_step = 0;
-									CAR_Config(&car);
+									Car_Stop();
 							break;
 						case FLAG_CAR_ACCEL:
 								 car.speed_step = SPEED_STEP;
@@ -593,7 +596,7 @@ static _Listptr or_branch (_Listptr  p)
 						case FLAG_PORT_SIGNAL://如果端口_有信号
 									port.id = (p->EditContent)[12] - 0x30;
 						      Detect_Port( &port );
-									if(port.status == SIGNAL)
+									if(port.cur_val == SIGNAL)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
@@ -611,7 +614,7 @@ static _Listptr or_branch (_Listptr  p)
 						case FLAG_PORT_NOSIGNAL://如果端口_无信号
 									port.id = (p->EditContent)[12] - 0x30;
 						      Detect_Port(&port);
-									if(port.status == NOSIGNAL)
+									if(port.cur_val == NOSIGNAL)
 									{
 										//如果条件成立，则进入if分支
 										p = p -> next;
@@ -630,18 +633,18 @@ static _Listptr or_branch (_Listptr  p)
 									port.id = (p->EditContent)[12] - 0x30;
 						      do{
 										  Detect_Port(&port);
-									}while(port.status != SIGNAL);
+									}while(port.cur_val != SIGNAL);
 							break;
 						case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 									port.id = (p->EditContent)[12] - 0x30;
 						      do{
 										  Detect_Port(&port) ;
-									}while(port.status != NOSIGNAL);
+									}while(port.cur_val != NOSIGNAL);
 							break;
 						case FLAG_PORT_GREATER: //如果端口_>_
 									port.id = (p->EditContent)[12] - 0x30;
 									port.tar_val = atoi(p->EditContent + 14);
-						      Get_Port(&port);
+						      Detect_Port(&port);
 									if(port.cur_val > port.tar_val )
 									{
 											//如果条件成立，则进入if分支
@@ -660,7 +663,7 @@ static _Listptr or_branch (_Listptr  p)
 						case FLAG_PORT_LITTLER: //如果端口_<_
 									port.id = (p->EditContent)[12] - 0x30;
 									port.tar_val = atoi(p->EditContent + 14);
-						      Get_Port(&port);
+						      Detect_Port(&port);
 									if(port.cur_val < port.tar_val )
 									{
 											//如果条件成立，则进入if分支
@@ -791,7 +794,7 @@ static _Listptr or_branch (_Listptr  p)
 									p ->next = (void *)0;//则下一条语句无效，断开链表
 							break;
 						case FLAG_OR:  //嵌套 "否则" 的情况
-									
+									//如果or前面没有If语句就会无穷次嵌套!!!最终栈溢出
 									p = or_branch(p);   //返回的p指向“条件结束”指令
 							break;
 //						case FLAG_IF_END:   //不包含if_end的结点，只处理"否则"指令里包含的代码块
@@ -868,27 +871,27 @@ static _Listptr while_branch (_Listptr  p)
 											case FLAG_CAR_LEFT:
 														car.direction = LEFT;
 														car.speed_step = 0;
-														CAR_Config(&car);
+														Car_Left();
 												break;
 											case FLAG_CAR_RIGHT:
 														car.direction = RIGHT;
 														car.speed_step = 0;
-														CAR_Config(&car);
+														Car_Right();
 												break;
 											case FLAG_CAR_FORWARD:
 														car.direction = FORWARD;
 														car.speed_step = 0;
-														CAR_Config(&car);
+														Car_Forward();
 												break;
 											case FLAG_CAR_BACKWARD:
 														car.direction = BACKWARD;
 														car.speed_step = 0;
-														CAR_Config(&car);
+														Car_Backward();
 												break;
 											case FLAG_CAR_STOP:
 														car.direction = STOP;
 														car.speed_step = 0;
-														CAR_Config(&car);
+														Car_Stop();
 												break;
 											case FLAG_CAR_ACCEL:
 													 car.speed_step = SPEED_STEP;
@@ -901,7 +904,7 @@ static _Listptr while_branch (_Listptr  p)
 											case FLAG_PORT_SIGNAL://如果端口_有信号
 														port.id = (p->EditContent)[12] - 0x30;
 														Detect_Port(&port);
-														if(port.status == SIGNAL)
+														if(port.cur_val == SIGNAL)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -919,7 +922,7 @@ static _Listptr while_branch (_Listptr  p)
 											case FLAG_PORT_NOSIGNAL://如果端口_无信号
 														port.id = (p->EditContent)[12] - 0x30;
 														Detect_Port(&port);
-														if(port.status == NOSIGNAL)
+														if(port.cur_val == NOSIGNAL)
 														{
 															//如果条件成立，则进入if分支
 															p = p -> next;
@@ -938,18 +941,18 @@ static _Listptr while_branch (_Listptr  p)
 														port.id = (p->EditContent)[12] - 0x30;
 														do{
 															  Detect_Port(&port);
-														}while(port.status != SIGNAL);
+														}while(port.cur_val != SIGNAL);
 												break;
 											case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 														port.id = (p->EditContent)[12] - 0x30;
 														do{
 															  Detect_Port(&port);
-														}while(port.status != NOSIGNAL);
+														}while(port.cur_val != NOSIGNAL);
 												break;
 											case FLAG_PORT_GREATER: //如果端口_>_
 														port.id = (p->EditContent)[12] - 0x30;
 														port.tar_val = atoi(p->EditContent + 14);
-														Get_Port(&port);
+														Detect_Port(&port);
 														if(port.cur_val > port.tar_val )
 														{
 															//如果条件成立，则进入if分支
@@ -968,7 +971,7 @@ static _Listptr while_branch (_Listptr  p)
 											case FLAG_PORT_LITTLER: //如果端口_<_
 														port.id = (p->EditContent)[12] - 0x30;
 														port.tar_val = atoi(p->EditContent + 14);
-														Get_Port(&port);
+														Detect_Port(&port);
 														if(port.cur_val < port.tar_val )
 														{
 															//如果条件成立，则进入if分支
@@ -1183,7 +1186,6 @@ int  Replace_Node(int index, enum _FLAG flag,char *content)
 {
 				int i = 0;
 				_Listptr    p = Ins_List_Head;
-				u8        Mb_Val;
 	
 				if(index <= 0 )
 					return -1;
@@ -1359,18 +1361,17 @@ void List_Parse(_Listptr  ptr)
 		OS_ERR  err;
 		//清空所有关于回传数据和显示的标志
 	
-		//初始化4个数字传感器数据结构
-		InitDigitalSensor(&digital_sensor1);
-	  InitDigitalSensor(&digital_sensor2);
-	  InitDigitalSensor(&digital_sensor3);
-	  InitDigitalSensor(&digital_sensor4);
-		//初始化4个模拟传感器数据结构
-		InitAnalogSensor(&analog_sensor1);
-	  InitAnalogSensor(&analog_sensor2);
-		InitAnalogSensor(&analog_sensor3);
-		InitAnalogSensor(&analog_sensor4);
-		//初始化MPU数据结构
-		InitMPUSensor(&euler);
+//		//初始化4个数字传感器数据结构
+//		InitDigitalSensor(&digital_sensor1);
+//	  InitDigitalSensor(&digital_sensor2);
+//	  InitDigitalSensor(&digital_sensor3);
+//	  InitDigitalSensor(&digital_sensor4);
+//		//初始化4个模拟传感器数据结构
+//		InitAnalogSensor(&analog_sensor1);
+//	  InitAnalogSensor(&analog_sensor2);
+//		InitAnalogSensor(&analog_sensor3);
+//		InitAnalogSensor(&analog_sensor4);
+
 		//初始化超声波数据结构
 		InitUltrasnio(&ult);
 	
@@ -1409,27 +1410,27 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_CAR_LEFT:
 							car.direction = LEFT;
 				      car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Left();
 					break;
 				case FLAG_CAR_RIGHT:
 					    car.direction = RIGHT;
 							car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Right();
 					break;
 				case FLAG_CAR_FORWARD:
 							car.direction = FORWARD;
 							car.speed_step = 0;
-							CAR_Config(&car);
+							Car_Forward();
 					break;
 				case FLAG_CAR_BACKWARD:
 							car.direction = BACKWARD;
 							car.speed_step = 0;
-					    CAR_Config(&car);
+					    Car_Backward();
 					break;
 				case FLAG_CAR_STOP:
 							car.direction = STOP;
 							car.speed_step = 0;
-					    CAR_Config(&car);
+					    Car_Stop();
 					break;
 				case FLAG_CAR_ACCEL:
 					   car.speed_step = SPEED_STEP;
@@ -1443,7 +1444,7 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_PORT_SIGNAL://如果端口_有信号
 							port.id = (ptr->EditContent)[12] - 0x30;
 							Detect_Port(&port);
-							if(port.status == SIGNAL)
+							if(port.cur_val == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1461,7 +1462,7 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
 							port.id = (ptr->EditContent)[12] - 0x30;
 							Detect_Port(&port);
-							if(port.status == NOSIGNAL)
+							if(port.cur_val == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
 								ptr = ptr -> next;
@@ -1480,18 +1481,18 @@ void List_Parse(_Listptr  ptr)
 							port.id = (ptr->EditContent)[12] - 0x30;
 							do{
 								  Detect_Port(&port);
-							}while(port.status != SIGNAL);
+							}while(port.cur_val != SIGNAL);
 					break;
 				case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
 							port.id = (ptr->EditContent)[12] - 0x30;
 							do{
 								  Detect_Port(&port);
-							}while(port.status != NOSIGNAL);
+							}while(port.cur_val != NOSIGNAL);
 					break;
 				case FLAG_PORT_GREATER: //如果端口_>_
 							port.id = (ptr->EditContent)[12] - 0x30;
 							port.tar_val = atoi(ptr->EditContent + 14);
-							Get_Port(&port);
+							Detect_Port(&port);
 							if(port.cur_val > port.tar_val )
 							{
 								//如果条件成立，则进入if分支
@@ -1510,7 +1511,7 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_PORT_LITTLER: //如果端口_<_
 							port.id = (ptr->EditContent)[12] - 0x30;
 							port.tar_val = atoi(ptr->EditContent + 14);
-							Get_Port(&port);
+							Detect_Port(&port);
 							if(port.cur_val < port.tar_val )
 							{
 								//如果条件成立，则进入if分支

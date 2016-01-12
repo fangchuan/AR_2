@@ -112,7 +112,7 @@ void Ultrasnio_Init(void)
 void Ultrasnio_update(void)
 {
      Ultrasnio_Trigger_H;
-     Ultra_delay_nus(12);//按道理应该延时10us,网上还说延时40~50us效果最好
+     Ultra_delay_nus(45);//按道理应该延时10us,网上还说延时40~50us效果最好
      Ultrasnio_Trigger_L;
 }
 ////

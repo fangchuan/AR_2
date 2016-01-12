@@ -375,10 +375,12 @@ void BSP_Init(void)
 	USART1_Config();
 	/*初始化NRF24L01*/
 	SPI_NRF_Init();
+
 	/*初始化蜂鸣器*/
 	Music_Init();
 //	/*初始化6050*/
-//	MPU6050_initialize();
+	MPU6050_initialize();
+//	MPU6050_testConnection();
 	
 	my_mem_init(SRAMIN); 	//初始化内部内存池
 	my_mem_init(SRAMEX);  	//初始化外部内存池
@@ -395,13 +397,14 @@ void BSP_Init(void)
 	BUTTON_SetDefaultSkin(BUTTON_SKIN_FLEX); // Sets the default skin for new widgets
 	SCROLLBAR_SetDefaultSkin (SCROLLBAR_SKIN_FLEX);
 	HEADER_SetDefaultSkin    (HEADER_SKIN_FLEX);
+//	FRAMEWIN_SetDefaultSkin(FRAMEWIN_SKIN_FLEX);
 	
 #ifdef TRACE_EN                                                 /* See project / compiler preprocessor options.         */
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_IOEN_MASK;    /* Enable tracing (see Note #2).                        */
     BSP_CPU_REG_DBGMCU_CR &= ~BSP_DBGMCU_CR_TRACE_MODE_MASK;    /* Clr trace mode sel bits.                             */
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_MODE_SYNC_04; /* Cfg trace mode to synch 4-bit.                       */
 #endif
-	
+
 }
 
 

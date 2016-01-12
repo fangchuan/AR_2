@@ -126,9 +126,9 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe7\x94\xb5\xe6\x9c\xba_\xe6\xad\xa3\xe8\xbd\xac,\xe9\x80\x9f\xe5\xba\xa6_",//7:电机_正转,速度_
 	"\xe7\x94\xb5\xe6\x9c\xba_\xe5\x8f\x8d\xe8\xbd\xac,\xe9\x80\x9f\xe5\xba\xa6_",//8:电机_反转,速度_
 	"\xe8\x88\xb5\xe6\x9c\xba_\xe8\xbd\xac_","LED_\xe6\x89\x93\xe5\xbc\x80",     //9:舵机_转_,10:LED_打开
-	"\xe5\x89\x8d\xe8\xbf\x9b","\xe5\x90\x8e\xe9\x80\x80",//11:前进，12:后退
-	"\xe5\xb7\xa6\xe8\xbd\xac","\xe5\x8f\xb3\xe8\xbd\xac",//13:左转，14:右转
-	"\xe5\x81\x9c\xe6\xad\xa2",//15:停止
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x89\x8d\xe8\xbf\x9b","\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x90\x8e\xe9\x80\x80",//11:小车前进，12:小车后退
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\xb7\xa6\xe8\xbd\xac","\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x8f\xb3\xe8\xbd\xac",//13:小车左转，14:小车右转
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x81\x9c\xe6\xad\xa2",//15:小车停止
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\xaf\xe5\x8f\xa3_\xe6\x9c\x89\xe4\xbf\xa1\xe5\x8f\xb7",//16:如果端口_有信号
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\xaf\xe5\x8f\xa3_\xe6\x97\xa0\xe4\xbf\xa1\xe5\x8f\xb7",//17:如果端口_无信号
 	"\xe7\xad\x89\xe5\xbe\x85\xe7\xab\xaf\xe5\x8f\xa3_\xe6\x9c\x89\xe4\xbf\xa1\xe5\x8f\xb7",//18:等待端口_有信号
@@ -191,11 +191,11 @@ static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_Car, 2, 1, 218, 258, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "左转", ID_BUTTON_Left, 10, 20, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "右转", ID_BUTTON_Right, 10, 60, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "前进", ID_BUTTON_Forward, 10, 100, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "后退", ID_BUTTON_Backward, 10, 140, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "停止", ID_BUTTON_Stop, 105, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小车左转", ID_BUTTON_Left, 10, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小车右转", ID_BUTTON_Right, 10, 60, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小车前进", ID_BUTTON_Forward, 10, 100, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小车后退", ID_BUTTON_Backward, 10, 140, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小车停止", ID_BUTTON_Stop, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车加速", ID_BUTTON_Accel, 105, 60, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车减速", ID_BUTTON_Slow, 105, 100, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },

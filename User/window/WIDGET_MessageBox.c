@@ -32,8 +32,8 @@ static uint8_t  ret_val;//用户选择信息
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "MessageBox", ID_FRAMEWIN_0, 0, 0, 100, 60, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_0, 1, 0, 99, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "OK", ID_BUTTON_OK, 1, 20, 40, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "CL", ID_BUTTON_CANCEL, 53, 20, 40, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "OK", ID_BUTTON_OK, 1, 20, 40, 19, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "CL", ID_BUTTON_CANCEL, 53, 20, 40, 19, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };

@@ -11,22 +11,14 @@ extern OS_TCB	AppTaskStartTCB;
 extern uint8_t Key_Value ;
 extern _Ultrasnio ult;
 extern enum _FLAG _flag;//指令标志
-//extern _SensorFlag  sensorflag;//传感器种类
 extern _Listptr Ins_List_Head;//程序链表的头指针
-extern _DS    digital_sensor1;
-extern _DS    digital_sensor2;
-extern _DS    digital_sensor3;
-extern _DS    digital_sensor4;
-extern _AS     analog_sensor1;
-extern _AS     analog_sensor2;
-extern _AS     analog_sensor3;
-extern _AS     analog_sensor4;
+
 extern _Ultrasnio        ult;
 extern _Euler          euler;
 extern u8    flag_nrf_link,flag_change_nrf_addr;
 
 OS_SEM  RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
-//OS_SEM  END_SEM;    //定义一个信号量，用于运行任务结束后发送给GUIUpdate任务
+OS_SEM  TOUCH_SEM;    //定义一个信号量，用于运行触屏校准任务
 //OS_FLAG_GRP	SensorFlags;		//定义一个事件标志组，用于决定传输哪个传感器数据
 _nrf_pkt    nrf_rx;		//接收数据缓存
 /*********************************************************************
@@ -56,8 +48,16 @@ static  CPU_STK  AppTaskNRFReceiverStk[APP_CFG_TASK_NRF_STK_SIZE];
 static  OS_TCB   AppTaskMPU6050TCB;
 static  CPU_STK  AppTaskMPU6050Stk[APP_CFG_TASK_MPU6050_STK_SIZE];
 
+static  OS_TCB   AppTaskTouchCaliTCB;
+static  CPU_STK  AppTaskTouchCaliStk[APP_CFG_TASK_TOUCHCALI_STK_SIZE]; 
+
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
 static uint8_t  transferdata[MAX_LEN];
+
+static _Port port_1 = {1};
+static _Port port_2 = {2};
+static _Port port_3 = {3};
+static _Port port_4 = {4};
 /*********************************************************************
 *
 *       Static code
@@ -71,6 +71,8 @@ static void   AppTaskCOMRx(void *p_arg);
 static void   AppTaskMainTask(void *p_arg);
 static void   AppTaskCOMTx(void *p_arg);
 static void   AppTaskNRFReceiver(void *p_arg);
+static void   AppTaskMPU6050(void *p_arg);
+static void   AppTaskTouchCali(void *p_arg);
 
 //软件定时器的回调函数
 static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
@@ -202,7 +204,7 @@ static void AppTaskGUIUpdate(void *p_arg)
 
 /*
 *********************************************************************************************************
-*	函 数 名: AppTaskCom
+*	函 数 名: AppTaskComRx
 *	功能说明:
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
@@ -231,7 +233,7 @@ static void AppTaskCOMRx(void *p_arg)
 *	功能说明: 界面切换任务
 *	形    参：p_arg 是在创建该任务时传递的形参
 *	返 回 值: 无
-	优 先 级：6
+	优 先 级：7
 *********************************************************************************************************
 */
 
@@ -282,6 +284,22 @@ static void AppTaskUserIF(void *p_arg)
             WM_HideWindow(hWin_3);
             WM_ShowWindow(hWin_4);
         }
+				if( Key_Value == 5)
+        {
+            WM_HideWindow(hWin_Top);
+            WM_HideWindow(hWin_1);
+            WM_HideWindow(hWin_2);
+            WM_HideWindow(hWin_3);
+            WM_HideWindow(hWin_4);
+        }
+				if( Key_Value == 6)
+        {
+            WM_HideWindow(hWin_Top);
+            WM_HideWindow(hWin_1);
+            WM_HideWindow(hWin_2);
+            WM_HideWindow(hWin_3);
+            WM_HideWindow(hWin_4);
+        }
         OSTimeDlyHMSM(0, 0, 0, 100,
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
@@ -313,108 +331,122 @@ static void AppTaskCOMTx(void *p_arg)
 //								 (OS_OPT	    )OS_OPT_PEND_FLAG_SET_ANY+OS_OPT_PEND_FLAG_CONSUME,
 //								 (CPU_TS*     )0,
 //								 (OS_ERR*	    )&err);
-        if(digital_sensor1.sta )
+			  Detect_Port(&port_1);
+			  Detect_Port(&port_2);
+			  Detect_Port(&port_3);
+			  Detect_Port(&port_4);
+			
+        if(port_1.status )
         {
-            transferdata[2] = DS_1_ID;                    //type
-            transferdata[3] = sizeof(digital_sensor1.val);//length
-            transferdata[4] = digital_sensor1.val ;       //value
+					 if(port_1.species == DS)
+					 {
+							transferdata[2] = DS_1_ID;                    //type
+							transferdata[3] = 1 ;                         //length
+							transferdata[4] = port_1.cur_val ;            //value
+							transferdata[5] = FRAME_END;
+					 }
+					 if(port_1.species == AS)
+					 {
+						transferdata[2] = AS_1_ID;                   //type
+            transferdata[3] = 1 ;                        //length
+            transferdata[4] = port_1.cur_val ;       //value
             transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
+					 }
+					 printf("%s\n",transferdata);
         }
-        if(digital_sensor2.sta )
+        if(port_2.status)
         {
-            transferdata[2] = DS_2_ID;                    //type
-            transferdata[3] = sizeof(digital_sensor2.val);//length
-            transferdata[4] = digital_sensor2.val ;       //value
+					 if(port_2.species == DS)
+					 {
+							transferdata[2] = DS_2_ID;                    //type
+							transferdata[3] = 1;                          //length
+							transferdata[4] = port_2.cur_val ;            //value
+							transferdata[5] = FRAME_END;
+					 }
+					 if(port_2.species == AS)
+					 {
+						transferdata[2] = AS_2_ID;                   //type
+            transferdata[3] = 1 ;                        //length
+            transferdata[4] = port_2.cur_val ;           //value
             transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
+					 }
+            printf("%s\n",transferdata);
         }
-        if(digital_sensor3.sta )
+        if(port_3.status)
         {
-            transferdata[2] = DS_3_ID;                    //type
-            transferdata[3] = sizeof(digital_sensor3.val);//length
-            transferdata[4] = digital_sensor3.val ;       //value
+           if(port_3.species == DS)
+					 {
+							transferdata[2] = DS_3_ID;                    //type
+							transferdata[3] = 1;                          //length
+							transferdata[4] = port_3.cur_val ;            //value
+							transferdata[5] = FRAME_END;
+					 }
+					 if(port_3.species == AS)
+					 {
+						transferdata[2] = AS_3_ID;                   //type
+            transferdata[3] = 1 ;                        //length
+            transferdata[4] = port_3.cur_val ;           //value
             transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
+					 }
+            printf("%s\n",transferdata);
         }
-        if(digital_sensor4.sta )
+        if(port_4.status )
         {
-            transferdata[2] = DS_4_ID;                    //type
-            transferdata[3] = sizeof(digital_sensor4.val);//length
-            transferdata[4] = digital_sensor4.val ;       //value
+           if(port_4.species == DS)
+					 {
+							transferdata[2] = DS_4_ID;                    //type
+							transferdata[3] = 1;                          //length
+							transferdata[4] = port_4.cur_val ;            //value
+							transferdata[5] = FRAME_END;
+					 }
+					 if(port_4.species == AS)
+					 {
+						transferdata[2] = AS_4_ID;                   //type
+            transferdata[3] = 1 ;                        //length
+            transferdata[4] = port_4.cur_val ;           //value
             transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
+					 }
+            printf("%s\n",transferdata);
         }
-        if(analog_sensor1.sta )
-        {
-            transferdata[2] = AS_1_ID;                   //type
-            transferdata[3] = sizeof(analog_sensor1.val);//length
-            transferdata[4] = analog_sensor1.val ;       //value
-            transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
-        }
-        if(analog_sensor2.sta )
-        {
-            transferdata[2] = AS_2_ID;                   //type
-            transferdata[3] = sizeof(analog_sensor2.val);//length
-            transferdata[4] = analog_sensor2.val ;       //value
-            transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
-        }
-        if(analog_sensor3.sta )
-        {
-            transferdata[2] = AS_3_ID;                   //type
-            transferdata[3] = sizeof(analog_sensor3.val);//length
-            transferdata[4] = analog_sensor3.val ;       //value
-            transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
-        }
-        if(analog_sensor4.sta )
-        {
-            transferdata[2] = AS_4_ID;                   //type
-            transferdata[3] = sizeof(analog_sensor4.val);//length
-            transferdata[4] = analog_sensor4.val ;       //value
-            transferdata[5] = FRAME_END;
-            printf("%s",transferdata);
-        }
+
         if(ult.cur_distance )
         {
             transferdata[2] = ULTRASNIO_ID;                   //type
-            transferdata[3] = sizeof(ult.cur_distance );//length
+            transferdata[3] = sizeof(ult.cur_distance );      //length
 //						 transferdata[4] = analog_sensor1.val >> 24;       //value  因STM32小端模式，所以
 //						 transferdata[5] = analog_sensor1.val >> 16;
 //						 transferdata[6] = analog_sensor1.val >> 8;
 //						 transferdata[7] = analog_sensor1.val;
             memcpy(transferdata + 4, &(ult.cur_distance),transferdata[3]);
             transferdata[8] = FRAME_END;
-            printf("%s",transferdata);
+            printf("%s\n",transferdata);
         }
 
         transferdata[2] = ANGLE_X_ID;
         transferdata[3] = sizeof(euler.angle_x);
-        memcpy(transferdata + 4, &(euler.angle_x),transferdata[3]);
+        memcpy(transferdata + 4, &(euler.angle_x),transferdata[3]);//低字节在低地址，高字节在高地址
         transferdata[8] = FRAME_END;
-        printf("%s",transferdata);
+        printf("%s\n",transferdata);
 
         transferdata[2] = ANGLE_Y_ID;
         transferdata[3] = sizeof(euler.angle_y);
         memcpy(transferdata + 4, &(euler.angle_y),transferdata[3]);
         transferdata[8] = FRAME_END;
-        printf("%s",transferdata);
+        printf("%s\n",transferdata);
 
         transferdata[2] = ACCEL_X_ID;
         transferdata[3] = sizeof(euler.accel_x);
         memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
         transferdata[8] = FRAME_END;
-        printf("%s",transferdata);
+        printf("%s\n",transferdata);
 
         transferdata[2] = ACCEL_Y_ID;
         transferdata[3] = sizeof(euler.accel_y);
         memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
         transferdata[8] = FRAME_END;
-        printf("%s",transferdata);
+        printf("%s\n",transferdata);
 
-        OSTimeDlyHMSM(0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
+        OSTimeDlyHMSM(0,0,0,150,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
 /*
@@ -513,11 +545,35 @@ static void AppTaskMPU6050(void *p_arg)
     OS_ERR  err;
     (void)p_arg;
 
+	  //初始化MPU数据结构
+		InitMPUSensor(&euler);
     while(1)
     {
-        //Get_Attitude();
+        Get_Attitude();
         OSTimeDlyHMSM(0, 0, 0, 20, OS_OPT_TIME_HMSM_STRICT, &err);
     }
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: AppTaskTouchCalibrate
+*	功能说明: 触屏校准任务
+*	形    参：p_arg 是在创建该任务时传递的形参
+*	返 回 值: 无
+	优 先 级：8
+*********************************************************************************************************
+*/
+static void AppTaskTouchCali(void *p_arg)
+{
+	   OS_ERR  err;
+     (void)p_arg;
+	
+		 while(1)
+		 {
+			  OSSemPend(&TOUCH_SEM,0 ,OS_OPT_PEND_BLOCKING, 0, &err);//请求"运行"信号量
+				Touch_Task();
+			  OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err );
+		 }
 }
 /*
 *********************************************************************************************************
@@ -533,6 +589,8 @@ static  void  AppTaskCreate(void)
 
     //创建一个信号量，用于同步主运行任务
     OSSemCreate(&RUN_SEM,"Run Semaphore",0, &err);
+	
+		OSSemCreate(&TOUCH_SEM, "Touch Semaphore",0,&err);
 //	//创建一个信号量，用于主运行任务运行结束后通知GUIUpdate任务
 //	OSSemCreate(&END_SEM, "End of Run Semaphore",0 ,&err);
 //	//创建一个事件标志组
@@ -640,6 +698,19 @@ static  void  AppTaskCreate(void)
                  (void         *)0,
                  (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR       *)&err);
-
+	  /************************************/
+    OSTaskCreate((OS_TCB       *)&AppTaskTouchCaliTCB,
+                 (CPU_CHAR     *)"App Task Touch Calibrate",
+                 (OS_TASK_PTR   )AppTaskTouchCali,
+                 (void         *)0,
+                 (OS_PRIO       )APP_CFG_TASK_TOUCHCALI_PRIO,
+                 (CPU_STK      *)&AppTaskTouchCaliStk[0],
+                 (CPU_STK_SIZE  )APP_CFG_TASK_TOUCHCALI_STK_SIZE / 10,
+                 (CPU_STK_SIZE  )APP_CFG_TASK_TOUCHCALI_STK_SIZE,
+                 (OS_MSG_QTY    )0,
+                 (OS_TICK       )0,
+                 (void         *)0,
+                 (OS_OPT        )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+                 (OS_ERR       *)&err);
 }
 

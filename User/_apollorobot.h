@@ -161,6 +161,9 @@ typedef struct _CAR  {
 #define  PORT_3    3
 #define  PORT_4    4
 
+#define  PORT_ON   1
+#define  PORT_OFF  0
+
 #define  SIGNAL    1
 #define  NOSIGNAL  0
 
@@ -169,7 +172,7 @@ typedef struct _CAR  {
 #define  ULTRASNIO 3
 typedef struct _PORT {
 				uint8_t 		id;     //端口编号 1\2\3\4
-				uint8_t status; //端口状态 有/无信号 0/1
+				uint8_t status; //端口有无传感器连接0/1
 	      uint8_t species;//端口传感器的种类
 				int     cur_val;//当前值
 				int     tar_val;//目标值
@@ -192,6 +195,10 @@ typedef struct _EULER {
 	      float  angle_y;
 	      float  accel_x;
 	      float  accel_y;
+				float  accel_z;
+				float   gyro_x;
+				float   gyro_y;
+				float   gyro_z;
 }_Euler;
 //
 //超声波的数据结构
@@ -225,7 +232,7 @@ typedef struct  _MUSIC {
 }_Music;
 
 extern _Listptr Ins_List_Head;//程序链表的表头节点
-extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
+//extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 
 extern int Create_List(void);
 extern int Add_Node(int index, uint8_t flag, char *content);//增加节点，后插法
@@ -240,5 +247,7 @@ extern int GetTop(_StatuStack *Stk,uint8_t *ele);////获取栈顶元素，存入ele，不是
 extern int Push(_StatuStack *Stk, uint8_t ele);//
 extern int Pop(_StatuStack *Stk, uint8_t *ele);
 extern void List_Parse(_Listptr ptr);
+_Error Detect_Port(_Port *port);
+extern void InitMPUSensor(_Euler *sensor);
 
 #endif /*_APOLLOROBOT_H*/

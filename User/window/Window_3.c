@@ -41,7 +41,7 @@ WM_HWIN hDialog_Page2;
 */
 #define ID_WINDOW_0        (GUI_ID_USER + 0x00)
 #define ID_HEADER_0        (GUI_ID_USER + 0x02)
-#define ID_HEADER_1        (GUI_ID_USER + 0x03)
+//#define ID_HEADER_1        (GUI_ID_USER + 0x03)
 #define ID_BUTTON_BACK     (GUI_ID_USER + 0x04)
 #define ID_MULTIPAGE_0     (GUI_ID_USER + 0x05)
 #define ID_TEXT_M1         (GUI_ID_USER + 0x06)
@@ -87,7 +87,7 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
+//  { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "·µ»Ø", ID_BUTTON_BACK, 0, 300, 80, 20, 0, 0x0, 0 },
   { MULTIPAGE_CreateIndirect, "Multipage", ID_MULTIPAGE_0, 0, 20, 240, 280, 0, 0x0, 0 },
 
@@ -494,26 +494,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
-    case ID_HEADER_1: // Notifications sent by 'HeaderBottom'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
+//    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
+//      switch(NCode) {
+//      case WM_NOTIFICATION_CLICKED:
+//        break;
+//      case WM_NOTIFICATION_RELEASED:
+//        break;
+//      case WM_NOTIFICATION_MOVED_OUT:
+//        break;
+//      }
+//      break;
     case ID_BUTTON_BACK: // Notifications sent by 'Back'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

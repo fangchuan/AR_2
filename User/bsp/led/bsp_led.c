@@ -25,15 +25,19 @@ _Error LED_Config (_Led *led)
 		{
 			case LED1:
 				Pin = LED1_PIN;
+//				GPIOC->CRL &= 0xfff3ffff;
 				break;
 			case LED2:
 				Pin = LED2_PIN;
+//				GPIOC->CRL &= 0xff3fffff;
 				break;
 			case LED3:
 				Pin = LED3_PIN;
+//				GPIOC->CRL &= 0xf3ffffff;
 				break;
 			case LED4:
 				Pin = LED4_PIN;
+//				GPIOC->CRL &= 0x3fffffff;
 				break;
 		}
 
@@ -49,8 +53,10 @@ _Error LED_Config (_Led *led)
 		
 		if(led->status)
 			GPIO_SetBits(GPIOC,Pin);
+//			digitalHi(GPIOC,Pin);
 		else
 			GPIO_ResetBits(GPIOC,Pin);
+//			digitalLo(GPIOC,Pin);
 		
 		return NO_ERROR;
 	}

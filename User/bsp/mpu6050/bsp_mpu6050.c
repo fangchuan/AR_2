@@ -495,8 +495,7 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 			ax = ax * norm;
 			ay = ay * norm;
 			az = az * norm;
-			euler.accel_x = ax;
-			euler.accel_y = ay;
+
 
 			// estimated direction of gravity and flux (v and w)              估计重力方向和流量/变迁
 			vx = 2*(q1q3 - q0q2);												//四元素中xyz的表示
@@ -540,7 +539,14 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 void Get_Attitude(void)
 {
 		int16_t ax,ay,az,gx,gy,gz;
+		float   gx_rad,gy_rad,gz_rad;
 		MPU6050_getMotion6(&ax,&ay,&az,&gx,&gy,&gz);
-		gx /=GYRO_PARAM; gy /= GYRO_PARAM; gz /= GYRO_PARAM;
-		IMUupdate(gx*M_PI/180,gy*M_PI/180,gz*M_PI/180,ax,ay,az);
+		gx_rad = gx/GYRO_PARAM *RAD; gy_rad = gy/GYRO_PARAM *RAD; gz_rad = gz/GYRO_PARAM * RAD;
+		euler.accel_x = ax / ACCEL_PARAM;
+		euler.accel_y = ay / ACCEL_PARAM;
+	  euler.accel_z = az / ACCEL_PARAM;
+	  euler.gyro_x  = gx_rad;
+	  euler.gyro_y  = gy_rad;
+		euler.gyro_z  = gz_rad;
+		IMUupdate(gx_rad,gy_rad,gz_rad,ax,ay,az);
 }
