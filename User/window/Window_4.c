@@ -25,6 +25,7 @@
 #include "stdio.h"
 #include "SongTi12.h"
 #include "WIDGET_MessageBox.h"
+#include "bsp_spi_nrf.h"
 /*********************************************************************
 *
 *       Global data
@@ -36,7 +37,7 @@ extern uint8_t  Key_Value;
 extern u8  NRF_ADDRESS[5];//NRF24L01的地址
 
 u8 flag_nrf_link = 0;
-u8 flag_change_nrf_addr = 0;
+//u8 flag_change_nrf_addr = 0;
 WM_HWIN           hWin_4;
 /*********************************************************************
 *
@@ -64,6 +65,8 @@ static const char *StringHZ[] = {
 	"\xe8\xaf\xb7\xe9\x80\x89\xe6\x8b\xa9\xe9\x81\xa5\xe6\x8e\xa7\xe5\x99\xa8\xe9\x80\x9a\xe9\x81\x93:",//2:请选择遥控器通道
 	"\xe8\xbf\x9e\xe6\x8e\xa5\xe6\x88\x90\xe5\x8a\x9f",//3:连接成功
 	"\xe9\x80\x9a\xe9\x81\x93",//4:通道
+	"\xe8\xbf\x9e\xe6\x8e\xa5\xe9\x94\x99\xe8\xaf\xaf",//5:连接错误
+	"\xe9\x94\x99\xe8\xaf\xaf",//6:错误
 };
 
 /*********************************************************************
@@ -76,8 +79,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 //  { HEADER_CreateIndirect, "HeaderBottom", ID_HEADER_1, 0, 300, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "断开", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "连接", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 00, 70, 80, 180, 0, 0x1408, 0 },
-  { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 50, 100,20,0, 0X0, 0}
+  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 5, 40, 80, 240, 0, 0x140c, 0 },
+  { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 25, 100,20,0, 0X0, 0}
 };
 
 /*********************************************************************
@@ -98,7 +101,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
   int     NCode;
   int     Id;
-  char    str[10];
+  char    str[12] = {0};
 	int     nrf_channel;
 	u8      Mb_Val;
 
@@ -119,22 +122,30 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
 		RADIO_SetFont(hItem, &GUI_FontSongTi12);
-		sprintf(str, "%s%s",StringHZ[4],"0");
-    RADIO_SetText(hItem, str, 0);
 		sprintf(str, "%s%s",StringHZ[4],"1");
-    RADIO_SetText(hItem, str, 1);
+    RADIO_SetText(hItem, str, 0);
 		sprintf(str, "%s%s",StringHZ[4],"2");
-    RADIO_SetText(hItem, str, 2);
+    RADIO_SetText(hItem, str, 1);
 		sprintf(str, "%s%s",StringHZ[4],"3");
-    RADIO_SetText(hItem, str, 3);
+    RADIO_SetText(hItem, str, 2);
 		sprintf(str, "%s%s",StringHZ[4],"4");
-    RADIO_SetText(hItem, str, 4);
+    RADIO_SetText(hItem, str, 3);
 		sprintf(str, "%s%s",StringHZ[4],"5");
-    RADIO_SetText(hItem, str, 5);
+    RADIO_SetText(hItem, str, 4);
 		sprintf(str, "%s%s",StringHZ[4],"6");
-    RADIO_SetText(hItem, str, 6);
+    RADIO_SetText(hItem, str, 5);
 		sprintf(str, "%s%s",StringHZ[4],"7");
+    RADIO_SetText(hItem, str, 6);
+		sprintf(str, "%s%s",StringHZ[4],"8");
     RADIO_SetText(hItem, str, 7);
+		sprintf(str, "%s%s",StringHZ[4],"9");
+    RADIO_SetText(hItem, str, 8);
+		sprintf(str, "%s%s",StringHZ[4],"10");
+    RADIO_SetText(hItem, str, 9);
+		sprintf(str, "%s%s",StringHZ[4],"11");
+    RADIO_SetText(hItem, str, 10);
+		sprintf(str, "%s%s",StringHZ[4],"12");
+    RADIO_SetText(hItem, str, 11);
 		//
 		//Initialize of Button
 		//
@@ -156,16 +167,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-//    case ID_HEADER_0: // Notifications sent by 'HeaderTop'
-//      switch(NCode) {
-//      case WM_NOTIFICATION_CLICKED:
-//        break;
-//      case WM_NOTIFICATION_RELEASED:
-//        break;
-//      case WM_NOTIFICATION_MOVED_OUT:
-//        break;
-//      }
-//      break;
+
     case ID_BUTTON_0: // Notifications sent by 'Disconnect'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -184,12 +186,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						//选择NRF通道，共8个通道，其实是更改NRF的地址
 						hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
 						nrf_channel = RADIO_GetValue(hItem) + 4;
-						
-						NRF_ADDRESS[4] = nrf_channel;
-						flag_change_nrf_addr = 1;
-						flag_nrf_link =  1;
-						RADIO_GetText(hItem, nrf_channel,str,10);
-						_MessageBox(str,StringHZ[3], &Mb_Val);
+						if(nrf_channel < 6)
+						{
+							NRF_ADDRESS[4] = nrf_channel + 0x04;
+						}
+						else
+						{
+							 NRF_ADDRESS[4] = nrf_channel + 0x0A;
+						}
+//						flag_change_nrf_addr = 1;
+						NRF_RX_Mode();
+						if(NRF_Rx_Dat((u8 *)str) == RX_DR)
+						{
+							 RADIO_GetText(hItem, nrf_channel,str,10);
+							 _MessageBox(str,StringHZ[3], &Mb_Val);
+							 flag_nrf_link =  1;
+						}
+						else
+						{
+							 _MessageBox(StringHZ[5],StringHZ[6], &Mb_Val);
+						}
         break;
       }
       break;

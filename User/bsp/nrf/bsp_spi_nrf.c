@@ -369,10 +369,16 @@ u8 NRF_Tx_Dat(u8 *txbuf)
   */
 u8 NRF_Rx_Dat(u8 *rxbuf)
 {
-		u8 state; 
+		u8          state; 
+	  u16  link_count=0;
 		NRF_CE_HIGH();	 //进入接收状态
 		 /*等待接收中断*/
-		while(NRF_Read_IRQ()!=0); 
+		while(NRF_Read_IRQ()!=0)
+		{
+			  link_count ++;
+			  if(link_count == 5000)  //5000为最大重连次数
+					return ERROR;
+		}			
 		
 		NRF_CE_LOW();  	 //进入待机状态
 		/*读取status寄存器的值  */               
