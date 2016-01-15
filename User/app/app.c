@@ -15,12 +15,16 @@ extern _Listptr Ins_List_Head;//程序链表的头指针
 
 extern _Ultrasnio        ult;
 extern _Euler          euler;
-extern u8    flag_nrf_link,flag_change_nrf_addr;
+extern _Car              car;
+extern u8    flag_nrf_link;//flag_change_nrf_addr;
 
 OS_SEM  RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
 OS_SEM  TOUCH_SEM;    //定义一个信号量，用于运行触屏校准任务
-//OS_FLAG_GRP	SensorFlags;		//定义一个事件标志组，用于决定传输哪个传感器数据
 _nrf_pkt    nrf_rx;		//接收数据缓存
+_Port port_1 = {1};
+_Port port_2 = {2};
+_Port port_3 = {3};
+_Port port_4 = {4};
 /*********************************************************************
 *
 *       Static data
@@ -54,10 +58,7 @@ static  CPU_STK  AppTaskTouchCaliStk[APP_CFG_TASK_TOUCHCALI_STK_SIZE];
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
 static uint8_t  transferdata[MAX_LEN];
 
-static _Port port_1 = {1};
-static _Port port_2 = {2};
-static _Port port_3 = {3};
-static _Port port_4 = {4};
+
 /*********************************************************************
 *
 *       Static code
@@ -81,18 +82,22 @@ static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
     (void)p_arg;
     GUI_TOUCH_Exec();			//每10ms调用一次，触发调用触摸驱动
 
-
 }
-
 
 static void _cbOfTmr2(OS_TMR *p_tmr, void *p_arg)
 {
     (void)p_arg;
-    Ultrasnio_update();   //每100ms触发一次超声波更新
+    	
+	  Ultrasnio_update();   //每500ms触发一次超声波更新
+
     if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
     {
         WM_Invalidate(hRun);
     }
+		if(WM_IsWindow(hWin_2))
+		{
+			  WM_Invalidate(hWin_2);//如果“蓝牙连接”窗口还有效，则使之无效化，来在做一些重绘工作
+		}
 }
 /*
 *********************************************************************************************************
@@ -115,7 +120,7 @@ void  AppTaskStart(void *p_arg)
     OS_ERR      err;
 
     //定时器变量
-    OS_TMR             Tmr_10ms, Tmr_100ms;
+    OS_TMR             Tmr_10ms, Tmr_500ms;
 
     (void)p_arg;
     /* Initialize BSP functions                             */
@@ -149,10 +154,10 @@ void  AppTaskStart(void *p_arg)
                  (void                *)0,                  //参数设置为0
                  (OS_ERR              *)err);
     //创建定时器
-    OSTmrCreate ((OS_TMR              *)&Tmr_100ms,
-                 (CPU_CHAR            *)"MyTimer 100ms",
-                 (OS_TICK              )10,                 //第一次延时设置为100ms
-                 (OS_TICK              )10,                //定时周期10*10ms
+    OSTmrCreate ((OS_TMR              *)&Tmr_500ms,
+                 (CPU_CHAR            *)"MyTimer 500ms",
+                 (OS_TICK              )50,                 //第一次延时设置为500ms
+                 (OS_TICK              )50,                //定时周期50*10ms
                  (OS_OPT               )OS_OPT_TMR_PERIODIC,//模式设置为重复模式
                  (OS_TMR_CALLBACK_PTR  )_cbOfTmr2,          //回调函数
                  (void                *)0,                  //参数设置为0
@@ -160,7 +165,7 @@ void  AppTaskStart(void *p_arg)
 
     //启动定时器
     OSTmrStart((OS_TMR *)&Tmr_10ms,(OS_ERR *)err);
-    OSTmrStart((OS_TMR *)&Tmr_100ms,(OS_ERR *)err);
+    OSTmrStart((OS_TMR *)&Tmr_500ms,(OS_ERR *)err);
 
     /*Delete task*/
     OSTaskDel(&AppTaskStartTCB,&err);
@@ -335,7 +340,6 @@ static void AppTaskCOMTx(void *p_arg)
 			  Detect_Port(&port_2);
 			  Detect_Port(&port_3);
 			  Detect_Port(&port_4);
-			
         if(port_1.status )
         {
 					 if(port_1.species == DS)
@@ -494,11 +498,11 @@ static void AppTaskNRFReceiver(void *p_arg)
     {
         if(flag_nrf_link)
         {
-            if(flag_change_nrf_addr)
-            {
-                flag_change_nrf_addr = 0;
-                NRF_RX_Mode();
-            }
+//					  if(flag_change_nrf_addr)
+//						{
+//							 flag_change_nrf_addr = 0;
+//							 NRF_RX_Mode();
+//						}
             /*等待接收数据*/
             status = NRF_Rx_Dat((u8 *)&nrf_rx);
 
@@ -509,22 +513,37 @@ static void AppTaskNRFReceiver(void *p_arg)
                 if(nrf_rx.car_speed == NRF_ROCKER_FORWARD ||
                         nrf_rx.key_value  == NRF_KEY_FORWARD ||
                         nrf_rx.Y_angle < -NRF_EULER_THRE)
-                    Car_Forward();
+                    {
+											  Car_Forward();
+											  car.direction = FORWARD;
+										}
                 if(nrf_rx.car_speed == NRF_ROCKER_BACKWARD ||
                         nrf_rx.key_value  == NRF_KEY_BACKWARD ||
                         nrf_rx.Y_angle > NRF_EULER_THRE)
-                    Car_Backward();
+                    {
+											  Car_Backward();
+											  car.direction = BACKWARD;
+										}
                 if(nrf_rx.car_angle == NRF_ROCKER_LEFT ||
                         nrf_rx.key_value  == NRF_KEY_LEFT ||
                         nrf_rx.X_angle > NRF_EULER_THRE)
-                    Car_Left();
+                    {
+											  Car_Left();
+											  car.direction = LEFT;
+										}
                 if(nrf_rx.car_angle == NRF_ROCKER_RIGHT ||
                         nrf_rx.key_value == NRF_KEY_RIGHT ||
                         nrf_rx.X_angle < -NRF_EULER_THRE)
-                    Car_Right();
+                    {
+											  Car_Right();
+											  car.direction = RIGHT;
+										}
                 if(nrf_rx.car_speed == NRF_STOP && nrf_rx.car_angle == NRF_STOP && nrf_rx.key_value == NRF_STOP
                         && fabs(nrf_rx.X_angle) < NRF_EULER_SAFE && fabs(nrf_rx.Y_angle) < NRF_EULER_SAFE )
-                    Car_Stop();
+                    {
+											  Car_Stop();
+											  car.direction = STOP;
+										}
 
             }
         }

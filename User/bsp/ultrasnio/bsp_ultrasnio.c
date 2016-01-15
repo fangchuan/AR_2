@@ -54,7 +54,7 @@ static void TIM8_PWMInCap_Init(void)
 		TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
 		TIM_TimeBaseInit(TIM8, &TIM_TimeBaseStructure); //初始化TIM2参数
 	 
-		//初始化TIM8输入捕获参数,PB9
+		//初始化TIM8输入捕获参数,PC9
 		TIM8_ICInitStructure.TIM_Channel = TIM_Channel_4; 
   	TIM8_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;	//先上升沿捕获
   	TIM8_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI; //映射到TI1上
@@ -75,9 +75,11 @@ static void Ultrasnio_Port_Init(void)
 	
 		GPIO_InitStructure.GPIO_Pin  = ULTRASNIO_ECHO;    
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  //参考ST手册：配置成浮空输入，用于检测上升沿或者下降沿  
+	  GPIO_Init(ULTRASNIO_PORT, &GPIO_InitStructure);	 
 	
 		GPIO_InitStructure.GPIO_Pin  = ULTRASNIO_TRIG;    
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  //参考ST手册：配置成推挽输出
+	  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	
 		GPIO_Init(ULTRASNIO_PORT, &GPIO_InitStructure);	
 }
@@ -110,10 +112,10 @@ void Ultrasnio_Init(void)
 }
 //触发一次Trig引脚，进行一次测距更新
 void Ultrasnio_update(void)
-{
+{	  
      Ultrasnio_Trigger_H;
-     Ultra_delay_nus(45);//按道理应该延时10us,网上还说延时40~50us效果最好
-     Ultrasnio_Trigger_L;
+     Ultra_delay_nus(12);//示波器测量此时延时为40us
+		 Ultrasnio_Trigger_L;
 }
 ////
 ////

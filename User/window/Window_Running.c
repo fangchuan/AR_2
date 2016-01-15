@@ -41,6 +41,7 @@
 */
 WM_HWIN                       hRun;
 extern              _Ultrasnio ult;
+extern              _Car       car;
 /*********************************************************************
 *
 *       Static data
@@ -60,9 +61,7 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { EDIT_CreateIndirect, "A", ID_EDIT_A, 60, 20, 120, 20, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "B", ID_EDIT_B, 60, 60, 120, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Distance", ID_TEXT_A, 0, 20, 40, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "B", ID_TEXT_B, 0, 60, 40, 20, 0, 0x0, 0 },
+
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -100,34 +99,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     EDIT_SetText(hItem, "");
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_B);
-		EDIT_SetFont(hItem,&GUI_FontSongTi12);
-    EDIT_SetText(hItem, "");
-    EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    //
-    // Initialization of 'A'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_A);
-    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_B);
-    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
     case ID_EDIT_A: // Notifications sent by 'A'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
-      break;
-    case ID_EDIT_B: // Notifications sent by 'B'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -152,6 +129,27 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					hItem = WM_GetDialogItem(pMsg->hWin ,ID_EDIT_A);
 					EDIT_SetText(hItem,distance);
 				}	
+				
+				if(car.direction == FORWARD)
+				{
+					 DrawForwardIcon();
+				}
+				if(car.direction == BACKWARD)
+				{
+					 DrawBackIcon();
+				}
+				if(car.direction == LEFT)
+				{
+					 DrawLeftIcon();
+				}
+				if(car.direction == RIGHT)
+				{
+					 DrawRightIcon();
+				}
+				if(car.direction == STOP)
+				{
+					 DrawStopIcon();
+				}
 				break;
   default:
     WM_DefaultProc(pMsg);

@@ -246,7 +246,7 @@ extern int GetStackLength(_StatuStack *stk);////返回当前栈的长度
 extern int GetTop(_StatuStack *Stk,uint8_t *ele);////获取栈顶元素，存入ele，不是出栈
 extern int Push(_StatuStack *Stk, uint8_t ele);//
 extern int Pop(_StatuStack *Stk, uint8_t *ele);
-extern void List_Parse(_Listptr ptr);
+extern void List_Parse(_Listptr  ptr);
 _Error Detect_Port(_Port *port);
 extern void InitMPUSensor(_Euler *sensor);
 

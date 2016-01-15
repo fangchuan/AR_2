@@ -375,7 +375,7 @@ void BSP_Init(void)
 	USART1_Config();
 	/*初始化NRF24L01*/
 	SPI_NRF_Init();
-
+//  NRF_Check();
 	/*初始化蜂鸣器*/
 	Music_Init();
 //	/*初始化6050*/
