@@ -40,7 +40,7 @@ WM_HWIN hWin_Top;
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x01)
-#define ID_HEADER_0     (GUI_ID_USER + 0x04)
+//#define ID_HEADER_0     (GUI_ID_USER + 0x04)
 #define ID_BUTTON_0     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_1     (GUI_ID_USER + 0x03)
 #define ID_BUTTON_2     (GUI_ID_USER + 0x05)
@@ -77,19 +77,19 @@ static const char *_acStringE[]={"ApolloRobot"};
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-	{ HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_0, 20, 40, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_1, 130, 40, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_2, 20, 120, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_3, 130, 120, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_4, 20, 200, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_5, 130, 200, 80, 50, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "2", ID_TEXT_0, 130, 90, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "1", ID_TEXT_1, 20, 90, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "4", ID_TEXT_2, 130, 170, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "3", ID_TEXT_3, 20, 170, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "5", ID_TEXT_4, 20, 250, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "6", ID_TEXT_5, 130, 250, 80, 20, 0, 0x0, 0 },
+//	{ HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_0, 20, 60, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_1, 130, 60, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_2, 20, 140, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_3, 130, 140, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_4, 20, 220, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_5, 130, 220, 80, 50, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "2", ID_TEXT_0, 130, 110, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "1", ID_TEXT_1, 20, 110, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "4", ID_TEXT_2, 130, 190, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "3", ID_TEXT_3, 20, 190, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "5", ID_TEXT_4, 20, 270, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "6", ID_TEXT_5, 130, 270, 80, 20, 0, 0x0, 0 },
 
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -120,12 +120,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   case WM_INIT_DIALOG:
 					
     hItem = pMsg->hWin;
-    WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
-	  //
-		//Initialize Header Top
-		//
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_0);
-    HEADER_AddItem(hItem, 80, "ApolloRobot", 14);
+    WINDOW_SetBkColor(hItem, GUI_WHITE);
+//	  //
+//		//Initialize Header Top
+//		//
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_0);
+//    HEADER_AddItem(hItem, 80, "ApolloRobot", 14);
     //
     // Initialization of 'Button'
     //
@@ -207,18 +207,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
        }
       break;
-    case ID_HEADER_0: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-			break;
-      case WM_NOTIFICATION_RELEASED:
-
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-
-        break;
-      }
-      break;
     case ID_BUTTON_2: // Notifications sent by 'Control'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -262,7 +250,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = pMsg->hWin;
 		GUI_SetColor(GUI_RED);
 		GUI_SetFont(&GUI_FontSongTi16);
-		GUI_DispStringHCenterAt(_acStringE[0], 120, 280);
+		GUI_DispStringHCenterAt(_acStringE[0], 120, 20);
 		break;
   default:
     WM_DefaultProc(pMsg);

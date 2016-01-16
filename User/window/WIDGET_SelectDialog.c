@@ -40,6 +40,8 @@ static const char *StringHZ[] = {
 	"\xe6\x8f\x92\xe5\x85\xa5\xe6\x8c\x87\xe4\xbb\xa4",//1:²åÈëÖ¸Áî
 	"\xe5\x88\xa0\xe9\x99\xa4\xe6\x8c\x87\xe4\xbb\xa4",//2:É¾³ýÖ¸Áî
 	"\xe8\xbf\x94\xe5\x9b\x9e",                      //3:·µ»Ø
+	"\xe6\x93\x8d\xe4\xbd\x9c\xe9\x94\x99\xe8\xaf\xaf",//4:²Ù×÷´íÎó
+	"\xe9\x94\x99\xe8\xaf\xaf",                        //5:´íÎó
 
 };
 
@@ -77,7 +79,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   int     Id;
   GUI_RECT r;
 	WM_HWIN hDlg;
-	char string[50];
+	char string[50] = {0};
 	u8   Mb_Val;
 
   switch (pMsg->MsgId) {
@@ -126,7 +128,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						}
 						else
 						{
-							_MessageBox("Error","Operation Error!",&Mb_Val);
+							_MessageBox(StringHZ[4],StringHZ[5],&Mb_Val);
 						}
 						
         break;
@@ -139,10 +141,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						flag_operation = FLAG_INSERT;
 						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
-						hDlg = CreateWindow_Instructor();
-						WM_MakeModal(hDlg);
-						GUI_ExecCreatedDialog(hDlg);
-						
+			      EDIT_GetText(hEdit[Edit_Index],string,sizeof(string));
+			      if(string[0] != 0)
+						{
+							 _MessageBox(StringHZ[4],StringHZ[5],&Mb_Val);
+						}
+						else{
+								hDlg = CreateWindow_Instructor();
+								WM_MakeModal(hDlg);
+								GUI_ExecCreatedDialog(hDlg);
+						}
         break;
       }
       break;
@@ -153,9 +161,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						flag_operation = FLAG_DELETE;
 						GUI_EndDialog(pMsg->hWin ,0);//After create the Instruction_Dialog,Distory the SelectDialog
-						Delete_Node(Edit_Index);
-						EDIT_SetText(hEdit[Edit_Index],"");
-						EDIT_SetBkColor(hEdit[Edit_Index],EDIT_CI_ENABLED,GUI_WHITE);
+			      EDIT_GetText(hEdit[Edit_Index],string,sizeof(string));
+			      if(string[0] != 0)
+						{
+							 Delete_Node(Edit_Index);
+							 EDIT_SetText(hEdit[Edit_Index],"");
+							 EDIT_SetBkColor(hEdit[Edit_Index],EDIT_CI_ENABLED,GUI_WHITE);
+						}
+						else
+						{
+							 _MessageBox(StringHZ[4],StringHZ[5],&Mb_Val);
+						}
 
         break;
       }

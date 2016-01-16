@@ -25,6 +25,7 @@
 #include "stdio.h"
 #include "SongTi12.h"
 #include "WIDGET_MessageBox.h"
+#include "Window_Running.h"
 #include "bsp_spi_nrf.h"
 /*********************************************************************
 *
@@ -185,7 +186,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_RELEASED:
 						//选择NRF通道，共8个通道，其实是更改NRF的地址
 						hItem = WM_GetDialogItem(pMsg->hWin, ID_RADIO_0);
-						nrf_channel = RADIO_GetValue(hItem) + 4;
+						nrf_channel = RADIO_GetValue(hItem) ;
 						if(nrf_channel < 6)
 						{
 							NRF_ADDRESS[4] = nrf_channel + 0x04;
@@ -200,7 +201,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						{
 							 RADIO_GetText(hItem, nrf_channel,str,10);
 							 _MessageBox(str,StringHZ[3], &Mb_Val);
+							 Create_RunningWindow();
 							 flag_nrf_link =  1;
+							 
 						}
 						else
 						{

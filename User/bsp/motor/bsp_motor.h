@@ -22,7 +22,7 @@
 #define  MOTOR_22_OUT			TIM4->CCR4
 //Ä¬ÈÏPWMÊä³ö£¬duty=150/2000 *100%
 #define  DEFAULT_MAX      1999
-#define  DEFAULT_AVR      1500
+#define  DEFAULT_AVR      1250
 #define  DEFAULT_MIN      500
 
 extern  void MOTOR_Init(void);

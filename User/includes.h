@@ -68,8 +68,6 @@
 #include  "bsp.h"
 #include  "app_cfg.h"
 #include  "app.h"
-#include  "bsp_usart1.h"
-#include  "GUI.h"
 /*
 *********************************************************************************************************
 *                                                 OS
@@ -108,7 +106,22 @@
 */
 #include "SongTi12.h"
 #include "SongTi16.h"
-#include "bsp_spi_flash.h"
+/*
+*********************************************************************************************************
+*                                                 GUI
+*********************************************************************************************************
+*/
+#include "GUI.h"
+#include <stddef.h>
+#include <string.h>
+#include "Window_Top.h"
+#include "Window_1.h"
+#include "Window_2.h"
+#include "Window_3.h"
+#include "Window_4.h"
+#include "Window_Running.h"
+#include "Window_TreeView.h"
+#include "Window_TouchCali.h"
 /*
 *********************************************************************************************************
 *                                            INCLUDES END

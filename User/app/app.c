@@ -1,5 +1,4 @@
 #include "includes.h"
-#include "GUI_Main.h"
 
 /*********************************************************************
 *
@@ -25,6 +24,8 @@ _Port port_1 = {1};
 _Port port_2 = {2};
 _Port port_3 = {3};
 _Port port_4 = {4};
+
+uint8_t Key_Value = 0;//the value of button on the Top Window
 /*********************************************************************
 *
 *       Static data
@@ -58,7 +59,9 @@ static  CPU_STK  AppTaskTouchCaliStk[APP_CFG_TASK_TOUCHCALI_STK_SIZE];
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
 static uint8_t  transferdata[MAX_LEN];
 
-
+static const char *StringHZ[] = {
+	"\xe7\xb3\xbb\xe7\xbb\x9f\xe5\x88\x9d\xe5\xa7\x8b\xe5\x8c\x96\xe4\xb8\xad...",//0:系统初始化中
+};
 /*********************************************************************
 *
 *       Static code
@@ -137,11 +140,18 @@ void  AppTaskStart(void *p_arg)
 #ifdef CPU_CFG_INT_DIS_MEAS_EN
     CPU_IntDisMeasMaxCurReset();
 #endif
-
+    //初始化界面,等待1.5s
+		WM_SetCreateFlags(WM_CF_MEMDEV);
+		WM_EnableMemdev(WM_HBKWIN);
+		GUI_UC_SetEncodeUTF8();
+		GUI_SetColor(GUI_WHITE);
+		GUI_SetFont(&GUI_FontSongTi12);
+		GUI_DispStringHCenterAt(StringHZ[0], 120, 100);
 		OSTimeDlyHMSM(0, 0, 1, 500,                //延时等待1s,等点上电稳定
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
-    APP_TRACE_INFO(("Creating Application Tasks...\n\r"));
+											
+//    APP_TRACE_INFO(("Creating Application Tasks...\n\r"));
     AppTaskCreate();                                            /* Create Application Tasks                             */
 
     //创建定时器  OS_CFG_TMR_TASK_RATE_HZ = 100HZ
@@ -188,7 +198,17 @@ static void AppTaskGUIUpdate(void *p_arg)
 
     (void)p_arg;
 
-    GUI_Main_Task();
+		CreateWindow_Top();
+		CreateWindow_1();
+		CreateWindow_2();
+		CreateWindow_3();
+		CreateWindow_4();
+
+//		WM_HideWindow(hWin_Top);
+		WM_HideWindow(hWin_1);
+		WM_HideWindow(hWin_2);
+		WM_HideWindow(hWin_3);
+		WM_HideWindow(hWin_4);
     while(1)
     {
         GUI_Exec();
@@ -289,14 +309,14 @@ static void AppTaskUserIF(void *p_arg)
             WM_HideWindow(hWin_3);
             WM_ShowWindow(hWin_4);
         }
-				if( Key_Value == 5)
-        {
-            WM_HideWindow(hWin_Top);
-            WM_HideWindow(hWin_1);
-            WM_HideWindow(hWin_2);
-            WM_HideWindow(hWin_3);
-            WM_HideWindow(hWin_4);
-        }
+//				if( Key_Value == 5)
+//        {
+//            WM_HideWindow(hWin_Top);
+//            WM_HideWindow(hWin_1);
+//            WM_HideWindow(hWin_2);
+//            WM_HideWindow(hWin_3);
+//            WM_HideWindow(hWin_4);
+//        }
 				if( Key_Value == 6)
         {
             WM_HideWindow(hWin_Top);

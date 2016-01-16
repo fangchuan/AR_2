@@ -320,7 +320,7 @@ void LCD_Reset(void)
     GPIO_ResetBits(GPIOG, GPIO_Pin_11);
     Delay(0xAFFf<<2);					   
     GPIO_SetBits(GPIOG, GPIO_Pin_11 );	
-	Delay(0xAFFf<<2);	
+	  Delay(0xAFFf<<2);	
 }
 
 /*
@@ -333,10 +333,10 @@ void LCD_Reset(void)
 *       MY      Row Address Order 
 		MX		Column Address Order
 		MV      Row / Column Exchange 
-		7 	6		  
+		    7 	6		  
         MY  MX  
         0   0     XµÝÔö£¬YµÝÔö    
- 		0   1     XµÝÔö£¬YµÝ¼õ    	
+ 		    0   1     XµÝÔö£¬YµÝ¼õ    	
         1   0     XµÝ¼õ£¬YµÝÔö  
         1   1     XµÝ¼õ£¬YµÝ¼õ 
 
@@ -397,126 +397,227 @@ void bsp_InitLCD(void)
 	LCD_Reset();
 		
 #ifdef  LCD_ILI9341
-	/*  Power control B (CFh)  */
-	DEBUG_DELAY();
+//	/*  Power control B (CFh)  */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xCF);
+//	LCD_ILI9341_Parameter(0x00);
+//	LCD_ILI9341_Parameter(0x81);
+//	LCD_ILI9341_Parameter(0x30);
+//	
+//	/*  Power on sequence control (EDh) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xED);
+//	LCD_ILI9341_Parameter(0x64);
+//	LCD_ILI9341_Parameter(0x03);
+//	LCD_ILI9341_Parameter(0x12);
+//	LCD_ILI9341_Parameter(0x81);
+//	
+//	/*  Driver timing control A (E8h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xE8);
+//	LCD_ILI9341_Parameter(0x85);
+//	LCD_ILI9341_Parameter(0x10);
+//	LCD_ILI9341_Parameter(0x78);
+//	
+//	/*  Power control A (CBh) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xCB);
+//	LCD_ILI9341_Parameter(0x39);
+//	LCD_ILI9341_Parameter(0x2C);
+//	LCD_ILI9341_Parameter(0x00);
+//	LCD_ILI9341_Parameter(0x34);
+//	LCD_ILI9341_Parameter(0x02);
+//	
+//	/* Pump ratio control (F7h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xF7);
+//	LCD_ILI9341_Parameter(0x20);
+//	
+//	/* Driver timing control B */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xEA);
+//	LCD_ILI9341_Parameter(0x00);
+//	LCD_ILI9341_Parameter(0x00);
+//	
+//	/* Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xB1);
+//	LCD_ILI9341_Parameter(0x00);
+//	LCD_ILI9341_Parameter(0x1B);
+//	
+//	/*  Display Function Control (B6h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xB6);
+//	LCD_ILI9341_Parameter(0x0A);
+//	LCD_ILI9341_Parameter(0xA2);
+//	
+//	/* Power Control 1 (C0h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xC0);
+//	LCD_ILI9341_Parameter(0x35);
+//	
+//	/* Power Control 2 (C1h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xC1);
+//	LCD_ILI9341_Parameter(0x11);
+//	
+//	/* VCOM Control 1(C5h) */
+//	LCD_ILI9341_CMD(0xC5);
+//	LCD_ILI9341_Parameter(0x45);
+//	LCD_ILI9341_Parameter(0x45);
+//	
+//	/*  VCOM Control 2(C7h)  */
+//	LCD_ILI9341_CMD(0xC7);
+//	LCD_ILI9341_Parameter(0xA2);
+//	
+//	/* Enable 3G (F2h) */
+//	LCD_ILI9341_CMD(0xF2);
+//	LCD_ILI9341_Parameter(0x00);
+//	
+//	/* Gamma Set (26h) */
+//	LCD_ILI9341_CMD(0x26);
+//	LCD_ILI9341_Parameter(0x01);
+
+//	/* Positive Gamma Correction */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0xE0); 
+//	LCD_ILI9341_Parameter(0x0F);
+//	LCD_ILI9341_Parameter(0x26);
+//	LCD_ILI9341_Parameter(0x24);
+//	LCD_ILI9341_Parameter(0x0B);
+//	LCD_ILI9341_Parameter(0x0E);
+//	LCD_ILI9341_Parameter(0x09);
+//	LCD_ILI9341_Parameter(0x54);
+//	LCD_ILI9341_Parameter(0xA8);
+//	LCD_ILI9341_Parameter(0x46);
+//	LCD_ILI9341_Parameter(0x0C);
+//	LCD_ILI9341_Parameter(0x17);
+//	LCD_ILI9341_Parameter(0x09);
+//	LCD_ILI9341_Parameter(0x0F);
+//	LCD_ILI9341_Parameter(0x07);
+//	LCD_ILI9341_Parameter(0x00);
+
+//	/* Negative Gamma Correction (E1h) */
+//	DEBUG_DELAY();
+//	LCD_ILI9341_CMD(0XE1); 
+//	LCD_ILI9341_Parameter(0x00);
+//	LCD_ILI9341_Parameter(0x19);
+//	LCD_ILI9341_Parameter(0x1B);
+//	LCD_ILI9341_Parameter(0x04);
+//	LCD_ILI9341_Parameter(0x10);
+//	LCD_ILI9341_Parameter(0x07);
+//	LCD_ILI9341_Parameter(0x2A);
+//	LCD_ILI9341_Parameter(0x47);
+//	LCD_ILI9341_Parameter(0x39);
+//	LCD_ILI9341_Parameter(0x03);
+//	LCD_ILI9341_Parameter(0x06);
+//	LCD_ILI9341_Parameter(0x06);
+//	LCD_ILI9341_Parameter(0x30);
+//	LCD_ILI9341_Parameter(0x38);
+//	LCD_ILI9341_Parameter(0x0F);
+	
+	//************* Start Initial Sequence **********//
+	LCD_ILI9341_CMD(0xCA);
+	LCD_ILI9341_Parameter(0XC3);
+	LCD_ILI9341_Parameter(0x08);
+	LCD_ILI9341_Parameter(0X50);
+
 	LCD_ILI9341_CMD(0xCF);
 	LCD_ILI9341_Parameter(0x00);
-	LCD_ILI9341_Parameter(0x81);
-	LCD_ILI9341_Parameter(0x30);
-	
-	/*  Power on sequence control (EDh) */
-	DEBUG_DELAY();
+	LCD_ILI9341_Parameter(0xC1);
+	LCD_ILI9341_Parameter(0X30);
+
 	LCD_ILI9341_CMD(0xED);
 	LCD_ILI9341_Parameter(0x64);
 	LCD_ILI9341_Parameter(0x03);
-	LCD_ILI9341_Parameter(0x12);
-	LCD_ILI9341_Parameter(0x81);
-	
-	/*  Driver timing control A (E8h) */
-	DEBUG_DELAY();
+	LCD_ILI9341_Parameter(0X12);
+	LCD_ILI9341_Parameter(0X81);
+
 	LCD_ILI9341_CMD(0xE8);
 	LCD_ILI9341_Parameter(0x85);
-	LCD_ILI9341_Parameter(0x10);
+	LCD_ILI9341_Parameter(0x00);
 	LCD_ILI9341_Parameter(0x78);
-	
-	/*  Power control A (CBh) */
-	DEBUG_DELAY();
+
 	LCD_ILI9341_CMD(0xCB);
 	LCD_ILI9341_Parameter(0x39);
 	LCD_ILI9341_Parameter(0x2C);
 	LCD_ILI9341_Parameter(0x00);
 	LCD_ILI9341_Parameter(0x34);
 	LCD_ILI9341_Parameter(0x02);
-	
-	/* Pump ratio control (F7h) */
-	DEBUG_DELAY();
+
 	LCD_ILI9341_CMD(0xF7);
 	LCD_ILI9341_Parameter(0x20);
-	
-	/* Driver timing control B */
-	DEBUG_DELAY();
+
 	LCD_ILI9341_CMD(0xEA);
 	LCD_ILI9341_Parameter(0x00);
 	LCD_ILI9341_Parameter(0x00);
-	
-	/* Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
-	DEBUG_DELAY();
+
 	LCD_ILI9341_CMD(0xB1);
 	LCD_ILI9341_Parameter(0x00);
 	LCD_ILI9341_Parameter(0x1B);
-	
-	/*  Display Function Control (B6h) */
-	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0xB6);
+
+	LCD_ILI9341_CMD(0xB6); // Display Function Control
 	LCD_ILI9341_Parameter(0x0A);
 	LCD_ILI9341_Parameter(0xA2);
-	
-	/* Power Control 1 (C0h) */
-	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0xC0);
-	LCD_ILI9341_Parameter(0x35);
-	
-	/* Power Control 2 (C1h) */
-	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0xC1);
-	LCD_ILI9341_Parameter(0x11);
-	
-	/* VCOM Control 1(C5h) */
-	LCD_ILI9341_CMD(0xC5);
-	LCD_ILI9341_Parameter(0x45);
-	LCD_ILI9341_Parameter(0x45);
-	
-	/*  VCOM Control 2(C7h)  */
-	LCD_ILI9341_CMD(0xC7);
-	LCD_ILI9341_Parameter(0xA2);
-	
-	/* Enable 3G (F2h) */
-	LCD_ILI9341_CMD(0xF2);
+
+	LCD_ILI9341_CMD(0xC0); //Power control
+	LCD_ILI9341_Parameter(0x10); //VRH[5:0]
+
+	LCD_ILI9341_CMD(0xC1); //Power control
+	LCD_ILI9341_Parameter(0x10); //BT[3:0]
+
+	LCD_ILI9341_CMD(0xC5); //VCM control
+	LCD_ILI9341_Parameter(0x30);
+	LCD_ILI9341_Parameter(0x50);
+
+	LCD_ILI9341_CMD(0x36); // Memory Access Control
+	LCD_ILI9341_Parameter(0x08);
+
+	LCD_ILI9341_CMD(0xF2); // 3Gamma Function Disable
 	LCD_ILI9341_Parameter(0x00);
-	
-	/* Gamma Set (26h) */
-	LCD_ILI9341_CMD(0x26);
+
+	LCD_ILI9341_CMD(0XF6);
+	LCD_ILI9341_Parameter(0x01);
+	LCD_ILI9341_Parameter(0x30);
+	LCD_ILI9341_Parameter(0x00);
+
+	LCD_ILI9341_CMD(0x26); //Gamma curve selected
 	LCD_ILI9341_Parameter(0x01);
 
-	/* Positive Gamma Correction */
-	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0xE0); 
+	LCD_ILI9341_CMD(0xE0); //Set Gamma
 	LCD_ILI9341_Parameter(0x0F);
-	LCD_ILI9341_Parameter(0x26);
+	LCD_ILI9341_Parameter(0x29);
 	LCD_ILI9341_Parameter(0x24);
-	LCD_ILI9341_Parameter(0x0B);
-	LCD_ILI9341_Parameter(0x0E);
+	LCD_ILI9341_Parameter(0x0c);
+	LCD_ILI9341_Parameter(0x0e);
 	LCD_ILI9341_Parameter(0x09);
-	LCD_ILI9341_Parameter(0x54);
-	LCD_ILI9341_Parameter(0xA8);
-	LCD_ILI9341_Parameter(0x46);
-	LCD_ILI9341_Parameter(0x0C);
+	LCD_ILI9341_Parameter(0x4e);
+	LCD_ILI9341_Parameter(0X78);
+	LCD_ILI9341_Parameter(0x3C);
+	LCD_ILI9341_Parameter(0x09);
+	LCD_ILI9341_Parameter(0x13);
+	LCD_ILI9341_Parameter(0x05);
 	LCD_ILI9341_Parameter(0x17);
-	LCD_ILI9341_Parameter(0x09);
-	LCD_ILI9341_Parameter(0x0F);
-	LCD_ILI9341_Parameter(0x07);
+	LCD_ILI9341_Parameter(0x11);
 	LCD_ILI9341_Parameter(0x00);
 
-	/* Negative Gamma Correction (E1h) */
-	DEBUG_DELAY();
-	LCD_ILI9341_CMD(0XE1); 
+	LCD_ILI9341_CMD(0XE1); //Set Gamma
 	LCD_ILI9341_Parameter(0x00);
-	LCD_ILI9341_Parameter(0x19);
-	LCD_ILI9341_Parameter(0x1B);
+	LCD_ILI9341_Parameter(0x16);
+	LCD_ILI9341_Parameter(0x1b);
 	LCD_ILI9341_Parameter(0x04);
-	LCD_ILI9341_Parameter(0x10);
+	LCD_ILI9341_Parameter(0x11);
 	LCD_ILI9341_Parameter(0x07);
-	LCD_ILI9341_Parameter(0x2A);
-	LCD_ILI9341_Parameter(0x47);
-	LCD_ILI9341_Parameter(0x39);
-	LCD_ILI9341_Parameter(0x03);
-	LCD_ILI9341_Parameter(0x06);
-	LCD_ILI9341_Parameter(0x06);
-	LCD_ILI9341_Parameter(0x30);
-	LCD_ILI9341_Parameter(0x38);
+	LCD_ILI9341_Parameter(0x31);
+	LCD_ILI9341_Parameter(0x33);
+	LCD_ILI9341_Parameter(0x42);
+	LCD_ILI9341_Parameter(0x05);
+	LCD_ILI9341_Parameter(0x0C);
+	LCD_ILI9341_Parameter(0x0A);
+	LCD_ILI9341_Parameter(0x28);
+	LCD_ILI9341_Parameter(0x2f);
 	LCD_ILI9341_Parameter(0x0F);
 	
-
 	/*ÉèÖÃ³ÉÊúÆÁµÄÏÔÊ¾·½Ê½*/ 
 	DEBUG_DELAY();
 	LCD_ILI9341_CMD(0x36); 
