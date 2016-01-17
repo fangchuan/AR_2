@@ -141,6 +141,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIEDIT_0);
     MULTIEDIT_SetText(hItem, "");
 		MULTIEDIT_SetFocussable(hItem,1);
+		MULTIEDIT_SetAutoScrollV(hItem,1);
+		MULTIEDIT_SetAutoScrollH(hItem,1);
+		MULTIEDIT_SetWrapWord(hItem);
     break;
 	case WM_PAINT:
 				GUI_SetColor(GUI_RED);

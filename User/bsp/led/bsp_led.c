@@ -62,4 +62,54 @@ _Error LED_Config (_Led *led)
 	}
 
 }
+
+_Error LED_Mannul(u8 id, u8 sw)
+{
+	  if(id < 1 || id > 4)
+			return ERROR_ID;
+		
+		else{
+				uint8_t Pin;
+				/*定义一个GPIO_InitTypeDef类型的结构体*/
+				GPIO_InitTypeDef GPIO_InitStructure;
+				switch( id )
+				{
+					case LED1:
+						Pin = LED1_PIN;
+		//				GPIOC->CRL &= 0xfff3ffff;
+						break;
+					case LED2:
+						Pin = LED2_PIN;
+		//				GPIOC->CRL &= 0xff3fffff;
+						break;
+					case LED3:
+						Pin = LED3_PIN;
+		//				GPIOC->CRL &= 0xf3ffffff;
+						break;
+					case LED4:
+						Pin = LED4_PIN;
+		//				GPIOC->CRL &= 0x3fffffff;
+						break;
+				}
+
+				GPIO_InitStructure.GPIO_Pin  = Pin;
+				/*设置引脚模式为通用推挽输出*/
+				GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;   
+
+				/*设置引脚速率为50MHz */   
+				GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
+
+				/*调用库函数，初始化GPIOC*/
+				GPIO_Init(GPIOC, &GPIO_InitStructure);	
+				
+				if(sw)
+					GPIO_SetBits(GPIOC,Pin);
+		//			digitalHi(GPIOC,Pin);
+				else
+					GPIO_ResetBits(GPIOC,Pin);
+		//			digitalLo(GPIOC,Pin);
+				
+				return NO_ERROR;
+	}
+}
 /*********************************************END OF FILE**********************/

@@ -52,5 +52,5 @@
 					
 					
 extern _Error LED_Config (_Led *led);
-
+extern _Error LED_Mannul(u8 id, u8 sw);
 #endif /* __LED_H */

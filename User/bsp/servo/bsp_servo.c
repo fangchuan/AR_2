@@ -1,6 +1,10 @@
   
 #include "bsp_servo.h" 
 
+
+#define  MIN_PWM    65
+#define  AVR_PWM   150
+#define  MAX_PWM   230
 /*********************************************************************
 *
 *       Static code
@@ -49,10 +53,10 @@ static void TIM2_Mode_Config(void)
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 
 	/* PWM信号电平跳变值 */
- 	u16 CCR1_Val = 60;        
- 	u16 CCR2_Val = 60;
- 	u16 CCR3_Val = 60;
- 	u16 CCR4_Val = 60;
+ 	u16 CCR1_Val = MIN_PWM;        
+ 	u16 CCR2_Val = MIN_PWM;
+ 	u16 CCR3_Val = MIN_PWM;
+ 	u16 CCR4_Val = MIN_PWM;
 
 /* ----------------------------------------------------------------------- 
     TIM2 Channel1 duty cycle = (TIM2_CCR1/ TIM2_ARR+1)* 100% = 2.5%
@@ -63,7 +67,7 @@ static void TIM2_Mode_Config(void)
 
   /* Time base configuration */		 
   TIM_TimeBaseStructure.TIM_Period = 1999;       //当定时器从0计数到1999，即为2000次，为一个定时周期
-  TIM_TimeBaseStructure.TIM_Prescaler = 719;	    //设置预分频：72M/720 = 10^5
+  TIM_TimeBaseStructure.TIM_Prescaler = 719;	    //设置预分频：72M/719 = 10^5
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1 ;	//设置时钟分频系数
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //向上计数模式
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
@@ -117,7 +121,9 @@ void SERVO_PWM_Init(void)
 //根据编程配置舵机参数
 _Error  SERVO_Config(_Servo *servo)
 {
-			u16  degree = servo->degree + 60;
+			u16  degree = servo->degree + MIN_PWM;
+	    if(degree > MAX_PWM)
+				 degree = MAX_PWM;
 	
 			if(servo->id <1 || servo->id > 4)
 				return ERROR_ID;
@@ -143,7 +149,9 @@ _Error  SERVO_Config(_Servo *servo)
 //手动控制配置舵机参数
 _Error   SERVO_Manual (uint8_t id, uint8_t degree)
 {
-	     u16   deg = degree + 60; 
+	     u16   deg = degree + MIN_PWM;
+       if(deg > MAX_PWM)
+          deg = MAX_PWM;				 
 	
 	     if(id < 1 || id > 4)
 				 return ERROR_ID;

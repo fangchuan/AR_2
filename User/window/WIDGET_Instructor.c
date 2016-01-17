@@ -37,7 +37,7 @@
 #define ID_BUTTON_PRO     (GUI_ID_USER + 0X0D)
 #define ID_BUTTON_APP     (GUI_ID_USER + 0X0E)
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x0F)
-//#define ID_BUTTON_DEL     (GUI_ID_USER + 0X07)
+#define ID_BUTTON_DRAW    (GUI_ID_USER + 0X17)
 
 #define ID_WINDOW_Out      (GUI_ID_USER + 0x01)
 #define ID_BUTTON_DCMC     (GUI_ID_USER + 0x10)
@@ -88,6 +88,8 @@
 #define ID_BUTTON_DLY     (GUI_ID_USER + 0x60)
 #define ID_BUTTON_MUS     (GUI_ID_USER + 0x61)
 #define ID_BUTTON_DISTANCE (GUI_ID_USER + 0x62)
+
+#define ID_WINDOW_DRAW    (GUI_ID_USER + 0x07)
 /*********************************************************************
 *
 *       Global data
@@ -148,8 +150,18 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"LED_\xe5\x85\xb3\xe9\x97\xad",//36:LED_关闭
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9>_",//37:如果障碍物>_
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe9\x9a\x9c\xe7\xa2\x8d\xe7\x89\xa9<_",//38:如果障碍物<_
-	"\xe6\x98\xbe\xe7\xa4\xba\xe8\xb6\x85\xe5\xa3\xb0\xe6\xb3\xa2\xe8\xb7\x9d\xe7\xa6\xbb",//39:显示超声波距离
-	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x8a\xa0\xe9\x80\x9f","\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x87\x8f\xe9\x80\x9f",//40:小车加速  41:小车减速
+	"\xe6\x98\xbe\xe7\xa4\xba\xe8\xb7\x9d\xe7\xa6\xbb",//39:显示距离
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x8a\xa0\xe9\x80\x9f",//40:小车加速 
+	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x87\x8f\xe9\x80\x9f",// 41:小车减速
+	"\xe7\x94\xbb\xe5\x9b\xbe\xe6\x8c\x87\xe4\xbb\xa4",//42:画图指令
+	"\xe7\x94\xbb\xe5\xbc\x80\xe5\xbf\x83",  //43:画开心
+	"\xe7\x94\xbb\xe9\x9a\xbe\xe8\xbf\x87",  //44:画难过
+	"\xe7\x94\xbb\xe5\xa4\xa7\xe5\x93\xad",  //45:画大哭
+	"\xe7\x94\xbb\xe5\xa4\xa7\xe6\x80\x92",  //46:画大怒
+	"\xe7\x94\xbb\xe5\x8f\xaf\xe7\x88\xb1",  //47:画可爱
+	"\xe7\x94\xbb\xe8\xb0\x83\xe7\x9a\xae",  //48:画调皮
+	"\xe7\x94\xbb\xe5\xae\xb3\xe7\xbe\x9e",  //49:画害羞
+	"\xe7\x94\xbb\xe5\xae\xb3\xe6\x80\x95",  //50:画害怕
 };
  
 
@@ -165,8 +177,9 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "变量操作", ID_BUTTON_VAR, 105, 70, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "流程控制", ID_BUTTON_PRO, 10, 130, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "应用指令", ID_BUTTON_APP, 105, 130, 80, 40, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画图指令", ID_BUTTON_PIC, 10, 190, 80, 40, 0, 0x0, 0 },
 //	{ BUTTON_CreateIndirect, "删除",     ID_BUTTON_DEL, 10, 230, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 235, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };

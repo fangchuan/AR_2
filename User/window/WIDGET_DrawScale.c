@@ -107,7 +107,7 @@ void   DrawForwardIcon(void)
 //		   GUI_ClearRect(100, 90, 220, 175);
 	     GUI_Clear();
        GUI_SetColor(GUI_RED);
-       GUI_FillPolygon (&_aPointForwardArrow[0], 7, 120, 30);//顶点位于(120,30)
+       GUI_FillPolygon (&_aPointForwardArrow[0], 7, 120, 50);//顶点位于(120,50)
 }
 //向后图标:Length=200,Width=40,ArrowLength=50,ArrowWidth=80
 void  DrawBackIcon(void)

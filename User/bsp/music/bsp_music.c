@@ -10,8 +10,8 @@
 *
 **********************************************************************
 */
-//#define  LOW_TONE
-#define  ALTO_TONE
+#define  LOW_TONE
+//#define  ALTO_TONE
 //#define  HIGH_TONE
 
 static const uint32_t Low[7] = {262,293,329,349,392,440,494};  //ตอา๔ 1~7  

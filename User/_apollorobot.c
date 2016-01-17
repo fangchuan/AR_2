@@ -113,7 +113,7 @@ _Error Detect_Port(_Port *port)
 										  
 									}
 
-									if((adc_val = Get_adc(ANOLOG_Sensor_1)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									if((adc_val = Get_adc(ANOLOG_Sensor_1)) > 16)  //ADC值大于16才算作有模拟传感器插入
 									{
 										  port->species = AS;
 										  port->status = PORT_ON;
@@ -133,7 +133,7 @@ _Error Detect_Port(_Port *port)
 										  port->status  = PORT_OFF;
 									}
 
-									if((adc_val = Get_adc(ANOLOG_Sensor_2)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									if((adc_val = Get_adc(ANOLOG_Sensor_2)) > 16)  //ADC值大于16才算作有模拟传感器插入
 									{
 										  port->species = AS;
 										  port->status = PORT_ON;
@@ -152,7 +152,7 @@ _Error Detect_Port(_Port *port)
 										   port->cur_val = NOSIGNAL;
 										   port->status  = PORT_OFF;
 									}
-									if((adc_val = Get_adc(ANOLOG_Sensor_3)) > 15)  //ADC值大于15才算作有模拟传感器插入
+									if((adc_val = Get_adc(ANOLOG_Sensor_3)) > 16)  //ADC值大于16才算作有模拟传感器插入
 									{
 										  port->species = AS;
 										  port->status = PORT_ON;
@@ -171,7 +171,7 @@ _Error Detect_Port(_Port *port)
 										  port->cur_val = NOSIGNAL;
 										  port->status  = PORT_OFF;
 									}
-									if((adc_val = Get_adc(ANOLOG_Sensor_4)) > 15)   //ADC值大于15才算作有模拟传感器插入
+									if((adc_val = Get_adc(ANOLOG_Sensor_4)) > 16)   //ADC值大于16才算作有模拟传感器插入
 									{
 										  port->species = AS;
 										  port->status = PORT_ON;
