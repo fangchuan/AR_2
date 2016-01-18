@@ -19,7 +19,10 @@
 _Listptr Ins_List_Head;//程序链表的头指针
 //_StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 //_SensorFlag  sensorflag;//传感器种类
-
+extern _Port port_1;
+extern _Port port_2;
+extern _Port port_3;
+extern _Port port_4;
 
 /*********************************************************************
 *
@@ -91,11 +94,12 @@ _Error Detect_Port(_Port *port)
 {
 	    int  adc_val;
 	
+	    if(port->dir == PORT_OUT)   //端口必须为输入状态
+				return ERROR_DIR;
 			if(port->id < 1 || port->id > 4)
 					return  ERROR_ID;
 			else
 			{
-				
 				DS_Config(port);//将此引脚配置为上拉输入
 				switch(port->id )
 					{
@@ -1355,22 +1359,15 @@ void List_Parse(_Listptr  ptr)
 {
 		_Listptr  q;//用于if语句
 		OS_ERR  err;
-		//清空所有关于回传数据和显示的标志
-	
-//		//初始化4个数字传感器数据结构
-//		InitDigitalSensor(&digital_sensor1);
-//	  InitDigitalSensor(&digital_sensor2);
-//	  InitDigitalSensor(&digital_sensor3);
-//	  InitDigitalSensor(&digital_sensor4);
-//		//初始化4个模拟传感器数据结构
-//		InitAnalogSensor(&analog_sensor1);
-//	  InitAnalogSensor(&analog_sensor2);
-//		InitAnalogSensor(&analog_sensor3);
-//		InitAnalogSensor(&analog_sensor4);
 
 		//初始化超声波数据结构
 		InitUltrasnio(&ult);
-	
+	  //将4个端口初始化为输入
+	  port_1.dir = PORT_IN;
+	  port_2.dir = PORT_IN;
+	  port_3.dir = PORT_IN;
+	  port_4.dir = PORT_IN;
+	  
 		while(ptr)
 		{
 

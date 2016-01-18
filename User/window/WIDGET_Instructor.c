@@ -109,8 +109,9 @@ WM_HWIN hWin_Port;
 WM_HWIN hWin_Var;
 WM_HWIN hWin_Pro;
 WM_HWIN hWin_App;
+WM_HWIN hWin_Draw;
 
-char _acText[50] ;
+char _acText[50] ;//文本框当前内容
 
 enum _FLAG _flag;
 /*********************************************************************
@@ -177,9 +178,9 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "变量操作", ID_BUTTON_VAR, 105, 70, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "流程控制", ID_BUTTON_PRO, 10, 130, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "应用指令", ID_BUTTON_APP, 105, 130, 80, 40, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "画图指令", ID_BUTTON_PIC, 10, 190, 80, 40, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画图指令", ID_BUTTON_DRAW, 10, 190, 80, 40, 0, 0x0, 0 },
 //	{ BUTTON_CreateIndirect, "删除",     ID_BUTTON_DEL, 10, 230, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 235, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 235, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -275,6 +276,25 @@ static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
 	{ BUTTON_CreateIndirect, "延时_ms", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "音乐", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "显示距离", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+};
+/*********************************************************************
+*
+*       _aDialog_Draw_Panel
+*/
+static const GUI_WIDGET_CREATE_INFO _aDialogDraw_Panel[] = {
+	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_DRAW, 2, 1, 218, 258, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画空心圆", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画实心圆", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画空心矩形", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画实心矩形", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画直线", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "设置X坐标_", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "设置Y坐标_", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画实心圆", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画空心矩形", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "设置线宽", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "设置颜色", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
@@ -1193,6 +1213,103 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 		break;
 	}
 }
+//画图指令的回调函数
+static void _cbDialog_Draw(WM_MESSAGE *pMsg)
+{
+		int NCode;
+		int Id;
+		WM_HWIN hItem, hEdit;
+		char     string[10];
+	
+	switch(pMsg->MsgId)
+	{
+		case WM_INIT_DIALOG:
+			hItem = pMsg->hWin;
+			WINDOW_SetBkColor(hItem, 0x00FF8080);
+			//
+			//Initialize of Button
+			//
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DLY);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			strcpy(string,StringHZ[26]);
+			BUTTON_SetText(hItem,string);
+		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_MUS);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[27]);
+		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DISTANCE);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[39]);
+		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[6]);
+			break;
+		case WM_NOTIFY_PARENT:
+			    Id    = WM_GetId(pMsg->hWinSrc);
+					NCode = pMsg->Data.v;
+					switch(Id)
+					{
+						case ID_BUTTON_DLY:
+							   switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_DELAY_NMS ;
+												strcpy(_acText,StringHZ[26]);
+												strcat(_acText,"_ms");
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_MUS:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_MUSIC ;
+												strcpy(_acText,StringHZ[32]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_DISTANCE:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SHOW_DISTANCE ;
+												strcpy(_acText,StringHZ[39]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_BACK:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+										GUI_EndDialog(pMsg->hWin ,0);
+									break;		
+							}
+							break;
+						default:
+							WM_DefaultProc(pMsg);
+						break;
+					}
+			break;
+		default:
+			WM_DefaultProc(pMsg);
+		break;
+	}
+}
 /*********************************************************************
 *
 *       _cbDialog
@@ -1234,6 +1351,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_APP);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[5]);
+		
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DRAW);
+		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[42]);
 		
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
@@ -1304,7 +1425,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-
+    case ID_BUTTON_DRAW: // Notifications sent by 'DrawPicture'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        break;
+      case WM_NOTIFICATION_RELEASED:
+						hWin_Draw = GUI_CreateDialogBox(_aDialogDraw_Panel,GUI_COUNTOF(_aDialogDraw_Panel),
+																						_cbDialog_Draw,hWin_Instructor,0,0);
+        break;
+      }
+      break;
     case ID_BUTTON_BACK: // Notifications sent by 'BACK'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

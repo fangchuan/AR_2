@@ -1,7 +1,16 @@
   
 #include "bsp_led.h"   
 
-
+/*********************************************************************
+*
+*       Global data
+*
+**********************************************************************
+*/
+extern _Port port_1;
+extern _Port port_2;
+extern _Port port_3;
+extern _Port port_4;
 					
  /**
   * @brief  初始化控制LED的IO  ,换成寄存器的方式？
@@ -26,18 +35,22 @@ _Error LED_Config (_Led *led)
 			case LED1:
 				Pin = LED1_PIN;
 //				GPIOC->CRL &= 0xfff3ffff;
+			  port_1.dir = PORT_OUT;
 				break;
 			case LED2:
 				Pin = LED2_PIN;
 //				GPIOC->CRL &= 0xff3fffff;
+			  port_2.dir = PORT_OUT;
 				break;
 			case LED3:
 				Pin = LED3_PIN;
 //				GPIOC->CRL &= 0xf3ffffff;
+			  port_3.dir = PORT_OUT;
 				break;
 			case LED4:
 				Pin = LED4_PIN;
 //				GPIOC->CRL &= 0x3fffffff;
+			  port_4.dir = PORT_OUT;
 				break;
 		}
 
@@ -77,18 +90,22 @@ _Error LED_Mannul(u8 id, u8 sw)
 					case LED1:
 						Pin = LED1_PIN;
 		//				GPIOC->CRL &= 0xfff3ffff;
+					  port_1.dir = PORT_OUT;
 						break;
 					case LED2:
 						Pin = LED2_PIN;
 		//				GPIOC->CRL &= 0xff3fffff;
+					  port_2.dir = PORT_OUT;
 						break;
 					case LED3:
 						Pin = LED3_PIN;
 		//				GPIOC->CRL &= 0xf3ffffff;
+					  port_3.dir = PORT_OUT;
 						break;
 					case LED4:
 						Pin = LED4_PIN;
 		//				GPIOC->CRL &= 0x3fffffff;
+					  port_4.dir = PORT_OUT;
 						break;
 				}
 

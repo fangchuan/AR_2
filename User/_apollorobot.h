@@ -164,6 +164,9 @@ typedef struct _CAR  {
 #define  PORT_ON   1
 #define  PORT_OFF  0
 
+#define  PORT_IN   0
+#define  PORT_OUT  1
+
 #define  SIGNAL    1
 #define  NOSIGNAL  0
 
@@ -172,6 +175,7 @@ typedef struct _CAR  {
 #define  ULTRASNIO 3
 typedef struct _PORT {
 				uint8_t 		id;     //端口编号 1\2\3\4
+	      uint8_t    dir;     //端口方向
 				uint8_t status; //端口有无传感器连接0/1
 	      uint8_t species;//端口传感器的种类
 				int     cur_val;//当前值
