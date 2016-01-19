@@ -89,7 +89,18 @@
 #define ID_BUTTON_MUS     (GUI_ID_USER + 0x61)
 #define ID_BUTTON_DISTANCE (GUI_ID_USER + 0x62)
 
-#define ID_WINDOW_DRAW    (GUI_ID_USER + 0x07)
+#define ID_WINDOW_DRAW     (GUI_ID_USER + 0x07)
+#define ID_BUTTON_HCIRCLE  (GUI_ID_USER + 0x70)
+#define ID_BUTTON_SCIRCLE  (GUI_ID_USER + 0x71)
+#define ID_BUTTON_HRECT    (GUI_ID_USER + 0x72)
+#define ID_BUTTON_SRECT    (GUI_ID_USER + 0x73)
+#define ID_BUTTON_LINE     (GUI_ID_USER + 0x74)
+#define ID_BUTTON_X1       (GUI_ID_USER + 0x75)
+#define ID_BUTTON_X2       (GUI_ID_USER + 0x76)
+#define ID_BUTTON_Y1       (GUI_ID_USER + 0x77)
+#define ID_BUTTON_Y2       (GUI_ID_USER + 0x78)
+#define ID_BUTTON_RADIUS   (GUI_ID_USER + 0x79)
+#define ID_BUTTON_COLOR    (GUI_ID_USER + 0x7A)
 /*********************************************************************
 *
 *       Global data
@@ -155,14 +166,17 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x8a\xa0\xe9\x80\x9f",//40:小车加速 
 	"\xe5\xb0\x8f\xe8\xbd\xa6\xe5\x87\x8f\xe9\x80\x9f",// 41:小车减速
 	"\xe7\x94\xbb\xe5\x9b\xbe\xe6\x8c\x87\xe4\xbb\xa4",//42:画图指令
-	"\xe7\x94\xbb\xe5\xbc\x80\xe5\xbf\x83",  //43:画开心
-	"\xe7\x94\xbb\xe9\x9a\xbe\xe8\xbf\x87",  //44:画难过
-	"\xe7\x94\xbb\xe5\xa4\xa7\xe5\x93\xad",  //45:画大哭
-	"\xe7\x94\xbb\xe5\xa4\xa7\xe6\x80\x92",  //46:画大怒
-	"\xe7\x94\xbb\xe5\x8f\xaf\xe7\x88\xb1",  //47:画可爱
-	"\xe7\x94\xbb\xe8\xb0\x83\xe7\x9a\xae",  //48:画调皮
-	"\xe7\x94\xbb\xe5\xae\xb3\xe7\xbe\x9e",  //49:画害羞
-	"\xe7\x94\xbb\xe5\xae\xb3\xe6\x80\x95",  //50:画害怕
+	"\xe7\x94\xbb\xe7\xa9\xba\xe5\xbf\x83\xe5\x9c\x86",//43:画空心圆
+	"\xe7\x94\xbb\xe5\xae\x9e\xe5\xbf\x83\xe5\x9c\x86",//44:画实心圆
+	"\xe7\x94\xbb\xe7\xa9\xba\xe5\xbf\x83\xe7\x9f\xa9\xe5\xbd\xa2",//45:画空心矩形
+	"\xe7\x94\xbb\xe5\xae\x9e\xe5\xbf\x83\xe7\x9f\xa9\xe5\xbd\xa2",//46:画实心矩形
+	"\xe7\x94\xbb\xe7\x9b\xb4\xe7\xba\xbf",//47:画直线
+	"\xe8\xb5\xb7\xe5\xa7\x8b\xe5\x9d\x90\xe6\xa0\x87X1=_",//48:起始坐标X1=_
+	"\xe7\xbb\x88\xe6\xad\xa2\xe5\x9d\x90\xe6\xa0\x87X2=_",//49:终止坐标X2=_
+	"\xe8\xb5\xb7\xe5\xa7\x8b\xe5\x9d\x90\xe6\xa0\x87Y1=_",//50:起始坐标Y1=_
+	"\xe7\xbb\x88\xe6\xad\xa2\xe5\x9d\x90\xe6\xa0\x87Y2=_",//51:终止坐标Y2=_
+	"\xe5\x8d\x8a\xe5\xbe\x84_",//52:半径_
+	"\xe9\xa2\x9c\xe8\x89\xb2_",//53:颜色_
 };
  
 
@@ -284,18 +298,18 @@ static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogDraw_Panel[] = {
 	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_DRAW, 2, 1, 218, 258, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "画空心圆", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "画实心圆", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "画空心矩形", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "画实心矩形", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "画直线", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "设置X坐标_", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "设置Y坐标_", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "画实心圆", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "画空心矩形", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "设置线宽", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "设置颜色", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画空心圆", ID_BUTTON_HCIRCLE, 10, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画实心圆", ID_BUTTON_SCIRCLE, 105,10, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画空心矩形", ID_BUTTON_HRECT, 10, 50, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画实心矩形", ID_BUTTON_SRECT, 105,50, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画直线", ID_BUTTON_LINE,      10, 90, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "起始坐标X1=_", ID_BUTTON_X1, 105, 90, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "终止坐标X2=_", ID_BUTTON_X2, 10, 130, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "起始坐标Y1=_", ID_BUTTON_Y1, 105,130, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "终止坐标Y2=_", ID_BUTTON_Y2, 10, 170, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "半径_", ID_BUTTON_RADIUS,    105,170, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "颜色_", ID_BUTTON_COLOR,     10, 210, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 240, 60, 18, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -1121,7 +1135,7 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 		int NCode;
 		int Id;
 		WM_HWIN hItem, hEdit;
-		char     string[10];
+		char     string[10]={0};
 	
 	switch(pMsg->MsgId)
 	{
@@ -1219,7 +1233,6 @@ static void _cbDialog_Draw(WM_MESSAGE *pMsg)
 		int NCode;
 		int Id;
 		WM_HWIN hItem, hEdit;
-		char     string[10];
 	
 	switch(pMsg->MsgId)
 	{
@@ -1229,18 +1242,49 @@ static void _cbDialog_Draw(WM_MESSAGE *pMsg)
 			//
 			//Initialize of Button
 			//
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DLY);
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_HCIRCLE);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
-			strcpy(string,StringHZ[26]);
-			BUTTON_SetText(hItem,string);
+			BUTTON_SetText(hItem,StringHZ[43]);
 		
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_MUS);
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_SCIRCLE);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
-			BUTTON_SetText(hItem,StringHZ[27]);
+			BUTTON_SetText(hItem,StringHZ[44]);
 		
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_DISTANCE);
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_HRECT);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
-			BUTTON_SetText(hItem,StringHZ[39]);
+			BUTTON_SetText(hItem,StringHZ[45]);
+		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_SRECT);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[46]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_LINE);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[47]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_X1);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[48]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_X2);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[49]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_Y1);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[50]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_Y2);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[51]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_RADIUS);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[52]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_COLOR);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[53]);
 		
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
@@ -1251,40 +1295,143 @@ static void _cbDialog_Draw(WM_MESSAGE *pMsg)
 					NCode = pMsg->Data.v;
 					switch(Id)
 					{
-						case ID_BUTTON_DLY:
+						case ID_BUTTON_HCIRCLE:
 							   switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
 									break;
 									case WM_NOTIFICATION_RELEASED:
-												_flag = FLAG_DELAY_NMS ;
-												strcpy(_acText,StringHZ[26]);
-												strcat(_acText,"_ms");
+												_flag = FLAG_DRAW_HCIRCLE ;
+												strcpy(_acText,StringHZ[43]);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);
 									break;		
 							}
 							break;
-						case ID_BUTTON_MUS:
+						case ID_BUTTON_SCIRCLE:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
 									break;
 									case WM_NOTIFICATION_RELEASED:
-												_flag = FLAG_MUSIC ;
-												strcpy(_acText,StringHZ[32]);
+												_flag = FLAG_DRAW_SCIRCLE ;
+												strcpy(_acText,StringHZ[44]);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);
 									break;		
 							}
 							break;
-						case ID_BUTTON_DISTANCE:
+						case ID_BUTTON_HRECT:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
 									break;
 									case WM_NOTIFICATION_RELEASED:
-												_flag = FLAG_SHOW_DISTANCE ;
-												strcpy(_acText,StringHZ[39]);
+												_flag = FLAG_DRAW_HRECT ;
+												strcpy(_acText,StringHZ[45]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_SRECT:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_DRAW_SRECT ;
+												strcpy(_acText,StringHZ[46]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_LINE:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_DRAW_LINE ;
+												strcpy(_acText,StringHZ[47]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_X1:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SET_X1 ;
+												strcpy(_acText,StringHZ[48]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_X2:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SET_X2 ;
+												strcpy(_acText,StringHZ[49]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Y1:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SET_Y1 ;
+												strcpy(_acText,StringHZ[50]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_Y2:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SET_Y2 ;
+												strcpy(_acText,StringHZ[51]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_RADIUS:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_SET_RADIUS ;
+												strcpy(_acText,StringHZ[52]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_COLOR:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_COLOR ;
+												strcpy(_acText,StringHZ[53]);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);

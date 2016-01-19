@@ -4,6 +4,7 @@
 #include  "stm32f10x.h"
 #include  "stdlib.h"
 #include  "stdio.h"
+#include  "string.h"
 #include  "protocol.h"
 /*********************************************************************
 *
@@ -17,6 +18,7 @@ typedef enum _ERROR {	NO_ERROR = 0,
 											ERROR_TONES,  //错误的音调 
 											ERROR_TIME,   //错误的节拍
 											ERROR_DIR,    //错误的小车方向
+	                    ERROR_PAINT,  //错误的绘画操作
 							
 }_Error;
 
@@ -77,6 +79,18 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_DELAY_NMS, //延时nms标志位
 									FLAG_MUSIC,     //播放音乐标志位
 									FLAG_SHOW_DISTANCE,//显示当前距离
+									FLAG_DRAW_HCIRCLE, //画空心圆
+									FLAG_DRAW_SCIRCLE, //画实心圆
+									FLAG_DRAW_HRECT,   //画空心矩形
+									FLAG_DRAW_SRECT,   //画实心矩形
+									FLAG_DRAW_LINE,    //画直线
+									FLAG_SET_X1,       //设置坐标X1
+									FLAG_SET_X2,       //设置坐标X2
+									FLAG_SET_Y1,       //设置坐标Y1
+									FLAG_SET_Y2,       //设置坐标Y2
+									FLAG_SET_RADIUS,   //设置半径
+									FLAG_COLOR,        //设置颜色
+									
 };
 //
 //每一条编辑完的程序数据结构
@@ -235,6 +249,35 @@ typedef struct  _MUSIC {
 	      uint8_t  time;   //节拍  用户配置时都是选择1~7
 }_Music;
 
+#define HOLLOW_CIRCLE  1
+#define SOLID_CIRCLE   2
+#define HOLLOW_RECT    3
+#define SOLID_RECT     4
+#define STRIGHT_LINE   5
+
+#define COLOR_0       GUI_RED       //红
+#define COLOR_1       GUI_ORANGE    //橙
+#define COLOR_2       GUI_YELLOW    //黄
+#define COLOR_3       GUI_GREEN     //绿
+#define COLOR_4       GUI_BLUE      //蓝
+#define COLOR_5       GUI_CYAN      //靛
+#define COLOR_6       GUI_BROWN     //棕
+
+
+//
+//画板数据结构
+//
+typedef struct _PAINT {
+				uint8_t species; //种类:空心圆、实心圆、空心矩形、实心矩形、直线
+	      uint32_t  color; //7种颜色光
+	      uint16_t  width; //线宽
+	      uint16_t radius; //圆的半径
+	      int16_t     x1; //坐标
+	      int16_t     y1;
+	      int16_t     x2;
+	      int16_t     y2;
+}_Paint;
+
 extern _Listptr Ins_List_Head;//程序链表的表头节点
 //extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 
@@ -252,6 +295,7 @@ extern int Push(_StatuStack *Stk, uint8_t ele);//
 extern int Pop(_StatuStack *Stk, uint8_t *ele);
 extern void List_Parse(_Listptr  ptr);
 _Error Detect_Port(_Port *port);
+_Error Get_Port(_Port *port);
 extern void InitMPUSensor(_Euler *sensor);
 
 #endif /*_APOLLOROBOT_H*/

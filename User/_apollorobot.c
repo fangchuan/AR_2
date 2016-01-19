@@ -1,5 +1,5 @@
 #include "_apollorobot.h"
-#include "string.h"
+#include "os.h"
 #include "bsp_adc.h"
 #include "bsp_digitalsensor.h"
 #include "bsp_ultrasnio.h"
@@ -7,9 +7,9 @@
 #include "bsp_motor.h" 
 #include "bsp_servo.h"
 #include "bsp_music.h"
-#include "os.h"
-#include  "WIDGET_MessageBox.h"
 #include "malloc.h"
+#include  "WIDGET_MessageBox.h"
+#include  "WIDGET_DrawScale.h"
 /*********************************************************************
 *
 *       Global data
@@ -37,6 +37,7 @@ _Car        car;
 _Port      port;
 _Variable   var;
 _Music    music;
+_Paint    paint;
 
 _Ultrasnio        ult;
 _Euler          euler;
@@ -189,7 +190,7 @@ _Error Detect_Port(_Port *port)
 //
 //获取指定port的值,默认指的是模拟传感器的值
 //
-static _Error Get_Port  (_Port * port)
+ _Error Get_Port  (_Port * port)
 {
 			if(port->id < 1 || port->id > 4)
 					return ERROR_ID;
@@ -506,6 +507,43 @@ static _Listptr if_branch (_Listptr  p)
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;
 					break;
+				case FLAG_DRAW_HCIRCLE:
+					   paint.species = HOLLOW_CIRCLE;
+					break;
+				case FLAG_DRAW_SCIRCLE:
+					   paint.species = SOLID_CIRCLE;
+					break;
+				case FLAG_DRAW_HRECT:
+					   paint.species = HOLLOW_RECT;
+					break;
+				case FLAG_DRAW_SRECT:
+					   paint.species = SOLID_RECT;
+					break;
+				case FLAG_DRAW_LINE:
+					   paint.species = STRIGHT_LINE;
+					break;
+				case FLAG_SET_X1:
+					   paint.x1 = atoi(p->EditContent + 15);
+					break;
+				case FLAG_SET_X2:
+					   paint.x2 = atoi(p->EditContent + 15);
+					break;
+				case FLAG_SET_Y1:
+					   paint.y1 = atoi(p->EditContent + 15);
+					break;
+				case FLAG_SET_Y2:
+					   paint.y2 = atoi(p->EditContent + 15);
+				     Paint_Config(&paint);
+					break;
+				case FLAG_SET_RADIUS:
+					   paint.radius = atoi(p->EditContent + 6);
+				     Paint_Config(&paint);
+					break;
+				case FLAG_COLOR:
+					   paint.color = atoi(p->EditContent + 6);
+				     Paint_Config(&paint);
+					break;
+				
 				default:break;
 				}
 				p = p -> next;
@@ -810,6 +848,42 @@ static _Listptr or_branch (_Listptr  p)
 							break;
 					  case FLAG_SHOW_DISTANCE:
 									ult.ifshow = SHOW_ON;
+							break;
+						case FLAG_DRAW_HCIRCLE:
+					       paint.species = HOLLOW_CIRCLE;
+								 break;
+						case FLAG_DRAW_SCIRCLE:
+								 paint.species = SOLID_CIRCLE;
+							break;
+						case FLAG_DRAW_HRECT:
+								 paint.species = HOLLOW_RECT;
+							break;
+						case FLAG_DRAW_SRECT:
+								 paint.species = SOLID_RECT;
+							break;
+						case FLAG_DRAW_LINE:
+								 paint.species = STRIGHT_LINE;
+							break;
+						case FLAG_SET_X1:
+								 paint.x1 = atoi(p->EditContent + 15);
+							break;
+						case FLAG_SET_X2:
+								 paint.x2 = atoi(p->EditContent + 15);
+							break;
+						case FLAG_SET_Y1:
+								 paint.y1 = atoi(p->EditContent + 15);
+							break;
+						case FLAG_SET_Y2:
+								 paint.y2 = atoi(p->EditContent + 15);
+								 Paint_Config(&paint);
+							break;
+						case FLAG_SET_RADIUS:
+								 paint.radius = atoi(p->EditContent + 6);
+								 Paint_Config(&paint);
+							break;
+						case FLAG_COLOR:
+								 paint.color = atoi(p->EditContent + 6);
+								 Paint_Config(&paint);
 							break;
 						default:break;
 					 }
@@ -1121,6 +1195,42 @@ static _Listptr while_branch (_Listptr  p)
 											case FLAG_SHOW_DISTANCE:
 														ult.ifshow = SHOW_ON;
 												break;
+											case FLAG_DRAW_HCIRCLE:
+					                 paint.species = HOLLOW_CIRCLE;
+					              break;
+											case FLAG_DRAW_SCIRCLE:
+													 paint.species = SOLID_CIRCLE;
+												break;
+											case FLAG_DRAW_HRECT:
+													 paint.species = HOLLOW_RECT;
+												break;
+											case FLAG_DRAW_SRECT:
+													 paint.species = SOLID_RECT;
+												break;
+											case FLAG_DRAW_LINE:
+													 paint.species = STRIGHT_LINE;
+												break;
+											case FLAG_SET_X1:
+													 paint.x1 = atoi(p->EditContent + 15);
+												break;
+											case FLAG_SET_X2:
+													 paint.x2 = atoi(p->EditContent + 15);
+												break;
+											case FLAG_SET_Y1:
+													 paint.y1 = atoi(p->EditContent + 15);
+												break;
+											case FLAG_SET_Y2:
+													 paint.y2 = atoi(p->EditContent + 15);
+													 Paint_Config(&paint);
+												break;
+											case FLAG_SET_RADIUS:
+													 paint.radius = atoi(p->EditContent + 6);
+													 Paint_Config(&paint);
+												break;
+											case FLAG_COLOR:
+													 paint.color = atoi(p->EditContent + 6);
+													 Paint_Config(&paint);
+												break;
 											default:break;
 										 }
                                   
@@ -1367,6 +1477,12 @@ void List_Parse(_Listptr  ptr)
 	  port_2.dir = PORT_IN;
 	  port_3.dir = PORT_IN;
 	  port_4.dir = PORT_IN;
+	  //初始化画板数据结构
+	  Paint_Init(&paint);
+//	  Motor_Init();
+//	  Servo_Init();
+//	  LED_Init();
+//	  Car_Init();
 	  
 		while(ptr)
 		{
@@ -1654,6 +1770,42 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;
+					break;
+				case FLAG_DRAW_HCIRCLE:
+					   paint.species = HOLLOW_CIRCLE;
+					break;
+				case FLAG_DRAW_SCIRCLE:
+					   paint.species = SOLID_CIRCLE;
+					break;
+				case FLAG_DRAW_HRECT:
+					   paint.species = HOLLOW_RECT;
+					break;
+				case FLAG_DRAW_SRECT:
+					   paint.species = SOLID_RECT;
+					break;
+				case FLAG_DRAW_LINE:
+					   paint.species = STRIGHT_LINE;
+					break;
+				case FLAG_SET_X1:
+					   paint.x1 = atoi(ptr->EditContent + 15);
+					break;
+				case FLAG_SET_X2:
+					   paint.x2 = atoi(ptr->EditContent + 15);
+					break;
+				case FLAG_SET_Y1:
+					   paint.y1 = atoi(ptr->EditContent + 15);
+					break;
+				case FLAG_SET_Y2:
+					   paint.y2 = atoi(ptr->EditContent + 15);
+				     Paint_Config(&paint);
+					break;
+				case FLAG_SET_RADIUS:
+					   paint.radius = atoi(ptr->EditContent + 6);
+				     Paint_Config(&paint);
+					break;
+				case FLAG_COLOR:
+					   paint.color = atoi(ptr->EditContent + 6);
+				     Paint_Config(&paint);
 					break;
 				default:break;
 			}

@@ -1,9 +1,13 @@
 #include "WIDGET_DrawScale.h"
-
+#include "WIDGET_MessageBox.h"
 
 #define  PEND_MAX_SIZE  40
 #define  PEND_MIN_SIZE  20
 #define  PI    (float)3.14
+	
+#define DEFAULT_COLOR COLOR_0 //默认颜色为红色
+#define DEFAULT_WIDTH 20      //默认线宽为20
+#define MAX_RADIUS    180
 /*********************************************************************
 *
 *       Static data
@@ -154,4 +158,95 @@ void DrawStopIcon(void)
 	   
 	   GUI_SetPenSize(PEND_MIN_SIZE);
      GUI_AA_DrawArc(XMid, YMid, r, r, 0, 360);//起始角度为0，终止角度为360
+}
+
+//_Paint数据结构初始化
+void Paint_Init(_Paint *paint)
+{
+	   paint->species = 0;
+	   paint->x1 = -1;
+	   paint->x2 = -1;
+	   paint->y1 = -1;
+	   paint->y2 = -1;
+	   paint->radius = 0;
+	   paint->color = DEFAULT_COLOR;
+	   paint->width = DEFAULT_WIDTH;
+}
+
+//Paint配置
+_Error Paint_Config(_Paint * paint)
+{
+	   
+	   if(paint->species < HOLLOW_CIRCLE || paint->species > STRIGHT_LINE)
+		 {
+			 u8 ret;
+			 _MessageBox("请选择画图种类","错误",&ret);
+			 return ERROR_PAINT;
+		 }
+		 switch(paint->species)
+		 {
+			 case HOLLOW_CIRCLE:
+				    if(paint->x1 < 0 || paint->y1 < 0)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置圆点","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						if(paint->radius < 1 || paint->radius > MAX_RADIUS)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置半径","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						GUI_SetColor(paint->color);
+						GUI_DrawCircle(paint->x1, paint->y1, paint->radius );
+				 break;
+			 case SOLID_CIRCLE:
+				    if(paint->x1 < 0 || paint->y1 < 0)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置圆点","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						if(paint->radius < 1 || paint->radius > MAX_RADIUS)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置半径","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						GUI_SetColor(paint->color);
+						GUI_FillCircle(paint->x1, paint->y1, paint->radius );
+				 break;
+			 case HOLLOW_RECT:
+				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置起点终点","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						GUI_SetColor(paint->color);
+						GUI_DrawRect( paint->x1, paint->y1, paint->x2 ,paint->y2);
+				 break;
+			 case SOLID_RECT:
+				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置起点终点","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						GUI_SetColor(paint->color);
+			      GUI_FillRect(paint->x1, paint->y1, paint->x2, paint->y2);
+				 break;
+			 case STRIGHT_LINE:
+				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
+						{
+							 u8 ret;
+							 _MessageBox("请正确设置起点终点","错误",&ret);
+							 return ERROR_PAINT;
+						}
+						GUI_SetColor(paint->color);
+					  GUI_DrawLine(paint->x1 ,paint->y1,paint->x2, paint->y2);
+				 break;
+		 }
+		 return NO_ERROR;
 }
