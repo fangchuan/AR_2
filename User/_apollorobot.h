@@ -90,7 +90,12 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_SET_Y2,       //设置坐标Y2
 									FLAG_SET_RADIUS,   //设置半径
 									FLAG_COLOR,        //设置颜色
-									
+									FLAG_GIF_HAPPY,    //开心GIF
+									FLAG_GIF_SAD,      //难过GIF
+									FLAG_GIF_CRY,      //大哭GIF
+									FLAG_GIF_FURY,     //愤怒GIF
+									FLAG_GIF_ALARM,    //警报GIF
+									FLAG_PROC,         //调用子程序
 };
 //
 //每一条编辑完的程序数据结构
@@ -263,7 +268,34 @@ typedef struct  _MUSIC {
 #define COLOR_5       GUI_CYAN      //靛
 #define COLOR_6       GUI_BROWN     //棕
 
-
+#define COLORMAP(index,color)   if(index == 0)     \
+																{                  \
+																	color = COLOR_0; \
+																}                  \
+																if(index == 1)     \
+																{                  \
+																	color = COLOR_1; \
+																}                  \
+																if(index == 2)     \
+																{                  \
+																	color = COLOR_2; \
+																}                  \
+																if(index == 3)     \
+																{                  \
+																	color = COLOR_3; \
+																}                  \
+																if(index == 4)     \
+																{                  \
+																	color = COLOR_4; \
+																}                  \
+																if(index == 5)     \
+																{                  \
+																	color = COLOR_5; \
+																}                  \
+																if(index == 6)     \
+																{                  \
+																	color = COLOR_6; \
+																}                  \
 //
 //画板数据结构
 //
@@ -276,8 +308,19 @@ typedef struct _PAINT {
 	      int16_t     y1;
 	      int16_t     x2;
 	      int16_t     y2;
-}_Paint;
+//	      struct _PAINT *next;//指向下一个结点的指针
+}_Paint,*_PaintList;
 
+//
+//GIF枚举类型
+//
+typedef enum _GIF  {
+	                   GIF_ALARM = 1,
+	                   GIF_HAPPY,
+	                   GIF_SAD,
+	                   GIF_CRY,
+	                   GIF_FURY,
+}_Gif;
 extern _Listptr Ins_List_Head;//程序链表的表头节点
 //extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 

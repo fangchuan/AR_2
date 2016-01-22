@@ -10,8 +10,8 @@ extern void   DrawBackIcon(void);
 extern void   DrawLeftIcon(void);
 extern void   DrawRightIcon(void);
 extern void   DrawStopIcon(void);
-extern void   Paint_Init(_Paint *paint);
+extern void   Init_Paint(_Paint *paint);
 extern _Error Paint_Config(_Paint * paint);
-
+extern void   DrawGIF (_Gif *gif);
 #endif
 

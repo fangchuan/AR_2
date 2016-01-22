@@ -69,10 +69,10 @@ Purpose     : Display controller configuration (single layer)
 #define YSIZE_PHYS  320 // To be adapted to y-screen size
 
 //modify by fire 以屏幕中“野火”字样为正面的竖屏为正方向，使用touch demo测出上下左右的ad值
-#define TOUCH_AD_TOP 	 			3685  //YPhys0
-#define TOUCH_AD_BOTTOM  			210   //YPhys1
-#define TOUCH_AD_LEFT 	 			192   //XPhys0
-#define TOUCH_AD_RIGHT 	 			3822  //XPhys1
+#define TOUCH_AD_TOP 	 		  	3710  //YPhys0   3685
+#define TOUCH_AD_BOTTOM  			210   //YPhys1   210
+#define TOUCH_AD_LEFT 	 			182   //XPhys0   192
+#define TOUCH_AD_RIGHT 	 			3900  //XPhys1   3822 
 
 
 /*********************************************************************

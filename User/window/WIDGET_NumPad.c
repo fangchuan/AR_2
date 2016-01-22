@@ -129,12 +129,12 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
     case WM_NOTIFICATION_CLICKED:
       Pressed = 1;
     case WM_NOTIFICATION_RELEASED:  
-				if( Id < GUI_ID_USER + 12)
+				if( Id >= GUI_ID_USER && Id < GUI_ID_USER + 12)
 				{
 						int Key;
 						if (Id < GUI_ID_USER + 11)
 						{
-								char acBuffer[10];
+								char acBuffer[10] = {0};
 								BUTTON_GetText(pMsg->hWinSrc, acBuffer, sizeof(acBuffer)); /* Get the text of the button */
 								Key = acBuffer[0];
 						}

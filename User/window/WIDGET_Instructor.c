@@ -52,6 +52,7 @@
 #define ID_BUTTON_End   (GUI_ID_USER + 0x22)
 #define ID_BUTTON_Or     (GUI_ID_USER + 0x23)
 #define ID_BUTTON_IfEnd  (GUI_ID_USER + 0x24)
+#define ID_BUTTON_PROC   (GUI_ID_USER + 0x25)
 
 #define ID_WINDOW_Car   (GUI_ID_USER + 0x03)
 #define ID_BUTTON_Left  (GUI_ID_USER + 0x30)
@@ -88,6 +89,11 @@
 #define ID_BUTTON_DLY     (GUI_ID_USER + 0x60)
 #define ID_BUTTON_MUS     (GUI_ID_USER + 0x61)
 #define ID_BUTTON_DISTANCE (GUI_ID_USER + 0x62)
+#define ID_BUTTON_HAPPY    (GUI_ID_USER + 0x63)
+#define ID_BUTTON_SAD      (GUI_ID_USER + 0x64)
+#define ID_BUTTON_CRY      (GUI_ID_USER + 0x65)
+#define ID_BUTTON_FURY     (GUI_ID_USER + 0x66)
+#define ID_BUTTON_ALARM    (GUI_ID_USER + 0x67)
 
 #define ID_WINDOW_DRAW     (GUI_ID_USER + 0x07)
 #define ID_BUTTON_HCIRCLE  (GUI_ID_USER + 0x70)
@@ -177,6 +183,12 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe7\xbb\x88\xe6\xad\xa2\xe5\x9d\x90\xe6\xa0\x87Y2=_",//51:终止坐标Y2=_
 	"\xe5\x8d\x8a\xe5\xbe\x84_",//52:半径_
 	"\xe9\xa2\x9c\xe8\x89\xb2_",//53:颜色_
+	"\xe7\x94\xbb\xe5\xbc\x80\xe5\xbf\x83",//54:画开心
+	"\xe7\x94\xbb\xe9\x9a\xbe\xe8\xbf\x87",//55:画难过
+	"\xe7\x94\xbb\xe5\xa4\xa7\xe5\x93\xad",//56：画大哭
+	"\xe7\x94\xbb\xe5\x8f\x91\xe6\x80\x92",//57:画发怒
+	"\xe7\x94\xbb\xe8\xad\xa6\xe7\x81\xaf",//58:画警灯
+	"\xe8\xb0\x83\xe7\x94\xa8\xe5\xad\x90\xe7\xa8\x8b\xe5\xba\x8f_",//59:调用子程序
 };
  
 
@@ -209,7 +221,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
   { BUTTON_CreateIndirect, "舵机", ID_BUTTON_SER, 0, 120, 100, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "LED", ID_BUTTON_LEDON, 110, 20, 100, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "LED", ID_BUTTON_LEDOFF, 110,70, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -226,7 +238,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
   { BUTTON_CreateIndirect, "小车停止", ID_BUTTON_Stop, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车加速", ID_BUTTON_Accel, 105, 60, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车减速", ID_BUTTON_Slow, 105, 100, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -236,12 +248,13 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogPro_Panel[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_Pro, 2, 1, 218, 258, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "循环开始", ID_BUTTON_While, 0, 10, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "循环结束", ID_BUTTON_EndWhile, 0, 60, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "程序结束", ID_BUTTON_End, 0, 110, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "否则", 		ID_BUTTON_Or, 0, 160, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "条件结束", ID_BUTTON_IfEnd, 100, 10, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "循环开始", ID_BUTTON_While, 10, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "循环结束", ID_BUTTON_EndWhile, 10, 60, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "程序结束", ID_BUTTON_End, 10, 110, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "否则", 		ID_BUTTON_Or, 110, 10, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "条件结束", ID_BUTTON_IfEnd, 110, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "调用子程序",ID_BUTTON_PROC, 110, 110, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -261,7 +274,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
   { BUTTON_CreateIndirect, "显示B", ID_BUTTON_B, 100, 140, 60, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "如果变量A>_", ID_BUTTON_AG, 10, 180, 60, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "如果变量A<_", ID_BUTTON_AL, 100, 180, 60, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -279,7 +292,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
   { BUTTON_CreateIndirect, "小于", ID_BUTTON_L, 110, 60, 100, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "如果障碍物>", ID_BUTTON_OBSG, 110, 100, 100, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "如果障碍物<", ID_BUTTON_OBSL, 110, 140, 100, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -288,9 +301,14 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
 	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_App, 2, 1, 218, 258, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "延时_ms", ID_BUTTON_DLY, 10, 20, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "音乐", ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "音乐",    ID_BUTTON_MUS, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "显示距离", ID_BUTTON_DISTANCE, 10, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 105, 230, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画开心", ID_BUTTON_HAPPY, 10, 100, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画难过", ID_BUTTON_SAD, 105, 100, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画大哭", ID_BUTTON_CRY, 10, 140, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "画发怒", ID_BUTTON_FURY, 105, 140, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "画警灯", ID_BUTTON_ALARM, 105, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -1036,6 +1054,10 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[35]);
 			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_PROC);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[59]);
+			
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -1110,6 +1132,19 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 									break;		
 							}
 							break;
+						case ID_BUTTON_PROC:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_PROC ;
+												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
 						case ID_BUTTON_BACK:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
@@ -1159,6 +1194,26 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[39]);
 		
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_HAPPY);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[54]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_SAD);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[55]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_CRY);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[56]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_FURY);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[57]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ALARM);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[58]);
+		
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -1202,6 +1257,71 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 									case WM_NOTIFICATION_RELEASED:
 												_flag = FLAG_SHOW_DISTANCE ;
 												strcpy(_acText,StringHZ[39]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_HAPPY:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_GIF_HAPPY ;
+												strcpy(_acText,StringHZ[54]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_SAD:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_GIF_SAD ;
+												strcpy(_acText,StringHZ[55]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+					 case ID_BUTTON_CRY:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_GIF_CRY ;
+												strcpy(_acText,StringHZ[56]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_FURY:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_GIF_FURY ;
+												strcpy(_acText,StringHZ[57]);
+												hEdit = Create_EDITPad(pMsg->hWin);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_ALARM:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_GIF_ALARM ;
+												strcpy(_acText,StringHZ[58]);
 												hEdit = Create_EDITPad(pMsg->hWin);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);
@@ -1474,7 +1594,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = pMsg->hWin;
     WINDOW_SetBkColor(hItem, 0x00FF8080);
-
+    
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_OUT);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[0]);

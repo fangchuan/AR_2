@@ -42,6 +42,8 @@
 WM_HWIN                       hRun;
 extern              _Ultrasnio ult;
 extern              _Car       car;
+extern              _Paint    paint;
+extern              _Gif        gif;
 /*********************************************************************
 *
 *       Static data
@@ -60,7 +62,7 @@ static const char *StringHZ[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "A", ID_EDIT_A, 60, 20, 120, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "A", ID_TEXT_A, 60, 20, 120, 20, 0, 0x64, 0 },
 
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -81,8 +83,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 */
 static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
-  int     NCode;
-  int     Id;
+//  int     NCode;
+//  int     Id;
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
@@ -90,31 +92,19 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Window'
     //
     hItem = pMsg->hWin;
-    WINDOW_SetBkColor(hItem, GUI_LIGHTBLUE);
+    WINDOW_SetBkColor(hItem, GUI_WHITE);
     //
     // Initialization of 'A'
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_A);
-		EDIT_SetFont(hItem,&GUI_FontSongTi12);
-    EDIT_SetText(hItem, "");
-    EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_A);
+		TEXT_SetFont(hItem,&GUI_FontSongTi12);
+	  TEXT_SetText(hItem, "");
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 
 		break;
   case WM_NOTIFY_PARENT:
-    Id    = WM_GetId(pMsg->hWinSrc);
-    NCode = pMsg->Data.v;
-    switch(Id) {
-    case ID_EDIT_A: // Notifications sent by 'A'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
-      break;
-    }
+//    Id    = WM_GetId(pMsg->hWinSrc);
+//    NCode = pMsg->Data.v;
     break;
 	case WM_PAINT:
 				hItem = pMsg->hWin;
@@ -126,30 +116,38 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				{
 					char distance[10] = {0};
 					sprintf(distance,"%dcm",(int)ult.cur_distance );
-					hItem = WM_GetDialogItem(pMsg->hWin ,ID_EDIT_A);
-					EDIT_SetText(hItem,distance);
+					hItem = WM_GetDialogItem(pMsg->hWin ,ID_TEXT_A);
+					TEXT_SetText(hItem,distance);
 				}	
-				
-				if(car.direction == FORWARD)
+				if(paint.species)
 				{
-					 DrawForwardIcon();
+					Paint_Config(&paint);
+					Init_Paint(&paint);
 				}
-				if(car.direction == BACKWARD)
+				else
 				{
-					 DrawBackIcon();
-				}
-				if(car.direction == LEFT)
-				{
-					 DrawLeftIcon();
-				}
-				if(car.direction == RIGHT)
-				{
-					 DrawRightIcon();
-				}
-				if(car.direction == STOP)
-				{
-					 DrawStopIcon();
-				}
+					if(car.direction == FORWARD)
+					{
+						 DrawForwardIcon();
+					}
+					if(car.direction == BACKWARD)
+					{
+						 DrawBackIcon();
+					}
+					if(car.direction == LEFT)
+					{
+						 DrawLeftIcon();
+					}
+					if(car.direction == RIGHT)
+					{
+						 DrawRightIcon();
+					}
+					if(car.direction == STOP)
+					{
+						 DrawStopIcon();
+					}
+			  }
+				DrawGIF(&gif);
 				break;
   default:
     WM_DefaultProc(pMsg);

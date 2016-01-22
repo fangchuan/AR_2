@@ -33,7 +33,7 @@
 
 //mem2内存参数设定.mem2的内存池处于外部SRAM里面
 #define MEM2_BLOCK_SIZE			32  	  						//内存块大小为32字节
-#define MEM2_MAX_SIZE			500 *1024  						//最大管理内存500K
+#define MEM2_MAX_SIZE			500 *1024  						//最大管理内存700K
 #define MEM2_ALLOC_TABLE_SIZE	MEM2_MAX_SIZE/MEM2_BLOCK_SIZE 	//外部内存表大小：16000bytes 
 		 
  

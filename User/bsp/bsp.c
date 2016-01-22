@@ -393,11 +393,13 @@ void BSP_Init(void)
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC, ENABLE);
 	/* 初始化gui */
 	GUI_Init();
-	
+	//一些默认配置
 	BUTTON_SetDefaultSkin(BUTTON_SKIN_FLEX); // Sets the default skin for new widgets
 	SCROLLBAR_SetDefaultSkin (SCROLLBAR_SKIN_FLEX);
 	HEADER_SetDefaultSkin    (HEADER_SKIN_FLEX);
 //	FRAMEWIN_SetDefaultSkin(FRAMEWIN_SKIN_FLEX);
+//  BUTTON_SetDefaultBkColor(GUI_LIGHTMAGENTA, BUTTON_CI_UNPRESSED );//按钮未按下时为浅红色
+//	BUTTON_SetDefaultBkColor(GUI_MAGENTA, BUTTON_CI_PRESSED );//按钮按下时为品红色
 	
 #ifdef TRACE_EN                                                 /* See project / compiler preprocessor options.         */
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_IOEN_MASK;    /* Enable tracing (see Note #2).                        */

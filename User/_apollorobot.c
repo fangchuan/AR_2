@@ -30,15 +30,15 @@ extern _Port port_4;
 *
 **********************************************************************
 */
-_Motor    motor;
-_Servo    servo;
-_Led        led;
-_Car        car;
-_Port      port;
-_Variable   var;
-_Music    music;
-_Paint    paint;
-
+_Motor          motor;
+_Servo          servo;
+_Led              led;
+_Car              car;
+_Port            port;
+_Variable         var;
+_Music          music;
+_Paint          paint;
+_Gif              gif;
 _Ultrasnio        ult;
 _Euler          euler;
 
@@ -53,24 +53,16 @@ static _Listptr or_branch (_Listptr  p);
 static _Listptr if_branch (_Listptr  p);
 static _Listptr while_branch(_Listptr  p);
 //static _Error Get_Port  (_Port * port);
-//static void  InitDigitalSensor(_DS *sensor);
-//static void  InitAnalogSensor(_AS *sensor);
+static void InitCar (_Car * car);
+static void InitLed(_Led * led);
+static void InitVar(_Variable *var);
+static void InitPort(_Port *port);
+static void InitServo(_Servo *servo);
+static void InitMotor(_Motor *motor);
+static void InitMusic(_Music *music);
 static void InitUltrasnio(_Ultrasnio *sensor);
 
 
-//初始化传感器数据结构
-
-//static void  InitDigitalSensor(_DS *sensor)
-//{
-//	    sensor->sta = 0;
-//	    sensor->val =  0;
-//	
-//}
-//static void InitAnalogSensor(_AS *sensor)
-//{
-//	    sensor->sta = 0;
-//	    sensor->val  = 0;
-//}
 void InitMPUSensor(_Euler *sensor)
 {
 	    sensor->angle_x = 0;
@@ -82,11 +74,61 @@ void InitMPUSensor(_Euler *sensor)
 	    sensor->gyro_y  = 0;
 	    sensor->gyro_z  = 0;
 }
+
 static void InitUltrasnio(_Ultrasnio *sensor)
 {
 	    sensor->ifshow = 0;
 	    sensor->cur_distance = 0;
 	    sensor->tar_distance = 0;
+}
+
+static void InitMotor(_Motor *motor)
+{
+	    motor->id = 0;
+	    motor->direction = 0;
+	    motor->speed = 0;
+}
+
+static void InitServo(_Servo *servo)
+{
+      servo->id = 0;
+	    servo->degree = 0;
+
+}
+
+static void InitPort(_Port *port)
+{
+	    port->id = 0;
+	    port->dir = 0;
+	    port->species = 0;
+	    port->status = 0;
+	    port->cur_val = 0;
+	    port->tar_val = 0;
+}	
+
+static void InitLed(_Led * led)
+{
+	    led->id = 0;
+	    led->status = 0;
+}
+
+static void InitVar(_Variable *var)
+{
+	     var->id = 0;
+	     var->set_val = 0;
+	     var->tar_val = 0;
+}
+
+static void InitCar (_Car * car)
+{
+	     car->direction = 0;
+	     car->speed_step = 0;
+}
+
+static void InitMusic(_Music *music)
+{
+	     music->time = 0;
+	     music->tones = 0;
 }
 //
 //侦测端口Port的状态：有无信号
@@ -296,7 +338,6 @@ static _Listptr if_branch (_Listptr  p)
 							if( port.cur_val == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
-//								p = p -> next;
 								p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -314,7 +355,6 @@ static _Listptr if_branch (_Listptr  p)
 							if(port.cur_val  == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
-//								p = p -> next;
 								p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -345,7 +385,6 @@ static _Listptr if_branch (_Listptr  p)
 							if(port.cur_val > port.tar_val )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -364,7 +403,6 @@ static _Listptr if_branch (_Listptr  p)
 							if(port.cur_val < port.tar_val )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -376,12 +414,11 @@ static _Listptr if_branch (_Listptr  p)
 									p = q;//将这个结点赋给p
 							}
 					break;
-				case FLAG_OBSTRACLE_GREATER:
+				case FLAG_OBSTRACLE_GREATER://障碍物距离大于_
 					    ult.tar_distance = atoi(p->EditContent + 16);
 							if(ult.cur_distance > ult.tar_distance )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -393,12 +430,11 @@ static _Listptr if_branch (_Listptr  p)
 									p = q;//将这个结点赋给p
 							}
 					break;
-				case FLAG_OBSTRACLE_LITTER:
+				case FLAG_OBSTRACLE_LITTER://如果障碍物距离小于_
 							ult.tar_distance = atoi(p->EditContent + 16);
 							if(ult.cur_distance < ult.tar_distance )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -448,7 +484,6 @@ static _Listptr if_branch (_Listptr  p)
 							if( var.set_val > var.tar_val )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -466,7 +501,6 @@ static _Listptr if_branch (_Listptr  p)
 							if(var.set_val < var.tar_val )
 							{
 									//如果条件成立，则进入if分支
-//									p = p -> next;
 									p = if_branch(p);                      //嵌套
 							}
 							else{
@@ -495,6 +529,9 @@ static _Listptr if_branch (_Listptr  p)
 //					break;
 //				case FLAG_IF_END:				  //if的代码块里不包含这两种情况!!!
 //					break;
+				case FLAG_PROC:
+					   
+					break;
 				case FLAG_DELAY_NMS:
 							delay_time = atoi(p->EditContent + 6);
 							OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
@@ -506,6 +543,21 @@ static _Listptr if_branch (_Listptr  p)
 					break;
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;
+					break;
+				case FLAG_GIF_HAPPY:
+					   gif = GIF_HAPPY;
+					break;
+				case FLAG_GIF_SAD:
+					   gif = GIF_SAD;
+					break;
+				case FLAG_GIF_CRY:
+					   gif = GIF_CRY;
+					break;
+				case FLAG_GIF_FURY:
+					   gif = GIF_FURY;
+					break;
+				case FLAG_GIF_ALARM:
+					   gif = GIF_ALARM;
 					break;
 				case FLAG_DRAW_HCIRCLE:
 					   paint.species = HOLLOW_CIRCLE;
@@ -533,17 +585,14 @@ static _Listptr if_branch (_Listptr  p)
 					break;
 				case FLAG_SET_Y2:
 					   paint.y2 = atoi(p->EditContent + 15);
-				     Paint_Config(&paint);
 					break;
 				case FLAG_SET_RADIUS:
 					   paint.radius = atoi(p->EditContent + 6);
-				     Paint_Config(&paint);
 					break;
 				case FLAG_COLOR:
-					   paint.color = atoi(p->EditContent + 6);
-				     Paint_Config(&paint);
+//					   paint.color = atoi(p->EditContent + 6);
+				     COLORMAP(atoi(p->EditContent + 6), paint.color)
 					break;
-				
 				default:break;
 				}
 				p = p -> next;
@@ -637,7 +686,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(port.cur_val == SIGNAL)
 									{
 										//如果条件成立，则进入if分支
-//										p = p -> next;
 										p = if_branch(p);     //返回的p指向“条件结束”指令
 									}
 									else{
@@ -655,7 +703,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(port.cur_val == NOSIGNAL)
 									{
 										//如果条件成立，则进入if分支
-//										p = p -> next;
 										p = if_branch(p);        //返回的p指向“条件结束”指令
 									}
 									else{
@@ -686,7 +733,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(port.cur_val > port.tar_val )
 									{
 											//如果条件成立，则进入if分支
-//											p = p -> next;
 											p = if_branch(p);       //返回的p指向“条件结束”指令
 									}
 									else{
@@ -705,7 +751,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(port.cur_val < port.tar_val )
 									{
 											//如果条件成立，则进入if分支
-//											p = p -> next;
 											p = if_branch(p);       //返回的p指向“条件结束”指令
 									}
 									else{
@@ -722,7 +767,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(ult.cur_distance > ult.tar_distance )
 									{
 											//如果条件成立，则进入if分支
-//											p = p -> next;
 											p = if_branch(p);         //返回的p指向“条件结束”指令
 									}
 									else{
@@ -739,7 +783,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(ult.cur_distance < ult.tar_distance )
 									{
 											//如果条件成立，则进入if分支
-//											p = p -> next;
 											p = if_branch(p);      //返回的p指向“条件结束”指令
 									}
 									else{
@@ -789,7 +832,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(var.set_val > var.tar_val )
 									{
 										//如果条件成立，则进入if分支，否则什么也不执行，取下一个指令
-//										p = p -> next;
 										p = if_branch(p);  //返回的p指向“条件结束”指令
 									}
 									else{
@@ -807,7 +849,6 @@ static _Listptr or_branch (_Listptr  p)
 									if(var.set_val < var.tar_val )
 									{
 										//如果条件成立，则进入if分支
-//										p = p -> next;
 										p = if_branch(p);        //返回的p指向“条件结束”指令
 									}
 									else{
@@ -837,6 +878,8 @@ static _Listptr or_branch (_Listptr  p)
 							break;
 //						case FLAG_IF_END:   //不包含if_end的结点，只处理"否则"指令里包含的代码块
 //							break;
+						case FLAG_PROC:
+							break;
 						case FLAG_DELAY_NMS:
 									delay_time = atoi(p->EditContent + 6);
 									OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
@@ -848,6 +891,21 @@ static _Listptr or_branch (_Listptr  p)
 							break;
 					  case FLAG_SHOW_DISTANCE:
 									ult.ifshow = SHOW_ON;
+							break;
+						case FLAG_GIF_HAPPY:
+								 gif = GIF_HAPPY;
+							break;
+						case FLAG_GIF_SAD:
+								 gif = GIF_SAD;
+							break;
+						case FLAG_GIF_CRY:
+								 gif = GIF_CRY;
+							break;
+						case FLAG_GIF_FURY:
+								 gif = GIF_FURY;
+							break;
+						case FLAG_GIF_ALARM:
+								 gif = GIF_ALARM;
 							break;
 						case FLAG_DRAW_HCIRCLE:
 					       paint.species = HOLLOW_CIRCLE;
@@ -875,15 +933,13 @@ static _Listptr or_branch (_Listptr  p)
 							break;
 						case FLAG_SET_Y2:
 								 paint.y2 = atoi(p->EditContent + 15);
-								 Paint_Config(&paint);
 							break;
 						case FLAG_SET_RADIUS:
 								 paint.radius = atoi(p->EditContent + 6);
-								 Paint_Config(&paint);
 							break;
 						case FLAG_COLOR:
-								 paint.color = atoi(p->EditContent + 6);
-								 Paint_Config(&paint);
+//								 paint.color = atoi(p->EditContent + 6);
+						     COLORMAP(atoi(p->EditContent + 6), paint.color)
 							break;
 						default:break;
 					 }
@@ -897,6 +953,7 @@ static _Listptr or_branch (_Listptr  p)
 //Tips:让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
 static _Listptr while_branch (_Listptr  p)
 {
+	
 			if(!p)
 				return NULL;
 			else
@@ -981,7 +1038,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(port.cur_val == SIGNAL)
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);   //返回的p指向“条件结束”指令
 														}
 														else{
@@ -999,7 +1055,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(port.cur_val == NOSIGNAL)
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);      //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1030,7 +1085,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(port.cur_val > port.tar_val )
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1049,7 +1103,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(port.cur_val < port.tar_val )
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1066,7 +1119,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(ult.cur_distance > ult.tar_distance )
 														{
 																//如果条件成立，则进入if分支
-//																p = p -> next;
 																p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1083,7 +1135,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(ult.cur_distance < ult.tar_distance )
 														{
 																//如果条件成立，则进入if分支
-//																p = p -> next;
 																p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1133,7 +1184,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(var.set_val  > var.tar_val  )
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1151,7 +1201,6 @@ static _Listptr while_branch (_Listptr  p)
 														if(var.set_val  < var.tar_val  )
 														{
 															//如果条件成立，则进入if分支
-//															p = p -> next;
 															p = if_branch(p);     //返回的p指向“条件结束”指令
 														}
 														else{
@@ -1183,6 +1232,9 @@ static _Listptr while_branch (_Listptr  p)
 														//do nothing...
 														//
 												break;
+											case FLAG_PROC:
+												
+												break;
 											case FLAG_DELAY_NMS:
 														delay_time = atoi(p->EditContent + 6);
 														OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
@@ -1194,6 +1246,21 @@ static _Listptr while_branch (_Listptr  p)
 												break;
 											case FLAG_SHOW_DISTANCE:
 														ult.ifshow = SHOW_ON;
+												break;
+											case FLAG_GIF_HAPPY:
+													 gif = GIF_HAPPY;
+												break;
+											case FLAG_GIF_SAD:
+													 gif = GIF_SAD;
+												break;
+											case FLAG_GIF_CRY:
+													 gif = GIF_CRY;
+												break;
+											case FLAG_GIF_FURY:
+													 gif = GIF_FURY;
+												break;
+											case FLAG_GIF_ALARM:
+													 gif = GIF_ALARM;
 												break;
 											case FLAG_DRAW_HCIRCLE:
 					                 paint.species = HOLLOW_CIRCLE;
@@ -1221,15 +1288,13 @@ static _Listptr while_branch (_Listptr  p)
 												break;
 											case FLAG_SET_Y2:
 													 paint.y2 = atoi(p->EditContent + 15);
-													 Paint_Config(&paint);
 												break;
 											case FLAG_SET_RADIUS:
 													 paint.radius = atoi(p->EditContent + 6);
-													 Paint_Config(&paint);
 												break;
 											case FLAG_COLOR:
-													 paint.color = atoi(p->EditContent + 6);
-													 Paint_Config(&paint);
+//													 paint.color = atoi(p->EditContent + 6);
+											     COLORMAP(atoi(p->EditContent + 6), paint.color)
 												break;
 											default:break;
 										 }
@@ -1406,62 +1471,64 @@ _Listptr  Find_Node(int index, enum _FLAG flag)
 				}
 				
 }
+/*
 //初始化一个状态栈
-//int Create_Stack(void)
-//{
-//		StaStk.base = (ELETYPE *)malloc(MAX_SIZE_STACK * sizeof(_StatuStack));
-//		if(!StaStk.base )
-//			return -1;
-//		else
-//		{
-//			StaStk.top = StaStk.base ;//当前栈为空栈
-//			StaStk.stacksize = MAX_SIZE_STACK;
-//			
-//			return 0;
-//		}
-//}
+int Create_Stack(void)
+{
+		StaStk.base = (ELETYPE *)malloc(MAX_SIZE_STACK * sizeof(_StatuStack));
+		if(!StaStk.base )
+			return -1;
+		else
+		{
+			StaStk.top = StaStk.base ;//当前栈为空栈
+			StaStk.stacksize = MAX_SIZE_STACK;
+			
+			return 0;
+		}
+}
 
-////返回当前栈的长度
-//int GetStackLength(_StatuStack *stk)
-//{
-//		if(!stk->base)
-//			return -1;
-//		else
-//		{
-//			return (stk->top - stk->base );
-//		}
-//}
-////获取栈顶元素，存入ele，不是出栈
-//int GetTop(_StatuStack *Stk,uint8_t *ele)
-//{
-//		if(!Stk->base || Stk->base == Stk->top )//若是空栈则返回-1
-//			return -1;
-//		else
-//		{
-//			*ele = *(Stk->top -1);
-//			return 0;
-//		}
-//}
-////元素入栈操作
-//int Push(_StatuStack *Stk, uint8_t ele)
-//{
-//		if(!Stk->base )
-//			return -1;
-//		else{
-//			*Stk->top++ = ele;
-//			return 0;
-//		}
-//}
-////元素出栈
-//int Pop(_StatuStack *Stk, uint8_t *ele)
-//{
-//		if(!Stk->base|| Stk->base == Stk->top )//若是空栈则返回-1
-//			return -1;
-//		else{
-//			*ele = *(--Stk->top);
-//			return 0;
-//		}
-//}
+//返回当前栈的长度
+int GetStackLength(_StatuStack *stk)
+{
+		if(!stk->base)
+			return -1;
+		else
+		{
+			return (stk->top - stk->base );
+		}
+}
+//获取栈顶元素，存入ele，不是出栈
+int GetTop(_StatuStack *Stk,uint8_t *ele)
+{
+		if(!Stk->base || Stk->base == Stk->top )//若是空栈则返回-1
+			return -1;
+		else
+		{
+			*ele = *(Stk->top -1);
+			return 0;
+		}
+}
+//元素入栈操作
+int Push(_StatuStack *Stk, uint8_t ele)
+{
+		if(!Stk->base )
+			return -1;
+		else{
+			*Stk->top++ = ele;
+			return 0;
+		}
+}
+//元素出栈
+int Pop(_StatuStack *Stk, uint8_t *ele)
+{
+		if(!Stk->base|| Stk->base == Stk->top )//若是空栈则返回-1
+			return -1;
+		else{
+			*ele = *(--Stk->top);
+			return 0;
+		}
+}
+*/
 //
 //链表解析函数
 //解析工作绝对不可以破坏原链表的顺序
@@ -1470,19 +1537,21 @@ void List_Parse(_Listptr  ptr)
 		_Listptr  q;//用于if语句
 		OS_ERR  err;
 
-		//初始化超声波数据结构
 		InitUltrasnio(&ult);
+	  Init_Paint(&paint);
+	  InitMotor(&motor);
+	  InitServo(&servo);
+	  InitLed(&led);
+	  InitCar(&car);
+	  InitVar(&var);
+	  InitMusic(&music);
+	  InitPort(&port);
 	  //将4个端口初始化为输入
 	  port_1.dir = PORT_IN;
 	  port_2.dir = PORT_IN;
 	  port_3.dir = PORT_IN;
 	  port_4.dir = PORT_IN;
-	  //初始化画板数据结构
-	  Paint_Init(&paint);
-//	  Motor_Init();
-//	  Servo_Init();
-//	  LED_Init();
-//	  Car_Init();
+	
 	  
 		while(ptr)
 		{
@@ -1556,7 +1625,6 @@ void List_Parse(_Listptr  ptr)
 							if(port.cur_val == SIGNAL)
 							{
 								//如果条件成立，则进入if分支
-//								ptr = ptr -> next;
 								ptr = if_branch(ptr);                    
 							}
 							else{
@@ -1574,7 +1642,6 @@ void List_Parse(_Listptr  ptr)
 							if(port.cur_val == NOSIGNAL)
 							{
 								//如果条件成立，则进入if分支
-//								ptr = ptr -> next;
 								ptr = if_branch(ptr);                    
 							}
 							else {
@@ -1605,7 +1672,6 @@ void List_Parse(_Listptr  ptr)
 							if(port.cur_val > port.tar_val )
 							{
 								//如果条件成立，则进入if分支
-//								ptr = ptr -> next;
 								ptr = if_branch(ptr);                    
 							}
 							else{
@@ -1624,7 +1690,6 @@ void List_Parse(_Listptr  ptr)
 							if(port.cur_val < port.tar_val )
 							{
 								//如果条件成立，则进入if分支
-//								ptr = ptr -> next;
 								ptr = if_branch(ptr);                    
 							}
 							else{
@@ -1641,7 +1706,6 @@ void List_Parse(_Listptr  ptr)
 							if(ult.cur_distance > ult.tar_distance )
 							{
 									//如果条件成立，则进入if分支
-//									ptr = ptr -> next;
 									ptr = if_branch(ptr);                      //嵌套
 							}
 							else{
@@ -1658,7 +1722,6 @@ void List_Parse(_Listptr  ptr)
 							if(ult.cur_distance > ult.tar_distance )
 							{
 									//如果条件成立，则进入if分支
-//									ptr = ptr -> next;
 									ptr = if_branch(ptr);                      //嵌套
 							}
 							else{
@@ -1708,7 +1771,6 @@ void List_Parse(_Listptr  ptr)
 							if(var.set_val > var.tar_val )
 							{
 									//如果条件成立，则进入if分支
-//									ptr = ptr -> next;
 									ptr = if_branch(ptr);                    
 							}
 							else{
@@ -1726,7 +1788,6 @@ void List_Parse(_Listptr  ptr)
 							if(var.set_val < var.tar_val )
 							{
 								//如果条件成立，则进入if分支
-//								ptr = ptr -> next;
 								ptr = if_branch(ptr);                    
 							}
 							else{
@@ -1759,6 +1820,9 @@ void List_Parse(_Listptr  ptr)
 							//do nothing...
 							//
 					break;
+				case FLAG_PROC:
+					
+					break;
 				case FLAG_DELAY_NMS:
 							delay_time = atoi(ptr->EditContent + 6);
 							OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
@@ -1770,6 +1834,21 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_SHOW_DISTANCE:
 					   ult.ifshow = SHOW_ON;
+					break;
+				case FLAG_GIF_HAPPY:
+					   gif = GIF_HAPPY;
+					break;
+				case FLAG_GIF_SAD:
+					   gif = GIF_SAD;
+					break;
+				case FLAG_GIF_CRY:
+					   gif = GIF_CRY;
+					break;
+				case FLAG_GIF_FURY:
+					   gif = GIF_FURY;
+					break;
+				case FLAG_GIF_ALARM:
+					   gif = GIF_ALARM;
 					break;
 				case FLAG_DRAW_HCIRCLE:
 					   paint.species = HOLLOW_CIRCLE;
@@ -1797,15 +1876,13 @@ void List_Parse(_Listptr  ptr)
 					break;
 				case FLAG_SET_Y2:
 					   paint.y2 = atoi(ptr->EditContent + 15);
-				     Paint_Config(&paint);
 					break;
 				case FLAG_SET_RADIUS:
 					   paint.radius = atoi(ptr->EditContent + 6);
-				     Paint_Config(&paint);
 					break;
 				case FLAG_COLOR:
-					   paint.color = atoi(ptr->EditContent + 6);
-				     Paint_Config(&paint);
+//					   paint.color = atoi(ptr->EditContent + 6);
+				     COLORMAP(atoi(ptr->EditContent + 6), paint.color)
 					break;
 				default:break;
 			}

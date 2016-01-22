@@ -1,4 +1,8 @@
 #include "WIDGET_DrawScale.h"
+#include "GIF_HAPPY.h"
+#include "GIF_SAD.h"
+#include "GIF_CRY.h"
+#include "GIF_ALARM.h"
 #include "WIDGET_MessageBox.h"
 
 #define  PEND_MAX_SIZE  40
@@ -161,7 +165,7 @@ void DrawStopIcon(void)
 }
 
 //_Paint数据结构初始化
-void Paint_Init(_Paint *paint)
+void Init_Paint(_Paint *paint)
 {
 	   paint->species = 0;
 	   paint->x1 = -1;
@@ -176,11 +180,12 @@ void Paint_Init(_Paint *paint)
 //Paint配置
 _Error Paint_Config(_Paint * paint)
 {
-	   
+	   GUI_Clear();
+	
 	   if(paint->species < HOLLOW_CIRCLE || paint->species > STRIGHT_LINE)
 		 {
-			 u8 ret;
-			 _MessageBox("请选择画图种类","错误",&ret);
+//			 u8 ret;
+//			 _MessageBox("请选择画图种类","错误",&ret);
 			 return ERROR_PAINT;
 		 }
 		 switch(paint->species)
@@ -188,14 +193,14 @@ _Error Paint_Config(_Paint * paint)
 			 case HOLLOW_CIRCLE:
 				    if(paint->x1 < 0 || paint->y1 < 0)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置圆点","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置圆点","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						if(paint->radius < 1 || paint->radius > MAX_RADIUS)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置半径","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置半径","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						GUI_SetColor(paint->color);
@@ -204,14 +209,14 @@ _Error Paint_Config(_Paint * paint)
 			 case SOLID_CIRCLE:
 				    if(paint->x1 < 0 || paint->y1 < 0)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置圆点","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置圆点","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						if(paint->radius < 1 || paint->radius > MAX_RADIUS)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置半径","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置半径","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						GUI_SetColor(paint->color);
@@ -220,8 +225,8 @@ _Error Paint_Config(_Paint * paint)
 			 case HOLLOW_RECT:
 				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置起点终点","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置起点终点","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						GUI_SetColor(paint->color);
@@ -230,8 +235,8 @@ _Error Paint_Config(_Paint * paint)
 			 case SOLID_RECT:
 				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置起点终点","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置起点终点","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						GUI_SetColor(paint->color);
@@ -240,8 +245,8 @@ _Error Paint_Config(_Paint * paint)
 			 case STRIGHT_LINE:
 				    if(paint->x1 < 0 || paint->y1 < 0 || paint->x2 < 0 || paint->y2 < 0)
 						{
-							 u8 ret;
-							 _MessageBox("请正确设置起点终点","错误",&ret);
+//							 u8 ret;
+//							 _MessageBox("请正确设置起点终点","错误",&ret);
 							 return ERROR_PAINT;
 						}
 						GUI_SetColor(paint->color);
@@ -249,4 +254,34 @@ _Error Paint_Config(_Paint * paint)
 				 break;
 		 }
 		 return NO_ERROR;
+}
+
+//绘制GIF函数
+void DrawGIF (_Gif *gif)
+{
+	   u8   g = *gif;
+	   if(g)
+	   {
+			 GUI_Clear();
+			 switch (g)
+			 {
+				 case GIF_HAPPY:
+							GUI_DrawBitmap(&bmHAPPY, 56, 86);
+					 break;
+				 case GIF_SAD:
+							GUI_DrawBitmap(&bmSAD, 56, 86);
+					 break;
+				 case GIF_CRY:
+							GUI_DrawBitmap(&bmCRY, 56, 86);
+					 break;
+				 case GIF_FURY:
+					 break;
+				 case GIF_ALARM:
+							GUI_DrawBitmap(&bmALARM, 56, 86);
+					 break;
+				 default:break;
+			 }
+			  
+			 *gif = 0;
+	   }
 }

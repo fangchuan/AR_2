@@ -150,8 +150,8 @@ uint16_t XPT2046_ReadAdc(uint8_t _ucCh)
 }
 
 
-#define SAMP_CNT 4
-#define SAMP_CNT_DIV2 2
+#define SAMP_CNT 10
+#define SAMP_CNT_DIV2 5
 /*
 *********************************************************************************************************
 *	º¯ Êý Ãû: XPT2046_ReadAdc_Fliter
