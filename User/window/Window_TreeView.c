@@ -18,11 +18,8 @@
 **********************************************************************
 */
 
-#include "Window_TreeView.h"
 #include "includes.h"
-#include "Window_1_1.h"
-#include "WIDGET_NumPad.h"
-#include "WIDGET_MessageBox.h"
+
 /*********************************************************************
 *
 *       Global data
@@ -57,10 +54,7 @@ WM_HWIN hTree;
 #define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
 #define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
 
-#define FILE_NAME_LEN 	50							//文件名长度，如果检测到文件名超过50 则丢弃这个文件 
-#define PATH_LEN		    50              //路径长度
-#define FILE_LIST_PATH 			"0:/FILELIST.TXT"	//文件记录列表文件的目录
-//#define _DF1S        0x80   //支持长文件名的,我没用长文件名
+
 /*********************************************************************
 *
 *       Static data
@@ -185,7 +179,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 void WriteFileProcess(void)
 {
 		_Listptr  p = Ins_List_Head -> next;
-		int      ListLength = GetListLength();
+		int      ListLength = GetListLength(Ins_List_Head);
 		int      NumBytesPerList = sizeof(_Instructor);
 		char     path[PATH_LEN] = {0};
 	
@@ -242,7 +236,7 @@ static void OpenFileProcess(int sel_num )
 						result = f_read(&file,p, NumBytesPerList, &bw);
 						if(result != FR_OK)
 							return ;
-						Add_Node(p->index , p->_flag ,p->EditContent );
+						Add_Node(Ins_List_Head, p->index , p->_flag ,p->EditContent );
 				}while(p->next); //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
 				myfree(SRAMIN, p);
 	}

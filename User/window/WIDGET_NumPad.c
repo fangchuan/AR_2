@@ -127,7 +127,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;                 /* Notification code */
     switch (NCode) {
     case WM_NOTIFICATION_CLICKED:
-      Pressed = 1;
+         Pressed = 1;
     case WM_NOTIFICATION_RELEASED:  
 				if( Id >= GUI_ID_USER && Id < GUI_ID_USER + 12)
 				{

@@ -1,29 +1,21 @@
-#include "_apollorobot.h"
-#include "os.h"
-#include "bsp_adc.h"
-#include "bsp_digitalsensor.h"
-#include "bsp_ultrasnio.h"
-#include "bsp_led.h"
-#include "bsp_motor.h" 
-#include "bsp_servo.h"
-#include "bsp_music.h"
-#include "malloc.h"
-#include  "WIDGET_MessageBox.h"
-#include  "WIDGET_DrawScale.h"
+#include "includes.h"
 /*********************************************************************
 *
 *       Global data
 *
 **********************************************************************
 */
-_Listptr Ins_List_Head;//程序链表的头指针
+_Listptr Ins_List_Head;//程序主链表的头指针
+_Listptr Sub_List_Head;//子程序链表头指针
 //_StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 //_SensorFlag  sensorflag;//传感器种类
 extern _Port port_1;
 extern _Port port_2;
 extern _Port port_3;
 extern _Port port_4;
-
+extern  FIL        file;
+extern  FRESULT  result;
+extern  UINT         bw;	
 /*********************************************************************
 *
 *       Static data
@@ -49,10 +41,12 @@ int32_t  delay_time;
 *
 **********************************************************************
 */
-static _Listptr or_branch (_Listptr  p);
-static _Listptr if_branch (_Listptr  p);
-static _Listptr while_branch(_Listptr  p);
-//static _Error Get_Port  (_Port * port);
+static _Listptr  or_branch (_Listptr  p);
+static _Listptr  if_branch (_Listptr  p);
+static _Listptr  while_branch(_Listptr  p);
+static _Listptr  Find_Node(_Listptr head, enum _FLAG flag);
+static _Error    OpenSubPro (uint32_t pn, _Listptr head);
+static _Listptr  proc_branch(_Listptr p);
 static void InitCar (_Car * car);
 static void InitLed(_Led * led);
 static void InitVar(_Variable *var);
@@ -258,6 +252,417 @@ _Error Detect_Port(_Port *port)
 			}
 }
 //
+//依据程序名调用子程序
+//要求Add_Node有可重入性
+static _Error OpenSubPro (uint32_t pn, _Listptr head)
+{
+	    static   int last_pname = -1;
+      if(last_pname != pn)
+			{	//前后两次进入不同子程序			
+				char         openfile[50]={0};
+				u8           ret;
+				 _Listptr   p = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
+		
+					sprintf(openfile, "%s/%d", "0:", pn);
+					f_open(&file, openfile, FA_READ | FA_OPEN_EXISTING);
+					if(result != FR_OK)
+					{
+						_MessageBox("程序不存在","错误", &ret);
+						return ERROR_NAME;
+					}
+					if(!p)
+						return ERROR_MALLOC;
+					else{
+						   
+								u16      NumBytesPerNode = sizeof(_Instructor);
+						    //子程序链表清空，重新读入
+						    Clear_List(Sub_List_Head);
+								do{
+										result = f_read(&file, p, NumBytesPerNode, &bw);
+										if(result != FR_OK)
+											return ERROR_FOPERATION;
+										Add_Node(Sub_List_Head , p->index , p->_flag ,p->EditContent );//将子程序添加进子程序链表
+								}while(p->next); //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
+								
+								myfree(SRAMIN, p);
+								
+								last_pname = pn;
+								
+								head->next = Sub_List_Head->next ;//PC指针跳至子程序链表
+								
+								return NO_ERROR;
+							}
+					
+				}
+			else{
+			      head->next = Sub_List_Head->next ;//PC指针跳至子程序链表
+				    return NO_ERROR;
+			}
+}
+//
+//调用子程序代码块
+//返回跳转结点的指针，即FLAG_PROC
+static _Listptr proc_branch(_Listptr p)
+{
+	     _Listptr  ret = p;
+	     p = p -> next;
+	     if(!p)
+			 {
+				 return NULL;
+			 }
+			 else{
+				     _Listptr jumpq;
+	           OS_ERR     err;
+				     u8     procerr = 0;
+						 while(p)
+						 {
+								switch ( p->_flag )
+								{
+									case FLAG_MOTOR_C:   //电机_正转,速度_  
+													motor.id =( p->EditContent )[6] - 0x30;
+													motor.direction = FORWARD;
+													motor.speed = atoi(p->EditContent + 20);
+													MOTOR_Config(&motor);
+										break;
+									case FLAG_MOTOR_CC: //电机_反转,速度_
+													motor.id = ( p->EditContent )[6] - 0x30;
+													motor.direction = BACKWARD;
+													motor.speed = atoi(p->EditContent + 20);
+													MOTOR_Config(&motor);
+										break;
+									case FLAG_SERVO:  //舵机_转_
+												servo.id = ( p->EditContent )[6] - 0x30;
+												servo.degree = atoi(p->EditContent + 10);
+												SERVO_Config(&servo);
+										break;
+									case FLAG_LED_ON:  //LED_
+												led.id = ( p->EditContent )[3] - 0x30;
+												led.status = ON;
+												LED_Config(&led );
+										break;
+									case FLAG_LED_OFF:  //LED_
+												led.id = ( p->EditContent )[3] - 0x30;
+												led.status = OFF;
+												LED_Config(&led );
+										break;
+									case FLAG_CAR_LEFT:
+												car.direction = LEFT;
+												car.speed_step = 0;
+												Car_Left();
+										break;
+									case FLAG_CAR_RIGHT:
+												car.direction = RIGHT;
+												car.speed_step = 0;
+												Car_Right();
+										break;
+									case FLAG_CAR_FORWARD:
+												car.direction = FORWARD;
+												car.speed_step = 0;
+												Car_Forward();
+										break;
+									case FLAG_CAR_BACKWARD:
+												car.direction = BACKWARD;
+												car.speed_step = 0;
+												Car_Backward();
+										break;
+									case FLAG_CAR_STOP:
+												car.direction = STOP;
+												car.speed_step = 0;
+												Car_Stop();
+										break;
+									case FLAG_CAR_ACCEL:
+											 car.speed_step = SPEED_STEP;
+											 CAR_Config(&car);
+										break;
+									case FLAG_CAR_SLOW:
+											 car.speed_step = -SPEED_STEP;
+											 CAR_Config(&car);
+										break;
+									//遇到流程控制语句if\or\while等，先判断是否符合判断条件，符合条件的话直接进入下一个结点
+									case FLAG_PORT_SIGNAL://如果端口_有信号
+												port.id = (p->EditContent)[12] - 0x30;
+												Detect_Port(&port);
+												if(port.cur_val == SIGNAL)
+												{
+													//如果条件成立，则进入if分支
+													p = if_branch(p);                    
+												}
+												else{
+													//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+													jumpq = Find_Node(p, FLAG_OR);
+													if(!jumpq)
+														jumpq = Find_Node(p, FLAG_IF_END);
+													
+													p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_PORT_NOSIGNAL://如果端口_无信号
+												port.id = (p->EditContent)[12] - 0x30;
+												Detect_Port(&port);
+												if(port.cur_val == NOSIGNAL)
+												{
+													//如果条件成立，则进入if分支
+													p = if_branch(p);                    
+												}
+												else {
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
+												port.id = (p->EditContent)[12] - 0x30;
+												do{
+														Detect_Port(&port);
+												}while(port.cur_val != SIGNAL);
+										break;
+									case FLAG_PORT_WAIT_NOSIGNAL://等待端口_无信号
+												port.id = (p->EditContent)[12] - 0x30;
+												do{
+														Detect_Port(&port);
+												}while(port.cur_val != NOSIGNAL);
+										break;
+									case FLAG_PORT_GREATER: //如果端口_>_
+												port.id = (p->EditContent)[12] - 0x30;
+												port.tar_val = atoi(p->EditContent + 14);
+												Detect_Port(&port);
+												if(port.cur_val > port.tar_val )
+												{
+													//如果条件成立，则进入if分支
+													p = if_branch(p);                    
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_PORT_LITTLER: //如果端口_<_
+												port.id = (p->EditContent)[12] - 0x30;
+												port.tar_val = atoi(p->EditContent + 14);
+												Detect_Port(&port);
+												if(port.cur_val < port.tar_val )
+												{
+													//如果条件成立，则进入if分支
+													p = if_branch(p);                    
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_OBSTRACLE_GREATER:
+												ult.tar_distance = atoi(p->EditContent + 16);
+												if(ult.cur_distance > ult.tar_distance )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_OBSTRACLE_LITTER:
+												ult.tar_distance = atoi(p->EditContent + 16);
+												if(ult.cur_distance > ult.tar_distance )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_VAR_SET_A: //设定A=
+												var.id = VAR_A;
+												var.set_val = atoi(p->EditContent + 8);
+										break;
+									case FLAG_VAR_SET_B: //设定B=
+												var.id = VAR_B;
+												var.set_val = atoi(p->EditContent + 8);
+										break;
+									case FLAG_VAR_A_INC:
+													var.id = VAR_A;
+													var.set_val ++;
+												
+										break;
+									case FLAG_VAR_A_DEC:
+												var.id = VAR_A;
+												var.set_val --;
+										break;
+									case FLAG_VAR_B_INC:
+												var.id = VAR_B;
+												var.set_val ++;
+											
+										break;
+									case FLAG_VAR_B_DEC:
+												var.id = VAR_B;
+												var.set_val --;
+										break;
+									case FLAG_VAR_SHOW_A:
+										
+										break;
+									case FLAG_VAR_SHOW_B:
+										
+										break;
+									case FLAG_VAR_A_GREATER: //如果A>_
+												var.id = VAR_A;
+												var.tar_val = atoi(p->EditContent + 8);
+												if(var.set_val > var.tar_val )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                    
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_VAR_A_LITTLER: //如果A<_
+												var.id = VAR_A;
+												var.tar_val = atoi(p->EditContent + 8);
+												if(var.set_val < var.tar_val )
+												{
+													//如果条件成立，则进入if分支
+													p = if_branch(p);                    
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给ptr
+												}
+										break;
+									case FLAG_WHILE_HEAD:
+													p = while_branch(p);
+										break;
+									case FLAG_WHILE_TAIL:
+											 //
+											 //do nothing...
+											 //
+										break;
+									case FLAG_END_PROGRAM:
+												p ->next = (void *)0;
+										break;
+									case FLAG_OR:
+												//其实不可能直接在主链表里执行到OR语句,这是语法错误
+												p = or_branch(p); //返回的p指向“条件结束”指令
+										break;
+									case FLAG_IF_END:
+												//
+												//do nothing...
+												//
+										break;
+									case FLAG_PROC:
+											 jumpq = p->next ;//保存断点
+//									     p->next = (_Listptr)0;
+											 procerr = OpenSubPro(atoi(p->EditContent + 15), p);//更改PC指针
+									     if(procerr == NO_ERROR)
+											 {
+												  p = proc_branch(p);//执行子程序
+												  p->next = jumpq;  //返回断点地址
+											 }
+											 else
+											 {
+												  p->next = jumpq;//返回断点地址
+											 }
+										break;
+									case FLAG_DELAY_NMS:
+												delay_time = atoi(p->EditContent + 6);
+												OSTimeDly(delay_time,OS_OPT_TIME_DLY, &err);
+										break;
+									case FLAG_MUSIC:
+												music.tones = atoi(p->EditContent + 6);
+												music.time = atoi(p->EditContent + 13);
+												Music_Config(&music);
+										break;
+									case FLAG_SHOW_DISTANCE:
+											 ult.ifshow = SHOW_ON;
+										break;
+									case FLAG_GIF_HAPPY:
+											 gif = GIF_HAPPY;
+										break;
+									case FLAG_GIF_SAD:
+											 gif = GIF_SAD;
+										break;
+									case FLAG_GIF_CRY:
+											 gif = GIF_CRY;
+										break;
+									case FLAG_GIF_FURY:
+											 gif = GIF_FURY;
+										break;
+									case FLAG_GIF_ALARM:
+											 gif = GIF_ALARM;
+										break;
+									case FLAG_DRAW_HCIRCLE:
+											 paint.species = HOLLOW_CIRCLE;
+										break;
+									case FLAG_DRAW_SCIRCLE:
+											 paint.species = SOLID_CIRCLE;
+										break;
+									case FLAG_DRAW_HRECT:
+											 paint.species = HOLLOW_RECT;
+										break;
+									case FLAG_DRAW_SRECT:
+											 paint.species = SOLID_RECT;
+										break;
+									case FLAG_DRAW_LINE:
+											 paint.species = STRIGHT_LINE;
+										break;
+									case FLAG_SET_X1:
+											 paint.x1 = atoi(p->EditContent + 15);
+										break;
+									case FLAG_SET_X2:
+											 paint.x2 = atoi(p->EditContent + 15);
+										break;
+									case FLAG_SET_Y1:
+											 paint.y1 = atoi(p->EditContent + 15);
+										break;
+									case FLAG_SET_Y2:
+											 paint.y2 = atoi(p->EditContent + 15);
+										break;
+									case FLAG_SET_RADIUS:
+											 paint.radius = atoi(p->EditContent + 6);
+										break;
+									case FLAG_COLOR:
+					//					   paint.color = atoi(ptr->EditContent + 6);
+											 COLORMAP(atoi(p->EditContent + 6), paint.color)
+										break;
+									default:break;
+								}
+								p = p -> next ;
+						 }
+						 
+						return ret;
+		  }
+}
+//
 //if 满足条件后面的代码块处理，支持多条语句，支持嵌套
 //返回IF_END指令的指针
 static _Listptr if_branch (_Listptr  p)
@@ -266,8 +671,9 @@ static _Listptr if_branch (_Listptr  p)
 		if(!p)
 			return NULL;
 		else{
-			_Listptr  q;//指向or指令或IF_END指令
+			_Listptr  jumpq;//指向or指令或IF_END指令
 			OS_ERR  err;
+			u8    procerr;
 			while(p->_flag != FLAG_IF_END && p->_flag != FLAG_OR && p)//if条件成立的代码块里不能包括or的情况
 			{
 				switch ( p ->_flag )
@@ -342,11 +748,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-								q = Find_Node(p->index ,FLAG_OR);
-								if(!q)
-									q = Find_Node(p->index ,FLAG_IF_END);
+								jumpq = Find_Node(p, FLAG_OR);
+								if(!jumpq)
+									jumpq = Find_Node(p, FLAG_IF_END);
 								
-								p = q;//将这个结点赋给p
+								p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -359,11 +765,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-								q = Find_Node(p->index ,FLAG_OR);
-								if(!q)
-									q = Find_Node(p->index ,FLAG_IF_END);
+								jumpq = Find_Node(p, FLAG_OR);
+								if(!jumpq)
+									jumpq = Find_Node(p, FLAG_IF_END);
 								
-								p = q;//将这个结点赋给p
+								p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -389,11 +795,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_PORT_LITTLER: //如果端口_<_
@@ -407,11 +813,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER://障碍物距离大于_
@@ -423,11 +829,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_OBSTRACLE_LITTER://如果障碍物距离小于_
@@ -439,11 +845,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
@@ -488,11 +894,11 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_VAR_A_LITTLER: //变量A<_
@@ -505,15 +911,14 @@ static _Listptr if_branch (_Listptr  p)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(p->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(p->index ,FLAG_IF_END);
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
 									
-									p = q;//将这个结点赋给p
+									p = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_WHILE_HEAD:
-							p = p -> next;
 							p = while_branch(p);
 					break;
 				case FLAG_WHILE_TAIL:
@@ -530,7 +935,18 @@ static _Listptr if_branch (_Listptr  p)
 //				case FLAG_IF_END:				  //if的代码块里不包含这两种情况!!!
 //					break;
 				case FLAG_PROC:
-					   
+					   jumpq = p->next ;//保存断点
+//				      p->next = (_Listptr)0;//断开主链表
+						 procerr = OpenSubPro(atoi(p->EditContent + 15), p);//PC指针跳转
+						 if(procerr == NO_ERROR)
+						 {
+							  p = proc_branch(p);//执行子程序
+	  					  p->next = jumpq;  //返回断点地址
+						 }
+						 else
+						 {
+							  p->next = jumpq;//返回断点地址
+						 }
 					break;
 				case FLAG_DELAY_NMS:
 							delay_time = atoi(p->EditContent + 6);
@@ -598,7 +1014,7 @@ static _Listptr if_branch (_Listptr  p)
 				p = p -> next;
 			}
 			if(p->_flag == FLAG_OR)     //如果执行到OR语句了，则直接寻找IF_END语句，跳过OR语句的代码块
-				p = Find_Node(p->index ,FLAG_IF_END);
+				p = Find_Node(p, FLAG_IF_END);
 			
 			return p;
 		}
@@ -614,8 +1030,9 @@ static _Listptr or_branch (_Listptr  p)
 					return NULL;
 			else
 			{
-				_Listptr    q;//用于指向IF_END指令结点或嵌套的if指令结点
+				_Listptr    jumpq;//用于指向IF_END指令结点或嵌套的if指令结点
 				OS_ERR    err;
+				u8       procerr;
 				while(p->_flag != FLAG_IF_END && p)
 				{
 					switch ( p ->_flag )
@@ -690,11 +1107,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 										//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-										q = Find_Node(p->index ,FLAG_OR);
-										if(!q)
-											q = Find_Node(p->index ,FLAG_IF_END);
+										jumpq = Find_Node(p, FLAG_OR);
+										if(!jumpq)
+											jumpq = Find_Node(p, FLAG_IF_END);
 										
-										p = q;//将这个结点赋给p
+										p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -707,11 +1124,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 										//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-										q = Find_Node(p->index ,FLAG_OR);
-										if(!q)
-											q = Find_Node(p->index ,FLAG_IF_END);
+										jumpq = Find_Node(p, FLAG_OR);
+										if(!jumpq)
+											jumpq = Find_Node(p, FLAG_IF_END);
 										
-										p = q;//将这个结点赋给p
+										p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -737,11 +1154,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_PORT_LITTLER: //如果端口_<_
@@ -755,11 +1172,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_OBSTRACLE_GREATER:
@@ -771,11 +1188,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_OBSTRACLE_LITTER:
@@ -787,11 +1204,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_VAR_SET_A: //设定A=
@@ -836,11 +1253,11 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_VAR_A_LITTLER: //变量A<_
@@ -853,15 +1270,14 @@ static _Listptr or_branch (_Listptr  p)
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-											q = Find_Node(p->index ,FLAG_OR);
-											if(!q)
-												q = Find_Node(p->index ,FLAG_IF_END);
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
 											
-											p = q;//将这个结点赋给p
+											p = jumpq;//将这个结点赋给p
 									}
 							break;
 						case FLAG_WHILE_HEAD:
-									p = p -> next;
 									p = while_branch(p);
 							break;
 						case FLAG_WHILE_TAIL:
@@ -879,6 +1295,18 @@ static _Listptr or_branch (_Listptr  p)
 //						case FLAG_IF_END:   //不包含if_end的结点，只处理"否则"指令里包含的代码块
 //							break;
 						case FLAG_PROC:
+							   jumpq = p->next ;//保存断点
+//						     p->next = (_Listptr)0;//断开主链表
+								 procerr = OpenSubPro(atoi(p->EditContent + 15), p);//PC指针跳转
+								 if(procerr == NO_ERROR)
+								 {
+										p = proc_branch(p);//执行子程序
+										p->next = jumpq;  //返回断点地址
+								 }
+								 else
+								 {
+										p->next = jumpq;//返回断点地址
+								 }
 							break;
 						case FLAG_DELAY_NMS:
 									delay_time = atoi(p->EditContent + 6);
@@ -953,18 +1381,19 @@ static _Listptr or_branch (_Listptr  p)
 //Tips:让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
 static _Listptr while_branch (_Listptr  p)
 {
-	
+	    _Listptr  while_head = p;
+	    p = p->next ;
 			if(!p)
 				return NULL;
 			else
 			{
-					int index_first = p->index ;//while循环里的第一句所在地址(索引)
-					_Listptr        q_whiletail;//指向WHILE_END语句
-					_Listptr 	                q;//用于指向IF_END指令结点或嵌套的if指令结点
+					_Listptr        while_tail;//指向WHILE_END语句
+					_Listptr 	            jumpq;//用于指向IF_END指令结点或嵌套的if指令结点
 					OS_ERR                  err;
+				  u8                  procerr;
 				
-					q_whiletail = Find_Node(index_first,FLAG_WHILE_TAIL);//找到WHILE_TAIL结点
-					if(!q_whiletail)
+					while_tail = Find_Node(p, FLAG_WHILE_TAIL);//找到WHILE_TAIL结点
+					if(!while_tail)
 						return NULL;
 					else{
 
@@ -1042,11 +1471,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -1059,11 +1488,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -1089,11 +1518,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_PORT_LITTLER: //如果端口_<_
@@ -1107,11 +1536,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_OBSTRACLE_GREATER:
@@ -1123,11 +1552,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-																q = Find_Node(p->index ,FLAG_OR);
-																if(!q)
-																	q = Find_Node(p->index ,FLAG_IF_END);
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
 																
-																p = q;//将这个结点赋给p
+																p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_OBSTRACLE_LITTER:
@@ -1139,11 +1568,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-																q = Find_Node(p->index ,FLAG_OR);
-																if(!q)
-																	q = Find_Node(p->index ,FLAG_IF_END);
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
 																
-																p = q;//将这个结点赋给p
+																p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_VAR_SET_A: //设定A=
@@ -1188,11 +1617,11 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_VAR_A_LITTLER: //变量A<_
@@ -1205,19 +1634,18 @@ static _Listptr while_branch (_Listptr  p)
 														}
 														else{
 															//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-															q = Find_Node(p->index ,FLAG_OR);
-															if(!q)
-																q = Find_Node(p->index ,FLAG_IF_END);
+															jumpq = Find_Node(p, FLAG_OR);
+															if(!jumpq)
+																jumpq = Find_Node(p, FLAG_IF_END);
 															
-															p = q;//将这个结点赋给p
+															p = jumpq;//将这个结点赋给p
 														}
 												break;
 											case FLAG_WHILE_HEAD:
-														p = p -> next;
 														p = while_branch(p); //嵌套
 												break;
 											case FLAG_WHILE_TAIL://到了循环语句尾部就跳转至循环语句首部
-														p = Find_Node(index_first -1,FLAG_WHILE_HEAD);//因为这里记录的Index_first是WHILE_HEAD指令的后一句，
+														p = while_head;//因为这里记录的Index_first是WHILE_HEAD指令的后一句，
 																																					//所以index_first的上一个索引才是WHILE_HEAD
 												break;
 											case FLAG_END_PROGRAM:
@@ -1233,7 +1661,18 @@ static _Listptr while_branch (_Listptr  p)
 														//
 												break;
 											case FLAG_PROC:
-												
+												   jumpq = p->next ;//保存断点
+//											     p->next = (_Listptr)0;//断开主链表
+								           procerr = OpenSubPro(atoi(p->EditContent + 15), p);//PC指针跳转
+								           if(procerr == NO_ERROR)
+								           {
+															p = proc_branch(p);//执行子程序
+															p->next = jumpq;  //返回断点地址
+													 }
+													 else
+													 {
+															p->next = jumpq;//返回断点地址
+													 }
 												break;
 											case FLAG_DELAY_NMS:
 														delay_time = atoi(p->EditContent + 6);
@@ -1313,7 +1752,9 @@ static _Listptr while_branch (_Listptr  p)
 *
 **********************************************************************
 */
+//
 //建立一个有表头结点的单链表
+//包括主链表和子程序链表的表头结点
 int Create_List(void){
 	
 		Ins_List_Head = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
@@ -1321,15 +1762,22 @@ int Create_List(void){
 			return -1;
 		Ins_List_Head -> index = 0;
 		Ins_List_Head->next = (void*)0;
+		
+		Sub_List_Head = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
+		if( !Sub_List_Head)
+			return -1;
+		Sub_List_Head -> index = 0;
+		Sub_List_Head->next = (void*)0;
 		return 0;
 	
 }
 //增加节点,将元素加到下标为index的地方。其实是依次将结点从表头结点接下来
-int Add_Node(int index, uint8_t flag, char *content)
+//具有可重入性
+int Add_Node (_Listptr head, int index, uint8_t flag, char *content)
 {
 				int i = 0;
 				_Listptr    q = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
-				_Listptr    p = Ins_List_Head;
+				_Listptr    p = head;
 			  u8      Mb_Val;
 				if(index <= 0 || !q)
 				{
@@ -1412,9 +1860,9 @@ int Delete_Node(int index)
 		
 }
 //获取当前链表的长度,输入参数为表头结点
-int  GetListLength(void)
+int  GetListLength(_Listptr  head)
 {
-		_Listptr p = Ins_List_Head;
+		_Listptr p = head;
 		int length =0 ;
 		if(!p)
 			return -1;
@@ -1428,11 +1876,11 @@ int  GetListLength(void)
 		}
 }
 //清空整个链表，释放原来的结点空间
-void Clear_List(void)
+void Clear_List(_Listptr  head)
 {
-		_Listptr p = Ins_List_Head ;
+		_Listptr p = head ;
 		_Listptr q ;
-		int      i = GetListLength() ;
+		int      i = GetListLength(p) ;
 	
 		while(i--)
 		{
@@ -1443,19 +1891,9 @@ void Clear_List(void)
 		
 }
 //从index结点开始寻找标志为flag的结点,并返回该结点的指针
-_Listptr  Find_Node(int index, enum _FLAG flag)
+static _Listptr  Find_Node(_Listptr head, enum _FLAG flag)
 {
-				int i ;
-				_Listptr    p = Ins_List_Head;
-			
-				if(index <= 0 )
-					return (_Listptr)0;
-				
-				while(p && i < index)
-				{
-					p = p ->next ;//此时p即为下标为index的结点
-					i ++;
-				}
+				_Listptr    p = head;
 				
 				if(!p)
 					return (_Listptr)0;
@@ -1534,9 +1972,10 @@ int Pop(_StatuStack *Stk, uint8_t *ele)
 //解析工作绝对不可以破坏原链表的顺序
 void List_Parse(_Listptr  ptr)
 {
-		_Listptr  q;//用于if语句
+		_Listptr  jumpq;//跳转指针，用于if语句和调用子程序
 		OS_ERR  err;
-
+    u8      procerr;  
+	
 		InitUltrasnio(&ult);
 	  Init_Paint(&paint);
 	  InitMotor(&motor);
@@ -1629,11 +2068,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 								//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-								q = Find_Node(ptr->index ,FLAG_OR);
-								if(!q)
-									q = Find_Node(ptr->index ,FLAG_IF_END);
+								jumpq = Find_Node(ptr, FLAG_OR);
+								if(!jumpq)
+									jumpq = Find_Node(ptr, FLAG_IF_END);
 								
-								ptr = q;//将这个结点赋给ptr
+								ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_NOSIGNAL://如果端口_无信号
@@ -1646,11 +2085,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else {
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给ptr
+									ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_WAIT_SIGNAL://等待端口_有信号
@@ -1676,11 +2115,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给ptr
+									ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_PORT_LITTLER: //如果端口_<_
@@ -1694,11 +2133,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给ptr
+									ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_OBSTRACLE_GREATER:
@@ -1710,11 +2149,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给p
+									ptr = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_OBSTRACLE_LITTER:
@@ -1726,11 +2165,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给p
+									ptr = jumpq;//将这个结点赋给p
 							}
 					break;
 				case FLAG_VAR_SET_A: //设定A=
@@ -1775,11 +2214,11 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给ptr
+									ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_VAR_A_LITTLER: //如果A<_
@@ -1792,15 +2231,14 @@ void List_Parse(_Listptr  ptr)
 							}
 							else{
 									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
-									q = Find_Node(ptr->index ,FLAG_OR);
-									if(!q)
-										q = Find_Node(ptr->index ,FLAG_IF_END);
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
 									
-									ptr = q;//将这个结点赋给ptr
+									ptr = jumpq;//将这个结点赋给ptr
 							}
 					break;
 				case FLAG_WHILE_HEAD:
-								ptr = ptr ->next ;
 								ptr = while_branch(ptr);
 					break;
 				case FLAG_WHILE_TAIL:
@@ -1821,7 +2259,17 @@ void List_Parse(_Listptr  ptr)
 							//
 					break;
 				case FLAG_PROC:
-					
+				     jumpq = ptr->next ;//保存断点
+//				     ptr->next = (_Listptr)0;//断开主链表
+				     procerr = OpenSubPro(atoi(ptr->EditContent + 15), ptr);//PC指针跳转
+				     if(procerr == NO_ERROR)
+						 {
+							  ptr = proc_branch(ptr);//执行子程序
+							  ptr->next = jumpq;  //返回断点地址
+						 }
+						 else{
+						       ptr->next = jumpq;  //返回断点地址
+						 }
 					break;
 				case FLAG_DELAY_NMS:
 							delay_time = atoi(ptr->EditContent + 6);

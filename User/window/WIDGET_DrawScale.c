@@ -282,6 +282,6 @@ void DrawGIF (_Gif *gif)
 				 default:break;
 			 }
 			  
-			 *gif = 0;
+			 *gif = (_Gif)0;
 	   }
 }

@@ -959,7 +959,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//如果链表不为空，说明是打开原来保存的程序，则将链表内容赋给EDIT
 		if(Ins_List_Head -> next)
 		{
-			int listlength = GetListLength();
+			int listlength = GetListLength(Ins_List_Head);
 			_Listptr p = Ins_List_Head -> next;
 			for(i = 1; i <= listlength; i++)
 			{
@@ -1216,7 +1216,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Clear_List();         //清空链表所有结点
+						Clear_List(Ins_List_Head);         //清空链表所有结点
 						GUI_EndDialog(hWin1_1,0);
 						
         break;

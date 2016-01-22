@@ -19,6 +19,9 @@ typedef enum _ERROR {	NO_ERROR = 0,
 											ERROR_TIME,   //错误的节拍
 											ERROR_DIR,    //错误的小车方向
 	                    ERROR_PAINT,  //错误的绘画操作
+	                    ERROR_NAME,   //错误的程序名
+	                    ERROR_MALLOC, //
+	                    ERROR_FOPERATION,//
 							
 }_Error;
 
@@ -325,12 +328,11 @@ extern _Listptr Ins_List_Head;//程序链表的表头节点
 //extern _StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 
 extern int Create_List(void);
-extern int Add_Node(int index, uint8_t flag, char *content);//增加节点，后插法
+extern int Add_Node(_Listptr head, int index, uint8_t flag, char *content);//增加节点，后插法
 extern int  Replace_Node(int index, enum _FLAG flag,char *content);//替换节点
 extern int Delete_Node(int index);//删除节点
-extern void Clear_List(void);//删除整个链表
-extern _Listptr  Find_Node(int index, enum _FLAG flag);////从index结点开始寻找标志为flag的结点,并返回该结点的指针
-extern int  GetListLength(void);//返回当前链表的长度,若只有头结点则长度为0
+extern void Clear_List(_Listptr head);//删除整个链表
+extern int  GetListLength(_Listptr head);//返回当前链表的长度,若只有头结点则长度为0
 extern int Create_Stack(void);//创建一个空栈
 extern int GetStackLength(_StatuStack *stk);////返回当前栈的长度
 extern int GetTop(_StatuStack *Stk,uint8_t *ele);////获取栈顶元素，存入ele，不是出栈
