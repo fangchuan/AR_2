@@ -25,6 +25,18 @@ typedef enum _ERROR {	NO_ERROR = 0,
 							
 }_Error;
 
+//
+//显示内容
+//
+typedef enum _DISPLAY {
+												DISP_TEXT = 0,    //显示文本:程序自动运行中
+	                      DISP_DIRECTION,   //显示小车方向
+	                      DISP_PAINT,       //显示画板内容
+	                      DISP_DISTANCE,    //显示超声波距离
+	                      DISP_VARIABLE,    //显示变量值
+	                      DISP_GIF,         //显示GIF图
+
+}_Display;
 //用于标识传感器种类的枚举类型
 typedef enum _SENSORFLAG {
                            SENSOR_IR     = 1,//红外光电传感器
@@ -232,7 +244,6 @@ typedef struct _EULER {
 #define SHOW_ON   1
 #define SHOW_OFF  0
 typedef struct _ULTRASNIO{
-	      uint8_t         ifshow;// 是否现显示当前距离
 	      float     cur_distance;// 超声波测得的当前的距离
 	      uint16_t  tar_distance;// 目标距离，要比较的值
 }_Ultrasnio;

@@ -41,9 +41,11 @@
 */
 WM_HWIN                       hRun;
 extern              _Ultrasnio ult;
+extern              _Variable  var;
 extern              _Car       car;
 extern              _Paint    paint;
 extern              _Gif        gif;
+extern              _Display  display;
 /*********************************************************************
 *
 *       Static data
@@ -85,7 +87,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
 //  int     NCode;
 //  int     Id;
-
+  char distance[10] = {0};
+						
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
 		//
@@ -107,25 +110,25 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 //    NCode = pMsg->Data.v;
     break;
 	case WM_PAINT:
+		  //运行界面每次只能显示一种图案
+	    GUI_SetColor(GUI_RED);
+			GUI_SetFont(&GUI_FontSongTi12);
+	switch(display)
+	{
+		case DISP_TEXT:
 				hItem = pMsg->hWin;
-				GUI_SetColor(GUI_RED);
-				GUI_SetFont(&GUI_FontSongTi12);
 				GUI_DispStringHCenterAt(StringHZ[1], 120, 140);
-
-				if(ult.ifshow )
-				{
-					char distance[10] = {0};
+      break;
+	  case DISP_DISTANCE:
 					sprintf(distance,"%dcm",(int)ult.cur_distance );
 					hItem = WM_GetDialogItem(pMsg->hWin ,ID_TEXT_A);
 					TEXT_SetText(hItem,distance);
-				}	
-				if(paint.species)
-				{
+				break;
+	  case DISP_PAINT: 
 					Paint_Config(&paint);
 					Init_Paint(&paint);
-				}
-				else
-				{
+				break;
+    case DISP_DIRECTION:
 					if(car.direction == FORWARD)
 					{
 						 DrawForwardIcon();
@@ -146,8 +149,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					{
 						 DrawStopIcon();
 					}
-			  }
+        break;
+	 case DISP_GIF:
 				DrawGIF(&gif);
+		    break;
+	 case DISP_VARIABLE:
+		    GUI_DispDecAt(var.set_val ,120, 160, 6);//变量最大显示6位数
+		    break;
+			}
 				break;
   default:
     WM_DefaultProc(pMsg);

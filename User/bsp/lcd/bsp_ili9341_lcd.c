@@ -194,7 +194,7 @@ static void Delay(__IO uint32_t nCount)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void LCD_FSMCConfig(void)
+static void LCD_FSMCConfig(void)
 {	
 	
 	 FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;	
@@ -243,7 +243,7 @@ void LCD_FSMCConfig(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void LCD_CtrlLinesConfig(void)
+static void LCD_CtrlLinesConfig(void)
 {
 	
 	
@@ -314,7 +314,7 @@ void LCD_CtrlLinesConfig(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void LCD_Reset(void)
+static void LCD_Reset(void)
 {			
 	/*复位 LCD*/	 
     GPIO_ResetBits(GPIOG, GPIO_Pin_11);
@@ -471,12 +471,17 @@ void bsp_InitLCD(void)
 	LCD_ILI9341_Parameter(0x45);
 	LCD_ILI9341_Parameter(0x45);
 	
-	/*  VCOM Control 2(C7h)  */
-	LCD_ILI9341_CMD(0xC7);
-	LCD_ILI9341_Parameter(0xA2);
+//	/*  VCOM Control 2(C7h)  */
+//	LCD_ILI9341_CMD(0xC7);
+//	LCD_ILI9341_Parameter(0xA2);
 	
 	/* Enable 3G (F2h) */
 	LCD_ILI9341_CMD(0xF2);
+	LCD_ILI9341_Parameter(0x00);
+	
+	LCD_ILI9341_CMD(0XF6);
+	LCD_ILI9341_Parameter(0x01);
+	LCD_ILI9341_Parameter(0x30);
 	LCD_ILI9341_Parameter(0x00);
 	
 	/* Gamma Set (26h) */
@@ -576,7 +581,7 @@ void bsp_InitLCD(void)
 //	LCD_ILI9341_Parameter(0x50);
 
 //	LCD_ILI9341_CMD(0x36); // Memory Access Control
-//	LCD_ILI9341_Parameter(0x08);
+//	LCD_ILI9341_Parameter(0xC8);
 
 //	LCD_ILI9341_CMD(0xF2); // 3Gamma Function Disable
 //	LCD_ILI9341_Parameter(0x00);

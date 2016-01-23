@@ -3,6 +3,7 @@
 #include "GIF_SAD.h"
 #include "GIF_CRY.h"
 #include "GIF_ALARM.h"
+#include "GIF_FURY.h"
 #include "WIDGET_MessageBox.h"
 
 #define  PEND_MAX_SIZE  40
@@ -275,6 +276,7 @@ void DrawGIF (_Gif *gif)
 							GUI_DrawBitmap(&bmCRY, 56, 86);
 					 break;
 				 case GIF_FURY:
+					    GUI_DrawBitmap(&bmFURY, 56, 86);
 					 break;
 				 case GIF_ALARM:
 							GUI_DrawBitmap(&bmALARM, 56, 86);

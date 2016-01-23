@@ -88,12 +88,8 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
   unsigned i; 
   int      NCode;
   unsigned Id;
-  int      Pressed;
-  WM_HWIN  hDlg;
   WM_HWIN  hItem;
   
-  Pressed = 0;
-  hDlg = pMsg->hWin;
   switch (pMsg->MsgId) {
   case WM_PAINT:
     WM_GetClientRect(&r);
@@ -110,15 +106,15 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
     break;
   case WM_INIT_DIALOG:
     for (i = 0; i < GUI_COUNTOF(_aDialogNumPad) - 1; i++) {
-      hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
+      hItem = WM_GetDialogItem(pMsg->hWin , GUI_ID_USER + i);
       BUTTON_SetFocussable(hItem, 0);                       /* Set all buttons non focussable */
     }
 		
-		hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + 12);
+		hItem = WM_GetDialogItem(pMsg->hWin , GUI_ID_USER + 12);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[0]);
 		
-		hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + 13);
+		hItem = WM_GetDialogItem(pMsg->hWin , GUI_ID_USER + 13);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[1]);
     break;
@@ -127,7 +123,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;                 /* Notification code */
     switch (NCode) {
     case WM_NOTIFICATION_CLICKED:
-         Pressed = 1;
+			   break;
     case WM_NOTIFICATION_RELEASED:  
 				if( Id >= GUI_ID_USER && Id < GUI_ID_USER + 12)
 				{
@@ -142,7 +138,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 						{
 								Key = GUI_KEY_BACKSPACE;
 						}
-						GUI_SendKeyMsg(Key, Pressed);                                /* Send a key message to the focussed window */
+						GUI_SendKeyMsg(Key, 1);                                /* Send a key message to the focussed window */
 				}
 				else 
 				{

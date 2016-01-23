@@ -91,9 +91,9 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { TEXT_CreateIndirect,   "传感器状态",  ID_TEXT_EXP, 0,  25,  80, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "ULTRASNIO", ID_TEXT_ULT, 1, 100, 80, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "MPU6050", ID_TEXT_MPU, 1, 145, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "EULER:", ID_TEXT_EULER, 1, 165, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "GYRO:", ID_TEXT_GYRO, 1, 185, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "ACCEL:", ID_TEXT_ACCEL, 1, 205, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "EULER:", ID_TEXT_EULER, 1, 165, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "ACCEL:", ID_TEXT_ACCEL, 1, 185, 40, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "GYRO:",  ID_TEXT_GYRO, 1, 205, 40, 20, 0, 0x0, 0 },
 };
 
 /*********************************************************************
@@ -321,12 +321,31 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			 if(ult.cur_distance)
 			 {
 				  sprintf(str, "%d",(int)ult.cur_distance );
-				  GUI_DispStringAt(str, 80,100);
+				  GUI_SetColor(GUI_RED);
+				  GUI_DispStringAt(str, 80,103);
 			 }
 			 else
 			 {
-				  GUI_DispStringAt("0cm", 80,105);
+				  GUI_SetColor(GUI_RED);
+				  GUI_DispStringAt("0cm", 80,103);
 			 }
+			 
+			 GUI_GotoXY(50, 170);
+			 GUI_DispSFloatMin(euler.angle_x ,2);//角度显示到小数点后2位
+			 GUI_GotoXY(100, 170);
+			 GUI_DispSFloatMin(euler.angle_y ,2);//
+			 GUI_GotoXY(50, 190);
+			 GUI_DispSFloatMin(euler.accel_x ,4);//加速度显示到小数点后4位
+			 GUI_GotoXY(100, 190);
+			 GUI_DispSFloatMin(euler.accel_y ,4);//
+			 GUI_GotoXY(150, 190);
+			 GUI_DispSFloatMin(euler.accel_z ,4);//
+			 GUI_GotoXY(50, 210);
+			 GUI_DispSFloatMin(euler.gyro_x , 4);//角速度显示到小数点后4位
+			 GUI_GotoXY(100, 210);
+			 GUI_DispSFloatMin(euler.gyro_y , 4);//
+			 GUI_GotoXY(150, 210);
+			 GUI_DispSFloatMin(euler.gyro_z , 4);//
 
 	break;
 	

@@ -24,24 +24,24 @@ long double An,  			 //注:sizeof(long double) = 8
             Divider ;
 }Parameter ;
 
-extern volatile unsigned char touch_flag;
-extern uint8_t cal_flag;
-extern long double cal_p[6];
+//extern volatile unsigned char touch_flag;
+//extern uint8_t cal_flag;
+//extern long double cal_p[6];
 
-extern Coordinate ScreenSample[4];
-extern Coordinate DisplaySample[4];
-extern Parameter touch_para ;
-extern Coordinate  display ;
+//extern Coordinate ScreenSample[4];
+//extern Coordinate DisplaySample[4];
+//extern Parameter touch_para ;
+//extern Coordinate  display ;
 
 #define	CHX 	0x90 	//通道Y+的选择控制字	
 #define	CHY 	0xd0	//通道X+的选择控制字
 
 
 void Touch_Init(void);
-int Touch_Calibrate(void);void Palette_Init(void);
-FunctionalState Get_touch_point(Coordinate * displayPtr,
-                                Coordinate * screenPtr,
-                                Parameter * para );
+//int Touch_Calibrate(void);void Palette_Init(void);
+//FunctionalState Get_touch_point(Coordinate * displayPtr,
+//                                Coordinate * screenPtr,
+//                                Parameter * para );
 Coordinate *Read_2046_2(void);
 
 uint16_t XPT2046_ReadAdc(uint8_t _ucCh);

@@ -33,6 +33,7 @@ _Paint          paint;
 _Gif              gif;
 _Ultrasnio        ult;
 _Euler          euler;
+_Display      display;
 
 int32_t  delay_time;
 /*********************************************************************
@@ -71,8 +72,7 @@ void InitMPUSensor(_Euler *sensor)
 
 static void InitUltrasnio(_Ultrasnio *sensor)
 {
-	    sensor->ifshow = 0;
-	    sensor->cur_distance = 0;
+//	    sensor->cur_distance = 0;
 	    sensor->tar_distance = 0;
 }
 
@@ -520,10 +520,10 @@ static _Listptr proc_branch(_Listptr p)
 												var.set_val --;
 										break;
 									case FLAG_VAR_SHOW_A:
-										
+										    display = DISP_VARIABLE;
 										break;
 									case FLAG_VAR_SHOW_B:
-										
+										    display = DISP_VARIABLE;
 										break;
 									case FLAG_VAR_A_GREATER: //如果A>_
 												var.id = VAR_A;
@@ -603,37 +603,47 @@ static _Listptr proc_branch(_Listptr p)
 												Music_Config(&music);
 										break;
 									case FLAG_SHOW_DISTANCE:
-											 ult.ifshow = SHOW_ON;
+									     display = DISP_DISTANCE;
 										break;
 									case FLAG_GIF_HAPPY:
 											 gif = GIF_HAPPY;
+									     display = DISP_GIF;
 										break;
 									case FLAG_GIF_SAD:
 											 gif = GIF_SAD;
+									     display = DISP_GIF;
 										break;
 									case FLAG_GIF_CRY:
 											 gif = GIF_CRY;
+									     display = DISP_GIF;
 										break;
 									case FLAG_GIF_FURY:
 											 gif = GIF_FURY;
+									     display = DISP_GIF;
 										break;
 									case FLAG_GIF_ALARM:
 											 gif = GIF_ALARM;
+									     display = DISP_GIF;
 										break;
 									case FLAG_DRAW_HCIRCLE:
 											 paint.species = HOLLOW_CIRCLE;
+									     display = DISP_PAINT;
 										break;
 									case FLAG_DRAW_SCIRCLE:
 											 paint.species = SOLID_CIRCLE;
+									     display = DISP_PAINT;
 										break;
 									case FLAG_DRAW_HRECT:
 											 paint.species = HOLLOW_RECT;
+									     display = DISP_PAINT;
 										break;
 									case FLAG_DRAW_SRECT:
 											 paint.species = SOLID_RECT;
+									     display = DISP_PAINT;
 										break;
 									case FLAG_DRAW_LINE:
 											 paint.species = STRIGHT_LINE;
+									     display = DISP_PAINT;
 										break;
 									case FLAG_SET_X1:
 											 paint.x1 = atoi(p->EditContent + 15);
@@ -879,10 +889,10 @@ static _Listptr if_branch (_Listptr  p)
 							var.set_val --;
 					break;
 				case FLAG_VAR_SHOW_A:
-					
+					    display = DISP_VARIABLE;
 					break;
 				case FLAG_VAR_SHOW_B:
-					
+					    display = DISP_VARIABLE;
 					break;
 				case FLAG_VAR_A_GREATER: //变量A>_
 							var.id = VAR_A;
@@ -958,37 +968,47 @@ static _Listptr if_branch (_Listptr  p)
 							Music_Config(&music);
 					break;
 				case FLAG_SHOW_DISTANCE:
-					   ult.ifshow = SHOW_ON;
+					    display = DISP_DISTANCE;
 					break;
 				case FLAG_GIF_HAPPY:
 					   gif = GIF_HAPPY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_SAD:
 					   gif = GIF_SAD;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_CRY:
 					   gif = GIF_CRY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_FURY:
 					   gif = GIF_FURY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_ALARM:
 					   gif = GIF_ALARM;
+				     display = DISP_GIF;
 					break;
 				case FLAG_DRAW_HCIRCLE:
 					   paint.species = HOLLOW_CIRCLE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_SCIRCLE:
 					   paint.species = SOLID_CIRCLE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_HRECT:
 					   paint.species = HOLLOW_RECT;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_SRECT:
 					   paint.species = SOLID_RECT;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_LINE:
 					   paint.species = STRIGHT_LINE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_SET_X1:
 					   paint.x1 = atoi(p->EditContent + 15);
@@ -1238,10 +1258,10 @@ static _Listptr or_branch (_Listptr  p)
 									var.set_val --;
 							break;
 						case FLAG_VAR_SHOW_A:
-							
+							    display = DISP_VARIABLE;
 							break;
 						case FLAG_VAR_SHOW_B:
-							
+							    display = DISP_VARIABLE;
 							break;
 						case FLAG_VAR_A_GREATER: //变量A>_
 									var.id = VAR_A;
@@ -1318,37 +1338,47 @@ static _Listptr or_branch (_Listptr  p)
 									Music_Config(&music);
 							break;
 					  case FLAG_SHOW_DISTANCE:
-									ult.ifshow = SHOW_ON;
+									display = DISP_DISTANCE;
 							break;
 						case FLAG_GIF_HAPPY:
 								 gif = GIF_HAPPY;
+						     display = DISP_GIF;
 							break;
 						case FLAG_GIF_SAD:
 								 gif = GIF_SAD;
+						     display = DISP_GIF;
 							break;
 						case FLAG_GIF_CRY:
 								 gif = GIF_CRY;
+						     display = DISP_GIF;
 							break;
 						case FLAG_GIF_FURY:
 								 gif = GIF_FURY;
+						     display = DISP_GIF;
 							break;
 						case FLAG_GIF_ALARM:
 								 gif = GIF_ALARM;
+						     display = DISP_GIF;
 							break;
 						case FLAG_DRAW_HCIRCLE:
 					       paint.species = HOLLOW_CIRCLE;
+						     display = DISP_PAINT;
 								 break;
 						case FLAG_DRAW_SCIRCLE:
 								 paint.species = SOLID_CIRCLE;
+						     display = DISP_PAINT;
 							break;
 						case FLAG_DRAW_HRECT:
 								 paint.species = HOLLOW_RECT;
+						     display = DISP_PAINT;
 							break;
 						case FLAG_DRAW_SRECT:
 								 paint.species = SOLID_RECT;
+						     display = DISP_PAINT;
 							break;
 						case FLAG_DRAW_LINE:
 								 paint.species = STRIGHT_LINE;
+						     display = DISP_PAINT;
 							break;
 						case FLAG_SET_X1:
 								 paint.x1 = atoi(p->EditContent + 15);
@@ -1602,10 +1632,10 @@ static _Listptr while_branch (_Listptr  p)
 														var.set_val --;
 												break;
 											case FLAG_VAR_SHOW_A:
-												
+												    display = DISP_VARIABLE;
 												break;
 											case FLAG_VAR_SHOW_B:
-												
+												    display = DISP_VARIABLE;
 												break;
 											case FLAG_VAR_A_GREATER: //变量A>_
 														var.id = VAR_A;
@@ -1684,37 +1714,47 @@ static _Listptr while_branch (_Listptr  p)
 														Music_Config(&music);
 												break;
 											case FLAG_SHOW_DISTANCE:
-														ult.ifshow = SHOW_ON;
+														display = DISP_DISTANCE;
 												break;
 											case FLAG_GIF_HAPPY:
 													 gif = GIF_HAPPY;
+											     display = DISP_GIF;
 												break;
 											case FLAG_GIF_SAD:
 													 gif = GIF_SAD;
+											     display = DISP_GIF;
 												break;
 											case FLAG_GIF_CRY:
 													 gif = GIF_CRY;
+											     display = DISP_GIF;
 												break;
 											case FLAG_GIF_FURY:
 													 gif = GIF_FURY;
+											     display = DISP_GIF;
 												break;
 											case FLAG_GIF_ALARM:
 													 gif = GIF_ALARM;
+											     display = DISP_GIF;
 												break;
 											case FLAG_DRAW_HCIRCLE:
 					                 paint.species = HOLLOW_CIRCLE;
+											     display = DISP_PAINT;
 					              break;
 											case FLAG_DRAW_SCIRCLE:
 													 paint.species = SOLID_CIRCLE;
+											     display = DISP_PAINT;
 												break;
 											case FLAG_DRAW_HRECT:
 													 paint.species = HOLLOW_RECT;
+											     display = DISP_PAINT;
 												break;
 											case FLAG_DRAW_SRECT:
 													 paint.species = SOLID_RECT;
+											     display = DISP_PAINT;
 												break;
 											case FLAG_DRAW_LINE:
 													 paint.species = STRIGHT_LINE;
+											     display = DISP_PAINT;
 												break;
 											case FLAG_SET_X1:
 													 paint.x1 = atoi(p->EditContent + 15);
@@ -2199,10 +2239,10 @@ void List_Parse(_Listptr  ptr)
 							var.set_val --;
 					break;
 				case FLAG_VAR_SHOW_A:
-					
+					    display = DISP_VARIABLE;
 					break;
 				case FLAG_VAR_SHOW_B:
-					
+					    display = DISP_VARIABLE;
 					break;
 				case FLAG_VAR_A_GREATER: //如果A>_
 							var.id = VAR_A;
@@ -2281,37 +2321,47 @@ void List_Parse(_Listptr  ptr)
 							Music_Config(&music);
 					break;
 				case FLAG_SHOW_DISTANCE:
-					   ult.ifshow = SHOW_ON;
+					   display = DISP_DISTANCE;
 					break;
 				case FLAG_GIF_HAPPY:
 					   gif = GIF_HAPPY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_SAD:
 					   gif = GIF_SAD;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_CRY:
 					   gif = GIF_CRY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_FURY:
 					   gif = GIF_FURY;
+				     display = DISP_GIF;
 					break;
 				case FLAG_GIF_ALARM:
 					   gif = GIF_ALARM;
+				     display = DISP_GIF;
 					break;
 				case FLAG_DRAW_HCIRCLE:
 					   paint.species = HOLLOW_CIRCLE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_SCIRCLE:
 					   paint.species = SOLID_CIRCLE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_HRECT:
 					   paint.species = HOLLOW_RECT;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_SRECT:
 					   paint.species = SOLID_RECT;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_DRAW_LINE:
 					   paint.species = STRIGHT_LINE;
+				     display = DISP_PAINT;
 					break;
 				case FLAG_SET_X1:
 					   paint.x1 = atoi(ptr->EditContent + 15);

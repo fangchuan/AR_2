@@ -28,7 +28,8 @@ long double aa1=0.088370,\
 // 四个重要的结构体变量
 
 /* 触摸采样AD值保存结构体 */
-Coordinate ScreenSample[4];
+/*Coordinate ScreenSample[4];
+*/
 
 /* LCD逻辑坐标，用来校正时画十字用 */
 //Coordinate DisplaySample[4] =   
@@ -38,6 +39,7 @@ Coordinate ScreenSample[4];
 //    { 290, 200},
 //    { 290, 35}
 //};
+/*
 Coordinate DisplaySample[4] =   
 {
     { 45,  35 },
@@ -45,11 +47,12 @@ Coordinate DisplaySample[4] =
     { 290, 200},
     { 200, 35}
 };
-/* 用于保存校正系数 */
+//用于保存校正系数 
 Parameter   touch_para ;
 
-/* 液晶计算坐标，用于真正画点的时候用 */
+// 液晶计算坐标，用于真正画点的时候用 
 Coordinate  display ;
+*/
 /*------------------------------------------------------------------*/
 
 /* 
@@ -150,8 +153,8 @@ uint16_t XPT2046_ReadAdc(uint8_t _ucCh)
 }
 
 
-#define SAMP_CNT 10
-#define SAMP_CNT_DIV2 5
+#define SAMP_CNT       10
+#define SAMP_CNT_DIV2  5
 /*
 *********************************************************************************************************
 *	函 数 名: XPT2046_ReadAdc_Fliter
