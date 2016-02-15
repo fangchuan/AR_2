@@ -1,5 +1,6 @@
 #include  "bsp_ultrasnio.h"
 #include  "_apollorobot.h"
+#include  "os.h"
 /*********************************************************************
 *
 *       Static data
@@ -144,7 +145,9 @@ void Ultrasnio_update(void)
   */ 
 
 void TIM8_CC_IRQHandler(void)
-{
+{  //进入中断
+	 OSIntEnter();
+	
 	  if (TIM_GetITStatus(TIM8, TIM_IT_CC4) != RESET)//ch4发生捕获事件
 		{	
 				TIM_ClearITPendingBit(TIM8, TIM_IT_CC4);   //清除中断标志位
@@ -172,6 +175,8 @@ void TIM8_CC_IRQHandler(void)
 						TIM_OC4PolarityConfig(TIM8,TIM_ICPolarity_Rising); //CC4P=0 设置为上升沿捕获		
 				}		    
 		}
+		//退出中断
+		OSIntExit();
 }
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

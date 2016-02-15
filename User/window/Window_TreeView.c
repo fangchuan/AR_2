@@ -53,7 +53,7 @@ WM_HWIN hTree;
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x04)
 #define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
 #define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
-
+#define ID_BUTTON_OPEN    (GUI_ID_USER + 0x07)
 
 /*********************************************************************
 *
@@ -64,7 +64,7 @@ WM_HWIN hTree;
 //static uint16_t *buffer=0;
 //static char *txtBuffer=0;
 //static char* record_file=0;
-static char DeleteProgram[10] = {0};
+//static char DeleteProgram[10] = {0};
 static const char *StringHZ[] = {
 	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96",//0:格式化
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe4\xb8\xbb\xe7\xa8\x8b\xe5\xba\x8f",//1:返回   2:主程序
@@ -74,7 +74,7 @@ static const char *StringHZ[] = {
 	"\xe6\x88\x90\xe5\x8a\x9f\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//7:成功删除程序
 	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//8:请输入程序名
 	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96\xe7\xa3\x81\xe7\x9b\x98\xe6\x88\x90\xe5\x8a\x9f!",//9:格式化磁盘成功!
-	
+	"\xe6\x89\x93\xe5\xbc\x80\xe7\xa8\x8b\xe5\xba\x8f",//10:打开程序
 };
 
 /*********************************************************************
@@ -84,14 +84,52 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { TREEVIEW_CreateIndirect, "Treeview", ID_TREEVIEW_FILE, 0, 0, 240, 193, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect,"格式化", ID_BUTTON_FORMAT, 0, 200, 80, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect,"打开程序", ID_BUTTON_OPEN, 0, 200, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect,"格式化", ID_BUTTON_FORMAT, 0, 280, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect,"返回", ID_BUTTON_BACK,180, 300, 60,  20, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "删除程序", ID_BUTTON_DEL, 0, 240, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "程序名", ID_EDIT_PN, 80, 240, 100, 20, 0, 0x64, 0 },
+	{ BUTTON_CreateIndirect, "删除程序", ID_BUTTON_DEL, 0, 240, 80, 30, 0, 0x0, 0 },
+//  { EDIT_CreateIndirect, "程序名", ID_EDIT_PN, 80, 240, 100, 20, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
+/*********************************************************************
+*
+*       _bmSmilie
+*/
+static const GUI_COLOR _ColorsSmilie[] = {
+     0xFFFFFF,0x000000,0x70FF70
+};
 
+static const GUI_LOGPALETTE _PalSmilie = {
+  3,	// Number of entries
+  1, 	// Has transparency
+  &_ColorsSmilie[0]
+};
+
+static const unsigned char _acSmilie[] = {
+  0x00, 0x55, 0x40, 0x00,
+  0x01, 0xAA, 0x90, 0x00,
+  0x06, 0xAA, 0xA4, 0x00,
+  0x19, 0x6A, 0x59, 0x00,
+  0x69, 0x6A, 0x5A, 0x40,
+  0x6A, 0xA6, 0xAA, 0x40,
+  0x6A, 0xA6, 0xAA, 0x40,
+  0x6A, 0xA6, 0xAA, 0x40,
+  0x6A, 0xAA, 0xAA, 0x40,
+  0x1A, 0x6A, 0x69, 0x00,
+  0x06, 0x95, 0xA4, 0x00,
+  0x01, 0xAA, 0x90, 0x00,
+  0x00, 0x55, 0x40, 0x00
+};
+
+static const GUI_BITMAP _bmSmilie = {
+ 13,          // XSize
+ 13,          // YSize
+ 4,           // BytesPerLine
+ 2,           // BitsPerPixel
+ _acSmilie,   // Pointer to picture data (indices)
+ &_PalSmilie  // Pointer to palette
+};
 /*********************************************************************
 *
 *       Static code
@@ -245,30 +283,31 @@ static void OpenFileProcess(int sel_num )
 	CreateWindow_1_1();//利用保存起来的程序创建EDIT
 }
 
-/*
+
 //删除一个程序文件
-static void DeleteFileProcess(int sel_num )
+static int DeleteFileProcess(int sel_num )
 {
 	char                     deletefile[FILE_NAME_LEN]={0};
 	
 	result = f_open (&file, FILE_LIST_PATH, FA_READ|FA_OPEN_EXISTING); //打开索引文件
 	if(result != FR_OK)
-      return ;
+      return -1;
 	result = f_lseek (&file, sel_num*FILE_NAME_LEN);
 	if(result != FR_OK)
-      return ;
+      return -1;
 	result = f_read (&file, deletefile, FILE_NAME_LEN, &bw);//从filelist文件中找到被选择的那个文件名deletefile	
 	if(result != FR_OK)
-      return ;
+      return -1;
 
 	f_close (&file);
 	
 	result = f_unlink(deletefile);
 	if(result != FR_OK)
-		return ;
-
+		return -1;
+  else
+		return 0;
 }
-*/
+
 
 /**
   * @brief  scan_files 递归扫描flash内的文件
@@ -330,7 +369,7 @@ static FRESULT scan_files (char* path,char* file_name,FIL *hFile,WM_HWIN hTree, 
 							{
 								hItem = TREEVIEW_ITEM_Create(TREEVIEW_ITEM_TYPE_LEAF,fn,0);
 								TREEVIEW_AttachItem(hTree,hItem,hNode,TREEVIEW_INSERT_FIRST_CHILD);		//把树叶添加到目录树
-						
+						    TREEVIEW_ITEM_SetImage(hItem, TREEVIEW_BI_LEAF, &_bmSmilie);
 								if(strcmp(fn, "FILELIST.TXT") != 0)
 								{
 									if (strlen(path)+strlen(fn)<FILE_NAME_LEN)
@@ -379,12 +418,12 @@ void Fill_FileList(char* path, WM_HWIN hTree, TREEVIEW_ITEM_Handle hNode,int *p)
 *       _cbDialog
 */
 static void _cbDialog(WM_MESSAGE * pMsg) {
-  TREEVIEW_ITEM_Handle hNode;			//结点句柄
+  static TREEVIEW_ITEM_Handle hNode;			//结点句柄
   TREEVIEW_ITEM_INFO ItemInfo;
   WM_HWIN                hItem;
   int                    NCode;
   int                    Id;
-  WM_HWIN      hNumPad;
+//  WM_HWIN      hNumPad;
 	u8            Mb_Val;
 	
   switch (pMsg->MsgId) {
@@ -410,6 +449,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     // Initialization of 'Button'
     //
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_OPEN);
+    BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+		BUTTON_SetText(hItem,StringHZ[10]);
+		
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_FORMAT);
     BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[0]);
@@ -430,16 +473,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
-      case WM_NOTIFICATION_RELEASED:
-						/* 查看选中了哪个项目 */
-						hNode = TREEVIEW_GetSel(pMsg->hWinSrc);						
-						/* 获取该项目的信息 */
-						TREEVIEW_ITEM_GetInfo(hNode,&ItemInfo);
-				
-						if(ItemInfo.IsNode == 0)        //点击的是目录树的叶子（即文件）
-						{
-							OpenFileProcess(hNode);
-						}
+      case WM_NOTIFICATION_RELEASED:	
+						 /* 查看选中了哪个项目 */
+						 hNode = TREEVIEW_GetSel(pMsg->hWinSrc);						
+			
         break;
       case WM_NOTIFICATION_MOVED_OUT:
         break;
@@ -458,24 +495,51 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 					}
 				break;
+		case ID_BUTTON_OPEN:  //格式化FLASH
+					switch(NCode)
+					{
+						case WM_NOTIFICATION_CLICKED:
+							break;
+						case WM_NOTIFICATION_RELEASED:
+                 if(hNode)
+								 {
+									 /* 获取该项目的信息 */
+						       TREEVIEW_ITEM_GetInfo(hNode,&ItemInfo);	
+									 if(ItemInfo.IsNode == 0)        //点击的是目录树的叶子（即文件）
+									 {
+											OpenFileProcess(hNode);
+									 }
+							   }
+							break;
+					}
+				break;
 		case ID_BUTTON_DEL: // Notifications sent by 'Delete Program'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						if(DeleteProgram[0] != 0)
-						{
-							 char del_path[PATH_LEN];
-							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
-							 result = f_unlink(del_path);
-							 if(result != FR_OK)
-								 _MessageBox(StringHZ[4],StringHZ[5], &Mb_Val);
-							 else
-								 _MessageBox(StringHZ[7],StringHZ[6], &Mb_Val);
+//						if(DeleteProgram[0] != 0)
+//						{
+//							 char del_path[PATH_LEN];
+//							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
+//							 result = f_unlink(del_path);
+//							 if(result != FR_OK)
+			         if(hNode)
+							 {
+			           if(DeleteFileProcess(hNode))
+			           {  //删除出错
+								    _MessageBox(StringHZ[4],StringHZ[5], &Mb_Val);
+								 }			
+								 else
+								 {  //删除成功
+									  TREEVIEW_ITEM_Delete(hNode);
+									  _MessageBox(StringHZ[7],StringHZ[6], &Mb_Val);
+								 }
+						   }
 							 
-						}
-						else
-							_MessageBox(StringHZ[8],StringHZ[5], &Mb_Val);     
+//						}
+//						else
+//							_MessageBox(StringHZ[8],StringHZ[5], &Mb_Val);     
 				break;
       }
       break;
@@ -490,18 +554,18 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 					}
 				break;
-		case ID_EDIT_PN:
-			   switch(NCode) {
-					case WM_NOTIFICATION_CLICKED:
-						break;
-					case WM_NOTIFICATION_RELEASED:
-								hNumPad = Create_NumPad(hTree);
-								WM_MakeModal(hNumPad);
-								GUI_ExecCreatedDialog(hNumPad);
-								EDIT_GetText(pMsg->hWinSrc,DeleteProgram,sizeof(DeleteProgram));
-						break;
-					}
-				break;
+//		case ID_EDIT_PN:
+//			   switch(NCode) {
+//					case WM_NOTIFICATION_CLICKED:
+//						break;
+//					case WM_NOTIFICATION_RELEASED:
+//								hNumPad = Create_NumPad(hTree);
+//								WM_MakeModal(hNumPad);
+//								GUI_ExecCreatedDialog(hNumPad);
+//								EDIT_GetText(pMsg->hWinSrc,DeleteProgram,sizeof(DeleteProgram));
+//						break;
+//					}
+//				break;
     }
     break;
 	case WM_PAINT:

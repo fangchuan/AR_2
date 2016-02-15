@@ -151,7 +151,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					}
         break;
 	 case DISP_GIF:
-				DrawGIF(&gif);
+				DrawGIF(gif);
 		    break;
 	 case DISP_VARIABLE:
 		    GUI_DispDecAt(var.set_val ,120, 160, 6);//变量最大显示6位数

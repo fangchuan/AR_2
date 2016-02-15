@@ -159,7 +159,7 @@ void DrawStopIcon(void)
 	   
 	   GUI_Clear();
 		 GUI_SetColor(GUI_RED);
-	   GUI_FillPolygon(_aPointHLine, 4, 60, YMid);
+	   GUI_FillPolygon(_aPointHLine, 4, 65, YMid);
 	   
 	   GUI_SetPenSize(PEND_MIN_SIZE);
      GUI_AA_DrawArc(XMid, YMid, r, r, 0, 360);//起始角度为0，终止角度为360
@@ -258,9 +258,9 @@ _Error Paint_Config(_Paint * paint)
 }
 
 //绘制GIF函数
-void DrawGIF (_Gif *gif)
+void DrawGIF (_Gif gif)
 {
-	   u8   g = *gif;
+	   u8   g = gif;
 	   if(g)
 	   {
 			 GUI_Clear();
@@ -284,6 +284,5 @@ void DrawGIF (_Gif *gif)
 				 default:break;
 			 }
 			  
-			 *gif = (_Gif)0;
 	   }
 }

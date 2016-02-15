@@ -244,6 +244,8 @@ _Error MOTOR_Config(_Motor *motor)
 //小车前进
 void Car_Forward(void)
 {
+	   display = DISP_DIRECTION;
+	
 		 MOTOR_11_OUT = DEFAULT_AVR;
 	   MOTOR_12_OUT = DEFAULT_MIN;
 	   MOTOR_21_OUT = DEFAULT_AVR;
@@ -252,6 +254,8 @@ void Car_Forward(void)
 //小车后退
 void Car_Backward(void)
 {
+	   display = DISP_DIRECTION;  
+	
 	   MOTOR_11_OUT = DEFAULT_MIN;
 	   MOTOR_12_OUT = DEFAULT_AVR;
 	   MOTOR_21_OUT = DEFAULT_MIN;
@@ -260,6 +264,8 @@ void Car_Backward(void)
 //小车左转
 void Car_Left(void)
 {
+	   display = DISP_DIRECTION;
+	
 		 MOTOR_11_OUT = DEFAULT_AVR;
 	   MOTOR_12_OUT = DEFAULT_MIN;
 	   MOTOR_21_OUT = DEFAULT_AVR;
@@ -269,6 +275,8 @@ void Car_Left(void)
 //小车右转
 void Car_Right(void)
 {
+	   display = DISP_DIRECTION;
+	   
 		 MOTOR_11_OUT = DEFAULT_AVR;
 	   MOTOR_12_OUT = 0;
 	   MOTOR_21_OUT = DEFAULT_AVR;
@@ -277,6 +285,8 @@ void Car_Right(void)
 //小车停止
 void Car_Stop(void)
 {
+	   display = DISP_DIRECTION;
+	   
 	   MOTOR_11_OUT = 0;
 	   MOTOR_12_OUT = 0;
 	   MOTOR_21_OUT = 0;
@@ -290,7 +300,7 @@ _Error  CAR_Config(_Car *car)
 	     if(!car->direction)
 				 return ERROR_DIR;
 			 
-			 display = DISP_DIRECTION;
+			 
 			 switch(car->direction )
 			 {
 				 case FORWARD:
