@@ -91,7 +91,7 @@ static void _cbOfTmr2(OS_TMR *p_tmr, void *p_arg)
 {
     (void)p_arg;
     	
-	  Ultrasnio_update();   //每500ms触发一次超声波更新
+	  Ultrasnio_update();   //每250ms触发一次超声波更新
 
     if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
     {
@@ -123,7 +123,7 @@ void  AppTaskStart(void *p_arg)
     OS_ERR      err;
 
     //定时器变量
-    OS_TMR             Tmr_10ms, Tmr_500ms;
+    OS_TMR             Tmr_10ms, Tmr_250ms;
 
     (void)p_arg;
     /* Initialize BSP functions                             */
@@ -164,10 +164,10 @@ void  AppTaskStart(void *p_arg)
                  (void                *)0,                  //参数设置为0
                  (OS_ERR              *)err);
     //创建定时器
-    OSTmrCreate ((OS_TMR              *)&Tmr_500ms,
-                 (CPU_CHAR            *)"MyTimer 500ms",
-                 (OS_TICK              )50,                 //第一次延时设置为500ms
-                 (OS_TICK              )50,                //定时周期50*10ms
+    OSTmrCreate ((OS_TMR              *)&Tmr_250ms,
+                 (CPU_CHAR            *)"MyTimer 250ms",
+                 (OS_TICK              )25,                 //第一次延时设置为250ms
+                 (OS_TICK              )25,                //定时周期25*10ms
                  (OS_OPT               )OS_OPT_TMR_PERIODIC,//模式设置为重复模式
                  (OS_TMR_CALLBACK_PTR  )_cbOfTmr2,          //回调函数
                  (void                *)0,                  //参数设置为0
@@ -175,7 +175,7 @@ void  AppTaskStart(void *p_arg)
 
     //启动定时器
     OSTmrStart((OS_TMR *)&Tmr_10ms,(OS_ERR *)err);
-    OSTmrStart((OS_TMR *)&Tmr_500ms,(OS_ERR *)err);
+    OSTmrStart((OS_TMR *)&Tmr_250ms,(OS_ERR *)err);
 
     /*Delete task*/
     OSTaskDel(&AppTaskStartTCB,&err);
@@ -349,13 +349,7 @@ static void AppTaskCOMTx(void *p_arg)
     transferdata[1] = VERSION;
     while(1)
     {
-//				 		//等待事件标志组
-//					OSFlagPend((OS_FLAG_GRP*)&SensorFlags,
-//								 (OS_FLAGS	  )sensorflag,
-//								 (OS_TICK     )0,
-//								 (OS_OPT	    )OS_OPT_PEND_FLAG_SET_ANY+OS_OPT_PEND_FLAG_CONSUME,
-//								 (CPU_TS*     )0,
-//								 (OS_ERR*	    )&err);
+
 			  Detect_Port(&port_1);
 			  Detect_Port(&port_2);
 			  Detect_Port(&port_3);

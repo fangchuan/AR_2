@@ -52,7 +52,6 @@ WM_HWIN hTree;
 #define ID_BUTTON_FORMAT  (GUI_ID_USER + 0x03)
 #define ID_BUTTON_BACK    (GUI_ID_USER + 0x04)
 #define ID_BUTTON_DEL			(GUI_ID_USER + 0x05) //
-#define ID_EDIT_PN 				(GUI_ID_USER + 0x06) //在这里输入程序名
 #define ID_BUTTON_OPEN    (GUI_ID_USER + 0x07)
 
 /*********************************************************************
@@ -69,10 +68,10 @@ static const char *StringHZ[] = {
 	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96",//0:格式化
 	"\xe8\xbf\x94\xe5\x9b\x9e","\xe4\xb8\xbb\xe7\xa8\x8b\xe5\xba\x8f",//1:返回   2:主程序
 	"\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//3:删除程序
-	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe6\xad\xa3\xe7\xa1\xae\xe7\x9a\x84\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//4:请输入正确的文件名
+	"\xe6\x98\xaf\xe5\x90\xa6\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96?",//4:是否格式化?
 	"\xe9\x94\x99\xe8\xaf\xaf","\xe6\x88\x90\xe5\x8a\x9f",//5:错误  6:成功
 	"\xe6\x88\x90\xe5\x8a\x9f\xe5\x88\xa0\xe9\x99\xa4\xe7\xa8\x8b\xe5\xba\x8f",//7:成功删除程序
-	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//8:请输入程序名
+	"\xe9\x80\x9a\xe7\x9f\xa5",//8:通知
 	"\xe6\xa0\xbc\xe5\xbc\x8f\xe5\x8c\x96\xe7\xa3\x81\xe7\x9b\x98\xe6\x88\x90\xe5\x8a\x9f!",//9:格式化磁盘成功!
 	"\xe6\x89\x93\xe5\xbc\x80\xe7\xa8\x8b\xe5\xba\x8f",//10:打开程序
 };
@@ -88,7 +87,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect,"格式化", ID_BUTTON_FORMAT, 0, 280, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect,"返回", ID_BUTTON_BACK,180, 300, 60,  20, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "删除程序", ID_BUTTON_DEL, 0, 240, 80, 30, 0, 0x0, 0 },
-//  { EDIT_CreateIndirect, "程序名", ID_EDIT_PN, 80, 240, 100, 20, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -495,7 +493,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							break;
 					}
 				break;
-		case ID_BUTTON_OPEN:  //格式化FLASH
+		case ID_BUTTON_OPEN: 
 					switch(NCode)
 					{
 						case WM_NOTIFICATION_CLICKED:
@@ -518,12 +516,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-//						if(DeleteProgram[0] != 0)
-//						{
-//							 char del_path[PATH_LEN];
-//							 sprintf(del_path,"%s/%s","0:",DeleteProgram);
-//							 result = f_unlink(del_path);
-//							 if(result != FR_OK)
+
 			         if(hNode)
 							 {
 			           if(DeleteFileProcess(hNode))
@@ -536,10 +529,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 									  _MessageBox(StringHZ[7],StringHZ[6], &Mb_Val);
 								 }
 						   }
-							 
-//						}
-//						else
-//							_MessageBox(StringHZ[8],StringHZ[5], &Mb_Val);     
 				break;
       }
       break;
@@ -549,23 +538,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						case WM_NOTIFICATION_CLICKED:
 							break;
 						case WM_NOTIFICATION_RELEASED:
-									W25QXX_Erase_Chip();
-						      _MessageBox(StringHZ[9],StringHZ[6], &Mb_Val);
+									_MessageBox(StringHZ[4],StringHZ[8], &Mb_Val);
+							    if(Mb_Val == GUI_ID_OK)
+									{
+										W25QXX_Erase_Chip();
+										_MessageBox(StringHZ[9],StringHZ[6], &Mb_Val);
+									}
+									
 							break;
 					}
 				break;
-//		case ID_EDIT_PN:
-//			   switch(NCode) {
-//					case WM_NOTIFICATION_CLICKED:
-//						break;
-//					case WM_NOTIFICATION_RELEASED:
-//								hNumPad = Create_NumPad(hTree);
-//								WM_MakeModal(hNumPad);
-//								GUI_ExecCreatedDialog(hNumPad);
-//								EDIT_GetText(pMsg->hWinSrc,DeleteProgram,sizeof(DeleteProgram));
-//						break;
-//					}
-//				break;
     }
     break;
 	case WM_PAINT:

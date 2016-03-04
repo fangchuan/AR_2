@@ -18,10 +18,10 @@ extern _Display   display;
   * @brief  配置TIM4复用输出PWM时用到的I/O
   */
 	
-//TIM4 CH1--PB6 
-//TIM4 CH2--PB7 
-//TIM4 CH3--PB8 
-//TIM4 CH4--PB9	
+//TIM3 CH3--PB6   MOTOR11_OUT
+//TIM3 CH4--PB7   MOTOR12_OUT
+//TIM4 CH3--PB8   MOTOR21_OUT
+//TIM4 CH4--PB9	  MOTOR22_OUT
 static void TIM_GPIO_Config(void) 
 {
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -71,13 +71,14 @@ static void TIM_Mode_Config(void)
   ----------------------------------------------------------------------- */
 
   /* Time base configuration */		 
-  TIM_TimeBaseStructure.TIM_Period = 1999;       //当定时器从0计数到499，即为500次，为一个定时周期
+  TIM_TimeBaseStructure.TIM_Period = 1999;       //当定时器从0计数到1999，即为2000次，为一个定时周期
   TIM_TimeBaseStructure.TIM_Prescaler = 71;	    //设置预分频：72M/72 = 10^6
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1 ;	//设置时钟分频系数
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //向上计数模式
   TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 
+  /*蜂鸣器专用PWM*/
   /* PWM1 Mode configuration */
   TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;	    //配置为PWM模式1
   TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;	
@@ -116,24 +117,6 @@ static void TIM_Mode_Config(void)
 	TIM_Cmd(TIM4, ENABLE); 
 }
 
-////初始化L293D芯片的ENBALE引脚
-//static void  IC_Init(void)
-//{
-//		GPIO_InitTypeDef GPIO_InitStructure;
-
-//		/* GPIOA clock enable */
-//		RCC_APB2PeriphClockCmd(MOTOR_PORT_CLK, ENABLE); 
-
-//		/*GPIOB 0\1 push-pull */
-//		GPIO_InitStructure.GPIO_Pin =  MOTOR_Enable_1 | MOTOR_Enable_2;	
-//		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		    // 推挽输出
-//		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//		GPIO_Init(MOTOR_PORT, &GPIO_InitStructure);
-//	
-////		MOTOR_1_Enable();
-////		MOTOR_2_Enable();
-//}
- 
 
 /*********************************************************************
 *
@@ -146,28 +129,7 @@ void MOTOR_Init(void)
 {
 	TIM_GPIO_Config();
 	TIM_Mode_Config();	
-//	IC_Init();
 }
-////使能电机1的控制端
-//void MOTOR_1_Enable(void)
-//{
-//		 digitalHi(MOTOR_PORT, MOTOR_Enable_1);
-//}
-////禁用电机1的控制端
-//void MOTOR_1_Disable(void)
-//{
-//		 digitalLo(MOTOR_PORT, MOTOR_Enable_1);
-//}
-////是能电机2的控制端
-//void MOTOR_2_Enable(void)
-//{
-//		 digitalHi(MOTOR_PORT, MOTOR_Enable_2);
-//}
-////禁用电机2的控制端
-//void MOTOR_2_Disable(void)
-//{
-//		 digitalLo(MOTOR_PORT, MOTOR_Enable_2);
-//}
 
 //电机1正转
 void MOTOR_1_Forward(void)
@@ -208,6 +170,7 @@ void MOTOR_2_Stop(void)
 }
 
 //电机配置，根据编程配置电机参数
+//用户输入的转速是0~100,对应到PWM值为0~2000
 _Error MOTOR_Config(_Motor *motor)
 {
 	    if(motor->id < 1 || motor->id > 2)
@@ -216,12 +179,12 @@ _Error MOTOR_Config(_Motor *motor)
 			{
 				  if(motor->id == MOTOR1)
 					{
-							MOTOR_11_OUT = motor->speed;
+							MOTOR_11_OUT = motor->speed * MOTOR_SPEED_P;
 							MOTOR_12_OUT = 0;
 					}
 					else
 					{
-						  MOTOR_21_OUT = motor->speed;
+						  MOTOR_21_OUT = motor->speed * MOTOR_SPEED_P;
 							MOTOR_22_OUT = 0;
 					}
 			}
@@ -230,12 +193,12 @@ _Error MOTOR_Config(_Motor *motor)
 				  if(motor->id == MOTOR1)
 					{
 						 MOTOR_11_OUT = 0;
-						 MOTOR_12_OUT = motor->speed;
+						 MOTOR_12_OUT = motor->speed * MOTOR_SPEED_P;
 					}
 					else
 					{
 						 MOTOR_21_OUT = 0;
-						 MOTOR_22_OUT = motor->speed;
+						 MOTOR_22_OUT = motor->speed * MOTOR_SPEED_P;
 					}
 			}
 			return NO_ERROR;

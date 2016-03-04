@@ -359,8 +359,6 @@ void BSP_Init(void)
 
 	/*初始化滴答定时器*/
 	BSP_Tick_Init();
-	/*初始化外部SRAM*/
-	FSMC_SRAM_Init();
 	/*舵机初始化*/
 	SERVO_PWM_Init();
 	/*ADC10\11\12\13初始化*/
@@ -381,10 +379,11 @@ void BSP_Init(void)
 //	/*初始化6050*/
 	MPU6050_initialize();
 //	MPU6050_testConnection();
-	
+
+	/*初始化外部SRAM*/
+	FSMC_SRAM_Init();
 	my_mem_init(SRAMIN); 	//初始化内部内存池
 	my_mem_init(SRAMEX);  	//初始化外部内存池
-	
 	/*创建带有表头结点的单链表*/
 	Create_List();
 

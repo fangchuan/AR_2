@@ -53,6 +53,7 @@ Purpose     : Display controller initialization
 
 #include "GUI.h"
 #include "malloc.h"
+//#include "bsp_fsmc_sram.h"
 /*********************************************************************
 *
 *       Defines
@@ -62,7 +63,7 @@ Purpose     : Display controller initialization
 //
 // Define the available number of bytes available for the GUI
 //
-#define GUI_NUMBYTES  400*1024								
+#define GUI_NUMBYTES  450*1024								
 
 #define GUI_BLOCKSIZE 0x80
 /*********************************************************************
@@ -84,6 +85,7 @@ void GUI_X_Config(void) {
   // 32 bit aligned memory area
   //
 	U32 *aMemory = mymalloc(SRAMEX,GUI_NUMBYTES); //从外部SRAM中分配GUI_NUMBYTES字节的内存
+//	static U32 aMemory[GUI_NUMBYTES / 4];
   //
   // Assign memory to emWin
   //

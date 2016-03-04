@@ -16,6 +16,7 @@
 #include "malloc.h"
 #include "bsp_spi_flash.h"
 #include  "bsp_usart1.h"
+#include "bsp_ili9341_lcd.h"						
 
 /* 提供给其他C文件调用的函数 */
 void BSP_Init(void);

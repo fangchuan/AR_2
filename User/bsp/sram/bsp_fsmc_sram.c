@@ -84,15 +84,17 @@ void FSMC_SRAM_Init(void)
 	//操作BCR寄存器	使用异步模式,模式A(读写共用一个时序寄存器)
 	//BTCR[偶数]:BCR寄存器;BTCR[奇数]:BTR寄存器
 	FSMC_Bank1->BTCR[4]|=1<<12;//存储器写使能
-	FSMC_Bank1->BTCR[4]|=1<<4; //存储器数据宽度为16bit 	    
+	FSMC_Bank1->BTCR[4]|=1<<4; //存储器数据宽度为16bit 	  
 	//操作BTR寄存器								    
-	FSMC_Bank1->BTCR[5]|=3<<8; //数据保持时间（DATAST）为3个HCLK 4/72M=55ns(对EM的SRAM芯片)	 	 
+	FSMC_Bank1->BTCR[5]|=3<<8; //数据保持时间（DATAST）为4个HCLK 4/72M=55ns(对EM的SRAM芯片)	 	 
 	FSMC_Bank1->BTCR[5]|=0<<4; //地址保持时间（ADDHLD）未用到	  	 
 	FSMC_Bank1->BTCR[5]|=0<<0; //地址建立时间（ADDSET）为2个HCLK 1/36M=27ns	 	 
 	//闪存写时序寄存器  
 	FSMC_Bank1E->BWTR[4]=0x0FFFFFFF;//默认值
 	//使能BANK1区域3
-	FSMC_Bank1->BTCR[4]|=1<<0; 												
+	FSMC_Bank1->BTCR[4]|=1<<0; 				
+
+		
 } 
 /**
   * @brief  Writes a Half-word buffer to the FSMC SRAM memory. 
