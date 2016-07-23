@@ -1,3 +1,19 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 超声波传感器驱动模块
+*	文件名称 : bsp_ultrasnio.c
+*	版    本 : V1.0
+*	说    明 : 采用TIM8的PWM捕获功能来读取超声波ECHO脚的电平
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-03-01 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #include  "bsp_ultrasnio.h"
 #include  "_apollorobot.h"
 #include  "os.h"
@@ -24,23 +40,33 @@ extern _Ultrasnio ult;//当前测得距离，单位为cm
 *
 **********************************************************************
 */
-//TIM8中断配置
+/*********************************************************************************************************
+*	函 数 名: NVIC_TIM8_Configuration
+*	功能说明: TIM8中断配置
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 static void NVIC_TIM8_Configuration(void)
 { 
   NVIC_InitTypeDef NVIC_InitStructure;
 
   /* Enable the TIM8 gloabal Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = TIM8_CC_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;//抢占优先级最低
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;//子优先级最低
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = NVIC_ULTRASNIO_PP;//抢占优先级最低
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = NVIC_ULTRASNIO_SP;//子优先级最低
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 }
-/**************************实现函数************************************
-*函数原型: TIM8_PWMInCap_Init
-*引    脚: PB9接收超声波返回高电平
-*功　　能: 配置TIM8为输入捕获模式，不是PWM输入模式。		
-***********************************************************************/
+
+/*********************************************************************************************************
+*	函 数 名: TIM8_PWMInCap_Init
+*	功能说明: PC9接收超声波返回高电平
+*					 配置TIM8为输入捕获模式，不是PWM输入模式。
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 static void TIM8_PWMInCap_Init(void)
 {	 
 		TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -53,7 +79,7 @@ static void TIM8_PWMInCap_Init(void)
 		TIM_TimeBaseStructure.TIM_Prescaler = 71 ; 	//我的主频跑到72Mhz，预分频器72分频=1Mhz，1us计一个数   
 		TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1; //不分频
 		TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-		TIM_TimeBaseInit(TIM8, &TIM_TimeBaseStructure); //初始化TIM2参数
+		TIM_TimeBaseInit(TIM8, &TIM_TimeBaseStructure); //初始化TIM8参数
 	 
 		//初始化TIM8输入捕获参数,PC9
 		TIM8_ICInitStructure.TIM_Channel = TIM_Channel_4; 
@@ -69,7 +95,13 @@ static void TIM8_PWMInCap_Init(void)
 
 		TIM_Cmd(TIM8,ENABLE ); 	//使能定时器8
 }
-//
+/*********************************************************************************************************
+*	函 数 名: Ultrasnio_Port_Init
+*	功能说明: 超声波占用的GPIO初始化
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 static void Ultrasnio_Port_Init(void)
 {
 		GPIO_InitTypeDef GPIO_InitStructure;
@@ -84,7 +116,13 @@ static void Ultrasnio_Port_Init(void)
 	
 		GPIO_Init(ULTRASNIO_PORT, &GPIO_InitStructure);	
 }
-//超声波延时
+/*********************************************************************************************************
+*	函 数 名: Ultra_delay_us
+*	功能说明: 超声波延时
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 static void Ultra_delay_us(void)
 {
     volatile int i = 16;	 
@@ -105,44 +143,40 @@ static void Ultra_delay_nus(int n)
 *
 **********************************************************************
 */
-//超声波初始化
+/*********************************************************************************************************
+*	函 数 名: Ultrasnio_Init
+*	功能说明: 超声波初始化
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 void Ultrasnio_Init(void)
 {
 			Ultrasnio_Port_Init();
 			TIM8_PWMInCap_Init();
 }
-//触发一次Trig引脚，进行一次测距更新
+/*********************************************************************************************************
+*	函 数 名: Ultrasnio_update
+*	功能说明: 触发一次Trig引脚，进行一次测距更新
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 void Ultrasnio_update(void)
 {	  
      Ultrasnio_Trigger_H;
      Ultra_delay_nus(12);//示波器测量此时延时为40us
 		 Ultrasnio_Trigger_L;
 }
-////
-////
-//void Ultra_Ranging(void)
-//{
-//	u8 i;
-//	u32 j;
-//	float Ultr_Temp;	
-//	for(i=0;i<5;i++)
-//	{
-//		Ultrasnio_update();
-//		while(!Ultranio_Echo);
-//		while(Ultranio_Echo)
-//		{
-//			Ultra_delay_nus(10);
-//			j++;
-//		}
-//		Ultr_Temp += 340/2*j*10;//  模块最大可测距3m 
-//		j=0;
-////		delay_ms(60);//防止发射信号对回响信号的影响
-//	}
-//	Cur_Distance = Ultr_Temp/5/1000000; 	
-//}
-/**
-  * @超声波ECHO引脚根据接受到的高电平时间更新距离
-  */ 
+
+/*********************************************************************************************************
+*	函 数 名: TIM8_CC_IRQHandler
+*	功能说明: TIM8中断服务函数
+*          超声波ECHO引脚根据接受到的高电平时间更新距离
+*	形    参：
+*	返 回 值: 
+*********************************************************************************************************
+*/
 
 void TIM8_CC_IRQHandler(void)
 {  //进入中断
@@ -173,8 +207,9 @@ void TIM8_CC_IRQHandler(void)
 						{
 							TIM8_T = 0;
 						}	
-						
+//						CPU_INT_DIS();
 						ult.cur_distance = (float)(TIM8CH4_Fall - TIM8CH4_Rise + TIM8_T)*0.018;  //得到总的高电平时间，值域
+//						CPU_INT_EN();
 						TIM_OC4PolarityConfig(TIM8,TIM_ICPolarity_Rising); //CC4P=0 设置为上升沿捕获		
 				}		    
 		}
@@ -182,4 +217,4 @@ void TIM8_CC_IRQHandler(void)
 		OSIntExit();
 }
 
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

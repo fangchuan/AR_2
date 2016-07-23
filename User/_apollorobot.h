@@ -1,3 +1,19 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 数据结构模块头文件
+*	文件名称 : _apollorobot.h
+*	版    本 : V1.0
+*	说    明 : 链表解析函数、数据结构
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #ifndef  _APOLLOROBOT_H
 #define  _APOLLOROBOT_H
 
@@ -111,6 +127,8 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_GIF_FURY,     //愤怒GIF
 									FLAG_GIF_ALARM,    //警报GIF
 									FLAG_PROC,         //调用子程序
+									FLAG_VAR_SET_A_PORT,//设定变量A为端口_
+									FLAG_VAR_SET_B_PORT,//设定变量B为端口_
 };
 //
 //每一条编辑完的程序数据结构
@@ -229,22 +247,27 @@ typedef struct _AS {
 }_AS;
 //MPU6050
 typedef struct _EULER {
-				float  angle_x;
+				float  angle_x;//单位: 度
 	      float  angle_y;
-	      float  accel_x;
+	      float  accel_x;//单位:m/s2
 	      float  accel_y;
 				float  accel_z;
-				float   gyro_x;
+				float   gyro_x;//单位: rad/s
 				float   gyro_y;
 				float   gyro_z;
 }_Euler;
+typedef struct	{
+				float 	x;
+				float 	y;
+				float		z;
+}_Vector3f;
 //
 //超声波的数据结构
 //
 #define SHOW_ON   1
 #define SHOW_OFF  0
 typedef struct _ULTRASNIO{
-	      float     cur_distance;// 超声波测得的当前的距离
+	      volatile float     cur_distance;// 超声波测得的当前的距离
 	      uint16_t  tar_distance;// 目标距离，要比较的值
 }_Ultrasnio;
 //
@@ -344,14 +367,10 @@ extern int  Replace_Node(int index, enum _FLAG flag,char *content);//替换节点
 extern int Delete_Node(int index);//删除节点
 extern void Clear_List(_Listptr head);//删除整个链表
 extern int  GetListLength(_Listptr head);//返回当前链表的长度,若只有头结点则长度为0
-extern int Create_Stack(void);//创建一个空栈
-extern int GetStackLength(_StatuStack *stk);////返回当前栈的长度
-extern int GetTop(_StatuStack *Stk,uint8_t *ele);////获取栈顶元素，存入ele，不是出栈
-extern int Push(_StatuStack *Stk, uint8_t ele);//
-extern int Pop(_StatuStack *Stk, uint8_t *ele);
 extern void List_Parse(_Listptr  ptr);
 _Error Detect_Port(_Port *port);
 _Error Get_Port(_Port *port);
 extern void InitMPUSensor(_Euler *sensor);
 
 #endif /*_APOLLOROBOT_H*/
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

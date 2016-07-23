@@ -36,12 +36,12 @@ volatile uint8_t flag_operation;
 */
 
 static const char *StringHZ[] = {
-	"\xe6\x9b\xb4\xe6\x94\xb9\xe6\x8c\x87\xe4\xbb\xa4",//0:更改指令
-	"\xe6\x8f\x92\xe5\x85\xa5\xe6\x8c\x87\xe4\xbb\xa4",//1:插入指令
-	"\xe5\x88\xa0\xe9\x99\xa4\xe6\x8c\x87\xe4\xbb\xa4",//2:删除指令
-	"\xe8\xbf\x94\xe5\x9b\x9e",                      //3:返回
-	"\xe6\x93\x8d\xe4\xbd\x9c\xe9\x94\x99\xe8\xaf\xaf",//4:操作错误
-	"\xe9\x94\x99\xe8\xaf\xaf",                        //5:错误
+	"\xe6\x9b\xb4\xe6\x94\xb9\xe6\x8c\x87\xe4\xbb\xa4",	//0:更改指令
+	"\xe6\x8f\x92\xe5\x85\xa5\xe6\x8c\x87\xe4\xbb\xa4",	//1:插入指令
+	"\xe5\x88\xa0\xe9\x99\xa4\xe6\x8c\x87\xe4\xbb\xa4",	//2:删除指令
+	"\xe8\xbf\x94\xe5\x9b\x9e",                      		//3:返回
+	"\xe6\x93\x8d\xe4\xbd\x9c\xe9\x94\x99\xe8\xaf\xaf",	//4:操作错误
+	"\xe9\x94\x99\xe8\xaf\xaf",                        	//5:错误
 
 };
 
@@ -55,8 +55,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "更改指令", ID_BUTTON_CHANGE, 10, 40, 60, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "删除指令", ID_BUTTON_DELETE, 10, 70, 60, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "返回", ID_BUTTON_BACK, 40, 100, 40, 20, 0, 0x0, 0 },
-  // USER START (Optionally insert additional widgets)
-  // USER END
+
 };
 
 /*********************************************************************
@@ -65,9 +64,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 *
 **********************************************************************
 */
-
-// USER START (Optionally insert additional static code)
-// USER END
 
 /*********************************************************************
 *
@@ -224,4 +220,4 @@ WM_HWIN CreateSelectDialog (WM_HWIN hParent, int x0, int y0)
 			return hWin;
 }
 
-/*************************** End of file ****************************/
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

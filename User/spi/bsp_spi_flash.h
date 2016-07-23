@@ -1,11 +1,24 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : SPI FLASH驱动模块
+*	文件名称 : bsp_spi_flash.h
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #ifndef __SPI_FLASH_H
 #define __SPI_FLASH_H
 
 #include "stm32f10x.h"
-#include <stdio.h>
 
-#include "diskio.h"
-#include "integer.h"
 
 //W25X系列/Q系列芯片列表	   
 //W25Q80  ID  0XEF13
@@ -78,3 +91,4 @@ void W25QXX_PowerDown(void);        	//进入掉电模式
 void W25QXX_WAKEUP(void);				//唤醒
 #endif /* __SPI_FLASH_H */
 
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

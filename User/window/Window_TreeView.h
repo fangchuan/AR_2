@@ -1,15 +1,28 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 文件树形图模块头文件
+*	文件名称 : WIDGET_TreeView.h
+*	版    本 : V1.0
+*	说    明 : 生成文件目录树，都是叶子文件。
+*            功能包括文件保存、文件删除、硬盘(FLASH)格式化
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-03-01 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #ifndef  __WINDOW_TREEVIEW_H
 #define  __WINDOW_TREEVIEW_H
 
 #include "DIALOG.h"
 #include "stdint.h"
 
-#define FILE_NAME_LEN 	50							//文件名长度，如果检测到文件名超过50 则丢弃这个文件 
-#define PATH_LEN		    50              //路径长度
-#define FILE_LIST_PATH 			"0:/FILELIST.TXT"	//文件记录列表文件的目录
-//#define _DF1S        0x80   //支持长文件名的,我没用长文件名
+
 
 extern  WM_HWIN hTree;
 extern  WM_HWIN CreateWindow_TreeView(void);
-extern  void WriteFileProcess(void);
 #endif //__WINDOW_TREEVIEW_H
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

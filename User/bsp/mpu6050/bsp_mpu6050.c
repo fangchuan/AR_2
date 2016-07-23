@@ -1,4 +1,19 @@
-
+/*
+*********************************************************************************************************
+*
+*	模块名称 : MPU6050驱动模块
+*	文件名称 : bsp_mpu6050.c
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #include "bsp_mpu6050.h"
 #include "_apollorobot.h"
 
@@ -13,8 +28,8 @@ extern _Euler  euler;
 static uint8_t buffer[14];
 
 static int16_t  MPU6050_FIFO[6][11];
-static int16_t Gx_offset=0,Gy_offset=0,Gz_offset=0;
-static int16_t MPU6050_Lastax,MPU6050_Lastay,MPU6050_Lastaz
+static int16_t  Gx_offset=0,Gy_offset=0,Gz_offset=0;
+static int16_t  MPU6050_Lastax,MPU6050_Lastay,MPU6050_Lastaz
 							 ,MPU6050_Lastgx,MPU6050_Lastgy,MPU6050_Lastgz;
 
 #define Kp 10.0f                        // proportional gain governs rate of convergence to accelerometer/magnetometer
@@ -541,7 +556,9 @@ void Get_Attitude(void)
 		int16_t ax,ay,az,gx,gy,gz;
 		float   gx_rad,gy_rad,gz_rad;
 		MPU6050_getMotion6(&ax,&ay,&az,&gx,&gy,&gz);
-		gx_rad = gx/GYRO_PARAM *RAD; gy_rad = gy/GYRO_PARAM *RAD; gz_rad = gz/GYRO_PARAM * RAD;
+		gx_rad = gx/GYRO_PARAM *RAD; 
+		gy_rad = gy/GYRO_PARAM *RAD; 
+		gz_rad = gz/GYRO_PARAM * RAD;
 		euler.accel_x = ax / ACCEL_PARAM;
 		euler.accel_y = ay / ACCEL_PARAM;
 	  euler.accel_z = az / ACCEL_PARAM;
@@ -550,3 +567,5 @@ void Get_Attitude(void)
 		euler.gyro_z  = gz_rad;
 		IMUupdate(gx_rad,gy_rad,gz_rad,ax,ay,az);
 }
+
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

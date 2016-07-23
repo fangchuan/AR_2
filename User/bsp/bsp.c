@@ -1,9 +1,21 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 板载硬件初始化模块
+*	文件名称 : bsp.c
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #include "includes.h"
-#include "GUI.h"
-#include "BUTTON.h"
-#include "MULTIPAGE.h"
-#include "HEADER.h"
-#include "_apollorobot.h"
+
 /*
 *********************************************************************************************************
 *                                             REGISTERS
@@ -396,9 +408,7 @@ void BSP_Init(void)
 	BUTTON_SetDefaultSkin(BUTTON_SKIN_FLEX); // Sets the default skin for new widgets
 	SCROLLBAR_SetDefaultSkin (SCROLLBAR_SKIN_FLEX);
 	HEADER_SetDefaultSkin    (HEADER_SKIN_FLEX);
-//	FRAMEWIN_SetDefaultSkin(FRAMEWIN_SKIN_FLEX);
-//  BUTTON_SetDefaultBkColor(GUI_LIGHTMAGENTA, BUTTON_CI_UNPRESSED );//按钮未按下时为浅红色
-//	BUTTON_SetDefaultBkColor(GUI_MAGENTA, BUTTON_CI_PRESSED );//按钮按下时为品红色
+
 	
 #ifdef TRACE_EN                                                 /* See project / compiler preprocessor options.         */
     BSP_CPU_REG_DBGMCU_CR |=  BSP_DBGMCU_CR_TRACE_IOEN_MASK;    /* Enable tracing (see Note #2).                        */
@@ -410,4 +420,4 @@ void BSP_Init(void)
 
 
 
-/* --------------------------------------end of file--------------------------------------- */
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

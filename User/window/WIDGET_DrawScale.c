@@ -13,6 +13,11 @@
 #define DEFAULT_COLOR COLOR_0 //默认颜色为红色
 #define DEFAULT_WIDTH 20      //默认线宽为20
 #define MAX_RADIUS    180
+
+#define GIF_RECT_LEFT     20
+#define GIF_RECT_RIGHT    160
+#define GIF_RECT_TOP      80
+#define GIF_RECT_BOTTOM   240
 /*********************************************************************
 *
 *       Static data
@@ -263,7 +268,7 @@ void DrawGIF (_Gif gif)
 	   u8   g = gif;
 	   if(g)
 	   {
-			 GUI_Clear();
+			 GUI_ClearRect( GIF_RECT_LEFT, GIF_RECT_TOP, GIF_RECT_RIGHT, GIF_RECT_BOTTOM);
 			 switch (g)
 			 {
 				 case GIF_HAPPY:
@@ -286,3 +291,4 @@ void DrawGIF (_Gif gif)
 			  
 	   }
 }
+/***************************** 阿波罗科技 www.apollorobot.com (END OF FILE) *********************************/

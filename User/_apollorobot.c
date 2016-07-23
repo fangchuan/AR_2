@@ -1,4 +1,21 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 编程指令解析模块
+*	文件名称 : apollorobot.c
+*	版    本 : V1.0
+*	说    明 : 编程指令的解析、执行
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-03-01 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.com
+*
+*********************************************************************************************************
+*/
 #include "includes.h"
+
 /*********************************************************************
 *
 *       Global data
@@ -7,7 +24,6 @@
 */
 _Listptr Ins_List_Head;//程序主链表的头指针
 _Listptr Sub_List_Head;//子程序链表头指针
-//_StatuStack StaStk;    //表示代码嵌套层次的状态栈 
 //_SensorFlag  sensorflag;//传感器种类
 extern _Port port_1;
 extern _Port port_2;
@@ -57,7 +73,14 @@ static void InitMotor(_Motor *motor);
 static void InitMusic(_Music *music);
 static void InitUltrasnio(_Ultrasnio *sensor);
 
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitMPUSensor
+*	功能说明: 初始化姿态传感器变量
+*	形    参：_Euler指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 void InitMPUSensor(_Euler *sensor)
 {
 	    sensor->angle_x = 0;
@@ -69,27 +92,56 @@ void InitMPUSensor(_Euler *sensor)
 	    sensor->gyro_y  = 0;
 	    sensor->gyro_z  = 0;
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitUltrasnio
+*	功能说明: 初始化超声波传感器变量
+*	形    参：_Ultrasnio指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitUltrasnio(_Ultrasnio *sensor)
 {
 //	    sensor->cur_distance = 0;
 	    sensor->tar_distance = 0;
 }
 
+/*
+*********************************************************************************************************
+*	函 数 名: InitMotor
+*	功能说明: 初始化电机变量
+*	形    参：_Motor指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitMotor(_Motor *motor)
 {
 	    motor->id = 0;
 	    motor->direction = 0;
 	    motor->speed = 0;
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitServo
+*	功能说明: 初始化舵机变量
+*	形    参：_Servo指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitServo(_Servo *servo)
 {
       servo->id = 0;
 	    servo->degree = 0;
 
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitPort
+*	功能说明: 初始化端口变量
+*	形    参：_Port指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitPort(_Port *port)
 {
 	    port->id = 0;
@@ -99,34 +151,69 @@ static void InitPort(_Port *port)
 	    port->cur_val = 0;
 	    port->tar_val = 0;
 }	
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitLed
+*	功能说明: 初始化led变量
+*	形    参：_Led指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitLed(_Led * led)
 {
 	    led->id = 0;
 	    led->status = 0;
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitVar
+*	功能说明: 初始化Variable变量
+*	形    参：_Variable指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitVar(_Variable *var)
 {
 	     var->id = 0;
 	     var->set_val = 0;
 	     var->tar_val = 0;
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitCar
+*	功能说明: 初始化小车变量
+*	形    参：_Car指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitCar (_Car * car)
 {
 	     car->direction = 0;
 	     car->speed_step = 0;
 }
-
+/*
+*********************************************************************************************************
+*	函 数 名: InitMusic
+*	功能说明: 初始化Music变量
+*	形    参：_Music指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void InitMusic(_Music *music)
 {
 	     music->time = 0;
 	     music->tones = 0;
 }
-//
-//侦测端口Port的状态：有无信号
-//Tips:默认是用来判断数字传感器的
+/*
+*********************************************************************************************************
+*	函 数 名: Detect_Port
+*	功能说明: 侦测端口Port的状态：有无信号
+*          Tips:默认是用来判断数字传感器的
+*	形    参：_Port指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+
 _Error Detect_Port(_Port *port)
 {
 	    int  adc_val;
@@ -223,9 +310,14 @@ _Error Detect_Port(_Port *port)
 				return NO_ERROR;
 			}
 }
-//
-//获取指定port的值,默认指的是模拟传感器的值
-//
+/*
+*********************************************************************************************************
+*	函 数 名: Get_Port
+*	功能说明: 获取指定port的值,默认指的是模拟传感器的值
+*	形    参：_Port指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
  _Error Get_Port  (_Port * port)
 {
 			if(port->id < 1 || port->id > 4)
@@ -251,9 +343,15 @@ _Error Detect_Port(_Port *port)
 				return NO_ERROR;
 			}
 }
-//
-//依据程序名调用子程序
-//要求Add_Node有可重入性
+/*
+*********************************************************************************************************
+*	函 数 名: OpenSubPro
+*	功能说明: 依据程序名调用子程序
+*           要求Add_Node有可重入性
+*	形    参：pn:程序名                      head:子链表的头结点指针
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static _Error OpenSubPro (uint32_t pn, _Listptr head)
 {
 	    static   int last_pname = -1;
@@ -299,9 +397,14 @@ static _Error OpenSubPro (uint32_t pn, _Listptr head)
 				    return NO_ERROR;
 			}
 }
-//
-//调用子程序代码块
-//返回跳转结点的指针，即FLAG_PROC
+/*
+*********************************************************************************************************
+*	函 数 名: proc_branch
+*	功能说明: 调用子程序代码块
+*	形    参：p:主链表上的每个节点
+*	返 回 值: 返回跳转结点的指针，即FLAG_PROC
+*********************************************************************************************************
+*/
 static _Listptr proc_branch(_Listptr p)
 {
 	     _Listptr  ret = p;
@@ -501,6 +604,44 @@ static _Listptr proc_branch(_Listptr p)
 												var.id = VAR_B;
 												var.set_val = atoi(p->EditContent + 8);
 										break;
+									case FLAG_VAR_SET_A_PORT: //A=端口_
+													var.id = VAR_A;
+													switch( atoi(p->EditContent + 8))
+													{
+														case PORT_1:
+																 var.set_val = port_1.cur_val;
+															break;
+														case PORT_2:
+																 var.set_val = port_2.cur_val;
+															break;
+														case PORT_3:
+																 var.set_val = port_3.cur_val;
+															break;
+														case PORT_4:
+																 var.set_val = port_4.cur_val;
+															break;
+														
+													}
+											break;
+										case FLAG_VAR_SET_B_PORT: //B=端口_
+													var.id = VAR_B;
+													switch( atoi(p->EditContent + 8))
+													{
+														case PORT_1:
+																 var.set_val = port_1.cur_val;
+															break;
+														case PORT_2:
+																 var.set_val = port_2.cur_val;
+															break;
+														case PORT_3:
+																 var.set_val = port_3.cur_val;
+															break;
+														case PORT_4:
+																 var.set_val = port_4.cur_val;
+															break;
+														
+													}
+											break;
 									case FLAG_VAR_A_INC:
 													var.id = VAR_A;
 													var.set_val ++;
@@ -672,9 +813,14 @@ static _Listptr proc_branch(_Listptr p)
 						return ret;
 		  }
 }
-//
-//if 满足条件后面的代码块处理，支持多条语句，支持嵌套
-//返回IF_END指令的指针
+/*
+*********************************************************************************************************
+*	函 数 名: if_branch
+*	功能说明: if 满足条件后面的代码块处理，支持多条语句，支持嵌套
+*	形    参：p:主链表上的每个节点
+*	返 回 值: 返回IF_END指令的指针
+*********************************************************************************************************
+*/
 static _Listptr if_branch (_Listptr  p)
 {
 		p = p->next ;
@@ -870,6 +1016,44 @@ static _Listptr if_branch (_Listptr  p)
 							var.id = VAR_B;
 							var.set_val = atoi(p->EditContent + 8);
 					break;
+				case FLAG_VAR_SET_A_PORT: //A=端口_
+							var.id = VAR_A;
+							switch( atoi(p->EditContent + 8))
+							{
+								case PORT_1:
+										 var.set_val = port_1.cur_val;
+									break;
+								case PORT_2:
+										 var.set_val = port_2.cur_val;
+									break;
+								case PORT_3:
+										 var.set_val = port_3.cur_val;
+									break;
+								case PORT_4:
+										 var.set_val = port_4.cur_val;
+									break;
+								
+							}
+					break;
+				case FLAG_VAR_SET_B_PORT: //B=端口_
+							var.id = VAR_B;
+							switch( atoi(p->EditContent + 8))
+							{
+								case PORT_1:
+										 var.set_val = port_1.cur_val;
+									break;
+								case PORT_2:
+										 var.set_val = port_2.cur_val;
+									break;
+								case PORT_3:
+										 var.set_val = port_3.cur_val;
+									break;
+								case PORT_4:
+										 var.set_val = port_4.cur_val;
+									break;
+								
+							}
+					break;
 				case FLAG_VAR_A_INC:
 								var.id = VAR_A;
 								var.set_val ++;
@@ -1040,9 +1224,14 @@ static _Listptr if_branch (_Listptr  p)
 		}
 }
 
-//
-//"否则"后面的代码块处理,支持多条语句，支持嵌套
-//
+/*
+*********************************************************************************************************
+*	函 数 名: or_branch
+*	功能说明: "否则"后面的代码块处理,支持多条语句，支持嵌套
+*	形    参：p:主链表上的每个节点
+*	返 回 值: 返回IF_END指令的指针
+*********************************************************************************************************
+*/
 static _Listptr or_branch (_Listptr  p)
 {
 	    p = p -> next;
@@ -1239,6 +1428,44 @@ static _Listptr or_branch (_Listptr  p)
 									var.id = VAR_B;
 									var.set_val = atoi(p->EditContent + 8);
 							break;
+						case FLAG_VAR_SET_A_PORT: //A=端口_
+									var.id = VAR_A;
+									switch( atoi(p->EditContent + 8))
+									{
+										case PORT_1:
+												 var.set_val = port_1.cur_val;
+											break;
+										case PORT_2:
+												 var.set_val = port_2.cur_val;
+											break;
+										case PORT_3:
+												 var.set_val = port_3.cur_val;
+											break;
+										case PORT_4:
+												 var.set_val = port_4.cur_val;
+											break;
+										
+									}
+							break;
+						case FLAG_VAR_SET_B_PORT: //B=端口_
+									var.id = VAR_B;
+									switch( atoi(p->EditContent + 8))
+									{
+										case PORT_1:
+												 var.set_val = port_1.cur_val;
+											break;
+										case PORT_2:
+												 var.set_val = port_2.cur_val;
+											break;
+										case PORT_3:
+												 var.set_val = port_3.cur_val;
+											break;
+										case PORT_4:
+												 var.set_val = port_4.cur_val;
+											break;
+										
+									}
+							break;
 						case FLAG_VAR_A_INC:
 										var.id = VAR_A;
 										var.set_val ++;
@@ -1406,9 +1633,13 @@ static _Listptr or_branch (_Listptr  p)
 			 return p;
 			}
 }
-//
-//"循环开始"后面的代码块处理.支持嵌套
-//Tips:让链表执行到WHILE_TAIL结点再给链表指针p跳转也行
+/*********************************************************************************************************
+*	函 数 名: while_branch
+*	功能说明: "循环开始"后面的代码块处理.支持嵌套
+*	形    参：p:主链表上的每个节点
+*	返 回 值: 循环语句不会返回
+*********************************************************************************************************
+*/
 static _Listptr while_branch (_Listptr  p)
 {
 	    _Listptr  while_head = p;
@@ -1613,6 +1844,44 @@ static _Listptr while_branch (_Listptr  p)
 														var.id = VAR_B;
 														var.set_val = atoi(p->EditContent + 8);
 												break;
+											case FLAG_VAR_SET_A_PORT: //A=端口_
+														var.id = VAR_A;
+														switch( atoi(p->EditContent + 8))
+														{
+															case PORT_1:
+																	 var.set_val = port_1.cur_val;
+																break;
+															case PORT_2:
+																	 var.set_val = port_2.cur_val;
+																break;
+															case PORT_3:
+																	 var.set_val = port_3.cur_val;
+																break;
+															case PORT_4:
+																	 var.set_val = port_4.cur_val;
+																break;
+															
+														}
+												break;
+											case FLAG_VAR_SET_B_PORT: //B=端口_
+														var.id = VAR_B;
+														switch( atoi(p->EditContent + 8))
+														{
+															case PORT_1:
+																	 var.set_val = port_1.cur_val;
+																break;
+															case PORT_2:
+																	 var.set_val = port_2.cur_val;
+																break;
+															case PORT_3:
+																	 var.set_val = port_3.cur_val;
+																break;
+															case PORT_4:
+																	 var.set_val = port_4.cur_val;
+																break;
+															
+														}
+												break;
 											case FLAG_VAR_A_INC:
 															var.id = VAR_A;
 															var.set_val ++;
@@ -1792,9 +2061,14 @@ static _Listptr while_branch (_Listptr  p)
 *
 **********************************************************************
 */
-//
-//建立一个有表头结点的单链表
-//包括主链表和子程序链表的表头结点
+/*********************************************************************************************************
+*	函 数 名: Create_List
+*	功能说明: 建立一个有表头结点的单链表
+*          包括主链表和子程序链表的表头结点
+*	形    参：无
+*	返 回 值: 循环语句不会返回
+*********************************************************************************************************
+*/
 int Create_List(void){
 	
 		Ins_List_Head = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
@@ -1811,8 +2085,14 @@ int Create_List(void){
 		return 0;
 	
 }
-//增加节点,将元素加到下标为index的地方。其实是依次将结点从表头结点接下来
-//具有可重入性
+/*********************************************************************************************************
+*	函 数 名: Add_Node
+*	功能说明: 增加节点,将元素加到下标为index的地方。其实是依次将结点从表头结点接下来
+*          具有可重入性
+*	形    参：head:主链表指针    index:节点在主链表中的位置   flag:节点数据域所属类别    content:节点数据域内容
+*	返 回 值: 0\1
+*********************************************************************************************************
+*/
 int Add_Node (_Listptr head, int index, uint8_t flag, char *content)
 {
 				int i = 0;
@@ -1844,7 +2124,14 @@ int Add_Node (_Listptr head, int index, uint8_t flag, char *content)
 				
 				return 0;
 }
-//替换下标为index的结点的内容
+/*********************************************************************************************************
+*	函 数 名: Replace_Node
+*	功能说明: 替换下标为index的结点的内容
+*          
+*	形    参：head:主链表指针    index:节点在主链表中的位置   flag:节点数据域所属类别    content:节点数据域内容
+*	返 回 值: 0\1
+*********************************************************************************************************
+*/
 int  Replace_Node(int index, enum _FLAG flag,char *content)
 {
 				int i = 0;
@@ -1873,7 +2160,14 @@ int  Replace_Node(int index, enum _FLAG flag,char *content)
 
 }
 
-//删除下标为Index的结点
+/*********************************************************************************************************
+*	函 数 名: Delete_Node
+*	功能说明: 删除下标为Index的结点
+*          
+*	形    参：head:主链表指针    index:节点在主链表中的位置   flag:节点数据域所属类别    content:节点数据域内容
+*	返 回 值: 0\1
+*********************************************************************************************************
+*/
 int Delete_Node(int index)
 {
 		int i;
@@ -1899,7 +2193,14 @@ int Delete_Node(int index)
 		}
 		
 }
-//获取当前链表的长度,输入参数为表头结点
+/*********************************************************************************************************
+*	函 数 名: GetListLength
+*	功能说明: 获取当前链表的长度,
+*          
+*	形    参：输入参数为表头结点
+*	返 回 值: 0\1
+*********************************************************************************************************
+*/
 int  GetListLength(_Listptr  head)
 {
 		_Listptr p = head;
@@ -1915,7 +2216,14 @@ int  GetListLength(_Listptr  head)
 			return length;
 		}
 }
-//清空整个链表，释放原来的结点空间
+/*********************************************************************************************************
+*	函 数 名: Clear_List
+*	功能说明: 清空整个链表，释放原来的结点空间
+*          
+*	形    参：输入参数为表头结点
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 void Clear_List(_Listptr  head)
 {
 		_Listptr p = head ;
@@ -1930,7 +2238,14 @@ void Clear_List(_Listptr  head)
 		}
 		
 }
-//从index结点开始寻找标志为flag的结点,并返回该结点的指针
+/*********************************************************************************************************
+*	函 数 名: Find_Node
+*	功能说明: 从index结点开始寻找标志为flag的结点,并返回该结点的指针
+*          
+*	形    参：输入参数为表头结点
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static _Listptr  Find_Node(_Listptr head, enum _FLAG flag)
 {
 				_Listptr    p = head;
@@ -1949,67 +2264,15 @@ static _Listptr  Find_Node(_Listptr head, enum _FLAG flag)
 				}
 				
 }
-/*
-//初始化一个状态栈
-int Create_Stack(void)
-{
-		StaStk.base = (ELETYPE *)malloc(MAX_SIZE_STACK * sizeof(_StatuStack));
-		if(!StaStk.base )
-			return -1;
-		else
-		{
-			StaStk.top = StaStk.base ;//当前栈为空栈
-			StaStk.stacksize = MAX_SIZE_STACK;
-			
-			return 0;
-		}
-}
 
-//返回当前栈的长度
-int GetStackLength(_StatuStack *stk)
-{
-		if(!stk->base)
-			return -1;
-		else
-		{
-			return (stk->top - stk->base );
-		}
-}
-//获取栈顶元素，存入ele，不是出栈
-int GetTop(_StatuStack *Stk,uint8_t *ele)
-{
-		if(!Stk->base || Stk->base == Stk->top )//若是空栈则返回-1
-			return -1;
-		else
-		{
-			*ele = *(Stk->top -1);
-			return 0;
-		}
-}
-//元素入栈操作
-int Push(_StatuStack *Stk, uint8_t ele)
-{
-		if(!Stk->base )
-			return -1;
-		else{
-			*Stk->top++ = ele;
-			return 0;
-		}
-}
-//元素出栈
-int Pop(_StatuStack *Stk, uint8_t *ele)
-{
-		if(!Stk->base|| Stk->base == Stk->top )//若是空栈则返回-1
-			return -1;
-		else{
-			*ele = *(--Stk->top);
-			return 0;
-		}
-}
+/*********************************************************************************************************
+*	函 数 名: List_Parse
+*	功能说明: 链表解析函数
+*          解析工作绝对不可以破坏原链表的顺序
+*	形    参：输入参数为表头结点
+*	返 回 值: 无
+*********************************************************************************************************
 */
-//
-//链表解析函数
-//解析工作绝对不可以破坏原链表的顺序
 void List_Parse(_Listptr  ptr)
 {
 		_Listptr  jumpq;//跳转指针，用于if语句和调用子程序
@@ -2220,6 +2483,44 @@ void List_Parse(_Listptr  ptr)
 							var.id = VAR_B;
 							var.set_val = atoi(ptr->EditContent + 8);
 					break;
+  			case FLAG_VAR_SET_A_PORT: //A=端口_
+							var.id = VAR_A;
+							switch( atoi(ptr->EditContent + 8))
+							{
+								case PORT_1:
+									   var.set_val = port_1.cur_val;
+									break;
+								case PORT_2:
+									   var.set_val = port_2.cur_val;
+									break;
+								case PORT_3:
+									   var.set_val = port_3.cur_val;
+									break;
+								case PORT_4:
+									   var.set_val = port_4.cur_val;
+									break;
+								
+							}
+					break;
+				case FLAG_VAR_SET_B_PORT: //B=端口_
+							var.id = VAR_B;
+							switch( atoi(ptr->EditContent + 8))
+							{
+								case PORT_1:
+									   var.set_val = port_1.cur_val;
+									break;
+								case PORT_2:
+									   var.set_val = port_2.cur_val;
+									break;
+								case PORT_3:
+									   var.set_val = port_3.cur_val;
+									break;
+								case PORT_4:
+									   var.set_val = port_4.cur_val;
+									break;
+								
+							}
+					break;
 				case FLAG_VAR_A_INC:
 								var.id = VAR_A;
 								var.set_val ++;
@@ -2389,4 +2690,4 @@ void List_Parse(_Listptr  ptr)
 		
 }
 
-/*******************************************End of File***********************************************/
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

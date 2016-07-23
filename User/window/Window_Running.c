@@ -64,7 +64,7 @@ static const char *StringHZ[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "A", ID_TEXT_A, 60, 20, 120, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "A", ID_TEXT_A, 60, 20, 120, 40, 0, 0x64, 0 },
 
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -100,10 +100,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'A'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_A);
-		TEXT_SetFont(hItem,&GUI_FontSongTi12);
 	  TEXT_SetText(hItem, "");
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-
+	  TEXT_SetFont(hItem, &GUI_Font20_ASCII);
+		TEXT_SetTextColor(hItem,GUI_RED);
+		
 		break;
   case WM_NOTIFY_PARENT:
 //    Id    = WM_GetId(pMsg->hWinSrc);
@@ -124,11 +125,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 					hItem = WM_GetDialogItem(pMsg->hWin ,ID_TEXT_A);
 					TEXT_SetText(hItem,distance);
 				break;
-	  case DISP_PAINT: 
+	  case DISP_PAINT: //画板需清全屏
 					Paint_Config(&paint);
 					Init_Paint(&paint);
 				break;
-    case DISP_DIRECTION:
+    case DISP_DIRECTION: //清全屏
 					if(car.direction == FORWARD)
 					{
 						 DrawForwardIcon();
@@ -150,11 +151,22 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						 DrawStopIcon();
 					}
         break;
-	 case DISP_GIF:
+	 case DISP_GIF://清部分屏
 				DrawGIF(gif);
 		    break;
 	 case DISP_VARIABLE:
-		    GUI_DispDecAt(var.set_val ,120, 160, 6);//变量最大显示6位数
+		    if(var.id == VAR_A)
+				{
+					GUI_SetColor(GUI_RED);
+					GUI_SetFont(&GUI_Font32_ASCII);
+					GUI_DispDecAt(var.set_val ,120, 100, 6);//变量最大显示6位数
+				}
+				if(var.id == VAR_B)
+				{
+					GUI_SetColor(GUI_RED);
+					GUI_SetFont(&GUI_Font32_ASCII);
+					GUI_DispDecAt(var.set_val ,120, 180, 6);//变量最大显示6位数
+				}
 		    break;
 			}
 				break;
@@ -186,4 +198,4 @@ WM_HWIN Create_RunningWindow(void) {
 // USER START (Optionally insert additional public code)
 // USER END
 
-/*************************** End of file ****************************/
+/***************************** 阿波罗科技 www.apollorobot.com (END OF FILE) *********************************/

@@ -1,5 +1,20 @@
-#include "includes.h"
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 系统任务模块
+*	文件名称 : app.c
+*	版    本 : V1.0
+*	说    明 : 创建、执行各系统任务
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-03-01 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*********************************************************************************************************
+*/
 
+#include "includes.h"
 /*********************************************************************
 *
 *       Global data
@@ -57,7 +72,7 @@ static  OS_TCB   AppTaskTouchCaliTCB;
 static  CPU_STK  AppTaskTouchCaliStk[APP_CFG_TASK_TOUCHCALI_STK_SIZE]; 
 
 static volatile uint8_t flag_end;//程序运行结束标志，是正常结束，不是强制停止
-static uint8_t  transferdata[MAX_LEN];
+static uint8_t  UartTxBuffer[UART1_TX_BUF_SIZE];
 
 static const char *StringHZ[] = {
 	"\xe7\xb3\xbb\xe7\xbb\x9f\xe5\x88\x9d\xe5\xa7\x8b\xe5\x8c\x96\xe4\xb8\xad...",//0:系统初始化中
@@ -151,7 +166,6 @@ void  AppTaskStart(void *p_arg)
                       OS_OPT_TIME_HMSM_STRICT,
                       &err);
 											
-//    APP_TRACE_INFO(("Creating Application Tasks...\n\r"));
     AppTaskCreate();                                            /* Create Application Tasks                             */
 
     //创建定时器  OS_CFG_TMR_TASK_RATE_HZ = 100HZ
@@ -249,7 +263,6 @@ static void AppTaskCOMRx(void *p_arg)
                       &err);
     }
 
-
 }
 
 /*
@@ -345,8 +358,8 @@ static void AppTaskCOMTx(void *p_arg)
     OS_ERR   err;
     (void) p_arg;
 
-    transferdata[0] = FRAME_STR;
-    transferdata[1] = VERSION;
+    UartTxBuffer[0] = FRAME_STR;
+    UartTxBuffer[1] = VERSION;
     while(1)
     {
 
@@ -358,111 +371,109 @@ static void AppTaskCOMTx(void *p_arg)
         {
 					 if(port_1.species == DS)
 					 {
-							transferdata[2] = DS_1_ID;                    //type
-							transferdata[3] = 1 ;                         //length
-							transferdata[4] = port_1.cur_val ;            //value
-							transferdata[5] = FRAME_END;
+							UartTxBuffer[2] = DS_1_ID;                    //type
+							UartTxBuffer[3] = 1 ;                         //length
+							UartTxBuffer[4] = port_1.cur_val ;            //value
+							UartTxBuffer[5] = FRAME_END;
 					 }
 					 if(port_1.species == AS)
 					 {
-						transferdata[2] = AS_1_ID;                   //type
-            transferdata[3] = 1 ;                        //length
-            transferdata[4] = port_1.cur_val ;       //value
-            transferdata[5] = FRAME_END;
+						UartTxBuffer[2] = AS_1_ID;                   //type
+            UartTxBuffer[3] = 1 ;                        //length
+            UartTxBuffer[4] = port_1.cur_val ;       //value
+            UartTxBuffer[5] = FRAME_END;
 					 }
-					 printf("%s\n",transferdata);
+					 printf("%s\n",UartTxBuffer);
         }
         if(port_2.status)
         {
 					 if(port_2.species == DS)
 					 {
-							transferdata[2] = DS_2_ID;                    //type
-							transferdata[3] = 1;                          //length
-							transferdata[4] = port_2.cur_val ;            //value
-							transferdata[5] = FRAME_END;
+							UartTxBuffer[2] = DS_2_ID;                    //type
+							UartTxBuffer[3] = 1;                          //length
+							UartTxBuffer[4] = port_2.cur_val ;            //value
+							UartTxBuffer[5] = FRAME_END;
 					 }
 					 if(port_2.species == AS)
 					 {
-						transferdata[2] = AS_2_ID;                   //type
-            transferdata[3] = 1 ;                        //length
-            transferdata[4] = port_2.cur_val ;           //value
-            transferdata[5] = FRAME_END;
+						UartTxBuffer[2] = AS_2_ID;                   //type
+            UartTxBuffer[3] = 1 ;                        //length
+            UartTxBuffer[4] = port_2.cur_val ;           //value
+            UartTxBuffer[5] = FRAME_END;
 					 }
-            printf("%s\n",transferdata);
+            printf("%s\n",UartTxBuffer);
         }
         if(port_3.status)
         {
            if(port_3.species == DS)
 					 {
-							transferdata[2] = DS_3_ID;                    //type
-							transferdata[3] = 1;                          //length
-							transferdata[4] = port_3.cur_val ;            //value
-							transferdata[5] = FRAME_END;
+							UartTxBuffer[2] = DS_3_ID;                    //type
+							UartTxBuffer[3] = 1;                          //length
+							UartTxBuffer[4] = port_3.cur_val ;            //value
+							UartTxBuffer[5] = FRAME_END;
 					 }
 					 if(port_3.species == AS)
 					 {
-						transferdata[2] = AS_3_ID;                   //type
-            transferdata[3] = 1 ;                        //length
-            transferdata[4] = port_3.cur_val ;           //value
-            transferdata[5] = FRAME_END;
+						UartTxBuffer[2] = AS_3_ID;                   //type
+            UartTxBuffer[3] = 1 ;                        //length
+            UartTxBuffer[4] = port_3.cur_val ;           //value
+            UartTxBuffer[5] = FRAME_END;
 					 }
-            printf("%s\n",transferdata);
+            printf("%s\n",UartTxBuffer);
         }
         if(port_4.status )
         {
            if(port_4.species == DS)
 					 {
-							transferdata[2] = DS_4_ID;                    //type
-							transferdata[3] = 1;                          //length
-							transferdata[4] = port_4.cur_val ;            //value
-							transferdata[5] = FRAME_END;
+							UartTxBuffer[2] = DS_4_ID;                    //type
+							UartTxBuffer[3] = 1;                          //length
+							UartTxBuffer[4] = port_4.cur_val ;            //value
+							UartTxBuffer[5] = FRAME_END;
 					 }
 					 if(port_4.species == AS)
 					 {
-						transferdata[2] = AS_4_ID;                   //type
-            transferdata[3] = 1 ;                        //length
-            transferdata[4] = port_4.cur_val ;           //value
-            transferdata[5] = FRAME_END;
+						UartTxBuffer[2] = AS_4_ID;                   //type
+            UartTxBuffer[3] = 1 ;                        //length
+            UartTxBuffer[4] = port_4.cur_val ;           //value
+            UartTxBuffer[5] = FRAME_END;
 					 }
-            printf("%s\n",transferdata);
+            printf("%s\n",UartTxBuffer);
         }
 
         if(ult.cur_distance )
         {
-            transferdata[2] = ULTRASNIO_ID;                   //type
-            transferdata[3] = sizeof(ult.cur_distance );      //length
-//						 transferdata[4] = analog_sensor1.val >> 24;       //value  因STM32小端模式，所以
-//						 transferdata[5] = analog_sensor1.val >> 16;
-//						 transferdata[6] = analog_sensor1.val >> 8;
-//						 transferdata[7] = analog_sensor1.val;
-            memcpy(transferdata + 4, &(ult.cur_distance),transferdata[3]);
-            transferdata[8] = FRAME_END;
-            printf("%s\n",transferdata);
+					  int dist = (int)ult.cur_distance ;
+            UartTxBuffer[2] = ULTRASNIO_ID;                   //type
+            UartTxBuffer[3] = sizeof(ult.cur_distance );      //length
+
+            memcpy(UartTxBuffer + 4, &dist, UartTxBuffer[3]);
+            UartTxBuffer[8] = FRAME_END;
+            printf("%s\n",UartTxBuffer);
         }
 
-        transferdata[2] = ANGLE_X_ID;
-        transferdata[3] = sizeof(euler.angle_x);
-        memcpy(transferdata + 4, &(euler.angle_x),transferdata[3]);//低字节在低地址，高字节在高地址
-        transferdata[8] = FRAME_END;
-        printf("%s\n",transferdata);
+        UartTxBuffer[2] = ANGLE_X_ID;
+        UartTxBuffer[3] = sizeof(euler.angle_x);
+        memcpy(UartTxBuffer + 4, &(euler.angle_x),UartTxBuffer[3]);//低字节在低地址，高字节在高地址
+        UartTxBuffer[8] = FRAME_END;
+        printf("%s\n",UartTxBuffer);
 
-        transferdata[2] = ANGLE_Y_ID;
-        transferdata[3] = sizeof(euler.angle_y);
-        memcpy(transferdata + 4, &(euler.angle_y),transferdata[3]);
-        transferdata[8] = FRAME_END;
-        printf("%s\n",transferdata);
+        UartTxBuffer[2] = ANGLE_Y_ID;
+        UartTxBuffer[3] = sizeof(euler.angle_y);
+        memcpy(UartTxBuffer + 4, &(euler.angle_y),UartTxBuffer[3]);
+        UartTxBuffer[8] = FRAME_END;
+        printf("%s\n",UartTxBuffer);
 
-        transferdata[2] = ACCEL_X_ID;
-        transferdata[3] = sizeof(euler.accel_x);
-        memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
-        transferdata[8] = FRAME_END;
-        printf("%s\n",transferdata);
+//        UartTxBuffer[2] = ACCEL_X_ID;
+//        UartTxBuffer[3] = sizeof(euler.accel_x);
+//        memcpy(UartTxBuffer + 4, &(euler.accel_y),UartTxBuffer[3]);
+//        UartTxBuffer[8] = FRAME_END;
+//        printf("%s\n",UartTxBuffer);
 
-        transferdata[2] = ACCEL_Y_ID;
-        transferdata[3] = sizeof(euler.accel_y);
-        memcpy(transferdata + 4, &(euler.accel_y),transferdata[3]);
-        transferdata[8] = FRAME_END;
-        printf("%s\n",transferdata);
+//        UartTxBuffer[2] = ACCEL_Y_ID;
+//        UartTxBuffer[3] = sizeof(euler.accel_y);
+//        memcpy(UartTxBuffer + 4, &(euler.accel_y),UartTxBuffer[3]);
+//        UartTxBuffer[8] = FRAME_END;
+//        printf("%s\n",UartTxBuffer);
 
         OSTimeDlyHMSM(0,0,0,150,OS_OPT_TIME_HMSM_STRICT,&err);
     }
@@ -512,11 +523,6 @@ static void AppTaskNRFReceiver(void *p_arg)
     {
         if(flag_nrf_link)
         {
-//					  if(flag_change_nrf_addr)
-//						{
-//							 flag_change_nrf_addr = 0;
-//							 NRF_RX_Mode();
-//						}
             /*等待接收数据*/
             status = NRF_Rx_Dat((u8 *)&nrf_rx);
 
@@ -624,13 +630,7 @@ static  void  AppTaskCreate(void)
     OSSemCreate(&RUN_SEM,"Run Semaphore",0, &err);
 	
 		OSSemCreate(&TOUCH_SEM, "Touch Semaphore",0,&err);
-//	//创建一个信号量，用于主运行任务运行结束后通知GUIUpdate任务
-//	OSSemCreate(&END_SEM, "End of Run Semaphore",0 ,&err);
-//	//创建一个事件标志组
-//	OSFlagCreate((OS_FLAG_GRP*)&SensorFlags,		//指向事件标志组
-//                 (CPU_CHAR*	  )"Sensor Flags",	//名字
-//                 (OS_FLAGS	  )0,	           //事件标志组初始值
-//                 (OS_ERR*  	  )&err);			//错误码
+
     /***********************************/
     OSTaskCreate((OS_TCB       *)&AppTaskGUIUpdateTCB,
                  (CPU_CHAR     *)"App Task GUI Update",
@@ -747,3 +747,4 @@ static  void  AppTaskCreate(void)
                  (OS_ERR       *)&err);
 }
 
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

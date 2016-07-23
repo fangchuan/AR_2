@@ -4,7 +4,7 @@
 *	模块名称 : TFT液晶显示器驱动模块
 *	文件名称 : bsp_ili9341_lcd.h
 *	版    本 : V1.0
-*	说    明 : 驱动芯片的访问地址为:  0x60000000
+*	说    明 : 驱动芯片的访问地址为:  0x6C000000
 *				
 *	修改记录 :
 *		版本号    日期          作者                 说明
@@ -43,4 +43,4 @@ void LCD9341_SetDispHV(uint16_t _usX1, uint16_t _usY1, uint16_t _usX2, uint16_t 
 
 void bsp_InitLCD(void);
 
-
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

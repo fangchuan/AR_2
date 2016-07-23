@@ -1,3 +1,19 @@
+/*
+*********************************************************************************************************
+*
+*	模块名称 : spi总线模块头文件
+*	文件名称 : bsp_gpio_spi.h
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #ifndef __BSP_GPIO_SPI_H
 #define	__BSP_GPIO_SPI_H
 
@@ -17,7 +33,7 @@
 
 #define  TP_INT_PIN	    GPIO_Pin_9
 #define  TP_INT_PORT	  GPIOF
-#define INT_IN_2046   GPIO_ReadInputDataBit(TP_INT_PORT,TP_INT_PIN)
+#define  INT_IN_2046    GPIO_ReadInputDataBit(TP_INT_PORT,TP_INT_PIN)
 
 // 触摸屏简称 TP
 #define TP_DCLK(a)	\
@@ -43,3 +59,4 @@
 void GPIO_SPI_Config(void);
 
 #endif /* __BSP_GPIO_SPI_H */
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

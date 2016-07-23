@@ -1,29 +1,18 @@
-/*********************************************************************
-*                SEGGER Microcontroller GmbH & Co. KG                *
-*        Solutions for real time microcontroller applications        *
-**********************************************************************
-*                                                                    *
-*        (c) 1996 - 2014  SEGGER Microcontroller GmbH & Co. KG       *
-*                                                                    *
-*        Internet: www.segger.com    Support:  support@segger.com    *
-*                                                                    *
-**********************************************************************
-
-** emWin V5.26 - Graphical user interface for embedded applications **
-emWin is protected by international copyright laws.   Knowledge of the
-source code may not be used to write a similar product.  This file may
-only be used in accordance with a license and should not be re-
-distributed in any way. We appreciate your understanding and fairness.
-----------------------------------------------------------------------
-File        : TOUCH_Calibrate.c
-Purpose     : Demonstrates how a touch screen can be calibrated at run time
-Requirements: WindowManager - ( )
-              MemoryDevices - ( )
-              AntiAliasing  - ( )
-              VNC-Server    - ( )
-              PNG-Library   - ( )
-              TrueTypeFonts - ( )
----------------------------END-OF-HEADER------------------------------
+/*
+*********************************************************************************************************
+*
+*	模块名称 : 校准屏幕焦点模块
+*	文件名称 : Window_TouchCali.c
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
 */
 
 #include  "Window_TouchCali.h"
@@ -57,20 +46,27 @@ static const char * _acPos[] = {
 * Function description
 *   Waits until the touch is in the given pressed state for at least 50 ms
 */
-static void _WaitForPressedState(int Pressed) {
+static void _WaitForPressedState(int Pressed) 
+{
 			GUI_PID_STATE State;
 
-			do {
+			do 
+			{
 					GUI_TOUCH_GetState(&State);
 					GUI_Delay(1);
-					if (State.Pressed == Pressed) {
+					if (State.Pressed == Pressed) 
+					{
 						int TimeStart = GUI_GetTime();
-						do {
+						do
+						{
 							GUI_TOUCH_GetState(&State);
 							GUI_Delay(1);
-							if (State.Pressed != Pressed) {
+							if (State.Pressed != Pressed) 
+							{
 								break;
-							} else if ((GUI_GetTime() - 50) > TimeStart) {
+							} 
+							else if ((GUI_GetTime() - 50) > TimeStart) 
+							{
 								return;
 							}
 						} while (1);
@@ -159,7 +155,8 @@ static void _GetPhysValues(uint16_t LogX, uint16_t LogY, uint16_t * pPhysX, uint
 * Funtion description
 *   Shows a text to give a short explanation of the sample program
 */
-static void _Explain(void) {
+static void _Explain(void) 
+{
   _DispStringCentered("Please press the touch\n"
                       "screen to continue...");
   GUI_DispStringHCenterAt("TOUCH_Calibrate", LCD_GetXSize() / 2, 5);
@@ -198,9 +195,9 @@ void Touch_Task(void) {
 		{
 			_GetPhysValues(aCal[i*4], aCal[i*4+1], &aCal[i*4+2], &aCal[i*4+3], _acPos[i]);
 		}
-		for( i=0; i<8; ++i)
-					printf("aCal[%d]=%d ",i,aCal[i]);
-		printf("\r\n");
+//		for( i=0; i<8; ++i)
+//					printf("aCal[%d]=%d ",i,aCal[i]);
+//		printf("\r\n");
 	//	SPI_FLASH_BufferWrite((void *)aCal,CALADD+2, sizeof(aCal));
 	//	emWin_Cal=0x55;
 	//	SPI_FLASH_BufferWrite(&emWin_Cal,CALADD,1);
@@ -213,7 +210,6 @@ void Touch_Task(void) {
 		GUI_TOUCH_Calibrate(GUI_COORD_X,aCal[0], aCal[4], aCal[6], aCal[2]); /* Calibrate X-axis */
 		GUI_TOUCH_Calibrate(GUI_COORD_Y,aCal[1], aCal[5], aCal[7], aCal[3]); /* Calibrate Y-axis */
 		
-	/***********************************************************************************************/
 		/* Display the result */
 		GUI_CURSOR_Show();
 		GUI_Clear();
@@ -235,50 +231,6 @@ void Touch_Task(void) {
 			}
 			GUI_Delay(10);
 		}
-//		GUI_PID_STATE TouchState;
-//		int           xPhys;
-//		int           yPhys;
-
-//		GUI_Init();
-//		GUI_CURSOR_Show();
-//		GUI_CURSOR_Select(&GUI_CursorCrossL);
-//		GUI_SetBkColor(GUI_WHITE);
-//		GUI_SetColor(GUI_BLACK);
-//		GUI_Clear();
-//		GUI_DispString("Measurement of\nA/D converter values");
-//		while (1) {
-//			GUI_TOUCH_GetState(&TouchState);  // Get the touch position in pixel
-//			xPhys = GUI_TOUCH_GetxPhys();     // Get the A/D mesurement result in x
-//			yPhys = GUI_TOUCH_GetyPhys();     // Get the A/D mesurement result in y
-//			//
-//			// Display the measurement result
-//			//
-//			GUI_SetColor(GUI_BLUE);
-//			GUI_DispStringAt("Analog input:\n", 0, 20);
-//			GUI_GotoY(GUI_GetDispPosY() + 2);
-//			GUI_DispString("x:");
-//			GUI_DispDec(xPhys, 4);
-//			GUI_DispString(", y:");
-//			GUI_DispDec(yPhys, 4);
-//			//
-//			// Display the according position
-//			//
-//			GUI_SetColor(GUI_RED);
-//			GUI_GotoY(GUI_GetDispPosY() + 4);
-//			GUI_DispString("\nPosition:\n");
-//			GUI_GotoY(GUI_GetDispPosY() + 2);
-//			GUI_DispString("x:");
-//			GUI_DispDec(TouchState.x,4);
-//			GUI_DispString(", y:");
-//			GUI_DispDec(TouchState.y,4);
-//			//
-//			// Wait a while
-//			//
-//			GUI_Delay(100);
-//		};
 }
 
-/*************************** End of file ****************************/
-
-
-
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/

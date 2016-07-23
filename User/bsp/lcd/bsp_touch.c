@@ -1,71 +1,44 @@
 /*
- * TP 控制 IC XPT2046 应用BSP
- */
- 
+*********************************************************************************************************
+*
+*	模块名称 : XPT2046 bsp模块
+*	文件名称 : bsp_touch.c
+*	版    本 : V1.0
+*	说    明 : 
+*
+*	修改记录 :
+*		版本号  日期        作者     说明
+*		V1.0    2016-06-30 方川  正式发布
+*
+*	Copyright (C), 2015-2020, 阿波罗科技 www.apollorobot.cn
+*
+*********************************************************************************************************
+*/
 #include "bsp_touch.h"
 #include "bsp_gpio_spi.h"
 #include "bsp_ili9341_lcd.h"
 
-extern volatile unsigned char touch_flag;
-
-
-/* 触摸屏校正系数 */
-#if 1
-long double aa1=0,bb1=0,cc1=0,aa2=0,bb2=0,cc2=0;
-#elif 0
-long double aa1=0.088370,\
-            bb1=-0.000468,\
-            cc1=-24.042172,\
-            aa2=0.0001891,\
-            bb2=0.062395,\
-            cc2=-10.223455;
-#endif
-
-/* 差值门限 */
-#define THRESHOLD 2 
-
-/*--------------------------------------------------------------------*/
-// 四个重要的结构体变量
-
-/* 触摸采样AD值保存结构体 */
-/*Coordinate ScreenSample[4];
-*/
-
-/* LCD逻辑坐标，用来校正时画十字用 */
-//Coordinate DisplaySample[4] =   
-//{
-//    { 35,  35 },
-//    { 35,  200},
-//    { 290, 200},
-//    { 290, 35}
-//};
 /*
-Coordinate DisplaySample[4] =   
-{
-    { 45,  35 },
-    { 10,  200},
-    { 290, 200},
-    { 200, 35}
-};
-//用于保存校正系数 
-Parameter   touch_para ;
-
-// 液晶计算坐标，用于真正画点的时候用 
-Coordinate  display ;
+*********************************************************************************************************
+*	函 数 名: Touch_Init
+*	功能说明: 触摸模拟SPI IO 和 中断 IO 初始化
+*	形    参：
+*	返 回 值: 无
+*********************************************************************************************************
 */
-/*------------------------------------------------------------------*/
-
-/* 
- * 触摸模拟SPI IO 和 中断 IO 初始化
- */
 void Touch_Init(void)
 {
   GPIO_SPI_Config();
 }
 
 /*
- * us 级别延时，不是很精确
- */
+*********************************************************************************************************
+*	函 数 名: DelayUS
+*	功能说明: us 级别延时，不是很精确
+*	形    参：
+*	返 回 值: 无
+*********************************************************************************************************
+*/
 static void DelayUS(vu32 cnt)
 {
     uint16_t i;
@@ -91,19 +64,15 @@ void XPT2046_WriteCMD(unsigned char cmd)
 {
     unsigned char buf;
     unsigned char i;
-//     TP_CS(1);
     TP_DIN(0);
     TP_DCLK(0);
-//     TP_CS(0);
     for(i=0;i<8;i++) 
     {
         buf=(cmd>>(7-i))&0x1;
         TP_DIN(buf);
-        //Delayus(5);
-      DelayUS(5);
+				DelayUS(5);
         TP_DCLK(1);
-        //Delayus(5);
-      DelayUS(5);
+				DelayUS(5);
         TP_DCLK(0);
     }
 }
@@ -111,12 +80,11 @@ void XPT2046_WriteCMD(unsigned char cmd)
 /*
 *********************************************************************************************************
 *	函 数 名: XPT2046_ReadCMD
-*	功能说明: 选择一个模拟通道，启动ADC，并返回ADC采样结果
+*	功能说明: 读取一个通道的ADC采样结果
 *	形    参：无
 *	返 回 值: 无
 *********************************************************************************************************
 */
-
 unsigned short XPT2046_ReadCMD(void) 
 {
     unsigned short buf=0,temp;
@@ -145,11 +113,8 @@ unsigned short XPT2046_ReadCMD(void)
 */
 uint16_t XPT2046_ReadAdc(uint8_t _ucCh)
 {
-	  //uint16_t usAdc;
-
     XPT2046_WriteCMD(_ucCh);
-
-	return 	XPT2046_ReadCMD();
+		return 	XPT2046_ReadCMD();
 }
 
 
@@ -191,7 +156,6 @@ uint16_t XPT2046_ReadAdc_Fliter(uint8_t _ucCh)
       tempXY[i] = tempXY[min];
       tempXY[min] = temp;
     }
-   
     // 设定阈值
     if((tempXY[SAMP_CNT_DIV2]-tempXY[SAMP_CNT_DIV2-1]) > 5)
     {
@@ -202,11 +166,10 @@ uint16_t XPT2046_ReadAdc_Fliter(uint8_t _ucCh)
         return adc_y; //y通道
     
     }
-    
    // 求中间值的均值   
    if(_ucCh == CHY)
    {
-     adc_x = (tempXY[SAMP_CNT_DIV2]+tempXY[SAMP_CNT_DIV2-1]) / 2;
+			adc_x = (tempXY[SAMP_CNT_DIV2]+tempXY[SAMP_CNT_DIV2-1]) / 2;
       return adc_x;
     }      
     else
@@ -222,11 +185,17 @@ uint16_t XPT2046_ReadAdc_Fliter(uint8_t _ucCh)
   }
 }
 
-
-
-
  
 #if 0 //裸机触摸校准时用到的函数
+
+/* 差值门限 */
+#define THRESHOLD 2 
+
+/* 触摸屏校正系数 */
+long double aa1=0,bb1=0,cc1=0,aa2=0,bb2=0,cc2=0;
+
+extern volatile unsigned char touch_flag;
+
 /*
  * 校正触摸时画十字专用 
  * x:0~300
@@ -620,13 +589,4 @@ FunctionalState Get_touch_point(Coordinate * displayPtr,
 } 
 
 #endif
-
-
-
-
-
-
-
-
-
-
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/
