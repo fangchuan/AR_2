@@ -226,20 +226,24 @@ static void OpenFileProcess(int sel_num )
 
 	f_close (&file);
 	
-	f_open(&file, openfile, FA_READ | FA_OPEN_EXISTING);
+	result = f_open(&file, openfile, FA_READ | FA_OPEN_EXISTING);
 	if(result != FR_OK)
 		return ;
 	if(!p)
 		return ;
 	else{
 				u16      NumBytesPerList = sizeof(_Instructor);
+				u8       Mb_Val;
 				do{
 						result = f_read(&file,p, NumBytesPerList, &bw);
-						if(result != FR_OK)
-							return ;
+						if(result != FR_OK){
+								_MessageBox("Fail to read","Error",&Mb_Val);	
+								return ;
+						}
 						Add_Node(Ins_List_Head, p->index , p->_flag ,p->EditContent );
 				}while(p->next); //链表尾结点处的next指针为空，表示最后一个结点，不用再往后读了。
 				myfree(SRAMIN, p);
+				f_close(&file);
 	}
 	strcpy(program_name,openfile+3);//将要打开的程序文件名赋给program_name.因为openfile是路径名，要去掉"0:/"
 //		txt2buffer(openfile);//将openfile文件的内容转换到UTF8编码的txtbuffer字符串中

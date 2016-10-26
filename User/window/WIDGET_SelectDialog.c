@@ -160,9 +160,24 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			      EDIT_GetText(hEdit[Edit_Index],string,sizeof(string));
 			      if(string[0] != 0)
 						{
-							 Delete_Node(Edit_Index);
-							 EDIT_SetText(hEdit[Edit_Index],"");
-							 EDIT_SetBkColor(hEdit[Edit_Index],EDIT_CI_ENABLED,GUI_WHITE);
+							 if(!Delete_Node(Edit_Index)){ //删除成功
+								 //被删除行下所有文本行都要往上移一行
+								 int i = 1;
+								 do{
+										EDIT_GetText(hEdit[Edit_Index+i],string,sizeof(string));
+									  if(string[0]!=0){
+											EDIT_SetText(hEdit[Edit_Index+i-1], string);
+											
+										}
+										else{//最后一行文本清零
+											EDIT_SetText(hEdit[Edit_Index+i-1],"");
+											EDIT_SetBkColor(hEdit[Edit_Index+i-1],EDIT_CI_ENABLED,GUI_WHITE);
+											break;
+										}
+								 }while(i++);
+							 
+							 }
+
 						}
 						else
 						{

@@ -411,7 +411,7 @@ static _Listptr proc_branch(_Listptr p)
 	     p = p -> next;
 	     if(!p)
 			 {
-				 return NULL;
+				 return ret;
 			 }
 			 else{
 				     _Listptr jumpq;
@@ -583,6 +583,66 @@ static _Listptr proc_branch(_Listptr p)
 									case FLAG_OBSTRACLE_LITTER:
 												ult.tar_distance = atoi(p->EditContent + 16);
 												if(ult.cur_distance > ult.tar_distance )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_HACCEL_GREATOR:
+												if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_HACCEL_LITTER:
+												if(euler.accel_y * G_CONST < atof(p->EditContent + 22) )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_VACCEL_GREATOR:
+												if(euler.accel_z * G_CONST > atof(p->EditContent + 22) )
+												{
+														//如果条件成立，则进入if分支
+														p = if_branch(p);                      //嵌套
+												}
+												else{
+														//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+														jumpq = Find_Node(p, FLAG_OR);
+														if(!jumpq)
+															jumpq = Find_Node(p, FLAG_IF_END);
+														
+														p = jumpq;//将这个结点赋给p
+												}
+										break;
+									case FLAG_VACCEL_LITTER:
+												if( euler.accel_z * G_CONST < atof(p->EditContent + 22) )
 												{
 														//如果条件成立，则进入if分支
 														p = if_branch(p);                      //嵌套
@@ -1008,6 +1068,66 @@ static _Listptr if_branch (_Listptr  p)
 									p = jumpq;//将这个结点赋给p
 							}
 					break;
+				case FLAG_HACCEL_GREATOR:
+							if(euler.accel_y * G_CONST > atoi(p->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									p = if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
+									
+									p = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_HACCEL_LITTER:
+							if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									p = if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
+									
+									p = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_VACCEL_GREATOR:
+							if(euler.accel_z * G_CONST > atof(p->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									p = if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
+									
+									p = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_VACCEL_LITTER:
+							if( euler.accel_z * G_CONST < atof(p->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									p = if_branch(p);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(p, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(p, FLAG_IF_END);
+									
+									p = jumpq;//将这个结点赋给p
+							}
+					break;
 				case FLAG_VAR_SET_A: //设定A=
 							var.id = VAR_A;
 							var.set_val = atoi(p->EditContent + 8);
@@ -1410,6 +1530,66 @@ static _Listptr or_branch (_Listptr  p)
 									{
 											//如果条件成立，则进入if分支
 											p = if_branch(p);      //返回的p指向“条件结束”指令
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
+											
+											p = jumpq;//将这个结点赋给p
+									}
+							break;
+						case FLAG_HACCEL_GREATOR:
+									if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+									{
+											//如果条件成立，则进入if分支
+											p = if_branch(p);                      //嵌套
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
+											
+											p = jumpq;//将这个结点赋给p
+									}
+							break;
+						case FLAG_HACCEL_LITTER:
+									if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+									{
+											//如果条件成立，则进入if分支
+											p = if_branch(p);                      //嵌套
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
+											
+											p = jumpq;//将这个结点赋给p
+									}
+							break;
+						case FLAG_VACCEL_GREATOR:
+									if(euler.accel_z * G_CONST > atof(p->EditContent + 22) )
+									{
+											//如果条件成立，则进入if分支
+											p = if_branch(p);                      //嵌套
+									}
+									else{
+											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+											jumpq = Find_Node(p, FLAG_OR);
+											if(!jumpq)
+												jumpq = Find_Node(p, FLAG_IF_END);
+											
+											p = jumpq;//将这个结点赋给p
+									}
+							break;
+						case FLAG_VACCEL_LITTER:
+									if( euler.accel_z * G_CONST < atof(p->EditContent + 22) )
+									{
+											//如果条件成立，则进入if分支
+											p = if_branch(p);                      //嵌套
 									}
 									else{
 											//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
@@ -1836,6 +2016,66 @@ static _Listptr while_branch (_Listptr  p)
 																p = jumpq;//将这个结点赋给p
 														}
 												break;
+											case FLAG_HACCEL_GREATOR:
+														if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+														{
+																//如果条件成立，则进入if分支
+																p = if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
+																
+																p = jumpq;//将这个结点赋给p
+														}
+												break;
+											case FLAG_HACCEL_LITTER:
+														if(euler.accel_y * G_CONST > atof(p->EditContent + 22) )
+														{
+																//如果条件成立，则进入if分支
+																p = if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
+																
+																p = jumpq;//将这个结点赋给p
+														}
+												break;
+											case FLAG_VACCEL_GREATOR:
+														if(euler.accel_z * G_CONST > atof(p->EditContent + 22) )
+														{
+																//如果条件成立，则进入if分支
+																p = if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
+																
+																p = jumpq;//将这个结点赋给p
+														}
+												break;
+											case FLAG_VACCEL_LITTER:
+														if( euler.accel_z * G_CONST <  atof(p->EditContent + 22))
+														{
+																//如果条件成立，则进入if分支
+																p = if_branch(p);                      //嵌套
+														}
+														else{
+																//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+																jumpq = Find_Node(p, FLAG_OR);
+																if(!jumpq)
+																	jumpq = Find_Node(p, FLAG_IF_END);
+																
+																p = jumpq;//将这个结点赋给p
+														}
+												break;
 											case FLAG_VAR_SET_A: //设定A=
 														var.id = VAR_A;
 														var.set_val = atoi(p->EditContent + 8);
@@ -2096,30 +2336,30 @@ int Create_List(void){
 int Add_Node (_Listptr head, int index, uint8_t flag, char *content)
 {
 				int i = 0;
-				_Listptr    q = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
-				_Listptr    p = head;
+				_Listptr    p_temp = (_Listptr)mymalloc(SRAMIN, sizeof(_Instructor));
+				_Listptr    p_head = head;
 			  u8      Mb_Val;
-				if(index <= 0 || !q)
+				if(index <= 0 || !p_temp)
 				{
 					_MessageBox("Fail to malloc","Error",&Mb_Val);
 					return -1;
 				}
 				
-				q -> index = index;
-				strcpy(q -> EditContent, content);
-				q -> _flag = (enum _FLAG)flag;
+				p_temp -> index = index;
+				strcpy(p_temp -> EditContent, content);
+				p_temp -> _flag = (enum _FLAG)flag;
 				
-				while(p && i < index-1)
+				while(p_head && i < index-1)
 				{
-					p = p ->next ;//此时p即为下标为index的结点的前驱节点
+					p_head = p_head ->next ;//此时p即为下标为index的结点的前驱节点
 					i ++;
 				}
 				
-				if(!p)
+				if(!p_head)
 					return -1;
 				else{
-							q -> next = p->next ;//使前驱的后继成为新增结点的后继
-							p->next  = q ;  //使新增结点的称为前驱的后继
+							p_temp -> next = p_head->next ;//使前驱的后继成为新增结点的后继
+							p_head->next  = p_temp ;  //使新增结点的称为前驱的后继
 				}
 				
 				return 0;
@@ -2135,25 +2375,25 @@ int Add_Node (_Listptr head, int index, uint8_t flag, char *content)
 int  Replace_Node(int index, enum _FLAG flag,char *content)
 {
 				int i = 0;
-				_Listptr    p = Ins_List_Head;
+				_Listptr    p_head = Ins_List_Head;
 	
 				if(index <= 0 )
 					return -1;
 
-				while(p && i < index)
+				while(p_head && i < index)
 				{
-					p = p ->next ;//此时p即为下标为index的结点
+					p_head = p_head ->next ;//此时p即为下标为index的结点
 					i ++;
 				}
 				
-				if(!p)
+				if(!p_head)
 				{
 					
 					return -1;
 				}
 				else{
-							p->_flag  = flag ;
-							strcpy(p -> EditContent, content);
+							p_head->_flag  = flag ;
+							strcpy(p_head -> EditContent, content);
 				}
 				
 				return 0;
@@ -2171,23 +2411,29 @@ int  Replace_Node(int index, enum _FLAG flag,char *content)
 int Delete_Node(int index)
 {
 		int i;
-		_Listptr p = Ins_List_Head;
-		_Listptr q;
+		_Listptr p_head = Ins_List_Head;
+		_Listptr p_index;
 	
 		if(index <= 0)
 			return -1;
 		
 		for(i = 0; i< index - 1;i++)
-				p = p -> next;//此时p为index结点的前驱结点
-		if(!p)
+				p_head = p_head -> next;//此时p为index结点的前驱结点
+		if(!p_head)
 		{
 			return -1;
 		}
 		else
 		{
-			q = p->next ;//q结点即为Index结点
-			p -> next = q -> next;//使index结点的后继成为p的后继
-			myfree(SRAMIN,q);  //释放index结点的空间
+			p_index = p_head ->next ;//q结点即为Index结点
+			p_head -> next = p_index -> next;//使index结点的后继成为p的后继
+			
+			while(p_head -> next){
+					p_head = p_head -> next;
+					p_head->index --;
+			}
+			
+			myfree(SRAMIN,p_index);  //释放index结点的空间
 			
 			return 0;
 		}
@@ -2462,6 +2708,66 @@ void List_Parse(_Listptr  ptr)
 				case FLAG_OBSTRACLE_LITTER:
 					    ult.tar_distance = atoi(ptr->EditContent + 16);
 							if(ult.cur_distance > ult.tar_distance )
+							{
+									//如果条件成立，则进入if分支
+									ptr = if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
+									
+									ptr = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_HACCEL_GREATOR:
+							if(euler.accel_y * G_CONST > atof(ptr->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									ptr = if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
+									
+									ptr = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_HACCEL_LITTER:
+							if(euler.accel_y * G_CONST > atof(ptr->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									ptr = if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
+									
+									ptr = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_VACCEL_GREATOR:
+							if(euler.accel_z * G_CONST > atof(ptr->EditContent + 22) )
+							{
+									//如果条件成立，则进入if分支
+									ptr = if_branch(ptr);                      //嵌套
+							}
+							else{
+									//如果条件不成立，则寻找OR指令，没有OR指令就寻找IF_END指令
+									jumpq = Find_Node(ptr, FLAG_OR);
+									if(!jumpq)
+										jumpq = Find_Node(ptr, FLAG_IF_END);
+									
+									ptr = jumpq;//将这个结点赋给p
+							}
+					break;
+				case FLAG_VACCEL_LITTER:
+							if( euler.accel_z * G_CONST < atof(ptr->EditContent + 22) )
 							{
 									//如果条件成立，则进入if分支
 									ptr = if_branch(ptr);                      //嵌套

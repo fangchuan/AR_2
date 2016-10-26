@@ -39,12 +39,12 @@ WM_HWIN           hWin_4;
 *
 **********************************************************************
 */
-#define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_HEADER_0     (GUI_ID_USER + 0x01)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x04)
-#define ID_RADIO_0      (GUI_ID_USER + 0x07)
-#define ID_TEXT_EXP     (GUI_ID_USER + 0x08)
+#define ID_WINDOW_0     				 (GUI_ID_USER + 0x00)
+#define ID_HEADER_0     				 (GUI_ID_USER + 0x01)
+#define ID_BUTTON_DISCONNECT     (GUI_ID_USER + 0x03)
+#define ID_BUTTON_CONNECT    	   (GUI_ID_USER + 0x04)
+#define ID_RADIO_0      				 (GUI_ID_USER + 0x07)
+#define ID_TEXT_EXP     				 (GUI_ID_USER + 0x08)
 
 /*********************************************************************
 *
@@ -69,8 +69,8 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "断开", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "连接", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "断开", ID_BUTTON_DISCONNECT, 0, 290, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "连接", ID_BUTTON_CONNECT, 160, 290, 80, 30, 0, 0x0, 0 },
   { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 5, 40, 80, 240, 0, 0x140c, 0 },
   { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 25, 100,20,0, 0X0, 0}
 };
@@ -138,11 +138,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		//Initialize of Button
 		//
-    hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_0);
+    hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_DISCONNECT);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[1]);
 		
-		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_1);
+		hItem = WM_GetDialogItem(pMsg->hWin ,ID_BUTTON_CONNECT);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[0]);
 		//
@@ -157,7 +157,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;
     switch(Id) {
 
-    case ID_BUTTON_0: // Notifications sent by 'Disconnect'
+    case ID_BUTTON_DISCONNECT: // Notifications sent by 'Disconnect'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -167,7 +167,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'Connect'
+			case ID_BUTTON_CONNECT: // Notifications sent by 'Connect'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;

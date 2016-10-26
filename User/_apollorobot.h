@@ -129,6 +129,11 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_PROC,         //调用子程序
 									FLAG_VAR_SET_A_PORT,//设定变量A为端口_
 									FLAG_VAR_SET_B_PORT,//设定变量B为端口_
+									FLAG_HACCEL_GREATOR,//如果水平加速度大于_
+									FLAG_HACCEL_LITTER,//如果水平加速度小于_
+									FLAG_VACCEL_GREATOR,//如果竖直加速度大于_
+									FLAG_VACCEL_LITTER,//如果竖直加速度小于_
+
 };
 //
 //每一条编辑完的程序数据结构

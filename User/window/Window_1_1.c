@@ -869,8 +869,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 	{ TEXT_CreateIndirect, "195", ID_TEXT_195, 0, 5880, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "196", ID_TEXT_196, 0, 5910, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "197", ID_TEXT_197, 0, 5940, 40, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 300, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 180, 300, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 290, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 180, 290, 60, 30, 0, 0x0, 0 },
 };
 
 /*********************************************************************
@@ -910,7 +910,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		//Initialize the scrollbar
 		//
-		SCROLLBAR_CreateEx(220,20,20,280, hItem, WM_CF_SHOW, SCROLLBAR_CF_VERTICAL, ID_SCROLLBAR_0);
+		SCROLLBAR_CreateEx(220,20,20,270, hItem, WM_CF_SHOW, SCROLLBAR_CF_VERTICAL, ID_SCROLLBAR_0);
 		hItem = WM_GetDialogItem(pMsg->hWin,ID_SCROLLBAR_0);
 		SCROLLBAR_SetNumItems(hItem,198);//设置滚动条项目数为200
 		SCROLLBAR_SetPageSize(hItem, 9); //设置每页的项目数为9

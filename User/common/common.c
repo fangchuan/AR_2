@@ -65,7 +65,7 @@ int  string_subs_char(char* a)
 int WriteFileProcess(char* program_name)
 {
 		_Listptr  p = Ins_List_Head -> next;
-		int      ListLength = GetListLength(Ins_List_Head);
+		int      listLength = GetListLength(Ins_List_Head);
 		int      NumBytesPerList = sizeof(_Instructor);
 		char     path[PATH_LEN] = {0};
 	
@@ -74,7 +74,7 @@ int WriteFileProcess(char* program_name)
 		result = f_open(&file,path,FA_WRITE | FA_CREATE_ALWAYS);//新建一个程序文件，如果该程序文件已存在，则覆盖原文件
 		if(result != FR_OK)
 			return  -1;
-		while(ListLength > 0)
+		while(listLength > 0)
 		{
 			if(p)
 			{	
@@ -83,7 +83,7 @@ int WriteFileProcess(char* program_name)
 					return  -1;
 				p = p -> next;
 			}
-			ListLength --;
+			listLength --;
 		}
 		f_close(&file);
 		return 0;

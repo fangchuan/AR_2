@@ -86,8 +86,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect,   "0",      ID_BUTTON_0,   5, 115,  25,  20},
   { BUTTON_CreateIndirect,   ".",      ID_BUTTON_DOT,40, 115,  25,  20},
   { BUTTON_CreateIndirect,   "Del",    ID_BUTTON_DEL,75, 115,  25,  20},
-  { BUTTON_CreateIndirect,   "OK",     ID_BUTTON_OK,  5, 145,  40,  20},
-  { BUTTON_CreateIndirect,   "Cancel", ID_BUTTON_CANCEL,  60, 145, 40,  20},
+  { BUTTON_CreateIndirect,   "OK",     ID_BUTTON_OK,  5, 140,  45,  25},
+  { BUTTON_CreateIndirect,   "Cancel", ID_BUTTON_CANCEL,  60, 140, 45,  25},
 };
 
 /*********************************************************************

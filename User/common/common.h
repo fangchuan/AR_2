@@ -21,7 +21,7 @@
 #define PATH_LEN		    50              //路径长度
 #define FILE_LIST_PATH 			"0:/FILELIST.TXT"	//文件记录列表文件的目录
 //#define _DF1S        0x80   //支持长文件名的,我没用长文件名
-
+#define G_CONST        9.80
 
 extern int  string_subs_char(char* a);
 extern int  WriteFileProcess(char* program_name);	

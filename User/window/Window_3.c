@@ -106,8 +106,8 @@ static const char *StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "·µ»Ø", ID_BUTTON_BACK, 0, 300, 80, 20, 0, 0x0, 0 },
-  { MULTIPAGE_CreateIndirect, "Multipage", ID_MULTIPAGE_0, 0, 20, 240, 280, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "·µ»Ø", ID_BUTTON_BACK, 0, 290, 80, 30, 0, 0x0, 0 },
+  { MULTIPAGE_CreateIndirect, "Multipage", ID_MULTIPAGE_0, 0, 20, 240, 270, 0, 0x0, 0 },
 
 };
 static const GUI_WIDGET_CREATE_INFO _aDialogCreatePage1[] = {

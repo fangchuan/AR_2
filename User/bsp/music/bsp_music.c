@@ -208,6 +208,9 @@ _Error  Music_Config(_Music *music)
 				case TIME_6:
 					OSTimeDly(THIRTY_T,OS_OPT_TIME_DLY, &err);
 					break;
+				default:
+					OSTimeDly(FULL_T,OS_OPT_TIME_DLY, &err);
+					break;
 			}
 			
 			BUZZER_OUT = QUIET;

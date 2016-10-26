@@ -80,6 +80,10 @@
 #define ID_BUTTON_L     (GUI_ID_USER + 0X55)
 #define ID_BUTTON_OBSG  (GUI_ID_USER + 0X56)
 #define ID_BUTTON_OBSL  (GUI_ID_USER + 0X57)
+#define ID_BUTTON_HACG  (GUI_ID_USER + 0x58)
+#define ID_BUTTON_HACL  (GUI_ID_USER + 0x59)
+#define ID_BUTTON_VACG  (GUI_ID_USER + 0x5A)
+#define ID_BUTTON_VACL  (GUI_ID_USER + 0x5B)
 
 #define ID_WINDOW_App     (GUI_ID_USER + 0X06)
 #define ID_BUTTON_DLY     (GUI_ID_USER + 0x60)
@@ -188,6 +192,11 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe8\xb0\x83\xe7\x94\xa8\xe5\xad\x90\xe7\xa8\x8b\xe5\xba\x8f_",//59:调用子程序
 	"A=\xe7\xab\xaf\xe5\x8f\xa3",//60:A=端口
 	"B=\xe7\xab\xaf\xe5\x8f\xa3",//61:B= 端口
+	"\xe5\xa6\x82\xe6\x9e\x9c\xe6\xb0\xb4\xe5\xb9\xb3\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6>_",//62:如果水平加速度>_
+	"\xe5\xa6\x82\xe6\x9e\x9c\xe6\xb0\xb4\xe5\xb9\xb3\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6<_",//63:如果水平加速度<_
+	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\x96\xe7\x9b\xb4\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6>_",//64:如果竖直加速度>_
+	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\x96\xe7\x9b\xb4\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6<_",//65:如果竖直加速度<_
+
 };
  
 
@@ -284,14 +293,18 @@ static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
 	{ WINDOW_CreateIndirect, "Window", ID_WINDOW_Port, 2, 1, 218, 258, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "有信号", ID_BUTTON_S, 0, 20, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "无信号", ID_BUTTON_NS, 0, 60, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "等待有信号", ID_BUTTON_WS, 0, 100, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "等待无信号", ID_BUTTON_WNS, 0, 140, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "大于", ID_BUTTON_G, 110, 20, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "小于", ID_BUTTON_L, 110, 60, 100, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "如果障碍物>", ID_BUTTON_OBSG, 110, 100, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "如果障碍物<", ID_BUTTON_OBSL, 110, 140, 100, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "有信号", ID_BUTTON_S, 0, 5, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "无信号", ID_BUTTON_NS, 0, 40, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "等待有信号", ID_BUTTON_WS, 0, 80, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "等待无信号", ID_BUTTON_WNS, 0, 120, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "大于", ID_BUTTON_G, 110, 5, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "小于", ID_BUTTON_L, 110, 40, 100, 25, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "如果障碍物>", ID_BUTTON_OBSG, 110, 80, 100, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "如果障碍物<", ID_BUTTON_OBSL, 110, 120, 100, 25, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "如果水平加速度>", ID_BUTTON_HACG, 0, 160, 100, 25, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "如果水平加速度<", ID_BUTTON_HACL, 0, 200, 100, 25, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "如果竖直加速度>", ID_BUTTON_VACG, 110, 160, 100, 25, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "如果竖直加速度<", ID_BUTTON_VACL, 110, 200, 100, 25, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
 };
 /*********************************************************************
@@ -666,6 +679,22 @@ static void _cbDialog_Port(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[38]);
 			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_HACG);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[62]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_HACL);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[63]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_VACG);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[64]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_VACL);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[65]);
+			
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -779,6 +808,59 @@ static void _cbDialog_Port(WM_MESSAGE *pMsg)
 									break;		
 							}
 							break;
+						case ID_BUTTON_HACG:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_HACCEL_GREATOR ;
+												strcpy(_acText , StringHZ[62]);
+												hEdit = Create_EDITPad(pMsg->hWin, 8, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_HACL:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_HACCEL_LITTER ;
+												strcpy(_acText , StringHZ[63]);
+												hEdit = Create_EDITPad(pMsg->hWin, 8, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_VACG:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_VACCEL_GREATOR ;
+												strcpy(_acText , StringHZ[64]);
+												hEdit = Create_EDITPad(pMsg->hWin, 8, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_VACL:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_VACCEL_LITTER ;
+												strcpy(_acText , StringHZ[65]);
+												hEdit = Create_EDITPad(pMsg->hWin, 8, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+							
 						case ID_BUTTON_BACK:
 								 switch(NCode) {
 									case WM_NOTIFICATION_CLICKED:
@@ -1276,7 +1358,7 @@ static void _cbDialog_App(WM_MESSAGE *pMsg)
 									case WM_NOTIFICATION_RELEASED:
 												_flag = FLAG_MUSIC ;
 												strcpy(_acText,StringHZ[32]);
-												hEdit = Create_EDITPad(pMsg->hWin, -1, -1);
+												hEdit = Create_EDITPad(pMsg->hWin, 2, 5);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);
 									break;		

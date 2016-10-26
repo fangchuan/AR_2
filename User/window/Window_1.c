@@ -36,13 +36,13 @@ char program_name[10];//the Name of Program
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_MULTIEDIT_0     (GUI_ID_USER + 0x01)
-//#define ID_EDIT_0     (GUI_ID_USER + 0x02)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x04)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x06)
+#define ID_MULTIEDIT_0  (GUI_ID_USER + 0x01)
 #define ID_HEADER_1     (GUI_ID_USER + 0x08)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x09)
+//#define ID_EDIT_0     (GUI_ID_USER + 0x02)
+#define ID_BUTTON_BACK  (GUI_ID_USER + 0x03)
+#define ID_BUTTON_ENTER (GUI_ID_USER + 0x04)
+#define ID_BUTTON_NEW   (GUI_ID_USER + 0x06)
+#define ID_BUTTON_OPEN  (GUI_ID_USER + 0x09)
 
 
 /*********************************************************************
@@ -68,12 +68,12 @@ const static char *_StringHZ[] = {
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
   { MULTIEDIT_CreateIndirect, "0",  ID_MULTIEDIT_0, 100, 40, 110, 40, 0, 0x0, 0 },
+	{ HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
 //  { EDIT_CreateIndirect, "0", ID_EDIT_0, 100, 40, 110, 40, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 300, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 160, 300, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "New", ID_BUTTON_2, 0, 40, 80, 40, 0, 0x0, 0 },
-  { HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Open", ID_BUTTON_3, 0, 120, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_BACK, 0, 290, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_ENTER, 160, 290, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "New", ID_BUTTON_NEW, 0, 40, 80, 40, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Open", ID_BUTTON_OPEN, 0, 120, 80, 40, 0, 0x0, 0 },
 
 };
 
@@ -107,19 +107,19 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
 		GUI_UC_SetEncodeUTF8();
 	  GUI_SetFont(&GUI_FontSongTi16);
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem, _StringHZ[2]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ENTER);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem, _StringHZ[3]);
 	
-	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_NEW);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
     BUTTON_SetText(hItem, _StringHZ[0]);
 	
-	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
+	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_OPEN);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
     BUTTON_SetText(hItem, _StringHZ[1]);
 	  //
@@ -150,7 +150,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     NCode = pMsg->Data.v;
     switch(Id) {
 
-    case ID_BUTTON_0: // Notifications sent by 'Button'
+    case ID_BUTTON_BACK: // Notifications sent by 'Button'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -159,8 +159,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'ENTER'
-		case ID_BUTTON_2: // Notifications sent by 'New'
+    case ID_BUTTON_ENTER: // Notifications sent by 'ENTER'
+		case ID_BUTTON_NEW: // Notifications sent by 'New'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -180,7 +180,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-		case ID_BUTTON_3: // Notifications sent by 'Open'
+		case ID_BUTTON_OPEN: // Notifications sent by 'Open'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;

@@ -46,10 +46,10 @@ static uint8_t  ret_val;//用户选择信息
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "MessageBox", ID_FRAMEWIN_0, 0, 0, 100, 60, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_0, 1, 0, 99, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "OK", ID_BUTTON_OK, 1, 20, 40, 19, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "CL", ID_BUTTON_CANCEL, 53, 20, 40, 19, 0, 0x0, 0 },
+  { FRAMEWIN_CreateIndirect, "MessageBox", ID_FRAMEWIN_0, 0, 0, 140, 80, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_0, 1, 0, 99, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "OK", ID_BUTTON_OK, 1, 30, 60, 29, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "CL", ID_BUTTON_CANCEL, 73, 30, 60, 29, 0, 0x0, 0 },
 
 };
 
@@ -121,7 +121,7 @@ void _MessageBox(const char* pText, const char* pCaption, uint8_t *ret) {
   WM_HWIN hWin;
   WM_HWIN hItem;
 	
-  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 70, 110);
+  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 50, 110);
 	
 	//set the framewin title
 	FRAMEWIN_SetFont(hWin, &GUI_FontSongTi12);
