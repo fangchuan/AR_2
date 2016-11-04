@@ -475,7 +475,7 @@ static void AppTaskCOMTx(void *p_arg)
 //        UartTxBuffer[8] = FRAME_END;
 //        printf("%s\n",UartTxBuffer);
 
-        OSTimeDlyHMSM(0,0,0,150,OS_OPT_TIME_HMSM_STRICT,&err);
+        OSTimeDlyHMSM(0,0,0,250,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
 /*

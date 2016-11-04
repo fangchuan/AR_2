@@ -329,11 +329,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			 GUI_GotoXY(100, 170);
 			 GUI_DispSFloatMin(euler.angle_y ,2);//
 			 GUI_GotoXY(50, 190);
-			 GUI_DispSFloatMin(euler.accel_x ,4);//加速度显示到小数点后4位
+			 GUI_DispSFloatMin(euler.accel_x , 4);//加速度显示到小数点后4位
 			 GUI_GotoXY(100, 190);
-			 GUI_DispSFloatMin(euler.accel_y ,4);//
+			 GUI_DispSFloatMin(euler.accel_y , 4);//
 			 GUI_GotoXY(150, 190);
-			 GUI_DispSFloatMin(euler.accel_z ,4);//
+			 GUI_DispSFloatMin(euler.accel_z , 4);//
 			 GUI_GotoXY(50, 210);
 			 GUI_DispSFloatMin(euler.gyro_x , 4);//角速度显示到小数点后4位
 			 GUI_GotoXY(100, 210);

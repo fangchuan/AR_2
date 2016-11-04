@@ -399,89 +399,6 @@ double MPU6050_Get_Angle(float x,float y,float z,unsigned char dir)//x,y,z为该方
 
 }
 
-#ifdef kalman
-
-void kalman_init()
-{
-  TIM2_Init();   //20ms中断
-}
-
-
-//-------------------------------------------------------
-//Kalman滤波，8MHz的处理时间约1.8ms；
-//-------------------------------------------------------
-
-//-------------------------------------------------------
-//static xdata volatile float angle, angle_dot; 		//外部需要引用的变量
-
-//Q是一个2 x2矩阵,代表了流程协方差噪声。在这种情况下,它表明我们多么相信测斜仪相对于陀螺仪
-//R代表测量协方差噪声R = E(WT)。在本例中,它是一个1 x1矩阵,说,我们预计10 ras抖动从测斜仪。对于一个1 x1矩阵在这种情况下V = 0.1
-//注意：dt的取值为kalman滤波器采样时间;
-//const float Q_angle=0.001, Q_gyro=0.0015, R_angle=0.1, dt=0.02;
-//Q_angle:三轴加速度的预测噪声，值越大就表示越不相信它
-//Q_gyro：陀螺仪的预测噪声，值越大就表示越不相信它
-//R_angle：测量噪声，值越大就表示你越不相信你测量到的数据，而越相信你预测的值。
-//dt：采样时间
-#define Q_angle 0.003
-#define Q_gyro 0.0015
-#define R_angle 0.5	
-#define dt 0.02
-#define C_0 1
-static  volatile float kalman_P[2][2] = {{ 1, 0 },{ 0, 1 }};		
-static  volatile float Pdot[4] ={0,0,0,0};	
-
-
-static  volatile float q_bias, angle_err, PCt_0, PCt_1, E, K_0, K_1, t_0, t_1;
-//-------------------------------------------------------
-float Kalman_Filter(float angle_m,float gyro_m)			//gyro_m:gyro_measure
-{
-#ifdef kalman
-static volatile float angle, angle_dot; 		//kalman后的角度和角速度。
-#endif
-	
-	angle+=(gyro_m-q_bias) * dt;
-	
-	Pdot[0]=Q_angle - kalman_P[0][1] - kalman_P[1][0];
-	Pdot[1]= - kalman_P[1][1];
-	Pdot[2]= - kalman_P[1][1];
-	Pdot[3]=Q_gyro;
-	
-	kalman_P[0][0] += Pdot[0] * dt;
-	kalman_P[0][1] += Pdot[1] * dt;
-	kalman_P[1][0] += Pdot[2] * dt;
-	kalman_P[1][1] += Pdot[3] * dt;
-	
-	
-	angle_err = angle_m - angle;//Z(K)-H*X(K|K-1)
-	
-	
-	PCt_0 = C_0 * kalman_P[0][0];//测量系统的参数H=C_0=1,预测协方差P=1
-	PCt_1 = C_0 * kalman_P[1][0];//测量系统的参数H=C_0=1,预测协方差P=0
-	
-	E = R_angle + C_0 * PCt_0;//H*P(K|K-1)*H'+R
-	
-	K_0 = PCt_0 / E;//增益Kg更新 Kg(K)=P(K|K-1)*H'/(H*P(K|K-1)*H'+R)
-	K_1 = PCt_1 / E;
-	
-	t_0 = PCt_0;
-	t_1 = C_0 * kalman_P[0][1];
-
-	kalman_P[0][0] -= K_0 * t_0;//协方差矩阵更新  P(K|K)=(I-Kg(K)*H)*P(K|K-1)  I=[1,0,0,0
-	kalman_P[0][1] -= K_0 * t_1;//                                               0,1,0,0
-	kalman_P[1][0] -= K_1 * t_0;//                                               0,0,1,0
-	kalman_P[1][1] -= K_1 * t_1;//                                               0,0,0,1]
-	
-	
-	angle	+= K_0 * angle_err;//更新最优化angle、angle_dot ,X(K|K)=X(K|K-1) + Z(K)-H*X(K|K-1)
-	q_bias	+= K_1 * angle_err;
-	angle_dot = gyro_m-q_bias;	  
-	
-	return angle;
-}
-
-
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 
 void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
@@ -556,12 +473,12 @@ void Get_Attitude(void)
 		int16_t ax,ay,az,gx,gy,gz;
 		float   gx_rad,gy_rad,gz_rad;
 		MPU6050_getMotion6(&ax,&ay,&az,&gx,&gy,&gz);
-		gx_rad = gx/GYRO_PARAM *RAD; 
-		gy_rad = gy/GYRO_PARAM *RAD; 
-		gz_rad = gz/GYRO_PARAM * RAD;
-		euler.accel_x = ax / ACCEL_PARAM;
-		euler.accel_y = ay / ACCEL_PARAM;
-	  euler.accel_z = az / ACCEL_PARAM;
+		gx_rad = gx * GYRO_PARAM *RAD; 
+		gy_rad = gy * GYRO_PARAM *RAD; 
+		gz_rad = gz * GYRO_PARAM * RAD;
+		euler.accel_x = ax * ACCEL_PARAM;
+		euler.accel_y = ay * ACCEL_PARAM;
+	  euler.accel_z = az * ACCEL_PARAM;
 	  euler.gyro_x  = gx_rad;
 	  euler.gyro_y  = gy_rad;
 		euler.gyro_z  = gz_rad;

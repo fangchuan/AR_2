@@ -427,8 +427,8 @@
 
 
 // USER START (Optionally insert additional defines)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x04)
+#define ID_BUTTON_BACK     (GUI_ID_USER + 0x03)
+#define ID_BUTTON_RUN     (GUI_ID_USER + 0x04)
 #define ID_SCROLLBAR_0  (GUI_ID_USER + 0X05)
 #define MAX_EDIT_NUM      198
 #define MAX_TEXT_NUM      198
@@ -869,8 +869,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 	{ TEXT_CreateIndirect, "195", ID_TEXT_195, 0, 5880, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "196", ID_TEXT_196, 0, 5910, 40, 20, 0, 0x0, 0 },
 	{ TEXT_CreateIndirect, "197", ID_TEXT_197, 0, 5940, 40, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_0, 0, 290, 60, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_1, 180, 290, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 0, 290, 60, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "RUN", ID_BUTTON_RUN, 180, 290, 60, 30, 0, 0x0, 0 },
 };
 
 /*********************************************************************
@@ -922,11 +922,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		//
 		//Initialize the 'Button'
 		//
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);//RUN
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_RUN);//RUN
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem,StringHZ[0]);
 		
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);//BACK
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);//BACK
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem,StringHZ[1]);
     //
@@ -972,14 +972,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	
     switch(Id) {
     case ID_EDIT_0: // Notifications sent by 'Edit0'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
+										switch(NCode) {
+											default: break;
+										}
       break;
     case ID_EDIT_1: // Notifications sent by 'Edit1'
     case ID_EDIT_2: // Notifications sent by 'Edit2'
@@ -1203,7 +1198,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_0: // Notifications sent by 'BACK'
+    case ID_BUTTON_BACK: // Notifications sent by 'BACK'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
@@ -1214,7 +1209,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'RUN'
+    case ID_BUTTON_RUN: // Notifications sent by 'RUN'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;

@@ -136,10 +136,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		MULTIEDIT_SetAutoScrollV(hItem,1);//自动竖直滑块
 		MULTIEDIT_SetAutoScrollH(hItem,1);//自动水平滑块
 		MULTIEDIT_SetWrapWord(hItem);     //自动换行
-//		MULTIEDIT_EnableBlink(hItem, 800, 1);
-//		EDIT_SetText(hItem, "0");
-//		EDIT_SetFocussable(hItem, 1);
-    break;
+		MULTIEDIT_SetFocussable(hItem, 1);
+		WM_SetFocus(hItem);
+		break;
 	case WM_PAINT:
 				GUI_SetColor(GUI_RED);
 				GUI_SetFont(&GUI_FontSongTi12);

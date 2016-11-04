@@ -382,8 +382,8 @@
 #define MPU6050_WHO_AM_I_BIT        6
 #define MPU6050_WHO_AM_I_LENGTH     6
 
-#define GYRO_PARAM        16.4                //转化为度每秒  //加速度设置的range是±2g，角速度设置的range是±2000°/sec (dps)
-#define ACCEL_PARAM       16384.0             //转化为g单位   //那么用16位来覆盖这样的range，就用65536分别除以4和4000，就得到上述的两个数字了
+#define GYRO_PARAM        (float)1.0/16.4                //转化为度每秒  //加速度设置的range是±2g，角速度设置的range是±2000°/sec (dps)
+#define ACCEL_PARAM       (float)1.0/16384.0             //转化为g单位   //那么用16位来覆盖这样的range，就用65536分别除以4和4000，就得到上述的两个数字了
 #define M_PI              (float)3.1415926535
 #define RAD               0.01745
 	
