@@ -165,7 +165,7 @@ void Ultrasnio_Init(void)
 void Ultrasnio_update(void)
 {	  
      Ultrasnio_Trigger_H;
-     Ultra_delay_nus(12);//示波器测量此时延时为40us
+     Ultra_delay_nus(7);//示波器测量此时延时为40us
 		 Ultrasnio_Trigger_L;
 }
 

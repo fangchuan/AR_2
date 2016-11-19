@@ -53,7 +53,9 @@ typedef enum _DISPLAY {
 	                      DISP_GIF,         //显示GIF图
 
 }_Display;
+//
 //用于标识传感器种类的枚举类型
+//
 typedef enum _SENSORFLAG {
                            SENSOR_IR     = 1,//红外光电传感器
 													 SENSOR_SWITCH,      //触碰开关
@@ -64,7 +66,9 @@ typedef enum _SENSORFLAG {
 													
 														
 }_SensorFlag;
+//
 //指令操作所属类别
+//
 #define  FLAG_CHANGE  1
 #define  FLAG_INSERT  2
 #define  FLAG_DELETE  3
@@ -135,6 +139,18 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_VACCEL_LITTER,//如果竖直加速度小于_
 
 };
+//
+//
+//
+typedef enum _WINDOWS{
+				WINDOW_TOP,
+				WINDOW_PG,
+				WINDOW_BLT,
+				WINDOW_MC,
+				WINDOW_RC,
+				WINDOW_SB,
+				WINDOW_TC,
+}_Windows;
 //
 //每一条编辑完的程序数据结构
 //

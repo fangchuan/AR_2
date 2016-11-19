@@ -22,7 +22,7 @@
 **********************************************************************
 */
 extern OS_TCB	AppTaskStartTCB;
-extern uint8_t Key_Value ;
+extern volatile uint8_t Key_Value ;
 extern _Ultrasnio ult;
 extern enum _FLAG _flag;//指令标志
 extern _Listptr Ins_List_Head;//程序链表的头指针
@@ -40,7 +40,7 @@ _Port port_2 = {2};
 _Port port_3 = {3};
 _Port port_4 = {4};
 
-uint8_t Key_Value = 0;//the value of button on the Top Window
+volatile  uint8_t Key_Value = 0;//the value of button on the Top Window
 /*********************************************************************
 *
 *       Static data
@@ -101,12 +101,13 @@ static void _cbOfTmr1(OS_TMR *p_tmr, void *p_arg)
     GUI_TOUCH_Exec();			//每10ms调用一次，触发调用触摸驱动
 
 }
-
+//
 static void _cbOfTmr2(OS_TMR *p_tmr, void *p_arg)
 {
     (void)p_arg;
-    	
-	  Ultrasnio_update();   //每250ms触发一次超声波更新
+    //每250ms触发一次超声波更新
+		//由于任务调度，平均750ms触发一次
+	  Ultrasnio_update();   
 
     if(WM_IsWindow(hRun)) //如果“运行”窗口还有效，则使之无效化，来在做一些重绘工作
     {
@@ -115,6 +116,10 @@ static void _cbOfTmr2(OS_TMR *p_tmr, void *p_arg)
 		if(WM_IsWindow(hWin_2))
 		{
 			  WM_Invalidate(hWin_2);//如果“蓝牙连接”窗口还有效，则使之无效化，来在做一些重绘工作
+		}
+		if(WM_IsWindow(hWin_5))
+		{
+				WM_Invalidate(hWin_5);//如果“自平衡”窗口还有效，则使之无效化，来在做一些重绘工作
 		}
 }
 /*
@@ -138,7 +143,7 @@ void  AppTaskStart(void *p_arg)
     OS_ERR      err;
 
     //定时器变量
-    OS_TMR             Tmr_10ms, Tmr_250ms;
+    OS_TMR             Tmr_10ms, Tmr_200ms;
 
     (void)p_arg;
     /* Initialize BSP functions                             */
@@ -178,10 +183,10 @@ void  AppTaskStart(void *p_arg)
                  (void                *)0,                  //参数设置为0
                  (OS_ERR              *)err);
     //创建定时器
-    OSTmrCreate ((OS_TMR              *)&Tmr_250ms,
-                 (CPU_CHAR            *)"MyTimer 250ms",
-                 (OS_TICK              )25,                 //第一次延时设置为250ms
-                 (OS_TICK              )25,                //定时周期25*10ms
+    OSTmrCreate ((OS_TMR              *)&Tmr_200ms,
+                 (CPU_CHAR            *)"MyTimer 200ms",
+                 (OS_TICK              )20,                 //第一次延时设置为200ms
+                 (OS_TICK              )20,                //定时周期20*10ms
                  (OS_OPT               )OS_OPT_TMR_PERIODIC,//模式设置为重复模式
                  (OS_TMR_CALLBACK_PTR  )_cbOfTmr2,          //回调函数
                  (void                *)0,                  //参数设置为0
@@ -189,7 +194,7 @@ void  AppTaskStart(void *p_arg)
 
     //启动定时器
     OSTmrStart((OS_TMR *)&Tmr_10ms,(OS_ERR *)err);
-    OSTmrStart((OS_TMR *)&Tmr_250ms,(OS_ERR *)err);
+    OSTmrStart((OS_TMR *)&Tmr_200ms,(OS_ERR *)err);
 
     /*Delete task*/
     OSTaskDel(&AppTaskStartTCB,&err);
@@ -217,12 +222,15 @@ static void AppTaskGUIUpdate(void *p_arg)
 		CreateWindow_2();
 		CreateWindow_3();
 		CreateWindow_4();
+		CreateWindow_5();
 
 //		WM_HideWindow(hWin_Top);
 		WM_HideWindow(hWin_1);
 		WM_HideWindow(hWin_2);
 		WM_HideWindow(hWin_3);
 		WM_HideWindow(hWin_4);
+		WM_HideWindow(hWin_5);
+	
     while(1)
     {
         GUI_Exec();
@@ -281,62 +289,68 @@ static void AppTaskUserIF(void *p_arg)
     (void)    p_arg;
     while (1)
     {
-        if( Key_Value == 0)
+        if( Key_Value == WINDOW_TOP)
         {
-
             WM_ShowWindow(hWin_Top);
             WM_HideWindow(hWin_1);
             WM_HideWindow(hWin_2);
             WM_HideWindow(hWin_3);
             WM_HideWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
-        if( Key_Value == 1)
+        if( Key_Value == WINDOW_PG)
         {
             WM_HideWindow(hWin_Top);
             WM_ShowWindow(hWin_1);
             WM_HideWindow(hWin_2);
             WM_HideWindow(hWin_3);
             WM_HideWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
-        if( Key_Value == 2)
+        if( Key_Value == WINDOW_BLT)
         {
             WM_HideWindow(hWin_Top);
             WM_HideWindow(hWin_1);
             WM_ShowWindow(hWin_2);
             WM_HideWindow(hWin_3);
             WM_HideWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
-        if( Key_Value == 3)
+        if( Key_Value == WINDOW_MC)
         {
             WM_HideWindow(hWin_Top);
             WM_HideWindow(hWin_1);
             WM_HideWindow(hWin_2);
             WM_ShowWindow(hWin_3);
             WM_HideWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
-        if( Key_Value == 4)
+        if( Key_Value == WINDOW_RC)
         {
             WM_HideWindow(hWin_Top);
             WM_HideWindow(hWin_1);
             WM_HideWindow(hWin_2);
             WM_HideWindow(hWin_3);
             WM_ShowWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
-//				if( Key_Value == 5)
-//        {
-//            WM_HideWindow(hWin_Top);
-//            WM_HideWindow(hWin_1);
-//            WM_HideWindow(hWin_2);
-//            WM_HideWindow(hWin_3);
-//            WM_HideWindow(hWin_4);
-//        }
-				if( Key_Value == 6)
+				if( Key_Value == WINDOW_SB)
         {
             WM_HideWindow(hWin_Top);
             WM_HideWindow(hWin_1);
             WM_HideWindow(hWin_2);
             WM_HideWindow(hWin_3);
             WM_HideWindow(hWin_4);
+						WM_ShowWindow(hWin_5);
+        }
+				if( Key_Value == WINDOW_TC)
+        {
+            WM_HideWindow(hWin_Top);
+            WM_HideWindow(hWin_1);
+            WM_HideWindow(hWin_2);
+            WM_HideWindow(hWin_3);
+            WM_HideWindow(hWin_4);
+						WM_HideWindow(hWin_5);
         }
         OSTimeDlyHMSM(0, 0, 0, 100,
                       OS_OPT_TIME_HMSM_STRICT,

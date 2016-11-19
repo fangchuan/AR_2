@@ -28,7 +28,7 @@
 **********************************************************************
 */
 
-extern uint8_t  Key_Value;
+extern volatile uint8_t  Key_Value;
 extern __IO u8  NRF_ADDRESS[5];//NRF24L01µÄµØÖ·
 
 u8 flag_nrf_link = 0;
@@ -162,7 +162,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 0;
+						Key_Value = WINDOW_TOP;
 			      flag_nrf_link = 0;
         break;
       }

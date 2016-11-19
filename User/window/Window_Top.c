@@ -16,6 +16,7 @@
 */
 
 #include "Window_Top.h"
+#include "_apollorobot.h"
 #include "os.h"
 /*********************************************************************
 *
@@ -23,7 +24,7 @@
 *
 **********************************************************************
 */
-extern uint8_t Key_Value;
+extern volatile uint8_t Key_Value;
 extern OS_SEM  TOUCH_SEM;
 
 WM_HWIN hWin_Top;
@@ -33,20 +34,20 @@ WM_HWIN hWin_Top;
 *
 **********************************************************************
 */
-#define ID_WINDOW_0     (GUI_ID_USER + 0x01)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x02)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x03)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x05)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x06)
-#define ID_BUTTON_4     (GUI_ID_USER + 0x07)
-#define ID_BUTTON_5     (GUI_ID_USER + 0x08)
+#define ID_WINDOW_0      (GUI_ID_USER + 0x01)
+#define ID_BUTTON_PG     (GUI_ID_USER + 0x02)
+#define ID_BUTTON_BLT    (GUI_ID_USER + 0x03)
+#define ID_BUTTON_MC     (GUI_ID_USER + 0x05)
+#define ID_BUTTON_RC     (GUI_ID_USER + 0x06)
+#define ID_BUTTON_SB     (GUI_ID_USER + 0x07)
+#define ID_BUTTON_TC     (GUI_ID_USER + 0x08)
 
-#define ID_TEXT_0     (GUI_ID_USER + 0x09)
-#define ID_TEXT_1     (GUI_ID_USER + 0x0A)
-#define ID_TEXT_2     (GUI_ID_USER + 0x0B)
-#define ID_TEXT_3     (GUI_ID_USER + 0x0C)
-#define ID_TEXT_4     (GUI_ID_USER + 0x0D)
-#define ID_TEXT_5     (GUI_ID_USER + 0x0E)
+#define ID_TEXT_PG     (GUI_ID_USER + 0x09)
+#define ID_TEXT_BLT    (GUI_ID_USER + 0x0A)
+#define ID_TEXT_MC     (GUI_ID_USER + 0x0B)
+#define ID_TEXT_RC     (GUI_ID_USER + 0x0C)
+#define ID_TEXT_SB     (GUI_ID_USER + 0x0D)
+#define ID_TEXT_TC     (GUI_ID_USER + 0x0E)
 
 #define ID_ICONVIEW_0 (GUI_ID_USER + 0x0F)
 
@@ -74,18 +75,18 @@ static const char *_acStringE[]={"LeCoder"};
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_0, 20, 60, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_1, 130, 60, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_2, 20, 140, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_3, 130, 140, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_4, 20, 220, 80, 50, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "", ID_BUTTON_5, 130, 220, 80, 50, 0, 0x0, 0 },
-	{ TEXT_CreateIndirect, "2", ID_TEXT_0, 130, 110, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "1", ID_TEXT_1, 20, 110, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "4", ID_TEXT_2, 130, 190, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "3", ID_TEXT_3, 20, 190, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "5", ID_TEXT_4, 20, 270, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "6", ID_TEXT_5, 130, 270, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_PG, 20, 60, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_BLT, 130, 60, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_MC, 20, 140, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_RC, 130, 140, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_SB, 20, 220, 80, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "", ID_BUTTON_TC, 130, 220, 80, 50, 0, 0x0, 0 },
+	{ TEXT_CreateIndirect, "2", ID_TEXT_BLT, 130, 110, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "1", ID_TEXT_PG, 20, 110, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "4", ID_TEXT_RC, 130, 190, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "3", ID_TEXT_MC, 20, 190, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "5", ID_TEXT_SB, 20, 270, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "6", ID_TEXT_TC, 130, 270, 80, 20, 0, 0x0, 0 },
 
 };
 
@@ -114,52 +115,52 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     // Initialization of 'Button'
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_PG);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_program);
 	
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BLT);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_bt);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_MC);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_manual);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_RC);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_rc);
  
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_SB);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_sb);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_TC);
 		BUTTON_SetBitmap(hItem,0,&bmbmp_pc);
     //
     // Initialization of TEXT
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0); // Initialization of '2'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_BLT); // Initialization of 'BlueTooth'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[1]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_1); // Initialization of '1'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_PG); // Initialization of 'Program'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[0]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_2);// Initialization of '4'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_RC);// Initialization of 'RemoteControl'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[3]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_3); // Initialization of '3'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_MC); // Initialization of 'ManualControl'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[2]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_4); // Initialization of '5'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_SB); // Initialization of 'SelfBalance'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[4]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_5);// Initialization of '6'
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_TC);// Initialization of 'TouchCalibrate'
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		TEXT_SetFont(hItem,&GUI_FontSongTi16);
 		TEXT_SetText(hItem,_acStringHZ[5]);
@@ -169,56 +170,56 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_BUTTON_0: // Notifications sent by 'Program'
+    case ID_BUTTON_PG: // Notifications sent by 'Program'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
 			break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 1;
+						Key_Value = WINDOW_PG;
         break;
       }
       break;
-    case ID_BUTTON_1: // Notifications sent by 'Bluetooth'
+    case ID_BUTTON_BLT: // Notifications sent by 'Bluetooth'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
 			break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 2;
+						Key_Value = WINDOW_BLT;
         break;
        }
       break;
-    case ID_BUTTON_2: // Notifications sent by 'Control'
+    case ID_BUTTON_MC: // Notifications sent by 'Control'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 3;
+						Key_Value = WINDOW_MC;
         break;
       }
       break;
-    case ID_BUTTON_3: // Notifications sent by 'RC'
+    case ID_BUTTON_RC: // Notifications sent by 'RC'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 4;
+						Key_Value = WINDOW_RC;
         break;
       }
       break;
-    case ID_BUTTON_4: // Notifications sent by 'Self Banlance'
+    case ID_BUTTON_SB: // Notifications sent by 'Self Banlance'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
       break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 5;
+						Key_Value = WINDOW_SB;
         break;
       }
       break;
-    case ID_BUTTON_5: // Notifications sent by '´¥ÆÁÐ£×¼'
+    case ID_BUTTON_TC: // Notifications sent by 'TouchCalibrate'
       if( NCode == WM_NOTIFICATION_RELEASED)
 			{
 					 OS_ERR  err;
-				   Key_Value = 6;
+				   Key_Value = WINDOW_TC;
 					 OS_SemPost(&TOUCH_SEM, OS_OPT_POST_1, 0, &err);
 			}
 		

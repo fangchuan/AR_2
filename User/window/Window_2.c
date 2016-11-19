@@ -23,7 +23,7 @@
 *
 **********************************************************************
 */
-extern uint8_t Key_Value;
+extern volatile uint8_t Key_Value;
 extern _Port   port_1;
 extern _Port   port_2;
 extern _Port   port_3;
@@ -186,7 +186,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 0;
+						Key_Value = WINDOW_TOP;
         break;
       }
       break;
@@ -207,7 +207,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 0;
+						Key_Value = WINDOW_TOP;
         break;
       }
       break;

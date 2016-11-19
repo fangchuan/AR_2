@@ -13,5 +13,7 @@ extern void   DrawStopIcon(void);
 extern void   Init_Paint(_Paint *paint);
 extern _Error Paint_Config(_Paint * paint);
 extern void   DrawGIF (_Gif gif);
+extern void drawHLineLong(int deltaX);
+extern void drawVLineLong(int deltaY);
 #endif
 

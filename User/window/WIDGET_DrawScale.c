@@ -73,6 +73,14 @@ static const GUI_POINT _aPointHLine[] = {
   {120,   0 },
 
 };
+//长横线: 宽40，长200
+static const GUI_POINT _aPointHLineLong[] = {
+  {  0,   0 },
+  {  0,  40 },
+  {200,  40 },
+  {200,   0 },
+
+};
 //短竖线:线宽40 线长100
 //       ****
 //       ****
@@ -84,6 +92,13 @@ static const GUI_POINT _aPointVLine[] = {
   {  0,   0 },
   {  0, -100},
   { 40, -100},
+  { 40,   0 },
+};
+//长竖线:宽40，长200
+static const GUI_POINT _aPointVLineLong[] = {
+  {  0,   0 },
+  {  0,  200},
+  { 40,  200},
   { 40,   0 },
 };
 //向左三角形:等腰直角三角形,腰60
@@ -290,5 +305,34 @@ void DrawGIF (_Gif gif)
 			 }
 			  
 	   }
+}
+
+//
+//画长横线，可在竖直方向上移动
+//注:因为angel_y在{-90,90}，所以水平横线不会超出屏幕
+void drawHLineLong(int deltaX)
+{
+		 int   x_start = 20;
+	   int   y_start = 120 + deltaX;
+	   
+		 GUI_SetColor(GUI_RED);
+	   GUI_FillPolygon(_aPointHLineLong, 4, x_start, y_start);
+}
+//
+//画竖横线，可在水平方向上移动
+//注：因为angle_x在{-180,180}，所以竖直横线会超出屏幕
+void drawVLineLong(int deltaY)
+{
+		  int   x_start = 100 + deltaY;
+			int   y_start = 40;
+			
+			if(x_start < 0)
+				x_start += 240;
+			else
+				if(x_start > 240)
+					x_start -= 240;
+				
+		  GUI_SetColor(GUI_RED);
+	    GUI_FillPolygon(_aPointVLineLong, 4, x_start, y_start);
 }
 /***************************** 阿波罗科技 www.apollorobot.com (END OF FILE) *********************************/

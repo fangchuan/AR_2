@@ -121,6 +121,7 @@
 #include "Window_2.h"
 #include "Window_3.h"
 #include "Window_4.h"
+#include "Window_5.h"
 #include "Window_Running.h"
 #include "Window_TreeView.h"
 #include "Window_TouchCali.h"

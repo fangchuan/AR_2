@@ -26,7 +26,7 @@
 *
 **********************************************************************
 */
-extern uint8_t Key_Value;
+extern volatile uint8_t Key_Value;
 WM_HWIN hWin_3;
 WM_HWIN hDialog_Page1;
 WM_HWIN hDialog_Page2;
@@ -690,7 +690,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						Key_Value = 0;
+						Key_Value = WINDOW_TOP;
         break;
       }
       break;
