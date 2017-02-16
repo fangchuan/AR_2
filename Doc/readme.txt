@@ -197,7 +197,13 @@
 
 2016-11-19: 暂停本机维护工作。
 
-2017-2-15:  修改GUIDRV_Template.c中_FillRect()函数
+2017-2-15:  修改GUIDRV_Template.c中_FillRect()函数,对MULTIEDIT不出现光标问题没起到啥作用
+
+2017-2-16: 弃用MULTIEDIT,改为点击"新建"弹出NewFilePad 的模式来编辑程序名
+			更改WIDGET_EDITPAD.c, 将数字按键放大了点
+			SPEED_STEP  改为 200
+			
+		    增加FOR循环控制指令，但未测试
 
 
-/***************************** 阿波罗科技 www.apollorobot.com (END OF FILE) *********************************/
+/***************************** 阿波罗科技 www.apollorobot.cn (END OF FILE) *********************************/
