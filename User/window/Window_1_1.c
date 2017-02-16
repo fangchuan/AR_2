@@ -442,7 +442,7 @@
 
 extern char _acText[50];
 extern GUI_CONST_STORAGE GUI_FONT GUI_FontSongTi12;
-extern char program_name[10];		//the name of program
+extern char program_name[20];		//the name of program
 extern OS_SEM        RUN_SEM;		//定义一个信号量，用于点击“运行”按钮时同步运行任务
 
 

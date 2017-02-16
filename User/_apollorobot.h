@@ -220,7 +220,7 @@ typedef struct _LED {
 #define  RIGHT   -2
 #define  STOP    3
 
-#define  SPEED_STEP  50   //对应是PWM值步进50
+#define  SPEED_STEP  200   //对应是PWM值步进200
 typedef struct _CAR  {
 				int8_t   direction;
 				int     speed_step;//车速步进.步进为正则是加速，步进为负就是减速

@@ -28,7 +28,7 @@ extern volatile uint8_t Key_Value;
 WM_HWIN hWin_1;
 
 
-char program_name[10];//the Name of Program
+char program_name[20];//the Name of Program
 /*********************************************************************
 *
 *       Defines
@@ -36,11 +36,11 @@ char program_name[10];//the Name of Program
 **********************************************************************
 */
 #define ID_WINDOW_0     (GUI_ID_USER + 0x00)
-#define ID_MULTIEDIT_0  (GUI_ID_USER + 0x01)
+//#define ID_MULTIEDIT_0  (GUI_ID_USER + 0x01)
 #define ID_HEADER_1     (GUI_ID_USER + 0x08)
 //#define ID_EDIT_0     (GUI_ID_USER + 0x02)
 #define ID_BUTTON_BACK  (GUI_ID_USER + 0x03)
-#define ID_BUTTON_ENTER (GUI_ID_USER + 0x04)
+//#define ID_BUTTON_ENTER (GUI_ID_USER + 0x04)
 #define ID_BUTTON_NEW   (GUI_ID_USER + 0x06)
 #define ID_BUTTON_OPEN  (GUI_ID_USER + 0x09)
 
@@ -56,9 +56,9 @@ const static char *_StringHZ[] = {
 	"\xe6\x96\xb0\xe5\xbb\xba",			//0:新建
 	"\xe6\x89\x93\xe5\xbc\x80",			//1:打开
 	"\xe8\xbf\x94\xe5\x9b\x9e",			//2:返回
-	"\xe8\xbf\x9b\xe5\x85\xa5",			//3：进入
-	"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//4:请输入程序名
-	"\xe9\x94\x99\xe8\xaf\xaf",			//5:错误
+//	"\xe8\xbf\x9b\xe5\x85\xa5",			//3：进入
+	"\xe9\x94\x99\xe8\xaf\xaf",			//3:错误
+		"\xe8\xaf\xb7\xe8\xbe\x93\xe5\x85\xa5\xe7\xa8\x8b\xe5\xba\x8f\xe5\x90\x8d",//4:请输入程序名
 };
 
 /*********************************************************************
@@ -67,11 +67,11 @@ const static char *_StringHZ[] = {
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 240, 320, 0, 0x0, 0 },
-  { MULTIEDIT_CreateIndirect, "0",  ID_MULTIEDIT_0, 100, 40, 110, 40, 0, 0x0, 0 },
+//  { MULTIEDIT_CreateIndirect, "0",  ID_MULTIEDIT_0, 100, 40, 110, 40, 0, 0x0, 0 },
 	{ HEADER_CreateIndirect, "Header", ID_HEADER_1, 0, 0, 240, 20, 0, 0x0, 0 },
 //  { EDIT_CreateIndirect, "0", ID_EDIT_0, 100, 40, 110, 40, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_BACK, 0, 290, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_ENTER, 160, 290, 80, 30, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "Button", ID_BUTTON_ENTER, 160, 290, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "New", ID_BUTTON_NEW, 0, 40, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Open", ID_BUTTON_OPEN, 0, 120, 80, 40, 0, 0x0, 0 },
 
@@ -92,7 +92,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN          hItem;
   int              NCode;
   int              Id;
-  WM_HWIN         hNumPad;
+  WM_HWIN         hNewPad;
 	u8              Mb_Val;
 
   switch (pMsg->MsgId) {
@@ -111,9 +111,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
     BUTTON_SetText(hItem, _StringHZ[2]);
 
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ENTER);
-		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
-    BUTTON_SetText(hItem, _StringHZ[3]);
+//    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ENTER);
+//		BUTTON_SetFont(hItem,&GUI_FontSongTi12);
+//    BUTTON_SetText(hItem, _StringHZ[3]);
 	
 	  hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_NEW);
 		BUTTON_SetFont(hItem,&GUI_FontSongTi16);
@@ -127,22 +127,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_HEADER_1);
     HEADER_AddItem(hItem, 80, "LeCoder", 14);
-		//
-		//Initialize EDIT0 
-		//
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIEDIT_0);
-    MULTIEDIT_SetText(hItem, "");     //清空EDIT内容
-		MULTIEDIT_SetFocussable(hItem,1); //设为捕捉光标焦点
-		MULTIEDIT_SetAutoScrollV(hItem,1);//自动竖直滑块
-		MULTIEDIT_SetAutoScrollH(hItem,1);//自动水平滑块
-		MULTIEDIT_SetWrapWord(hItem);     //自动换行
-		MULTIEDIT_SetFocussable(hItem, 1);
-		WM_SetFocus(hItem);
 		break;
 	case WM_PAINT:
-				GUI_SetColor(GUI_RED);
-				GUI_SetFont(&GUI_FontSongTi12);
-				GUI_DispStringAt(_StringHZ[4], 100, 25);
+//				GUI_SetColor(GUI_RED);
+//				GUI_SetFont(&GUI_FontSongTi12);
+//				GUI_DispStringAt(_StringHZ[4], 100, 25);
 		break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
@@ -158,19 +147,19 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         break;
       }
       break;
-    case ID_BUTTON_ENTER: // Notifications sent by 'ENTER'
 		case ID_BUTTON_NEW: // Notifications sent by 'New'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         break;
       case WM_NOTIFICATION_RELEASED:
-						//get the program name in the edit
-						hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIEDIT_0);
-						MULTIEDIT_GetText(hItem,program_name,sizeof(program_name));
+						//get the program name in the newfilepad
+						hNewPad = CreateNewFilePad(pMsg->hWin);
+						WM_MakeModal(hNewPad);
+					  GUI_ExecCreatedDialog(hNewPad);
 						//warning the situation of empty program name
 						if(strcmp(program_name, "") == 0)
 						{
-							_MessageBox(_StringHZ[4],_StringHZ[5], &Mb_Val);
+							_MessageBox(_StringHZ[4],_StringHZ[3], &Mb_Val);
 						}
 						else
 						{
@@ -189,27 +178,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       }
       break;
     case ID_HEADER_1: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        break;
-      }
-      break;
-		case ID_MULTIEDIT_0: // Notifications sent by 'Edit1'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-							hNumPad = Create_NumPad(pMsg->hWin);
-							WM_MakeModal(hNumPad);
-							GUI_ExecCreatedDialog(hNumPad);
-       break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
       break;
     }
     break;

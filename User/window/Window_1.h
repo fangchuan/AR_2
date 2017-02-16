@@ -6,7 +6,7 @@
 #include "Window_1_1.h"
 #include "SongTi16.h"
 #include "SongTi12.h"
-#include "WIDGET_NumPad.h"
+#include "WIDGET_NewFilePad.h"
 #include "Window_TreeView.h"
 #include "String.h"
 
@@ -15,6 +15,6 @@ WM_HWIN CreateWindow_1(void);
 
 //global variable
 extern WM_HWIN hWin_1;
-extern char program_name[10];
+extern char program_name[20];
 #endif //
 

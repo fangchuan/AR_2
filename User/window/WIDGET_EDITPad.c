@@ -72,22 +72,22 @@ static int8_t  pos_2;//第二个下划线位置
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 110, 170, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 0, 109, 20, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect,   "7",      ID_BUTTON_7,   5,   25,  25,  20},
-  { BUTTON_CreateIndirect,   "8",      ID_BUTTON_8,  40,   25,  25,  20},
-  { BUTTON_CreateIndirect,   "9",      ID_BUTTON_9,  75,   25,  25,  20},
-  { BUTTON_CreateIndirect,   "4",      ID_BUTTON_4,   5,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "5",      ID_BUTTON_5,  40,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "6",      ID_BUTTON_6,  75,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "1",      ID_BUTTON_1,   5,  85,  25,  20},
-  { BUTTON_CreateIndirect,   "2",      ID_BUTTON_2,  40,  85,  25,  20},
-  { BUTTON_CreateIndirect,   "3",      ID_BUTTON_3,  75,  85,  25,  20},
-  { BUTTON_CreateIndirect,   "0",      ID_BUTTON_0,   5, 115,  25,  20},
-  { BUTTON_CreateIndirect,   ".",      ID_BUTTON_DOT,40, 115,  25,  20},
-  { BUTTON_CreateIndirect,   "Del",    ID_BUTTON_DEL,75, 115,  25,  20},
-  { BUTTON_CreateIndirect,   "OK",     ID_BUTTON_OK,  5, 140,  45,  25},
-  { BUTTON_CreateIndirect,   "Cancel", ID_BUTTON_CANCEL,  60, 140, 45,  25},
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 110, 180, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_0, 0, 2, 108, 20, 0, 0x64, 0 },
+  { BUTTON_CreateIndirect,   "7",      ID_BUTTON_7,   5,   25,  30,  25},
+  { BUTTON_CreateIndirect,   "8",      ID_BUTTON_8,  40,   25,  30,  25},
+  { BUTTON_CreateIndirect,   "9",      ID_BUTTON_9,  75,   25,  30,  25},
+  { BUTTON_CreateIndirect,   "4",      ID_BUTTON_4,   5,  55,  30,  25},
+  { BUTTON_CreateIndirect,   "5",      ID_BUTTON_5,  40,  55,  30,  25},
+  { BUTTON_CreateIndirect,   "6",      ID_BUTTON_6,  75,  55,  30,  25},
+  { BUTTON_CreateIndirect,   "1",      ID_BUTTON_1,   5,  85,  30,  25},
+  { BUTTON_CreateIndirect,   "2",      ID_BUTTON_2,  40,  85,  30,  25},
+  { BUTTON_CreateIndirect,   "3",      ID_BUTTON_3,  75,  85,  30,  25},
+  { BUTTON_CreateIndirect,   "0",      ID_BUTTON_0,   5, 115,  30,  25},
+  { BUTTON_CreateIndirect,   ".",      ID_BUTTON_DOT,40, 115,  30,  25},
+  { BUTTON_CreateIndirect,   "Del",    ID_BUTTON_DEL,75, 115,  30,  25},
+  { BUTTON_CreateIndirect,   "OK",     ID_BUTTON_OK,  5, 151,  45,  25},
+  { BUTTON_CreateIndirect,   "Cancel", ID_BUTTON_CANCEL,  60, 151, 45,  25},
 };
 
 /*********************************************************************

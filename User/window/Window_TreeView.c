@@ -26,7 +26,7 @@
 extern  FIL        file;
 extern  FRESULT  result;
 extern  UINT         bw;	
-extern char program_name[10];//the name of program
+extern char program_name[20];//the name of program
 
 
 WM_HWIN hTree;

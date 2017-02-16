@@ -125,7 +125,7 @@
 #include "Window_Running.h"
 #include "Window_TreeView.h"
 #include "Window_TouchCali.h"
-#include "WIDGET_NumPad.h"
+#include "WIDGET_NewFilePad.h"
 #include "WIDGET_Instructor.h"
 #include "WIDGET_EDITPad.h"
 #include "WIDGET_SelectDialog.h"

@@ -71,8 +71,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { HEADER_CreateIndirect, "HeaderTop", ID_HEADER_0, 0, 0, 240, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "断开", ID_BUTTON_DISCONNECT, 0, 290, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "连接", ID_BUTTON_CONNECT, 160, 290, 80, 30, 0, 0x0, 0 },
-  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 5, 40, 80, 240, 0, 0x140c, 0 },
-  { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,0, 25, 100,20,0, 0X0, 0}
+  { RADIO_CreateIndirect, "Radio", ID_RADIO_0, 25, 40, 80, 240, 0, 0x140c, 0 },
+  { TEXT_CreateIndirect,  "请选择遥控器通道",ID_TEXT_EXP,2, 25, 100,20,0, 0X0, 0}
 };
 
 /*********************************************************************
@@ -200,14 +200,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       }
       break;
     case ID_RADIO_0: // Notifications sent by 'Radio'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        break;
-      case WM_NOTIFICATION_VALUE_CHANGED:
-        break;
-      }
       break;
     }
     break;
