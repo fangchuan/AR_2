@@ -50,11 +50,11 @@ static const char *StringHZ[] = {
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 80, 120, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "插入指令", ID_BUTTON_INSERT, 10, 10, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "更改指令", ID_BUTTON_CHANGE, 10, 40, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "删除指令", ID_BUTTON_DELETE, 10, 70, 60, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "返回", ID_BUTTON_BACK, 40, 100, 40, 20, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window", ID_WINDOW_0, 0, 0, 100, 160, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "插入指令", ID_BUTTON_INSERT, 10, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "更改指令", ID_BUTTON_CHANGE, 10, 50, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "删除指令", ID_BUTTON_DELETE, 10, 90, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "返回", ID_BUTTON_BACK, 40, 130, 50, 27, 0, 0x0, 0 },
 
 };
 

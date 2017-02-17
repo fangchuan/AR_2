@@ -40,13 +40,15 @@
 #define ID_BUTTON_LEDON    (GUI_ID_USER + 0x13)
 #define ID_BUTTON_LEDOFF   (GUI_ID_USER + 0x14)
 
-#define ID_WINDOW_Pro   (GUI_ID_USER + 0x02)
-#define ID_BUTTON_While (GUI_ID_USER + 0x20)
+#define ID_WINDOW_Pro   	 (GUI_ID_USER + 0x02)
+#define ID_BUTTON_While 	 (GUI_ID_USER + 0x20)
 #define ID_BUTTON_EndWhile (GUI_ID_USER + 0x21)
-#define ID_BUTTON_End   (GUI_ID_USER + 0x22)
-#define ID_BUTTON_Or     (GUI_ID_USER + 0x23)
-#define ID_BUTTON_IfEnd  (GUI_ID_USER + 0x24)
-#define ID_BUTTON_PROC   (GUI_ID_USER + 0x25)
+#define ID_BUTTON_End   	 (GUI_ID_USER + 0x22)
+#define ID_BUTTON_Or       (GUI_ID_USER + 0x23)
+#define ID_BUTTON_IfEnd  	 (GUI_ID_USER + 0x24)
+#define ID_BUTTON_PROC   	 (GUI_ID_USER + 0x25)
+#define ID_BUTTON_FOR      (GUI_ID_USER + 0x26)
+#define ID_BUTTON_ENDFOR   (GUI_ID_USER + 0x27)
 
 #define ID_WINDOW_Car   (GUI_ID_USER + 0x03)
 #define ID_BUTTON_Left  (GUI_ID_USER + 0x30)
@@ -196,6 +198,8 @@ static const char *StringHZ[] = {////用于WIDGET_Instructor指令选择界面
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe6\xb0\xb4\xe5\xb9\xb3\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6<_",//63:如果水平加速度<_
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\x96\xe7\x9b\xb4\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6>_",//64:如果竖直加速度>_
 	"\xe5\xa6\x82\xe6\x9e\x9c\xe7\xab\x96\xe7\x9b\xb4\xe5\x8a\xa0\xe9\x80\x9f\xe5\xba\xa6<_",//65:如果竖直加速度<_
+	"FOR\xe5\xbe\xaa\xe7\x8e\xaf_\xe6\xac\xa1",//66:FOR循环_次
+	"FOR\xe5\xbe\xaa\xe7\x8e\xaf\xe7\xbb\x93\xe6\x9d\x9f",//67:FOR循环结束
 
 };
  
@@ -213,8 +217,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "流程控制", ID_BUTTON_PRO, 10, 130, 80, 40, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "应用指令", ID_BUTTON_APP, 105, 130, 80, 40, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "画图指令", ID_BUTTON_DRAW, 10, 190, 80, 40, 0, 0x0, 0 },
-//	{ BUTTON_CreateIndirect, "删除",     ID_BUTTON_DEL, 10, 230, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 235, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -229,7 +232,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogOutput_Panel[] = {
   { BUTTON_CreateIndirect, "舵机", ID_BUTTON_SER, 0, 120, 100, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "LED", ID_BUTTON_LEDON, 110, 20, 100, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "LED", ID_BUTTON_LEDOFF, 110,70, 100, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
 
 };
 /*********************************************************************
@@ -245,7 +248,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
   { BUTTON_CreateIndirect, "小车停止", ID_BUTTON_Stop, 105, 20, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车加速", ID_BUTTON_Accel, 105, 60, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "小车减速", ID_BUTTON_Slow, 105, 100, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -254,14 +257,16 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCar_Panel[] = {
 *       _aDialog_Pro_Panel
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogPro_Panel[] = {
-  { WINDOW_CreateIndirect, "Window", ID_WINDOW_Pro, 2, 1, 218, 258, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "循环开始", ID_BUTTON_While, 10, 10, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "循环结束", ID_BUTTON_EndWhile, 10, 60, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "程序结束", ID_BUTTON_End, 10, 110, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "否则", 		ID_BUTTON_Or, 110, 10, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "条件结束", ID_BUTTON_IfEnd, 110, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "调用子程序",ID_BUTTON_PROC, 110, 110, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+  { WINDOW_CreateIndirect, "Window",  	ID_WINDOW_Pro,     2, 1, 218, 258, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "循环开始", 	ID_BUTTON_While, 10, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "循环结束", 	ID_BUTTON_EndWhile, 10, 60, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "程序结束", 	ID_BUTTON_End, 10, 110, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "否则", 		 	ID_BUTTON_Or, 110, 10, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "条件结束",   ID_BUTTON_IfEnd, 110, 60, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "调用子程序", ID_BUTTON_PROC, 110, 110, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "FOR循环_次", ID_BUTTON_FOR, 10, 160, 80, 30, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "FOR循环结束",ID_BUTTON_ENDFOR, 110, 160, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -283,7 +288,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogVar_Panel[] = {
   { BUTTON_CreateIndirect, "如果变量A<_", ID_BUTTON_AL, 100, 145, 60, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "A=端口_",     ID_BUTTON_AP, 10, 180, 60, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "B=端口_",     ID_BUTTON_BP, 100, 180, 60, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -305,7 +310,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogPort_Panel[] = {
 	{ BUTTON_CreateIndirect, "如果水平加速度<", ID_BUTTON_HACL, 0, 200, 100, 25, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "如果竖直加速度>", ID_BUTTON_VACG, 110, 160, 100, 25, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "如果竖直加速度<", ID_BUTTON_VACL, 110, 200, 100, 25, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -321,7 +326,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogApp_Panel[] = {
 	{ BUTTON_CreateIndirect, "画大哭", ID_BUTTON_CRY, 10, 140, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "画发怒", ID_BUTTON_FURY, 105, 140, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "画警灯", ID_BUTTON_ALARM, 105, 60, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 20, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -340,7 +345,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogDraw_Panel[] = {
 	{ BUTTON_CreateIndirect, "终止坐标Y2=_", ID_BUTTON_Y2, 10, 170, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "半径_", ID_BUTTON_RADIUS,    105,170, 80, 30, 0, 0x0, 0 },
 	{ BUTTON_CreateIndirect, "颜色_", ID_BUTTON_COLOR,     10, 210, 80, 30, 0, 0x0, 0 },
-	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 240, 60, 18, 0, 0x0, 0 },
+	{ BUTTON_CreateIndirect, "BACK", ID_BUTTON_BACK, 125, 230, 60, 26, 0, 0x0, 0 },
 };
 /*********************************************************************
 *
@@ -1172,6 +1177,14 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[59]);
 			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_FOR);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[66]);
+			
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_ENDFOR);
+			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
+			BUTTON_SetText(hItem,StringHZ[67]);
+			
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 			BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 			BUTTON_SetText(hItem,StringHZ[6]);
@@ -1254,6 +1267,32 @@ static void _cbDialog_Pro(WM_MESSAGE *pMsg)
 												_flag = FLAG_PROC ;
 												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
 												hEdit = Create_EDITPad(pMsg->hWin, 5, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_FOR:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_FOR_HEAD ;
+												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												hEdit = Create_EDITPad(pMsg->hWin, 5, -1);
+												WM_MakeModal(hEdit);
+												GUI_ExecCreatedDialog(hEdit);
+									break;		
+							}
+							break;
+						case ID_BUTTON_ENDFOR:
+								 switch(NCode) {
+									case WM_NOTIFICATION_CLICKED:
+									break;
+									case WM_NOTIFICATION_RELEASED:
+												_flag = FLAG_FOR_TAIL ;
+												BUTTON_GetText(pMsg->hWinSrc, _acText,50);
+												hEdit = Create_EDITPad(pMsg->hWin, -1, -1);
 												WM_MakeModal(hEdit);
 												GUI_ExecCreatedDialog(hEdit);
 									break;		
@@ -1740,7 +1779,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_BACK);
 		BUTTON_SetFont(hItem, &GUI_FontSongTi12);
 		BUTTON_SetText(hItem,StringHZ[6]);
-  break;
+		break;
 	
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);

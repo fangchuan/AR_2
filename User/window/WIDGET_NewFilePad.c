@@ -140,6 +140,7 @@ static void _cbDialogNewPad(WM_MESSAGE * pMsg) {
     }
 		
 		EDIT_SetText(hEdit, "LeCoder0");
+		EDIT_SetTextColor(hEdit, EDIT_CI_ENABLED, GUI_RED);
 		EDIT_SetBkColor(hEdit, EDIT_CI_ENABLED, GUI_CYAN);
 		EDIT_SetFocussable(hEdit,1);
 //	  EDIT_SetSel(hEdit, 7, -1);
@@ -210,5 +211,5 @@ WM_HWIN CreateNewFilePad(WM_HWIN hParent) {
 
 }
 
-/***************************** 阿波罗科技 www.apollorobot.com (END OF FILE) *********************************/
+/***************************** 阿波罗科技 www.apollorobot.cn(END OF FILE) *********************************/
 

@@ -129,9 +129,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     HEADER_AddItem(hItem, 80, "LeCoder", 14);
 		break;
 	case WM_PAINT:
-//				GUI_SetColor(GUI_RED);
-//				GUI_SetFont(&GUI_FontSongTi12);
-//				GUI_DispStringAt(_StringHZ[4], 100, 25);
 		break;
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);

@@ -182,17 +182,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 							char dest[50];
 							EDIT_GetText(hEdit,dest,sizeof(dest));
 							strcpy(_acText,dest);
-							if(flag_operation == FLAG_INSERT) //如果是顺序添加下去的话，则在链表尾部添加新的结点
-							{
+							if(flag_operation == FLAG_INSERT){ //如果是顺序添加下去的话，则在链表尾部添加新的结点
 									Add_Node(Ins_List_Head, Edit_Index ,_flag,dest );
 							}
 							//在已经编辑好的文本上更改内容,则直接在该索引的链表结点上修改数据域
-							if( flag_operation == FLAG_CHANGE)
-							{
+							if( flag_operation == FLAG_CHANGE){
 									Replace_Node(Edit_Index,_flag,dest);
 							}
 								
-						
 							GUI_EndDialog(pMsg->hWin ,0);
 							GUI_EndDialog(hWin_Instructor,0);//点击确定按钮后，直接将Instructor面板及其子面板都关闭
 	

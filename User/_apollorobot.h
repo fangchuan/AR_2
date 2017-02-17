@@ -137,6 +137,8 @@ enum _FLAG {			FLAG_MOTOR_C = 1,//电机正转标志位
 									FLAG_HACCEL_LITTER,//如果水平加速度小于_
 									FLAG_VACCEL_GREATOR,//如果竖直加速度大于_
 									FLAG_VACCEL_LITTER,//如果竖直加速度小于_
+									FLAG_FOR_HEAD,		 //for语句头部
+									FLAG_FOR_TAIL,		 //for循环尾部
 
 };
 //
